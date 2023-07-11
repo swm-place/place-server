@@ -35,3 +35,10 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Dotenv ###
+.env
+
+### Container Data for Testing ###
+mariadb_master/
+redis/
