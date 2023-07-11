@@ -37,8 +37,7 @@ pipeline {
                 branch 'develop'
             }
             steps {
-                withCredentials([string(credentialsId: 'ours_mariadb_username', variable: 'OURS_MARIADB_USERNAME'),
-                                 string(credentialsId: 'ours_mariadb_password', variable: 'OURS_MARIADB_PASSWORD'),
+                withCredentials([usernamePassword(credentialsId: 'ours_mariadb', usernameVariable: 'OURS_MARIADB_USERNAME', passwordVariable: 'OURS_MARIADB_PASSWORD'),
                                  string(credentialsId: 'ours_mariadb_root_password', variable: 'OURS_MARIADB_ROOT_PASSWORD')]) {
 
                     echo '🚀 Deploying to dev server...'
@@ -46,6 +45,7 @@ pipeline {
                     sh 'export OURS_MARIADB_USERNAME=$OURS_MARIADB_USERNAME'
                     sh 'export OURS_MARIADB_PASSWORD=$OURS_MARIADB_PASSWORD'
                     sh 'export OURS_MARIADB_ROOT_PASSWORD=$OURS_MARIADB_ROOT_PASSWORD'
+
                     sh 'docker-compose -f docker-compose.dev.yaml up -d --build'
                 }
             }
