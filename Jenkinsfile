@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo '🚀 Checking out...'
-                git branch: env.GIT_BRANCH, credentialsId: 'github_yeoksi_coldot', url: 'https://github.com/swm-place/place-server'
+                git branch: env.GIT_BRANCH, credentialsId: 'Github-Jenkins-Yeoksi', url: 'https://github.com/swm-place/place-server'
             }
             post {
                 success {
