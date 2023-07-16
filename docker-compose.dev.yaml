@@ -1,6 +1,6 @@
 services:
   web:
-    container_name: ours.web
+    container_name: ours-web
     build: .
     restart: always
     ports:
@@ -11,12 +11,15 @@ services:
       MARIADB_DATABASE: ours
       MARIADB_USERNAME: ${OURS_MARIADB_USERNAME}
       MARIADB_PASSWORD: ${OURS_MARIADB_PASSWORD}
+    networks:
+      - default
+      - ours-api-gateway_dev
     links:
       - db
       - redis
 
   db:
-    container_name: ours.mariadb_master
+    container_name: ours-mariadb-master
     image: mariadb:10.11.4
     restart: always
     environment:
@@ -32,7 +35,7 @@ services:
         - ./mariadb_master/logs:/var/log/mysql
 
   redis:
-    container_name: ours.redis
+    container_name: ours-redis
     image: redis:7.0.12
     restart: always
     ports:
@@ -41,3 +44,7 @@ services:
       - ./redis/data:/data
       - ./redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
       - ./redis/logs:/var/log/redis
+
+networks:
+  ours-api-gateway_dev:
+    external: true
