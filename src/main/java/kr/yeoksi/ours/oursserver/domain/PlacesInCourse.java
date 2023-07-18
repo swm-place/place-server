@@ -1,7 +1,6 @@
 package kr.yeoksi.ours.oursserver.domain;
 
 import jakarta.persistence.*;
-import kr.yeoksi.ours.oursserver.domain.idclass.PlacesInCourseId;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -12,15 +11,16 @@ import static jakarta.persistence.FetchType.*;
 
 @Entity
 @Getter @Setter
-@IdClass(PlacesInCourseId.class)
 public class PlacesInCourse {
 
-    @Id
+    @Id @GeneratedValue
+    @Column(name = "places_in_course_index")
+    private Long id;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "course_index")
     private Course course;
 
-    @Id
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "place_index")
     private Place place;

@@ -9,8 +9,8 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PlacesInCourseId implements Serializable {
+public class PlaceToPlaceId implements Serializable {
 
-    private Long course;
-    private Long place;
+    private Long leftPlace;
+    private Long rightPlace;
 }
