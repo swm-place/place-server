@@ -1,6 +1,8 @@
 package kr.yeoksi.ours.oursserver.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -17,6 +19,7 @@ public class Place {
     @Column(name = "place_index")
     private Long id;
 
+    @NotBlank
     private String name;
 
     private String category;
@@ -24,12 +27,16 @@ public class Place {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @NotBlank
     private String address;
 
+    @NotNull
     private Double longitude;
 
+    @NotNull
     private Double latitude;
 
+    @NotNull
     @Column(name = "location_code")
     private Integer locationCode;
 

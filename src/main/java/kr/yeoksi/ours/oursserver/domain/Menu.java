@@ -1,6 +1,8 @@
 package kr.yeoksi.ours.oursserver.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,8 +20,10 @@ public class Menu {
     @JoinColumn(name = "place_index")
     private Place place;
 
+    @NotBlank
     private String name;
 
+    @NotNull
     private String price;
 
     @Column(name = "img_url")

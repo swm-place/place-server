@@ -1,6 +1,7 @@
 package kr.yeoksi.ours.oursserver.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -21,6 +22,7 @@ public class PlaceImg {
     @JoinColumn(name = "place_index")
     private Place place;
 
+    @NotBlank
     @Column(name = "img_url")
     private String imgUrl;
 

@@ -1,6 +1,7 @@
 package kr.yeoksi.ours.oursserver.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -25,6 +26,7 @@ public class PlacesInCourse {
     @JoinColumn(name = "place_index")
     private Place place;
 
+    @NotNull
     @Column(name = "visit_order")
     private Integer visitOrder;
 

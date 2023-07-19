@@ -1,6 +1,7 @@
 package kr.yeoksi.ours.oursserver.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -17,12 +18,15 @@ public class User {
     @Column(name = "user_index")
     private Long id;
 
+    @NotBlank
     @Column(unique = true)
     private String email;
 
+    @NotBlank
     @Column(unique = true)
     private String nickname;
 
+    @NotBlank
     @Column(name = "phone_number")
     private String phoneNumber;
 
