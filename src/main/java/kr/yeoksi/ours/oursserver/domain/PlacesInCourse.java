@@ -13,7 +13,7 @@ import static jakarta.persistence.FetchType.*;
 @Getter @Setter
 public class PlacesInCourse {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "places_in_course_index")
     private Long id;
 
@@ -25,7 +25,8 @@ public class PlacesInCourse {
     @JoinColumn(name = "place_index")
     private Place place;
 
-    private Integer order;
+    @Column(name = "visit_order")
+    private Integer visitOrder;
 
     @Column(name = "start_at")
     private LocalDateTime startAt;

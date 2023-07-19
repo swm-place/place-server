@@ -13,7 +13,7 @@ import static jakarta.persistence.FetchType.*;
 @Getter @Setter
 public class Course {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "course_index")
     private Long id;
 

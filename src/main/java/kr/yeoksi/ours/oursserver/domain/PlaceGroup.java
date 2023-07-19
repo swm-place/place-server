@@ -13,7 +13,7 @@ import static jakarta.persistence.FetchType.*;
 @Getter @Setter
 public class PlaceGroup {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "place_group_index")
     private Long id;
 

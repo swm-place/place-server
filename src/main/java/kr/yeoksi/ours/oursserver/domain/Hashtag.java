@@ -1,9 +1,6 @@
 package kr.yeoksi.ours.oursserver.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +8,7 @@ import lombok.Setter;
 @Getter @Setter
 public class Hashtag {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "hashtag_index")
     private Long id;
 

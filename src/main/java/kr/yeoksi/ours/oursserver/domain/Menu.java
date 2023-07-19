@@ -10,7 +10,7 @@ import static jakarta.persistence.FetchType.*;
 @Getter @Setter
 public class Menu {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "menu_index")
     private Long id;
 

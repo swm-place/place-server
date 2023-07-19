@@ -13,7 +13,7 @@ import java.util.List;
 @Getter @Setter
 public class Place {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "place_index")
     private Long id;
 

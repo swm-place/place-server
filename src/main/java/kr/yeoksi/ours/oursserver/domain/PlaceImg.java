@@ -13,7 +13,7 @@ import static jakarta.persistence.FetchType.*;
 @Getter @Setter
 public class PlaceImg {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "place_img_index")
     private Long id;
 
