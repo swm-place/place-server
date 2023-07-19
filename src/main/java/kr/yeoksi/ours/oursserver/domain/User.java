@@ -14,9 +14,9 @@ import java.util.List;
 @Table(name = "users")
 public class User {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     @Column(name = "user_index")
-    private Long id;
+    private String id;
 
     @NotBlank
     @Column(unique = true)
