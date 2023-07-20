@@ -2,13 +2,13 @@ package kr.yeoksi.ours.oursserver.service;
 
 import kr.yeoksi.ours.oursserver.domain.User;
 import kr.yeoksi.ours.oursserver.exception.DuplicatedUserException;
-import kr.yeoksi.ours.oursserver.repository.UserRepository;
+//import kr.yeoksi.ours.oursserver.repository.UserRepository;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
+//import org.junit.runner.RunWith;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.boot.test.context.SpringBootTest;
+//import org.springframework.test.context.junit4.SpringRunner;
+//import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.*;
 
