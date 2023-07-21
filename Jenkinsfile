@@ -19,9 +19,8 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo '🚀 Building...'
-
                 withCredentials([usernamePassword(credentialsId: 'ours_mariadb', usernameVariable: 'OURS_MARIADB_USERNAME', passwordVariable: 'OURS_MARIADB_PASSWORD')]) {
+                    echo '🚀 Building...'
 
                     sh 'export MARIADB_HOST=localhost'
                     sh 'export MARIADB_PORT=3308'
