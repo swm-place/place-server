@@ -38,6 +38,7 @@ out/
 
 ### Dotenv ###
 .env
+.local.env
 
 ### Container Data for Testing ###
 mariadb_master/
