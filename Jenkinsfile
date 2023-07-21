@@ -23,8 +23,8 @@ pipeline {
 
                 withCredentials([usernamePassword(credentialsId: 'ours_mariadb', usernameVariable: 'OURS_MARIADB_USERNAME', passwordVariable: 'OURS_MARIADB_PASSWORD')]) {
 
-                    sh 'export MARIADB_HOST=$OURS_MARIADB_HOST'
-                    sh 'export MARIADB_PORT=$OURS_MARIADB_PORT'
+                    sh 'export MARIADB_HOST=localhost'
+                    sh 'export MARIADB_PORT=3308'
                     sh 'export MARIADB_USERNAME=$OURS_MARIADB_USERNAME'
                     sh 'export MARIADB_PASSWORD=$OURS_MARIADB_PASSWORD'
 
