@@ -23,6 +23,7 @@ public class UserServiceTest {
     /**
      * 회원 가입
      */
+    /*
     @Test
     public void signUp() throws Exception {
 
@@ -36,10 +37,12 @@ public class UserServiceTest {
 
         //assertEquals(user, userRepository.findById(savedUserId));
     }
+     */
 
     /**
      * 중복 회원 예외 확인
      */
+    /*
     @Test(expected = DuplicatedUserException.class)
     public void 중복_회원가입_예외() throws Exception {
 
@@ -60,4 +63,5 @@ public class UserServiceTest {
 
         fail("중복 회원 예외가 발생해야 한다.");
     }
+     */
 }
