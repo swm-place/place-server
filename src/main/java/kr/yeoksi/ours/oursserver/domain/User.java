@@ -2,6 +2,7 @@ package kr.yeoksi.ours.oursserver.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -29,6 +30,12 @@ public class User {
     @NotBlank
     @Column(name = "phone_number")
     private String phoneNumber;
+
+    @NotNull
+    private Integer gender;
+
+    @NotBlank
+    private String birthday;
 
     @CreationTimestamp
     @Column(name = "created_at")
