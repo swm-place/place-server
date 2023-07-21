@@ -22,11 +22,11 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'ours_mariadb', usernameVariable: 'OURS_MARIADB_USERNAME', passwordVariable: 'OURS_MARIADB_PASSWORD')]) {
                     echo '🚀 Building...'
 
-                    sh './gradlew clean build \
-                    -DMARIADB_HOST=localhost \
-                    -DMARIADB_PORT=3308 \
-                    -DMARIADB_USERNAME=$OURS_MARIADB_USERNAME \
-                    -DMARIADB_PASSWORD=$OURS_MARIADB_PASSWORD'
+                    sh 'MARIADB_HOST=localhost \
+                        MARIADB_PORT=3308 \
+                        MARIADB_USERNAME=$OURS_MARIADB_USERNAME \
+                        MARIADB_PASSWORD=$OURS_MARIADB_PASSWORD \
+                        ./gradlew clean build'
                 }
 
             }
