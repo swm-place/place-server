@@ -14,6 +14,13 @@ public class TermsOfServiceRepository {
     private final EntityManager em;
 
     /**
+     * 이용약관 저장하기.
+     */
+    public void save(TermsOfService term) {
+        em.persist(term);
+    }
+
+    /**
      * id로 이용약관 조회하기.
      */
     public TermsOfService findById(Long id) {
