@@ -19,10 +19,25 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo '🚀 Building...'
-                sh './gradlew clean build'
+                withCredentials([usernamePassword(credentialsId: 'ours_mariadb', usernameVariable: 'OURS_MARIADB_USERNAME', passwordVariable: 'OURS_MARIADB_PASSWORD')]) {
+                    echo '🚀 Building...'
+
+                    sh 'MARIADB_HOST=localhost \
+                        MARIADB_PORT=3308 \
+                        MARIADB_USERNAME=$OURS_MARIADB_USERNAME \
+                        MARIADB_PASSWORD=$OURS_MARIADB_PASSWORD \
+                        ./gradlew clean build'
+                }
+
             }
             post {
+                always {
+                    echo '🚀 Cleaning up...'
+                    sh 'unset MARIADB_HOST'
+                    sh 'unset MARIADB_PORT'
+                    sh 'unset MARIADB_USERNAME'
+                    sh 'unset MARIADB_PASSWORD'
+                }
                 success {
                     echo '☀️ Successfully built!'
                 }
