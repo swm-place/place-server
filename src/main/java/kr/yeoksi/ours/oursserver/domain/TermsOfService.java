@@ -31,6 +31,9 @@ public class TermsOfService {
     @NotNull
     private Integer version;
 
+    @NotNull
+    private Integer required;
+
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
