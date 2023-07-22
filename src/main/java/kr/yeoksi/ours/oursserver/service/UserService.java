@@ -1,13 +1,18 @@
 package kr.yeoksi.ours.oursserver.service;
 
+import kr.yeoksi.ours.oursserver.domain.TermsOfService;
 import kr.yeoksi.ours.oursserver.domain.User;
 import kr.yeoksi.ours.oursserver.exception.DuplicatedUserException;
 import kr.yeoksi.ours.oursserver.exception.ErrorCode;
+import kr.yeoksi.ours.oursserver.repository.TermsOfServiceRepository;
 import kr.yeoksi.ours.oursserver.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,6 +21,7 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final TermsOfServiceRepository termsOfServiceRepository;
 
     /**
      * 회원 가입
@@ -34,5 +40,19 @@ public class UserService {
         userRepository.save(user);
 
         return user.getId();
+    }
+
+    /**
+     * 사용자가 동의한 이용 약관들 가져오기
+     */
+    public List<TermsOfService> getAgreedTerms(List<Long> agreedTermsIndex) {
+
+        List<TermsOfService> agreedTerms = new ArrayList<>();
+        if(!CollectionUtils.isEmpty(agreedTermsIndex)) {
+            for(Long id : agreedTermsIndex) {
+                agreedTerms.add(termsOfServiceRepository.findById(id));
+            }
+        }
+        return  agreedTerms;
     }
 }
