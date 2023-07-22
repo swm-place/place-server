@@ -1,0 +1,12 @@
+services:
+  db-test:
+    container_name: ours-mariadb-test
+    image: mariadb:10.11.4
+    restart: always
+    environment:
+      MYSQL_DATABASE: ours
+      MYSQL_USER: ${MARIADB_USERNAME}
+      MYSQL_PASSWORD: ${MARIADB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+    ports:
+      - "3308:3306"
