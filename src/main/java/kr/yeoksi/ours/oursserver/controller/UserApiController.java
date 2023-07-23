@@ -8,12 +8,14 @@ import kr.yeoksi.ours.oursserver.domain.TermsOfService;
 import kr.yeoksi.ours.oursserver.domain.User;
 import kr.yeoksi.ours.oursserver.service.TermService;
 import kr.yeoksi.ours.oursserver.service.UserService;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +37,8 @@ public class UserApiController {
         User user = new User();
         user.setId(uid);
         user.setEmail(email);
+
+        // 닉네임 형식 체크 로직 필요.
         user.setNickname(request.getNickname());
         user.setPhoneNumber(request.getPhoneNumber());
         user.setGender(request.getGender());
@@ -64,6 +68,27 @@ public class UserApiController {
     }
 
     /**
+     * 유저 정보 조회
+     */
+    @GetMapping("/users/{userIndex}")
+    public ResponseEntity<Response<UserResponse>> getUserInformation(
+            @PathVariable("userIndex") String id) {
+
+        User user = userService.findById(id);
+
+        return ResponseEntity.ok().body(
+                Response.success(
+                        new UserResponse(
+                                user.getEmail(),
+                                user.getNickname(),
+                                user.getPhoneNumber(),
+                                user.getGender(),
+                                user.getBirthday(),
+                                user.getCreatedAt(),
+                                user.getLastLoginAt())));
+    }
+
+    /**
      * 회원가입에 필요한 정보를 받아오기 위한 DTO
      */
     @Data
@@ -83,9 +108,28 @@ public class UserApiController {
         private List<Long> termIndex;
     }
 
+    /**
+     * 이메일 중복 체크에 필요한 정보를 받아오기 위한 DTO
+     */
     @Data
     static class CheckEmailRequest {
         @NotBlank
         private String email;
+    }
+
+    /**
+     * 유저 정보 조회하기에 대한 응답을 위한 DTO
+     */
+    @Data
+    @AllArgsConstructor
+    static class UserResponse {
+
+        private String email;
+        private String nickname;
+        private String phoneNumber;
+        private Integer gender;
+        private String birthday;
+        private LocalDateTime createdAt;
+        private LocalDateTime lastLoginAt;
     }
 }

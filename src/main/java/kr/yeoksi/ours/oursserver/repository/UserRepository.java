@@ -23,8 +23,9 @@ public class UserRepository {
     /**
      * id로 유저 찾기
      */
-    public User findById(String id) {
-        return em.find(User.class, id);
+    public Optional<User> findById(String id) {
+        User user = em.find(User.class, id);
+        return Optional.ofNullable(user);
     }
 
     /**
