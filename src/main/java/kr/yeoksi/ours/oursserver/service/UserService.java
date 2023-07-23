@@ -1,5 +1,6 @@
 package kr.yeoksi.ours.oursserver.service;
 
+import kr.yeoksi.ours.oursserver.controller.UserApiController;
 import kr.yeoksi.ours.oursserver.domain.TermAgreement;
 import kr.yeoksi.ours.oursserver.domain.TermsOfService;
 import kr.yeoksi.ours.oursserver.domain.User;
@@ -75,5 +76,19 @@ public class UserService {
 
         Optional<User> user = userRepository.findByNickname(nickname);
         if(user.isPresent()) throw new DuplicatedNicknameException(ErrorCode.DUPLICATED_NICKNAME);
+    }
+
+    /**
+     * 유저 정보 수정
+     */
+    @Transactional
+    public void updateUserInformation(UserApiController.UpdateUserInformationRequest request) {
+
+        User user = userRepository.findById(request.getUserIndex()).get();
+
+        if(request.getNickname() != null) user.setNickname(request.getNickname());
+        if(request.getPhoneNumber() != null) user.setPhoneNumber(request.getPhoneNumber());
+        if(request.getGender() != null) user.setGender(request.getGender());
+        if(request.getBirthday() != null) user.setBirthday(request.getBirthday());
     }
 }
