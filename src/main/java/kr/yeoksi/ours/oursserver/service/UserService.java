@@ -6,6 +6,7 @@ import kr.yeoksi.ours.oursserver.domain.User;
 import kr.yeoksi.ours.oursserver.exception.DuplicatedEmailException;
 import kr.yeoksi.ours.oursserver.exception.DuplicatedUserException;
 import kr.yeoksi.ours.oursserver.exception.ErrorCode;
+import kr.yeoksi.ours.oursserver.exception.NotExistedUserException;
 import kr.yeoksi.ours.oursserver.repository.TermsAgreementRepository;
 import kr.yeoksi.ours.oursserver.repository.TermsOfServiceRepository;
 import kr.yeoksi.ours.oursserver.repository.UserRepository;
@@ -58,5 +59,15 @@ public class UserService {
 
         Optional<User> user = userRepository.findByEmail(email);
         if(user.isPresent()) throw new DuplicatedEmailException(ErrorCode.DUPLICATED_EMAIL);
+    }
+
+    /**
+     * id로 유저 조회하기
+     */
+    public User findById(String id) {
+
+        Optional<User> user = userRepository.findById(id);
+        if(user.isPresent()) return user.get();
+        else throw new NotExistedUserException(ErrorCode.NOT_EXISTED_USER);
     }
 }

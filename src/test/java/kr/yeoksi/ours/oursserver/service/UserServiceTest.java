@@ -4,6 +4,7 @@ import kr.yeoksi.ours.oursserver.domain.TermsOfService;
 import kr.yeoksi.ours.oursserver.domain.User;
 import kr.yeoksi.ours.oursserver.exception.DuplicatedEmailException;
 import kr.yeoksi.ours.oursserver.exception.DuplicatedUserException;
+import kr.yeoksi.ours.oursserver.exception.NotExistedUserException;
 import kr.yeoksi.ours.oursserver.repository.TermsOfServiceRepository;
 import kr.yeoksi.ours.oursserver.repository.UserRepository;
 import org.junit.Test;
@@ -68,7 +69,7 @@ public class UserServiceTest {
 
         String savedUserId = userService.signUp(user, agreedTerms);
 
-        assertEquals(user, userRepository.findById(savedUserId));
+        assertEquals(user, userRepository.findById(savedUserId).get());
     }
 
     /**
@@ -164,5 +165,16 @@ public class UserServiceTest {
         userService.checkEmailExistence("soma@gmail.com"); // 여기서 예외가 발생해야 함.
 
         fail("중복 이메일 예외가 발생해야 한다.");
+    }
+
+    /**
+     * 없는 유저를 조회 예외
+     */
+    @Test(expected = NotExistedUserException.class)
+    public void 없는_유저_조회_예외() throws Exception {
+
+        userService.findById("내가누구게"); // 여기서 예외가 발생해야 함.
+
+        fail("없는 유저 조회 예외가 발생해야 한다.");
     }
 }
