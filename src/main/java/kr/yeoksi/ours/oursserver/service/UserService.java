@@ -3,6 +3,7 @@ package kr.yeoksi.ours.oursserver.service;
 import kr.yeoksi.ours.oursserver.domain.TermAgreement;
 import kr.yeoksi.ours.oursserver.domain.TermsOfService;
 import kr.yeoksi.ours.oursserver.domain.User;
+import kr.yeoksi.ours.oursserver.exception.DuplicatedEmailException;
 import kr.yeoksi.ours.oursserver.exception.DuplicatedUserException;
 import kr.yeoksi.ours.oursserver.exception.ErrorCode;
 import kr.yeoksi.ours.oursserver.repository.TermsAgreementRepository;
@@ -48,5 +49,14 @@ public class UserService {
         }
 
         return user.getId();
+    }
+
+    /**
+     * 회원가입 - 이메일이 이미 존재하는지 여부 확인
+     */
+    public void checkEmailExistence(String email) {
+
+        Optional<User> user = userRepository.findByEmail(email);
+        if(user.isPresent()) throw new DuplicatedEmailException(ErrorCode.DUPLICATED_EMAIL);
     }
 }
