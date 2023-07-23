@@ -39,4 +39,17 @@ public class UserRepository {
                 .stream()
                 .findAny();
     }
+
+    /**
+     * email로 유저 찾기
+     */
+    public Optional<User> findByEmail(String email) {
+        return em.createQuery(
+                "SELECT u FROM User u " +
+                        "WHERE u.email =: email ", User.class)
+                .setParameter("email", email)
+                .getResultList()
+                .stream()
+                .findAny();
+    }
 }

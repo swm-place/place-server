@@ -12,10 +12,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +52,18 @@ public class UserApiController {
     }
 
     /**
+     * 회원 가입 - 이미 존재하는 이메일인지 확인
+     */
+    @GetMapping("/email")
+    public ResponseEntity<Response<Void>> checkEmailExistence(@RequestBody @Valid CheckEmailRequest request) {
+
+        userService.checkEmailExistence(request.getEmail());
+
+        return ResponseEntity.ok()
+                .body(Response.success(null));
+    }
+
+    /**
      * 회원가입에 필요한 정보를 받아오기 위한 DTO
      */
     @Data
@@ -72,5 +81,11 @@ public class UserApiController {
         private String birthday;
 
         private List<Long> termIndex;
+    }
+
+    @Data
+    static class CheckEmailRequest {
+        @NotBlank
+        private String email;
     }
 }

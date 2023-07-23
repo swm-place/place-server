@@ -2,6 +2,7 @@ package kr.yeoksi.ours.oursserver.service;
 
 import kr.yeoksi.ours.oursserver.domain.TermsOfService;
 import kr.yeoksi.ours.oursserver.domain.User;
+import kr.yeoksi.ours.oursserver.exception.DuplicatedEmailException;
 import kr.yeoksi.ours.oursserver.exception.DuplicatedUserException;
 import kr.yeoksi.ours.oursserver.repository.TermsOfServiceRepository;
 import kr.yeoksi.ours.oursserver.repository.UserRepository;
@@ -118,5 +119,50 @@ public class UserServiceTest {
         userService.signUp(user2, agreedTerms); // 여기서 중복 회원 예외가 발생해야 함.
 
         fail("중복 회원 예외가 발생해야 한다.");
+    }
+
+    /**
+     * 이미 존재하는 이메일인지 확인
+     */
+    @Test(expected = DuplicatedEmailException.class)
+    public void 중복_이메일_예외() throws Exception {
+
+        User user = new User();
+        user.setId("sangjun");
+        user.setEmail("soma@gmail.com");
+        user.setNickname("testNickname");
+        user.setPhoneNumber("010-1234-5678");
+        user.setGender(0);
+        user.setBirthday("19980309");
+
+        List<TermsOfService> agreedTerms = new ArrayList<>();
+
+        TermsOfService termA = new TermsOfService();
+        termA.setTitle("테스트 타이틀");
+        termA.setContents("테스트 내용");
+        termA.setType("테스트 타입");
+        termA.setVersion(1);
+        termA.setRequired(0);
+
+        termsOfServiceRepository.save(termA);
+
+
+        TermsOfService termB = new TermsOfService();
+        termB.setTitle("테스트 타이틀");
+        termB.setContents("테스트 내용");
+        termB.setType("테스트 타입");
+        termB.setVersion(1);
+        termB.setRequired(0);
+
+        termsOfServiceRepository.save(termB);
+
+        agreedTerms.add(termA);
+        agreedTerms.add(termB);
+
+        String savedUserId = userService.signUp(user, agreedTerms);
+
+        userService.checkEmailExistence("soma@gmail.com"); // 여기서 예외가 발생해야 함.
+
+        fail("중복 이메일 예외가 발생해야 한다.");
     }
 }
