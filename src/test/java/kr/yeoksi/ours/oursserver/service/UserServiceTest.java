@@ -3,6 +3,7 @@ package kr.yeoksi.ours.oursserver.service;
 import kr.yeoksi.ours.oursserver.domain.TermsOfService;
 import kr.yeoksi.ours.oursserver.domain.User;
 import kr.yeoksi.ours.oursserver.exception.DuplicatedEmailException;
+import kr.yeoksi.ours.oursserver.exception.DuplicatedNicknameException;
 import kr.yeoksi.ours.oursserver.exception.DuplicatedUserException;
 import kr.yeoksi.ours.oursserver.exception.NotExistedUserException;
 import kr.yeoksi.ours.oursserver.repository.TermsOfServiceRepository;
@@ -176,5 +177,39 @@ public class UserServiceTest {
         userService.findById("내가누구게"); // 여기서 예외가 발생해야 함.
 
         fail("없는 유저 조회 예외가 발생해야 한다.");
+    }
+
+    /**
+     * 닉네임 중복 확인
+     */
+    @Test(expected = DuplicatedNicknameException.class)
+    public void 닉네임_중복() throws Exception {
+
+        User user = new User();
+        user.setId("sangjun");
+        user.setEmail("soma@gmail.com");
+        user.setNickname("testNickname");
+        user.setPhoneNumber("010-1234-5678");
+        user.setGender(0);
+        user.setBirthday("19980309");
+
+        List<TermsOfService> agreedTerms = new ArrayList<>();
+
+        TermsOfService termA = new TermsOfService();
+        termA.setTitle("테스트 타이틀");
+        termA.setContents("테스트 내용");
+        termA.setType("테스트 타입");
+        termA.setVersion(1);
+        termA.setRequired(0);
+
+        termsOfServiceRepository.save(termA);
+        agreedTerms.add(termA);
+
+
+        String savedUserId = userService.signUp(user, agreedTerms);
+
+        userService.checkNicknameExistence("testNickname");
+
+        fail("중복 닉네임 예외가 발생해야 한다.");
     }
 }

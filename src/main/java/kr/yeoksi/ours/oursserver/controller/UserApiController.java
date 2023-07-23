@@ -12,11 +12,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -89,6 +87,19 @@ public class UserApiController {
     }
 
     /**
+     * 닉네임 중복 체크
+     */
+    @GetMapping("/nickname")
+    public ResponseEntity<Response<Void>> checkNicknameExistence(@RequestBody @Valid CheckNicknameRequest request) {
+
+        userService.checkNicknameExistence(request.getNickname());
+
+        return ResponseEntity.ok()
+                .body(Response.success(null));
+    }
+
+
+    /**
      * 회원가입에 필요한 정보를 받아오기 위한 DTO
      */
     @Data
@@ -131,5 +142,14 @@ public class UserApiController {
         private String birthday;
         private LocalDateTime createdAt;
         private LocalDateTime lastLoginAt;
+    }
+
+    /**
+     * 닉네임 중복 체크에 필요한 정보를 받아오기 위한 DTO
+     */
+    @Data
+    static class CheckNicknameRequest {
+        @NotBlank
+        private String nickname;
     }
 }
