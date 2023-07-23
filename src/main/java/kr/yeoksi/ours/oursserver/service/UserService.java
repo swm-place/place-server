@@ -3,10 +3,7 @@ package kr.yeoksi.ours.oursserver.service;
 import kr.yeoksi.ours.oursserver.domain.TermAgreement;
 import kr.yeoksi.ours.oursserver.domain.TermsOfService;
 import kr.yeoksi.ours.oursserver.domain.User;
-import kr.yeoksi.ours.oursserver.exception.DuplicatedEmailException;
-import kr.yeoksi.ours.oursserver.exception.DuplicatedUserException;
-import kr.yeoksi.ours.oursserver.exception.ErrorCode;
-import kr.yeoksi.ours.oursserver.exception.NotExistedUserException;
+import kr.yeoksi.ours.oursserver.exception.*;
 import kr.yeoksi.ours.oursserver.repository.TermsAgreementRepository;
 import kr.yeoksi.ours.oursserver.repository.TermsOfServiceRepository;
 import kr.yeoksi.ours.oursserver.repository.UserRepository;
@@ -69,5 +66,14 @@ public class UserService {
         Optional<User> user = userRepository.findById(id);
         if(user.isPresent()) return user.get();
         else throw new NotExistedUserException(ErrorCode.NOT_EXISTED_USER);
+    }
+
+    /**
+     * 닉네임 중복 체크
+     */
+    public void checkNicknameExistence(String nickname) {
+
+        Optional<User> user = userRepository.findByNickname(nickname);
+        if(user.isPresent()) throw new DuplicatedNicknameException(ErrorCode.DUPLICATED_NICKNAME);
     }
 }
