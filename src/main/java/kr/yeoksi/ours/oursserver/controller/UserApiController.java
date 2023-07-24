@@ -27,7 +27,7 @@ public class UserApiController {
     /**
      * 회원 가입
      */
-    @PostMapping("/sign-up")
+    @PostMapping("/user")
     public ResponseEntity<Response<Void>> createUser(@RequestHeader("X-User-Uid") String uid,
                                                      @RequestHeader("X-User-Email") String email,
                                                      @RequestBody @Valid CreateUserRequest request) {
@@ -56,7 +56,7 @@ public class UserApiController {
     /**
      * 회원 가입 - 이미 존재하는 이메일인지 확인
      */
-    @GetMapping("/email")
+    @GetMapping("/user/email")
     public ResponseEntity<Response<Void>> checkEmailExistence(@RequestBody @Valid CheckEmailRequest request) {
 
         userService.checkEmailExistence(request.getEmail());
@@ -68,7 +68,7 @@ public class UserApiController {
     /**
      * 유저 정보 조회
      */
-    @GetMapping("/users/{userIndex}")
+    @GetMapping("/user/{userIndex}")
     public ResponseEntity<Response<UserResponse>> getUserInformation(
             @PathVariable("userIndex") String id) {
 
@@ -89,7 +89,7 @@ public class UserApiController {
     /**
      * 닉네임 중복 체크
      */
-    @GetMapping("/nickname")
+    @GetMapping("/user/nickname")
     public ResponseEntity<Response<Void>> checkNicknameExistence(@RequestBody @Valid CheckNicknameRequest request) {
 
         userService.checkNicknameExistence(request.getNickname());
