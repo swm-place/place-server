@@ -27,7 +27,7 @@ public class UserApiController {
     /**
      * 회원 가입
      */
-    @PostMapping("/sign-up")
+    @PostMapping("/user")
     public ResponseEntity<Response<Void>> createUser(@RequestHeader("X-User-Uid") String uid,
                                                      @RequestHeader("X-User-Email") String email,
                                                      @RequestBody @Valid CreateUserRequest request) {
@@ -56,10 +56,11 @@ public class UserApiController {
     /**
      * 회원 가입 - 이미 존재하는 이메일인지 확인
      */
-    @GetMapping("/email")
-    public ResponseEntity<Response<Void>> checkEmailExistence(@RequestBody @Valid CheckEmailRequest request) {
+    @GetMapping("/user/email")
+    public ResponseEntity<Response<Void>> checkEmailExistence(@RequestParam @Valid String email) {
 
-        userService.checkEmailExistence(request.getEmail());
+        if(email.isEmpty()) throw new RuntimeException();
+        userService.checkEmailExistence(email);
 
         return ResponseEntity.ok()
                 .body(Response.success(null));
@@ -68,7 +69,7 @@ public class UserApiController {
     /**
      * 유저 정보 조회
      */
-    @GetMapping("/users/{userIndex}")
+    @GetMapping("/user/{userIndex}")
     public ResponseEntity<Response<UserResponse>> getUserInformation(
             @PathVariable("userIndex") String id) {
 
@@ -89,10 +90,10 @@ public class UserApiController {
     /**
      * 닉네임 중복 체크
      */
-    @GetMapping("/nickname")
-    public ResponseEntity<Response<Void>> checkNicknameExistence(@RequestBody @Valid CheckNicknameRequest request) {
+    @GetMapping("/user/nickname")
+    public ResponseEntity<Response<Void>> checkNicknameExistence(@RequestParam @Valid String nickname) {
 
-        userService.checkNicknameExistence(request.getNickname());
+        userService.checkNicknameExistence(nickname);
 
         return ResponseEntity.ok()
                 .body(Response.success(null));
@@ -131,15 +132,6 @@ public class UserApiController {
     }
 
     /**
-     * 이메일 중복 체크에 필요한 정보를 받아오기 위한 DTO
-     */
-    @Data
-    static class CheckEmailRequest {
-        @NotBlank
-        private String email;
-    }
-
-    /**
      * 유저 정보 조회하기에 대한 응답을 위한 DTO
      */
     @Data
@@ -153,15 +145,6 @@ public class UserApiController {
         private String birthday;
         private LocalDateTime createdAt;
         private LocalDateTime lastLoginAt;
-    }
-
-    /**
-     * 닉네임 중복 체크에 필요한 정보를 받아오기 위한 DTO
-     */
-    @Data
-    static class CheckNicknameRequest {
-        @NotBlank
-        private String nickname;
     }
 
     /**
