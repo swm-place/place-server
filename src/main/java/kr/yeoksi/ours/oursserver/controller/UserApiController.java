@@ -99,6 +99,17 @@ public class UserApiController {
                 .body(Response.success(null));
     }
 
+    /**
+     * 유저 정보 수정
+     */
+    @PatchMapping("/user")
+    public ResponseEntity<Response<Void>> updateUserInformation(@RequestBody @Valid UpdateUserInformationRequest request) {
+
+        userService.updateUserInformation(request);
+
+        return ResponseEntity.ok()
+                .body(Response.success(null));
+    }
 
     /**
      * 회원가입에 필요한 정보를 받아오기 위한 DTO
@@ -134,5 +145,21 @@ public class UserApiController {
         private String birthday;
         private LocalDateTime createdAt;
         private LocalDateTime lastLoginAt;
+    }
+
+    /**
+     * 유저 정보 수정에 필요한 정보를 받아오기 위한 DTO
+     */
+    @Data
+    @AllArgsConstructor
+    public static class UpdateUserInformationRequest {
+
+        @NotBlank
+        private String userIndex;
+
+        private String nickname;
+        private String phoneNumber;
+        private Integer gender;
+        private String birthday;
     }
 }

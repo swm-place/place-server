@@ -1,5 +1,6 @@
 package kr.yeoksi.ours.oursserver.service;
 
+import kr.yeoksi.ours.oursserver.controller.UserApiController;
 import kr.yeoksi.ours.oursserver.domain.TermsOfService;
 import kr.yeoksi.ours.oursserver.domain.User;
 import kr.yeoksi.ours.oursserver.exception.DuplicatedEmailException;
@@ -211,5 +212,47 @@ public class UserServiceTest {
         userService.checkNicknameExistence("testNickname");
 
         fail("중복 닉네임 예외가 발생해야 한다.");
+    }
+
+    /**
+     * 유저 정보 수정
+     */
+    @Test
+    public void 유저_정보_수정() throws Exception {
+
+        User user = new User();
+        user.setId("sangjun");
+        user.setEmail("soma@gmail.com");
+        user.setNickname("testNickname");
+        user.setPhoneNumber("010-1234-5678");
+        user.setGender(0);
+        user.setBirthday("19980309");
+
+        List<TermsOfService> agreedTerms = new ArrayList<>();
+
+        TermsOfService termA = new TermsOfService();
+        termA.setTitle("테스트 타이틀");
+        termA.setContents("테스트 내용");
+        termA.setType("테스트 타입");
+        termA.setVersion(1);
+        termA.setRequired(0);
+
+        termsOfServiceRepository.save(termA);
+        agreedTerms.add(termA);
+
+
+        String savedUserId = userService.signUp(user, agreedTerms);
+
+        userService.updateUserInformation(
+                new UserApiController.UpdateUserInformationRequest(
+                        savedUserId,
+                        "changedNickname",
+                        "chagedPhoneNumber",
+                        null,
+                        null));
+
+        assertEquals(user.getNickname(), "changedNickname");
+        assertEquals(user.getPhoneNumber(), "chagedPhoneNumber");
+        assertEquals(user.getBirthday(), "19980309");
     }
 }
