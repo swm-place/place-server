@@ -56,9 +56,10 @@ public class UserApiController {
     /**
      * 회원 가입 - 이미 존재하는 이메일인지 확인
      */
-    @GetMapping("/user/email")
-    public ResponseEntity<Response<Void>> checkEmailExistence(@RequestParam String email) {
+    @GetMapping("/user")
+    public ResponseEntity<Response<Void>> checkEmailExistence(@RequestParam @Valid String email) {
 
+        if(email.isEmpty()) throw new RuntimeException();
         userService.checkEmailExistence(email);
 
         return ResponseEntity.ok()
