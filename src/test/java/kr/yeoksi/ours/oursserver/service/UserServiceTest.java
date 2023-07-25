@@ -35,8 +35,9 @@ public class UserServiceTest {
      * 회원 가입
      */
     @Test
-    public void signUp() throws Exception {
+    public void 회원가입() throws Exception {
 
+        // given
         User user = new User();
         user.setId("sangjun");
         user.setEmail("soma@gmail.com");
@@ -56,21 +57,14 @@ public class UserServiceTest {
 
         termsOfServiceRepository.save(termA);
 
-
-        TermsOfService termB = new TermsOfService();
-        termB.setTitle("테스트 타이틀");
-        termB.setContents("테스트 내용");
-        termB.setType("테스트 타입");
-        termB.setVersion(1);
-        termB.setRequired(0);
-
-        termsOfServiceRepository.save(termB);
-
         agreedTerms.add(termA);
-        agreedTerms.add(termB);
 
+
+        // when
         String savedUserId = userService.signUp(user, agreedTerms);
 
+
+        // then
         assertEquals(user, userRepository.findById(savedUserId).get());
     }
 
@@ -80,6 +74,7 @@ public class UserServiceTest {
     @Test(expected = DuplicatedUserException.class)
     public void 중복_회원가입_예외() throws Exception {
 
+        // given
         User user1 = new User();
         user1.setId("sangjun");
         user1.setEmail("soma@gmail.com");
@@ -90,26 +85,6 @@ public class UserServiceTest {
 
         List<TermsOfService> agreedTerms = new ArrayList<>();
 
-        TermsOfService termA = new TermsOfService();
-        termA.setTitle("테스트 타이틀");
-        termA.setContents("테스트 내용");
-        termA.setType("테스트 타입");
-        termA.setVersion(1);
-        termA.setRequired(0);
-
-        TermsOfService termB = new TermsOfService();
-        termB.setTitle("테스트 타이틀");
-        termB.setContents("테스트 내용");
-        termB.setType("테스트 타입");
-        termB.setVersion(1);
-        termB.setRequired(0);
-
-        termsOfServiceRepository.save(termA);
-        termsOfServiceRepository.save(termB);
-
-        agreedTerms.add(termA);
-        agreedTerms.add(termB);
-
         User user2 = new User();
         user2.setId("sangjun");
         user2.setEmail("soma2@gmail.com");
@@ -118,10 +93,14 @@ public class UserServiceTest {
         user2.setGender(0);
         user2.setBirthday("19980309");
 
+
+        // when
         userService.signUp(user1, agreedTerms);
         userService.signUp(user2, agreedTerms); // 여기서 중복 회원 예외가 발생해야 함.
 
-        fail("중복 회원 예외가 발생해야 한다.");
+
+        // then
+        // expected = DuplicatedUserException에 의한 중복 유저 오류 발생 검증.
     }
 
     /**
@@ -130,6 +109,7 @@ public class UserServiceTest {
     @Test(expected = DuplicatedEmailException.class)
     public void 중복_이메일_예외() throws Exception {
 
+        // given
         User user = new User();
         user.setId("sangjun");
         user.setEmail("soma@gmail.com");
@@ -140,33 +120,15 @@ public class UserServiceTest {
 
         List<TermsOfService> agreedTerms = new ArrayList<>();
 
-        TermsOfService termA = new TermsOfService();
-        termA.setTitle("테스트 타이틀");
-        termA.setContents("테스트 내용");
-        termA.setType("테스트 타입");
-        termA.setVersion(1);
-        termA.setRequired(0);
-
-        termsOfServiceRepository.save(termA);
-
-
-        TermsOfService termB = new TermsOfService();
-        termB.setTitle("테스트 타이틀");
-        termB.setContents("테스트 내용");
-        termB.setType("테스트 타입");
-        termB.setVersion(1);
-        termB.setRequired(0);
-
-        termsOfServiceRepository.save(termB);
-
-        agreedTerms.add(termA);
-        agreedTerms.add(termB);
-
         String savedUserId = userService.signUp(user, agreedTerms);
 
+
+        // when
         userService.checkEmailExistence("soma@gmail.com"); // 여기서 예외가 발생해야 함.
 
-        fail("중복 이메일 예외가 발생해야 한다.");
+
+        // then
+        // expected = DuplicatedEmailException에 의한 중복 이메일 오류 발생 검증.
     }
 
     /**
@@ -175,9 +137,15 @@ public class UserServiceTest {
     @Test(expected = NotExistedUserException.class)
     public void 없는_유저_조회_예외() throws Exception {
 
+        // given
+
+
+        // when
         userService.findById("내가누구게"); // 여기서 예외가 발생해야 함.
 
-        fail("없는 유저 조회 예외가 발생해야 한다.");
+
+        // then
+        // expected = NotExistedUserException에 의한 존재하지 않는 유저 오류 발생 검증.
     }
 
     /**
@@ -186,6 +154,7 @@ public class UserServiceTest {
     @Test(expected = DuplicatedNicknameException.class)
     public void 닉네임_중복() throws Exception {
 
+        // given
         User user = new User();
         user.setId("sangjun");
         user.setEmail("soma@gmail.com");
@@ -196,22 +165,15 @@ public class UserServiceTest {
 
         List<TermsOfService> agreedTerms = new ArrayList<>();
 
-        TermsOfService termA = new TermsOfService();
-        termA.setTitle("테스트 타이틀");
-        termA.setContents("테스트 내용");
-        termA.setType("테스트 타입");
-        termA.setVersion(1);
-        termA.setRequired(0);
-
-        termsOfServiceRepository.save(termA);
-        agreedTerms.add(termA);
-
-
         String savedUserId = userService.signUp(user, agreedTerms);
 
+
+        // when
         userService.checkNicknameExistence("testNickname");
 
-        fail("중복 닉네임 예외가 발생해야 한다.");
+
+        // then
+        // expected = DuplicatedNicknameException에 의한 중복 닉네임 오류 발생 검증.
     }
 
     /**
@@ -220,6 +182,7 @@ public class UserServiceTest {
     @Test
     public void 유저_정보_수정() throws Exception {
 
+        // given
         User user = new User();
         user.setId("sangjun");
         user.setEmail("soma@gmail.com");
@@ -230,19 +193,10 @@ public class UserServiceTest {
 
         List<TermsOfService> agreedTerms = new ArrayList<>();
 
-        TermsOfService termA = new TermsOfService();
-        termA.setTitle("테스트 타이틀");
-        termA.setContents("테스트 내용");
-        termA.setType("테스트 타입");
-        termA.setVersion(1);
-        termA.setRequired(0);
-
-        termsOfServiceRepository.save(termA);
-        agreedTerms.add(termA);
-
-
         String savedUserId = userService.signUp(user, agreedTerms);
 
+
+        // when
         userService.updateUserInformation(
                 new UserApiController.UpdateUserInformationRequest(
                         savedUserId,
@@ -251,6 +205,8 @@ public class UserServiceTest {
                         null,
                         null));
 
+
+        // then
         assertEquals(user.getNickname(), "changedNickname");
         assertEquals(user.getPhoneNumber(), "chagedPhoneNumber");
         assertEquals(user.getBirthday(), "19980309");
