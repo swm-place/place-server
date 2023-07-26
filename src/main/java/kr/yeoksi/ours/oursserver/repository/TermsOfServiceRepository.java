@@ -26,4 +26,14 @@ public class TermsOfServiceRepository {
     public TermsOfService findById(Long id) {
         return em.find(TermsOfService.class, id);
     }
+
+    /**
+     * 모든 이용약관 리스트 조회하기
+     */
+    public List<TermsOfService> readAllTerms() {
+        return em.createQuery(
+                "SELECT t " +
+                        "FROM TermsOfService t ", TermsOfService.class)
+                .getResultList();
+    }
 }
