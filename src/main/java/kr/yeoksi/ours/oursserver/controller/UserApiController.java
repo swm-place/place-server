@@ -1,5 +1,6 @@
 package kr.yeoksi.ours.oursserver.controller;
 
+import jakarta.persistence.Column;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -11,10 +12,12 @@ import kr.yeoksi.ours.oursserver.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -112,6 +115,35 @@ public class UserApiController {
     }
 
     /**
+     * 이용약관 리스트 받기
+     */
+    @GetMapping("user/terms")
+    public ResponseEntity<Response<List<TermResponse>>> readAllTerms() {
+
+        List<TermsOfService> terms = userService.readAllTerms();
+        List<TermResponse> result = new ArrayList<>();
+        for(TermsOfService term : terms) {
+            TermResponse response = new TermResponse(
+                    term.getId(),
+                    term.getContents(),
+                    term.getType(),
+                    term.getVersion(),
+                    term.getRequired(),
+                    term.getCreatedAt()
+            );
+
+            result.add(response);
+        }
+
+
+        return ResponseEntity.ok().body(
+                Response.success(
+                        result
+                )
+        );
+    }
+
+    /**
      * 회원가입에 필요한 정보를 받아오기 위한 DTO
      */
     @Data
@@ -161,5 +193,16 @@ public class UserApiController {
         private String phoneNumber;
         private Integer gender;
         private String birthday;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class TermResponse {
+        private Long id;
+        private String contents;
+        private String type;
+        private Integer version;
+        private Integer required;
+        private LocalDateTime createdAt;
     }
 }

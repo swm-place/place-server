@@ -91,4 +91,12 @@ public class UserService {
         if(request.getGender() != null) user.setGender(request.getGender());
         if(request.getBirthday() != null) user.setBirthday(request.getBirthday());
     }
+
+    /**
+     * 이용약관 리스트 받기
+     */
+    public List<TermsOfService> readAllTerms() {
+
+        return termsOfServiceRepository.readAllTerms();
+    }
 }
