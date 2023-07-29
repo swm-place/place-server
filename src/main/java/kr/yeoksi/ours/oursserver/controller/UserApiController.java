@@ -1,6 +1,5 @@
 package kr.yeoksi.ours.oursserver.controller;
 
-import jakarta.persistence.Column;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,7 +11,6 @@ import kr.yeoksi.ours.oursserver.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
