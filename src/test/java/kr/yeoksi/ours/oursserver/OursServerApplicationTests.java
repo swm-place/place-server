@@ -1,4 +1,3 @@
-/*
 package kr.yeoksi.ours.oursserver;
 
 import org.junit.jupiter.api.Test;
@@ -15,4 +14,3 @@ class OursServerApplicationTests {
     }
 
 }
-*/
