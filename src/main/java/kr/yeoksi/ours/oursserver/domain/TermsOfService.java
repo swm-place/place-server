@@ -23,6 +23,7 @@ public class TermsOfService {
     private String title;
 
     @NotBlank
+    @Column(columnDefinition = "TEXT")
     private String contents;
 
     @NotBlank
