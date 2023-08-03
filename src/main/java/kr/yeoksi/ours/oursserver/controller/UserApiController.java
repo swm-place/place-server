@@ -123,6 +123,7 @@ public class UserApiController {
         for(TermsOfService term : terms) {
             TermResponse response = new TermResponse(
                     term.getId(),
+                    term.getTitle(),
                     term.getContents(),
                     term.getType(),
                     term.getVersion(),
@@ -197,6 +198,7 @@ public class UserApiController {
     @AllArgsConstructor
     static class TermResponse {
         private Long id;
+        private String title;
         private String contents;
         private String type;
         private Integer version;
