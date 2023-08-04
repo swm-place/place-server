@@ -64,4 +64,7 @@ public class Place {
 
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
     private List<PlaceFavorite> placeFavorites = new ArrayList<>();
+
+    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
+    private List<PlaceBookmark> placeBookmarks = new ArrayList<>();
 }

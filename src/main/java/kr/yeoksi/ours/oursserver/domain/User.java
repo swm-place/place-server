@@ -62,4 +62,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<PlaceFavorite> placeFavorites;
+
+    @OneToMany(mappedBy = "user")
+    private List<PlaceBookmark> placeBookmarks;
 }
