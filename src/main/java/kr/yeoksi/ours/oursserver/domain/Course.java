@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -29,11 +30,13 @@ public class Course {
     private LocalDateTime endAt;
 
     @NotNull
-    @Column(name = "in_progress")
+    @ColumnDefault("false")
+    @Column(name = "in_progress", columnDefinition = "TINYINT(1)")
     private boolean inProgress;
 
     @NotNull
-    @Column(name = "is_finished")
+    @ColumnDefault("false")
+    @Column(name = "is_finished", columnDefinition = "TINYINT(1)")
     private boolean isFinished;
 
     @NotNull
