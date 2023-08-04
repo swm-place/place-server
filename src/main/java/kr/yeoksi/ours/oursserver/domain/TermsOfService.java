@@ -47,4 +47,13 @@ public class TermsOfService {
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    public boolean isRequired() {
+        return required;
+    }
+
+    public boolean setRequired(boolean required) {
+        this.required = required;
+        return this.required;
+    }
 }

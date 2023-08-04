@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class UserServiceTest {
         user.setNickname("testNickname");
         user.setPhoneNumber("010-1234-5678");
         user.setGender(0);
-        user.setBirthday("19980309");
+        user.setBirthday(LocalDateTime.now());
 
         List<TermsOfService> agreedTerms = new ArrayList<>();
 
@@ -53,7 +54,6 @@ public class UserServiceTest {
         termA.setContents("테스트 내용");
         termA.setType("테스트 타입");
         termA.setVersion(1);
-        termA.setRequired(0);
 
         termsOfServiceRepository.save(termA);
 
@@ -81,7 +81,7 @@ public class UserServiceTest {
         user1.setNickname("testNickname");
         user1.setPhoneNumber("010-1234-5678");
         user1.setGender(0);
-        user1.setBirthday("19980309");
+        user1.setBirthday(LocalDateTime.now());
 
         List<TermsOfService> agreedTerms = new ArrayList<>();
 
@@ -91,7 +91,7 @@ public class UserServiceTest {
         user2.setNickname("testNickname2");
         user2.setPhoneNumber("010-1234-5678");
         user2.setGender(0);
-        user2.setBirthday("19980309");
+        user2.setBirthday(LocalDateTime.now());
 
 
         // when
@@ -116,7 +116,7 @@ public class UserServiceTest {
         user.setNickname("testNickname");
         user.setPhoneNumber("010-1234-5678");
         user.setGender(0);
-        user.setBirthday("19980309");
+        user.setBirthday(LocalDateTime.now());
 
         List<TermsOfService> agreedTerms = new ArrayList<>();
 
@@ -161,7 +161,7 @@ public class UserServiceTest {
         user.setNickname("testNickname");
         user.setPhoneNumber("010-1234-5678");
         user.setGender(0);
-        user.setBirthday("19980309");
+        user.setBirthday(LocalDateTime.now());
 
         List<TermsOfService> agreedTerms = new ArrayList<>();
 
@@ -189,7 +189,7 @@ public class UserServiceTest {
         user.setNickname("testNickname");
         user.setPhoneNumber("010-1234-5678");
         user.setGender(0);
-        user.setBirthday("19980309");
+        user.setBirthday(LocalDateTime.now());
 
         List<TermsOfService> agreedTerms = new ArrayList<>();
 

@@ -127,7 +127,7 @@ public class UserApiController {
                     term.getContents(),
                     term.getType(),
                     term.getVersion(),
-                    term.getRequired(),
+                    term.isRequired(),
                     term.getCreatedAt()
             );
 
@@ -157,7 +157,7 @@ public class UserApiController {
         private Integer gender;
 
         @NotBlank
-        private String birthday;
+        private LocalDateTime birthday;
 
         private List<Long> termIndex;
     }
@@ -173,7 +173,7 @@ public class UserApiController {
         private String nickname;
         private String phoneNumber;
         private Integer gender;
-        private String birthday;
+        private LocalDateTime birthday;
         private LocalDateTime createdAt;
         private LocalDateTime lastLoginAt;
     }
@@ -191,7 +191,7 @@ public class UserApiController {
         private String nickname;
         private String phoneNumber;
         private Integer gender;
-        private String birthday;
+        private LocalDateTime birthday;
     }
 
     @Data
@@ -202,7 +202,7 @@ public class UserApiController {
         private String contents;
         private String type;
         private Integer version;
-        private Integer required;
+        private boolean required;
         private LocalDateTime createdAt;
     }
 }
