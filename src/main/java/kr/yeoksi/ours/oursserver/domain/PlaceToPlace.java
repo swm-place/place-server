@@ -1,6 +1,7 @@
 package kr.yeoksi.ours.oursserver.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import kr.yeoksi.ours.oursserver.domain.idclass.PlaceToPlaceId;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,6 +27,7 @@ public class PlaceToPlace {
     @JoinColumn(name = "transportaion_index")
     private Transportation transportation;
 
+    @NotNull
     @Column(name = "required_time")
     private Integer requiredTime;
 }
