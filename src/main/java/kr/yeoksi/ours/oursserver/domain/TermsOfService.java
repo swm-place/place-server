@@ -3,9 +3,11 @@ package kr.yeoksi.ours.oursserver.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -20,6 +22,8 @@ public class TermsOfService {
     private Long id;
 
     @NotBlank
+    @Column(length = 50)
+    @Size(max = 50)
     private String title;
 
     @NotBlank
@@ -27,14 +31,19 @@ public class TermsOfService {
     private String contents;
 
     @NotBlank
+    @Column(length = 20)
+    @Size(max = 20)
     private String type;
 
     @NotNull
     private Integer version;
 
     @NotNull
-    private Integer required;
+    @ColumnDefault("true")
+    @Column(columnDefinition = "TINYINT(1)")
+    private boolean required;
 
+    @NotNull
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
