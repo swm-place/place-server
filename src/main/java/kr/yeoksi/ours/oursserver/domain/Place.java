@@ -3,6 +3,7 @@ package kr.yeoksi.ours.oursserver.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -20,14 +21,21 @@ public class Place {
     private Long id;
 
     @NotBlank
+    @Column(length = 30)
+    @Size(max = 30)
     private String name;
 
+    @Column(length = 20)
+    @Size(max = 20)
     private String category;
 
-    @Column(name = "phone_number")
+    @Column(name = "phone_number", length = 15)
+    @Size(max = 15)
     private String phoneNumber;
 
     @NotBlank
+    @Column(length = 100)
+    @Size(max = 100)
     private String address;
 
     @NotNull
@@ -40,8 +48,10 @@ public class Place {
     @Column(name = "location_code")
     private Integer locationCode;
 
+    @Column(columnDefinition = "TEXT")
     private String activity;
 
+    @NotNull
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
