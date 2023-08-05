@@ -44,7 +44,6 @@ public class UserServiceTest {
         user.setEmail("soma@gmail.com");
         user.setNickname("testNickname");
         user.setPhoneNumber("010-1234-5678");
-        user.setGender(0);
         user.setBirthday(LocalDateTime.now());
 
         List<TermsOfService> agreedTerms = new ArrayList<>();
@@ -201,14 +200,13 @@ public class UserServiceTest {
                 new UserApiController.UpdateUserInformationRequest(
                         savedUserId,
                         "changedNickname",
-                        "chagedPhoneNumber",
-                        null,
-                        null));
+                        "010-1111-1111",
+                        0,
+                        LocalDateTime.now()));
 
 
         // then
         assertEquals(user.getNickname(), "changedNickname");
-        assertEquals(user.getPhoneNumber(), "chagedPhoneNumber");
-        assertEquals(user.getBirthday(), "19980309");
+        assertEquals(user.getPhoneNumber(), "010-1111-1111");
     }
 }

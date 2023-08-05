@@ -27,8 +27,8 @@ public class User {
     private String email;
 
     @NotBlank
-    @Column(unique = true, length = 10)
-    @Size(max = 10)
+    @Column(unique = true, length = 20)
+    @Size(min = 3, max = 10)
     private String nickname;
 
     @NotBlank
