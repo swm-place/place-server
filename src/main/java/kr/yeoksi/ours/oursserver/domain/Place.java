@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static jakarta.persistence.FetchType.*;
+
 @Entity
 @Getter @Setter
 public class Place {
@@ -19,6 +21,10 @@ public class Place {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "place_index")
     private Long id;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "user_index")
+    private User user;
 
     @NotBlank
     @Column(length = 30)
