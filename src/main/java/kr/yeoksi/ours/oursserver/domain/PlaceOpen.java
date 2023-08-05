@@ -2,7 +2,7 @@ package kr.yeoksi.ours.oursserver.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import kr.yeoksi.ours.oursserver.domain.idclass.PlaceOpenId;
+import kr.yeoksi.ours.oursserver.domain.idclass.UserPlaceId;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -13,7 +13,7 @@ import static jakarta.persistence.FetchType.*;
 
 @Entity
 @Getter @Setter
-@IdClass(PlaceOpenId.class)
+@IdClass(UserPlaceId.class)
 @Table(
         uniqueConstraints = {
                 @UniqueConstraint(

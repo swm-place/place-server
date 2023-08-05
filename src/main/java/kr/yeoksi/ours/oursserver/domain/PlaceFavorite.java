@@ -1,7 +1,7 @@
 package kr.yeoksi.ours.oursserver.domain;
 
 import jakarta.persistence.*;
-import kr.yeoksi.ours.oursserver.domain.idclass.PlaceFavoriteId;
+import kr.yeoksi.ours.oursserver.domain.idclass.UserPlaceId;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +9,7 @@ import static jakarta.persistence.FetchType.*;
 
 @Entity
 @Getter @Setter
-@IdClass(PlaceFavoriteId.class)
+@IdClass(UserPlaceId.class)
 @Table(
         uniqueConstraints = {
                 @UniqueConstraint(

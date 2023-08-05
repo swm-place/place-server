@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PlaceFavoriteId implements Serializable {
+public class UserPlaceId implements Serializable {
 
     private Long place;
     private String user;
