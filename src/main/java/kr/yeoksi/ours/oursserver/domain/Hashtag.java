@@ -18,4 +18,8 @@ public class Hashtag {
     @Column(length = 30)
     @Size(max = 30)
     private String name;
+
+    @NotBlank
+    @Column(name = "img_url")
+    private String imgUrl;
 }
