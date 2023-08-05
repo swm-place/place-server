@@ -2,6 +2,7 @@ package kr.yeoksi.ours.oursserver.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import kr.yeoksi.ours.oursserver.domain.idclass.UserPlaceId;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -12,12 +13,22 @@ import static jakarta.persistence.FetchType.*;
 
 @Entity
 @Getter @Setter
-public class PlaceGroup {
+@IdClass(UserPlaceId.class)
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        columnNames = {"place_index", "user_index"}
+                )
+        }
+)
+public class PlaceOpen {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "place_group_index")
-    private Long id;
+    @Id
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "place_index")
+    private Place place;
 
+    @Id
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_index")
     private User user;

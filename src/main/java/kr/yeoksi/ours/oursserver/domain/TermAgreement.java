@@ -1,6 +1,7 @@
 package kr.yeoksi.ours.oursserver.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,6 +26,7 @@ public class TermAgreement {
     @JoinColumn(name = "term_index")
     private TermsOfService termsOfService;
 
+    @NotNull
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;

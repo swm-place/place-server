@@ -2,6 +2,7 @@ package kr.yeoksi.ours.oursserver.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,5 +15,7 @@ public class Transportation {
     private Long id;
 
     @NotBlank
+    @Column(length = 20)
+    @Size(max = 20)
     private String name;
 }
