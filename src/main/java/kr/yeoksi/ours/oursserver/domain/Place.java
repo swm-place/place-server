@@ -70,4 +70,7 @@ public class Place {
 
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
     private List<PlaceOpen> placeOpens = new ArrayList<>();
+
+    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
+    private List<PlaceReview> placeReviews = new ArrayList<>();
 }
