@@ -2,6 +2,7 @@ package kr.yeoksi.ours.oursserver.controller;
 
 import kr.yeoksi.ours.oursserver.domain.Hashtag;
 import kr.yeoksi.ours.oursserver.domain.Place;
+import kr.yeoksi.ours.oursserver.domain.PlaceReview;
 import kr.yeoksi.ours.oursserver.domain.Response;
 import kr.yeoksi.ours.oursserver.service.PlaceService;
 import lombok.AllArgsConstructor;
@@ -34,10 +35,10 @@ public class PlaceApiController {
         Place place = placeService.findById(id);
 
         // 공간에 매핑된 이미지 조회
-        List<String> placeImgUrls = placeService.getImgUrlList(id);
+        List<String> placeImgUrlList = placeService.getImgUrlList(id);
 
         // 공간에 매핑된 해시태그 조회
-        List<Hashtag> hashtags = placeService.getHashtagList(id);
+        List<Hashtag> hashtagList = placeService.getHashtagList(id);
 
         // 북마크 여부 확인
         boolean isBookmark = placeService.checkBookmark(uid, id);
@@ -54,6 +55,9 @@ public class PlaceApiController {
         // 유저의 운영중 응답 여부 확인
         boolean isOpen = placeService.checkOpen(uid, id);
 
+        // 공간에 매핑된 한줄평들 조회하기
+        List<PlaceReview> placeReviewList = placeService.getAllPlaceReviewList(id);
+
         return ResponseEntity.ok().body(
                 Response.success(
                         new PlaceResponse(
@@ -66,7 +70,7 @@ public class PlaceApiController {
                                 place.getLocationCode(),
                                 place.getActivity(),
                                 place.getCreatedAt(),
-                                placeImgUrls
+                                placeImgUrlList
                         )));
     }
 

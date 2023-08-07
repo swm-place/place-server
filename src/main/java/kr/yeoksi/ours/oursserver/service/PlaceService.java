@@ -24,6 +24,7 @@ public class PlaceService {
     private final PlaceBookmarkRepository placeBookmarkRepository;
     private final PlaceFavoriteRepository placeFavoriteRepository;
     private final PlaceOpenRepository placeOpenRepository;
+    private final PlaceReviewRepository placeReviewRepository;
 
     /**
      * id로 공간 조회하기.
@@ -105,4 +106,13 @@ public class PlaceService {
         if(!placeOpen.isPresent()) return false;
         else return true;
     }
+
+    /**
+     * 해당 공간에 매핑된 한줄평들 조회하기.
+     */
+    public List<PlaceReview> getAllPlaceReviewList(Long id) {
+
+        return placeReviewRepository.findAllByPlaceId(id);
+    }
+
 }

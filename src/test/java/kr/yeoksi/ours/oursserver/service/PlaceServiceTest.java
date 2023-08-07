@@ -42,6 +42,8 @@ public class PlaceServiceTest {
     PlaceFavoriteRepository placeFavoriteRepository;
     @Autowired
     PlaceOpenRepository placeOpenRepository;
+    @Autowired
+    PlaceReviewRepository placeReviewRepository;
 
     @Test(expected = NotExistedPlaceException.class)
     public void 없는_공간_조회_예외() {
@@ -391,5 +393,47 @@ public class PlaceServiceTest {
         // then
         assertEquals(check1, true);
         assertEquals(check2, false);
+    }
+
+    @Test
+    public void 공간에_매핑된_한줄평_조회() {
+
+        // given
+
+        // 유저 정보 저장
+        User user = new User();
+        user.setId("sangjun");
+        user.setEmail("soma@gmail.com");
+        user.setNickname("testNickname");
+        user.setPhoneNumber("010-1234-5678");
+        user.setBirthday(LocalDateTime.now());
+        userRepository.save(user);
+
+
+        // 공간 정보 저장
+        Place place = new Place();
+        place.setUser(user);
+        place.setName("테스트네임");
+        place.setAddress("테스트주소");
+        place.setLongitude(127.0);
+        place.setLatitude(37.0);
+        place.setLocationCode(333);
+        placeRepository.save(place);
+
+
+        // 한줄평 정보 저장
+        PlaceReview placeReview = new PlaceReview();
+        placeReview.setPlace(place);
+        placeReview.setUser(user);
+        placeReview.setContents("테스트리뷰");
+        placeReviewRepository.save(placeReview);
+
+
+        // when
+        List<PlaceReview> placeReviewList = placeService.getAllPlaceReviewList(place.getId());
+
+
+        // then
+        assertEquals(placeReview, placeReviewList.get(0));
     }
 }
