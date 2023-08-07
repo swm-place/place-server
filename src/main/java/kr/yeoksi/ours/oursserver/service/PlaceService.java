@@ -1,15 +1,9 @@
 package kr.yeoksi.ours.oursserver.service;
 
-import kr.yeoksi.ours.oursserver.domain.Hashtag;
-import kr.yeoksi.ours.oursserver.domain.Place;
-import kr.yeoksi.ours.oursserver.domain.PlaceBookmark;
-import kr.yeoksi.ours.oursserver.domain.PlaceImg;
+import kr.yeoksi.ours.oursserver.domain.*;
 import kr.yeoksi.ours.oursserver.exception.ErrorCode;
 import kr.yeoksi.ours.oursserver.exception.NotExistedPlaceException;
-import kr.yeoksi.ours.oursserver.repository.HashtagAtPlaceRepository;
-import kr.yeoksi.ours.oursserver.repository.PlaceBookmarkRepository;
-import kr.yeoksi.ours.oursserver.repository.PlaceImgRepository;
-import kr.yeoksi.ours.oursserver.repository.PlaceRepository;
+import kr.yeoksi.ours.oursserver.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +22,7 @@ public class PlaceService {
     private final PlaceImgRepository placeImgRepository;
     private final HashtagAtPlaceRepository hashtagAtPlaceRepository;
     private final PlaceBookmarkRepository placeBookmarkRepository;
+    private final PlaceFavoriteRepository placeFavoriteRepository;
 
     /**
      * id로 공간 조회하기.
@@ -72,5 +67,13 @@ public class PlaceService {
         Optional<PlaceBookmark> placeBookmark = placeBookmarkRepository.findByIds(userid, placeId);
         if(!placeBookmark.isPresent()) return false;
         else return true;
+    }
+
+    /**
+     *
+     */
+    public int getFavoriteCount(Long id) {
+
+        return placeFavoriteRepository.countFavorite(id);
     }
 }
