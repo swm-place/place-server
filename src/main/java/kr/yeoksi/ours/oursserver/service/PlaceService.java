@@ -23,6 +23,7 @@ public class PlaceService {
     private final HashtagAtPlaceRepository hashtagAtPlaceRepository;
     private final PlaceBookmarkRepository placeBookmarkRepository;
     private final PlaceFavoriteRepository placeFavoriteRepository;
+    private final PlaceOpenRepository placeOpenRepository;
 
     /**
      * id로 공간 조회하기.
@@ -85,5 +86,13 @@ public class PlaceService {
         Optional<PlaceFavorite> placeFavorite = placeFavoriteRepository.findByIds(userId, placeId);
         if(!placeFavorite.isPresent()) return false;
         else return true;
+    }
+
+    /**
+     * 현재 운영중이라고 응답한 유저의 수 조회하기.
+     */
+    public int getOpenCount(Long id) {
+
+        return placeOpenRepository.countOpen(id);
     }
 }

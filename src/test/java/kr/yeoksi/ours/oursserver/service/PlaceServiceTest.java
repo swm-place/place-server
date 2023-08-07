@@ -40,6 +40,8 @@ public class PlaceServiceTest {
     PlaceBookmarkRepository placeBookmarkRepository;
     @Autowired
     PlaceFavoriteRepository placeFavoriteRepository;
+    @Autowired
+    PlaceOpenRepository placeOpenRepository;
 
     @Test(expected = NotExistedPlaceException.class)
     public void 없는_공간_조회_예외() {
@@ -287,5 +289,58 @@ public class PlaceServiceTest {
         // then
         assertEquals(check1, true);
         assertEquals(check2, false);
+    }
+
+    @Test
+    public void 공간의_운영중_응답_개수_조회() {
+
+        // given
+
+        // 유저 정보 저장
+        User user = new User();
+        user.setId("sangjun");
+        user.setEmail("soma@gmail.com");
+        user.setNickname("testNickname");
+        user.setPhoneNumber("010-1234-5678");
+        user.setBirthday(LocalDateTime.now());
+
+        User user2 = new User();
+        user2.setId("sangjun2");
+        user2.setEmail("soma2@gmail.com");
+        user2.setNickname("testNickname2");
+        user2.setPhoneNumber("010-1234-5673");
+        user2.setBirthday(LocalDateTime.now());
+        userRepository.save(user);
+        userRepository.save(user2);
+
+        // 공간 정보 저장
+        Place place = new Place();
+        place.setUser(user);
+        place.setName("테스트네임");
+        place.setAddress("테스트주소");
+        place.setLongitude(127.0);
+        place.setLatitude(37.0);
+        place.setLocationCode(333);
+        placeRepository.save(place);
+
+        // 운영중 정보 저장
+        PlaceOpen placeOpen1 = new PlaceOpen();
+        placeOpen1.setPlace(place);
+        placeOpen1.setUser(user);
+
+        PlaceOpen placeOpen2 = new PlaceOpen();
+        placeOpen2.setPlace(place);
+        placeOpen2.setUser(user2);
+
+        placeOpenRepository.save(placeOpen1);
+        placeOpenRepository.save(placeOpen2);
+
+
+        // when
+        int openCount = placeService.getOpenCount(place.getId());
+
+
+        // then
+        assertEquals(openCount, 2);
     }
 }
