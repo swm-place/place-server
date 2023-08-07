@@ -44,6 +44,9 @@ public class User {
     @NotNull
     private LocalDateTime birthday;
 
+    @Column(name = "img_url")
+    private String imgUrl;
+
     @NotNull
     @CreationTimestamp
     @Column(name = "created_at")
