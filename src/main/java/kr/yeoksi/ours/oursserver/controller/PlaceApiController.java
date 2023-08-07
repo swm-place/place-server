@@ -51,6 +51,9 @@ public class PlaceApiController {
         // 현재 운영중이라고 응답한 유저의 수 조회
         int open = placeService.getOpenCount(id);
 
+        // 유저의 운영중 응답 여부 확인
+        boolean isOpen = placeService.checkOpen(uid, id);
+
         return ResponseEntity.ok().body(
                 Response.success(
                         new PlaceResponse(

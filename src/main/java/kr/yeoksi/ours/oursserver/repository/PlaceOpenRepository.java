@@ -5,6 +5,9 @@ import kr.yeoksi.ours.oursserver.domain.PlaceOpen;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 @RequiredArgsConstructor
 public class PlaceOpenRepository {
@@ -30,5 +33,21 @@ public class PlaceOpenRepository {
                 .setParameter("id", id)
                 .getResultList()
                 .size();
+    }
+
+    /**
+     * 유저 아이디와 공간 아이디로 유저의 운영중 응답 여부 조회하기.
+     */
+    public Optional<PlaceOpen> findByIds(String userId, Long placeId) {
+
+        List<PlaceOpen> placeOpen = em.createQuery(
+                "SELECT o FROM PlaceOpen o " +
+                        "WHERE o.user.id =: userId " +
+                        "AND o.place.id =: placeId ", PlaceOpen.class)
+                .setParameter("userId", userId)
+                .setParameter("placeId", placeId)
+                .getResultList();
+
+        return placeOpen.stream().findAny();
     }
 }
