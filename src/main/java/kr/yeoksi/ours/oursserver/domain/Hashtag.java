@@ -6,6 +6,9 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter @Setter
 public class Hashtag {
@@ -22,4 +25,7 @@ public class Hashtag {
     @NotBlank
     @Column(name = "img_url")
     private String imgUrl;
+
+    @OneToMany(mappedBy = "hashtag", cascade = CascadeType.ALL)
+    private List<HashtagAtPlace> mappedPlaces = new ArrayList<>();
 }

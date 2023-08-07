@@ -14,6 +14,13 @@ public class PlaceImgRepository {
     private final EntityManager em;
 
     /**
+     * 공간 이미지 저장하기.
+     */
+    public void save(PlaceImg placeImg) {
+        em.persist(placeImg);
+    }
+
+    /**
      * placeId로 해당 공간에 매핑된 이미지 리스트 조회하기.
      */
     public List<PlaceImg> findByPlaceId(Long placeId) {

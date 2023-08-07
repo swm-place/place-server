@@ -1,9 +1,11 @@
 package kr.yeoksi.ours.oursserver.service;
 
+import kr.yeoksi.ours.oursserver.domain.Hashtag;
 import kr.yeoksi.ours.oursserver.domain.Place;
 import kr.yeoksi.ours.oursserver.domain.PlaceImg;
 import kr.yeoksi.ours.oursserver.exception.ErrorCode;
 import kr.yeoksi.ours.oursserver.exception.NotExistedPlaceException;
+import kr.yeoksi.ours.oursserver.repository.HashtagAtPlaceRepository;
 import kr.yeoksi.ours.oursserver.repository.PlaceImgRepository;
 import kr.yeoksi.ours.oursserver.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ public class PlaceService {
 
     private final PlaceRepository placeRepository;
     private final PlaceImgRepository placeImgRepository;
+    private final HashtagAtPlaceRepository hashtagAtPlaceRepository;
 
     /**
      * id로 공간 조회하기.
@@ -48,5 +51,13 @@ public class PlaceService {
             }
         }
         return imgUrlList;
+    }
+
+    /**
+     * 공간에 매핑된 모든 해시태그들을 조회하기
+     */
+    public List<Hashtag> getHashtagList(Long id) {
+
+        return hashtagAtPlaceRepository.findAllHashtagsMapping(id);
     }
 }

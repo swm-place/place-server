@@ -29,8 +29,8 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .httpBasic(AbstractHttpConfigurer::disable);
 
-        http
-            .addFilterBefore(new HeaderFilter(), AbstractPreAuthenticatedProcessingFilter.class);
+        //http
+        // .addFilterBefore(new HeaderFilter(), AbstractPreAuthenticatedProcessingFilter.class);
 
         return http.build();
     }
