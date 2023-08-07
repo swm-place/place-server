@@ -39,6 +39,9 @@ public class PlaceApiController {
         // 공간에 매핑된 해시태그 조회
         List<Hashtag> hashtags = placeService.getHashtagList(id);
 
+        // 북마크 여부 확인
+        Boolean isBookmark = placeService.checkBookmark(uid, id);
+
         return ResponseEntity.ok().body(
                 Response.success(
                         new PlaceResponse(

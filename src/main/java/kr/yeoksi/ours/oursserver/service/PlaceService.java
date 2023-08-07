@@ -2,10 +2,12 @@ package kr.yeoksi.ours.oursserver.service;
 
 import kr.yeoksi.ours.oursserver.domain.Hashtag;
 import kr.yeoksi.ours.oursserver.domain.Place;
+import kr.yeoksi.ours.oursserver.domain.PlaceBookmark;
 import kr.yeoksi.ours.oursserver.domain.PlaceImg;
 import kr.yeoksi.ours.oursserver.exception.ErrorCode;
 import kr.yeoksi.ours.oursserver.exception.NotExistedPlaceException;
 import kr.yeoksi.ours.oursserver.repository.HashtagAtPlaceRepository;
+import kr.yeoksi.ours.oursserver.repository.PlaceBookmarkRepository;
 import kr.yeoksi.ours.oursserver.repository.PlaceImgRepository;
 import kr.yeoksi.ours.oursserver.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ public class PlaceService {
     private final PlaceRepository placeRepository;
     private final PlaceImgRepository placeImgRepository;
     private final HashtagAtPlaceRepository hashtagAtPlaceRepository;
+    private final PlaceBookmarkRepository placeBookmarkRepository;
 
     /**
      * id로 공간 조회하기.
@@ -59,5 +62,15 @@ public class PlaceService {
     public List<Hashtag> getHashtagList(Long id) {
 
         return hashtagAtPlaceRepository.findAllHashtagsMapping(id);
+    }
+
+    /**
+     * 유저가 공간을 북마크했는지 여부를 확인하기
+     */
+    public boolean checkBookmark(String userid, Long placeId) {
+
+        Optional<PlaceBookmark> placeBookmark = placeBookmarkRepository.findByIds(userid, placeId);
+        if(!placeBookmark.isPresent()) return false;
+        else return true;
     }
 }
