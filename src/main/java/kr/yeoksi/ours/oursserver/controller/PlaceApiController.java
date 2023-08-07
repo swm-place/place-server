@@ -1,6 +1,5 @@
 package kr.yeoksi.ours.oursserver.controller;
 
-import kr.yeoksi.ours.oursserver.domain.Hashtag;
 import kr.yeoksi.ours.oursserver.domain.Place;
 import kr.yeoksi.ours.oursserver.domain.PlaceReview;
 import kr.yeoksi.ours.oursserver.domain.Response;
@@ -9,12 +8,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -38,7 +39,7 @@ public class PlaceApiController {
         List<String> placeImgUrlList = placeService.getImgUrlList(id);
 
         // 공간에 매핑된 해시태그 조회
-        List<Hashtag> hashtagList = placeService.getHashtagList(id);
+        List<String> hashtagList = placeService.getHashtagList(id);
 
         // 북마크 여부 확인
         boolean isBookmark = placeService.checkBookmark(uid, id);
@@ -57,6 +58,22 @@ public class PlaceApiController {
 
         // 공간에 매핑된 한줄평들 조회하기
         List<PlaceReview> placeReviewList = placeService.getAllPlaceReviewList(id);
+        List<PlaceReviewResponse> placeReviewResponseList = new ArrayList<>();
+        if(!CollectionUtils.isEmpty(placeReviewList)) {
+            for(PlaceReview placeReview : placeReviewList) {
+                placeReviewResponseList.add(
+                        new PlaceReviewResponse(
+                                placeReview.getId(),
+                                placeReview.getUser().getId(),
+                                placeReview.getUser().getNickname(),
+                                placeReview.getUser().getImgUrl(),
+                                placeReview.getContents(),
+                                placeReview.getCratedAt(),
+                                placeService.checkReviewFavorite(
+                                        placeReview.getUser().getId(),
+                                        placeReview.getId())));
+            }
+        }
 
         return ResponseEntity.ok().body(
                 Response.success(
@@ -70,7 +87,14 @@ public class PlaceApiController {
                                 place.getLocationCode(),
                                 place.getActivity(),
                                 place.getCreatedAt(),
-                                placeImgUrlList
+                                isBookmark,
+                                favorites,
+                                isFavorite,
+                                open,
+                                isOpen,
+                                hashtagList,
+                                placeImgUrlList,
+                                placeReviewResponseList
                         )));
     }
 
@@ -90,7 +114,30 @@ public class PlaceApiController {
         private Integer locationCode;
         private String activity;
         private LocalDateTime createdAt;
+        private boolean isBookamrk;
+        private int favorites;
+        private boolean isFavorite;
+        private int open;
+        private boolean isOpen;
 
+        private List<String> hashtagList;
         private List<String> placeImgUrlList;
+
+        private List<PlaceReviewResponse> placeReviewResponseList;
+    }
+
+    /**
+     * 공간 상세 조회 페이지에서 한줄평을 전달하기 위한 DTO
+     */
+    @Data
+    @AllArgsConstructor
+    static class PlaceReviewResponse {
+        private Long id;
+        private String userIndex;
+        private String userNickName;
+        private String userImgUrl;
+        private String contents;
+        private LocalDateTime createdAt;
+        private boolean isFavorite;
     }
 }

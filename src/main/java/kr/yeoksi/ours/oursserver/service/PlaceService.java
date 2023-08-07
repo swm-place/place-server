@@ -25,6 +25,7 @@ public class PlaceService {
     private final PlaceFavoriteRepository placeFavoriteRepository;
     private final PlaceOpenRepository placeOpenRepository;
     private final PlaceReviewRepository placeReviewRepository;
+    private final PlaceReviewFavoriteRepository placeReviewFavoriteRepository;
 
     /**
      * id로 공간 조회하기.
@@ -56,9 +57,18 @@ public class PlaceService {
     /**
      * 공간에 매핑된 모든 해시태그들을 조회하기.
      */
-    public List<Hashtag> getHashtagList(Long id) {
+    public List<String> getHashtagList(Long id) {
 
-        return hashtagAtPlaceRepository.findAllHashtagsMapping(id);
+        List<Hashtag> hashtagList = hashtagAtPlaceRepository.findAllHashtagsMapping(id);
+
+        List<String> hashtagNameList = new ArrayList<>();
+        if(!CollectionUtils.isEmpty(hashtagList)) {
+            for(Hashtag hashtag : hashtagList) {
+                hashtagNameList.add(hashtag.getName());
+            }
+        }
+
+        return hashtagNameList;
     }
 
     /**
@@ -113,6 +123,16 @@ public class PlaceService {
     public List<PlaceReview> getAllPlaceReviewList(Long id) {
 
         return placeReviewRepository.findAllByPlaceId(id);
+    }
+
+    /**
+     * 한줄평에 대한 좋아요 여부 확인하기
+     */
+    public boolean checkReviewFavorite(String userId, Long placeReviewId) {
+
+        Optional<PlaceReviewFavorite> placeReviewFavorite = placeReviewFavoriteRepository.findByIds(userId, placeReviewId);
+        if(!placeReviewFavorite.isPresent()) return false;
+        else return true;
     }
 
 }
