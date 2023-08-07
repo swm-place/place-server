@@ -34,4 +34,20 @@ public class PlaceFavoriteRepository {
                 .getResultList()
                 .size();
     }
+
+    /**
+     * 유저 아이디와 공간 아이디로 유저의 좋아요 여부 조회하부
+     */
+    public Optional<PlaceFavorite> findByIds(String userId, Long placeId) {
+
+        List<PlaceFavorite> placeFavorite = em.createQuery(
+                "SELECT f FROM PlaceFavorite f " +
+                        "WHERE f.user.id =: userId " +
+                        "AND f.place.id =: placeId ", PlaceFavorite.class)
+                .setParameter("userId", userId)
+                .setParameter("placeId", placeId)
+                .getResultList();
+
+        return placeFavorite.stream().findAny();
+    }
 }

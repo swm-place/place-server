@@ -45,6 +45,9 @@ public class PlaceApiController {
         // 해당 공간의 좋아요 개수 확인
         int favorites = placeService.getFavoriteCount(id);
 
+        // 유저의 좋아요 여부 확인
+        boolean isFavorite = placeService.checkFavorite(uid, id);
+
         return ResponseEntity.ok().body(
                 Response.success(
                         new PlaceResponse(

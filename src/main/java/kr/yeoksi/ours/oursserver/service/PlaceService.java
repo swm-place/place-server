@@ -52,7 +52,7 @@ public class PlaceService {
     }
 
     /**
-     * 공간에 매핑된 모든 해시태그들을 조회하기
+     * 공간에 매핑된 모든 해시태그들을 조회하기.
      */
     public List<Hashtag> getHashtagList(Long id) {
 
@@ -60,7 +60,7 @@ public class PlaceService {
     }
 
     /**
-     * 유저가 공간을 북마크했는지 여부를 확인하기
+     * 유저가 공간을 북마크했는지 여부를 확인하기.
      */
     public boolean checkBookmark(String userid, Long placeId) {
 
@@ -70,10 +70,20 @@ public class PlaceService {
     }
 
     /**
-     *
+     * 공간의 좋아요 개수 조회하기.
      */
     public int getFavoriteCount(Long id) {
 
         return placeFavoriteRepository.countFavorite(id);
+    }
+
+    /**
+     * 해당 공간에 대한 유저의 좋아요 여부 확인하기.
+     */
+    public boolean checkFavorite(String userId, Long placeId) {
+
+        Optional<PlaceFavorite> placeFavorite = placeFavoriteRepository.findByIds(userId, placeId);
+        if(!placeFavorite.isPresent()) return false;
+        else return true;
     }
 }

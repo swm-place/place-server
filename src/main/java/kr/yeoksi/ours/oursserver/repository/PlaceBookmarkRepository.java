@@ -22,7 +22,7 @@ public class PlaceBookmarkRepository {
     }
 
     /**
-     * 유저 아이디와 공간 아이디로 유저의 북마크 정보 조회하기
+     * 유저 아이디와 공간 아이디로 유저의 북마크 여부 조회하기
      */
     public Optional<PlaceBookmark> findByIds(String userId, Long placeId) {
 
