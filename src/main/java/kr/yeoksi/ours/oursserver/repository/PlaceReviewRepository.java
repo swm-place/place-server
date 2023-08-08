@@ -32,4 +32,17 @@ public class PlaceReviewRepository {
                 .setParameter("placeId", placeId)
                 .getResultList();
     }
+
+    /**
+     * 공간에 매핑된 한줄평을 주어진 개수만큼 조회하기
+     */
+    public List<PlaceReview> findByPlaceId(Long placeId, int reviewCount) {
+
+        return em.createQuery(
+                "SELECT r FROM PlaceReview  r " +
+                        "WHERE r.place.id =: placeId", PlaceReview.class)
+                .setParameter("placeId", placeId)
+                .setMaxResults(reviewCount)
+                .getResultList();
+    }
 }

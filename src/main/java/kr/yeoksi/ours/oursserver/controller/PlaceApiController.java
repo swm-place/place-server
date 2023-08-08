@@ -9,10 +9,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -30,7 +27,8 @@ public class PlaceApiController {
     @GetMapping("/place/{placeIndex}")
     public ResponseEntity<Response<PlaceResponse>> readPlace(
             @RequestHeader("X-User-Uid") String uid,
-            @PathVariable("placeIndex") Long id) {
+            @PathVariable("placeIndex") Long id,
+            @RequestParam("reviewCount") int reviewCount) {
 
         // 공간 정보 조회
         Place place = placeService.findById(id);
@@ -57,7 +55,7 @@ public class PlaceApiController {
         boolean isOpen = placeService.checkOpen(uid, id);
 
         // 공간에 매핑된 한줄평들 조회하기
-        List<PlaceReview> placeReviewList = placeService.getAllPlaceReviewList(id);
+        List<PlaceReview> placeReviewList = placeService.getPlaceReviewList(id, reviewCount);
         List<PlaceReviewResponse> placeReviewResponseList = new ArrayList<>();
         if(!CollectionUtils.isEmpty(placeReviewList)) {
             for(PlaceReview placeReview : placeReviewList) {

@@ -126,6 +126,14 @@ public class PlaceService {
     }
 
     /**
+     * 해당 공간에 매핑된 한줄평을 주어진 개수만큼 조회하기
+     */
+    public List<PlaceReview> getPlaceReviewList(Long id, int reviewCount) {
+
+        return placeReviewRepository.findByPlaceId(id, reviewCount);
+    }
+
+    /**
      * 한줄평에 대한 좋아요 여부 확인하기
      */
     public boolean checkReviewFavorite(String userId, Long placeReviewId) {
