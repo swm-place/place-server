@@ -3,9 +3,8 @@ package kr.yeoksi.ours.oursserver.controller;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import kr.yeoksi.ours.oursserver.domain.Response;
-import kr.yeoksi.ours.oursserver.domain.TermsOfService;
-import kr.yeoksi.ours.oursserver.domain.User;
+import kr.yeoksi.ours.oursserver.domain.*;
+import kr.yeoksi.ours.oursserver.service.PlaceService;
 import kr.yeoksi.ours.oursserver.service.TermService;
 import kr.yeoksi.ours.oursserver.service.UserService;
 import lombok.AllArgsConstructor;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,6 +24,7 @@ public class UserApiController {
 
     private final UserService userService;
     private final TermService termService;
+    private final PlaceService placeService;
 
     /**
      * 회원 가입
@@ -143,6 +144,117 @@ public class UserApiController {
     }
 
     /**
+     * 공간 북마크하기.
+     */
+    @PostMapping("/user/{userIndex}/place-bookmark")
+    public ResponseEntity<Response<PlaceBookmarkResponse>> createPlaceBookmark(
+            @PathVariable("userIndex") @NotBlank String userId,
+            @RequestBody @Valid CreatePlaceBookmarkRequest request) {
+
+        User user = userService.findById(userId);
+        Place place = placeService.findById(request.getPlaceId());
+        userService.createPlaceBookmark(user,place);
+
+        boolean isBookmark = placeService.checkBookmark(userId, request.getPlaceId());
+
+        return ResponseEntity.ok().body(
+                Response.success(
+                        new PlaceBookmarkResponse(
+                                isBookmark
+                        )
+                )
+        );
+    }
+
+    /**
+     * 공간 북마크 삭제하기.
+     */
+    @DeleteMapping("/user/{userIndex}/place-bookmark/{placeIndex}")
+    public ResponseEntity<Response<PlaceBookmarkResponse>> deletePlaceBookmark(
+            @PathVariable("userIndex") @NotBlank String userId,
+            @PathVariable("placeIndex") @NotNull Long placeId) {
+
+        User user = userService.findById(userId);
+        Place place = placeService.findById(placeId);
+        userService.deletePlaceBookmark(user, place);
+
+        boolean isBookmark = placeService.checkBookmark(userId, placeId);
+
+        return ResponseEntity.ok().body(
+                Response.success(
+                        new PlaceBookmarkResponse(
+                                isBookmark
+                        )
+                )
+        );
+    }
+
+    /**
+     * 유저가 북마크한 공간 조회하기.
+     */
+    @GetMapping("/user/{userIndex}/place-bookmark")
+    public ResponseEntity<Response<List<ReadPlaceBookmarkResponse>>> readPlaceBookmarks(
+            @PathVariable("userIndex") @NotBlank String userId) {
+
+        User user = userService.findById(userId);
+        List<PlaceBookmark> bookmarkedPlaces = userService.readAllPlaceBookmark(user);
+
+        return ResponseEntity.ok().body(
+                Response.success(
+                        bookmarkedPlaces.stream().map(
+                                b -> new ReadPlaceBookmarkResponse(
+                                        b.getPlace().getId(),
+                                        b.getPlace().getName()))
+                                .collect(Collectors.toList())));
+    }
+
+    /**
+     * 공간 좋아요 누르기.
+     */
+    @PostMapping("/user/{userIndex}/place-favorite")
+    public ResponseEntity<Response<PlaceFavoriteResponse>> createPlaceFavorite(
+            @PathVariable("userIndex") @NotBlank String userId,
+            @RequestBody @Valid CreatePlaceFavoriteRequest request) {
+
+        User user = userService.findById(userId);
+        Place place = placeService.findById(request.getPlaceId());
+        userService.createPlaceFavorite(user, place);
+
+        boolean isFavorite = placeService.checkFavorite(userId, request.getPlaceId());
+
+        return ResponseEntity.ok().body(
+                Response.success(
+                        new PlaceFavoriteResponse(
+                                isFavorite
+                        )
+                )
+        );
+    }
+
+    /**
+     * 공간 좋아요 삭제하기.
+     */
+    @DeleteMapping("/user/{userIndex}/place-favorite/{placeIndex}")
+    public ResponseEntity<Response<PlaceFavoriteResponse>> deletePlaceFavorite(
+            @PathVariable("userIndex") @NotBlank String userId,
+            @PathVariable("placeIndex") @NotNull Long placeId) {
+
+        User user = userService.findById(userId);
+        Place place = placeService.findById(placeId);
+        userService.deletePlaceFavorite(user, place);
+
+        boolean isFavorite = placeService.checkFavorite(userId, placeId);
+
+        return ResponseEntity.ok().body(
+                Response.success(
+                        new PlaceFavoriteResponse(
+                                isFavorite
+                        )
+                )
+        );
+    }
+
+    /**
      * 회원가입에 필요한 정보를 받아오기 위한 DTO
      */
     @Data
@@ -194,9 +306,13 @@ public class UserApiController {
         private LocalDateTime birthday;
     }
 
+    /**
+     * 이용약관 리스트 조회의 응답을 위한 DTO
+     */
     @Data
     @AllArgsConstructor
     static class TermResponse {
+
         private Long id;
         private String title;
         private String contents;
@@ -204,5 +320,56 @@ public class UserApiController {
         private Integer version;
         private boolean required;
         private LocalDateTime createdAt;
+    }
+
+    /**
+     * 공간 북마크하기의 요청을 위한 DTO
+     */
+    @Data
+    static class CreatePlaceBookmarkRequest {
+
+        @NotNull
+        private Long placeId;
+    }
+
+    /**
+     * 공간 북마크하기/삭제의 응답을 위한 DTO
+     */
+    @Data
+    @AllArgsConstructor
+    static class PlaceBookmarkResponse {
+
+        private boolean isBookmark;
+    }
+
+    /**
+     * 유저가 북마크한 공간 응답을 위한 DTO
+     */
+    @Data
+    @AllArgsConstructor
+    static class ReadPlaceBookmarkResponse {
+
+        private Long placeId;
+        private String placeName;
+    }
+
+    /**
+     * 공간 좋아요 누르기/삭제하기의 응답을 위한 DTO
+     */
+    @Data
+    @AllArgsConstructor
+    static class PlaceFavoriteResponse {
+
+        private boolean isFavorite;
+    }
+
+    /**
+     * 공간 좋아요 누르기의 요청을 위한 DTO
+     */
+    @Data
+    static class CreatePlaceFavoriteRequest {
+
+        @NotNull
+        private Long placeId;
     }
 }

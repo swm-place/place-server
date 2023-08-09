@@ -1,13 +1,9 @@
 package kr.yeoksi.ours.oursserver.service;
 
 import kr.yeoksi.ours.oursserver.controller.UserApiController;
-import kr.yeoksi.ours.oursserver.domain.TermAgreement;
-import kr.yeoksi.ours.oursserver.domain.TermsOfService;
-import kr.yeoksi.ours.oursserver.domain.User;
+import kr.yeoksi.ours.oursserver.domain.*;
 import kr.yeoksi.ours.oursserver.exception.*;
-import kr.yeoksi.ours.oursserver.repository.TermsAgreementRepository;
-import kr.yeoksi.ours.oursserver.repository.TermsOfServiceRepository;
-import kr.yeoksi.ours.oursserver.repository.UserRepository;
+import kr.yeoksi.ours.oursserver.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +21,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final TermsOfServiceRepository termsOfServiceRepository;
     private final TermsAgreementRepository termsAgreementRepository;
+    private final PlaceBookmarkRepository placeBookmarkRepository;
+    private final PlaceFavoriteRepository placeFavoriteRepository;
 
     /**
      * 회원 가입
@@ -98,5 +96,63 @@ public class UserService {
     public List<TermsOfService> readAllTerms() {
 
         return termsOfServiceRepository.readAllTerms();
+    }
+
+    /**
+     * 공간에 북마크 누르기
+     */
+    @Transactional
+    public void createPlaceBookmark(User user, Place place) {
+
+        Optional<PlaceBookmark> placeBookmark = placeBookmarkRepository.findByIds(user.getId(), place.getId());
+        if(placeBookmark.isPresent()) throw new DuplicatedPlaceBookmarkException(ErrorCode.DUPLICATED_PLACE_BOOKMARK);
+
+        PlaceBookmark newPlaceBookmark = new PlaceBookmark(user, place);
+        placeBookmarkRepository.save(newPlaceBookmark);
+    }
+
+    /**
+     * 공간 북마크 삭제하기
+     */
+    @Transactional
+    public void deletePlaceBookmark(User user, Place place) {
+
+        Optional<PlaceBookmark> placeBookmark = placeBookmarkRepository.findByIds(user.getId(), place.getId());
+        if(!placeBookmark.isPresent()) throw new NotExistedPlaceBookmarkException(ErrorCode.NOT_EXISTED_PLACE_BOOKMARK);
+
+        placeBookmarkRepository.delete(placeBookmark.get());
+    }
+
+    /**
+     * 유저가 북마크한 공간 리스트 조회하기
+     */
+    public List<PlaceBookmark> readAllPlaceBookmark(User user) {
+
+        return placeBookmarkRepository.findAllBookmarkedPlace(user.getId());
+    }
+
+    /**
+     * 공간에 좋아요 누르기
+     */
+    @Transactional
+    public void createPlaceFavorite(User user, Place place) {
+
+        Optional<PlaceFavorite> placeFavorite = placeFavoriteRepository.findByIds(user.getId(), place.getId());
+        if(placeFavorite.isPresent()) throw new DuplicatedPlaceFavoriteException(ErrorCode.DUPLICATED_PLACE_FAVORITE);
+
+        PlaceFavorite newPlaceFavorite = new PlaceFavorite(user, place);
+        placeFavoriteRepository.save(newPlaceFavorite);
+    }
+
+    /**
+     * 공간 좋아요 삭제하기
+     */
+    @Transactional
+    public void deletePlaceFavorite(User user, Place place) {
+
+        Optional<PlaceFavorite> placeFavorite = placeFavoriteRepository.findByIds(user.getId(), place.getId());
+        if(!placeFavorite.isPresent()) throw new NotExistedPlaceFavoriteException(ErrorCode.NOT_EXISTED_PLACE_FAVORITE);
+
+        placeFavoriteRepository.delete(placeFavorite.get());
     }
 }

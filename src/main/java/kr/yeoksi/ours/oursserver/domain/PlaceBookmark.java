@@ -3,6 +3,7 @@ package kr.yeoksi.ours.oursserver.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -12,6 +13,7 @@ import static jakarta.persistence.FetchType.*;
 
 @Entity
 @Getter @Setter
+@NoArgsConstructor
 @Table(
         uniqueConstraints = {
                 @UniqueConstraint(
@@ -36,4 +38,9 @@ public class PlaceBookmark {
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    public PlaceBookmark(User user, Place place) {
+        this.user = user;
+        this.place = place;
+    }
 }
