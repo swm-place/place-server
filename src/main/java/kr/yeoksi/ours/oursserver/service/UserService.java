@@ -124,4 +124,12 @@ public class UserService {
 
         placeBookmarkRepository.delete(placeBookmark.get());
     }
+
+    /**
+     * 유저가 북마크한 공간 리스트 조회하기
+     */
+    public List<PlaceBookmark> readAllPlaceBookmark(User user) {
+
+        return placeBookmarkRepository.findAllBookmarkedPlace(user.getId());
+    }
 }

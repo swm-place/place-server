@@ -1,6 +1,7 @@
 package kr.yeoksi.ours.oursserver.repository;
 
 import jakarta.persistence.EntityManager;
+import kr.yeoksi.ours.oursserver.domain.Place;
 import kr.yeoksi.ours.oursserver.domain.PlaceBookmark;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -43,5 +44,20 @@ public class PlaceBookmarkRepository {
     public void delete(PlaceBookmark placeBookmark) {
 
         em.remove(placeBookmark);
+    }
+
+    /**
+     * 유저가 북마크한 공간 리스트 조회하기
+     */
+    public List<PlaceBookmark> findAllBookmarkedPlace(String userId) {
+
+        return em.createQuery(
+                "SELECT DISTINCT b FROM User u " +
+                        "JOIN u.placeBookmarks b " +
+                        "JOIN FETCH b.place p " +
+                        "WHERE u.id =: userId " +
+                        "ORDER BY b.id", PlaceBookmark.class)
+                .setParameter("userId", userId)
+                .getResultList();
     }
 }

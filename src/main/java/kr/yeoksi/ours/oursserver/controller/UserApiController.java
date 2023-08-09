@@ -3,10 +3,7 @@ package kr.yeoksi.ours.oursserver.controller;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import kr.yeoksi.ours.oursserver.domain.Place;
-import kr.yeoksi.ours.oursserver.domain.Response;
-import kr.yeoksi.ours.oursserver.domain.TermsOfService;
-import kr.yeoksi.ours.oursserver.domain.User;
+import kr.yeoksi.ours.oursserver.domain.*;
 import kr.yeoksi.ours.oursserver.service.PlaceService;
 import kr.yeoksi.ours.oursserver.service.TermService;
 import kr.yeoksi.ours.oursserver.service.UserService;
@@ -19,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -192,6 +190,25 @@ public class UserApiController {
     }
 
     /**
+     * 유저가 북마크한 공간 조회하기.
+     */
+    @GetMapping("/user/{userIndex}/place-bookmark")
+    public ResponseEntity<Response<List<ReadPlaceBookmarkResponse>>> readPlaceBookmarks(
+            @PathVariable("userIndex") @NotBlank String userId) {
+
+        User user = userService.findById(userId);
+        List<PlaceBookmark> bookmarkedPlaces = userService.readAllPlaceBookmark(user);
+
+        return ResponseEntity.ok().body(
+                Response.success(
+                        bookmarkedPlaces.stream().map(
+                                b -> new ReadPlaceBookmarkResponse(
+                                        b.getPlace().getId(),
+                                        b.getPlace().getName()))
+                                .collect(Collectors.toList())));
+    }
+
+    /**
      * 회원가입에 필요한 정보를 받아오기 위한 DTO
      */
     @Data
@@ -277,5 +294,16 @@ public class UserApiController {
     static class PlaceBookmarkResponse {
 
         private boolean isBookmark;
+    }
+
+    /**
+     * 유저가 북마크한 공간 응답을 위한 DTO
+     */
+    @Data
+    @AllArgsConstructor
+    static class ReadPlaceBookmarkResponse {
+
+        private Long placeId;
+        private String placeName;
     }
 }
