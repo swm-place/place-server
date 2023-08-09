@@ -1,12 +1,13 @@
 package kr.yeoksi.ours.oursserver.service;
 
 import kr.yeoksi.ours.oursserver.controller.UserApiController;
+import kr.yeoksi.ours.oursserver.domain.Place;
+import kr.yeoksi.ours.oursserver.domain.PlaceBookmark;
 import kr.yeoksi.ours.oursserver.domain.TermsOfService;
 import kr.yeoksi.ours.oursserver.domain.User;
-import kr.yeoksi.ours.oursserver.exception.DuplicatedEmailException;
-import kr.yeoksi.ours.oursserver.exception.DuplicatedNicknameException;
-import kr.yeoksi.ours.oursserver.exception.DuplicatedUserException;
-import kr.yeoksi.ours.oursserver.exception.NotExistedUserException;
+import kr.yeoksi.ours.oursserver.exception.*;
+import kr.yeoksi.ours.oursserver.repository.PlaceBookmarkRepository;
+import kr.yeoksi.ours.oursserver.repository.PlaceRepository;
 import kr.yeoksi.ours.oursserver.repository.TermsOfServiceRepository;
 import kr.yeoksi.ours.oursserver.repository.UserRepository;
 import org.junit.Test;
@@ -28,9 +29,15 @@ import static org.junit.Assert.*;
 public class UserServiceTest {
 
     @Autowired UserService userService;
+    @Autowired PlaceService placeService;
+
     @Autowired UserRepository userRepository;
     @Autowired
     TermsOfServiceRepository termsOfServiceRepository;
+    @Autowired
+    PlaceRepository placeRepository;
+    @Autowired
+    PlaceBookmarkRepository placeBookmarkRepository;
 
     @Test
     public void 회원가입() throws Exception {
@@ -190,5 +197,146 @@ public class UserServiceTest {
         // then
         assertEquals(user.getNickname(), "changedNickname");
         assertEquals(user.getPhoneNumber(), "010-1111-1111");
+    }
+
+    @Test
+    public void 공간_북마크하기() throws Exception {
+
+        // given
+
+        // 유저 정보 저장
+        User user = new User();
+        user.setId("sangjun");
+        user.setEmail("soma@gmail.com");
+        user.setNickname("testNickname");
+        user.setPhoneNumber("010-1234-5678");
+        user.setBirthday(LocalDateTime.now());
+        userRepository.save(user);
+
+        // 공간 정보 저장
+        Place place = new Place();
+        place.setUser(user);
+        place.setName("테스트네임");
+        place.setAddress("테스트주소");
+        place.setLongitude(127.0);
+        place.setLatitude(37.0);
+        place.setLocationCode(333);
+        placeRepository.save(place);
+
+
+        // when
+        userService.createPlaceBookmark(user, place);
+        boolean isBookmark = placeService.checkBookmark(user.getId(), place.getId());
+
+        // then
+        assertEquals(isBookmark, true);
+    }
+
+    @Test(expected = DuplicatedPlaceBookmarkException.class)
+    public void 공간_북마크_중복_예외() throws Exception {
+
+        // given
+
+        // 유저 정보 저장
+        User user = new User();
+        user.setId("sangjun");
+        user.setEmail("soma@gmail.com");
+        user.setNickname("testNickname");
+        user.setPhoneNumber("010-1234-5678");
+        user.setBirthday(LocalDateTime.now());
+        userRepository.save(user);
+
+        // 공간 정보 저장
+        Place place = new Place();
+        place.setUser(user);
+        place.setName("테스트네임");
+        place.setAddress("테스트주소");
+        place.setLongitude(127.0);
+        place.setLatitude(37.0);
+        place.setLocationCode(333);
+        placeRepository.save(place);
+
+
+        // when
+        userService.createPlaceBookmark(user, place);
+        userService.createPlaceBookmark(user, place); // 여기서 오류 발생.
+
+
+        // then
+        // expected = DuplicatedPlaceBookmarkException에 의한 중복 북마크 오류 발생 검증.
+    }
+
+    @Test
+    public void 공간_북마크_삭제하기() throws Exception {
+
+        // given
+
+        // 유저 정보 저장
+        User user = new User();
+        user.setId("sangjun");
+        user.setEmail("soma@gmail.com");
+        user.setNickname("testNickname");
+        user.setPhoneNumber("010-1234-5678");
+        user.setBirthday(LocalDateTime.now());
+        userRepository.save(user);
+
+        // 공간 정보 저장
+        Place place = new Place();
+        place.setUser(user);
+        place.setName("테스트네임");
+        place.setAddress("테스트주소");
+        place.setLongitude(127.0);
+        place.setLatitude(37.0);
+        place.setLocationCode(333);
+        placeRepository.save(place);
+
+        // 북마크 정보 저장
+        PlaceBookmark placeBookmark = new PlaceBookmark(user, place);
+        placeBookmarkRepository.save(placeBookmark);
+
+
+        // when
+        boolean isBookmarkBefore = placeService.checkBookmark(user.getId(), place.getId());
+
+        userService.deletePlaceBookmark(user, place);
+
+        boolean isBookmarkAfter = placeService.checkBookmark(user.getId(), place.getId());
+
+        // then
+        assertEquals(isBookmarkBefore, true);
+        assertEquals(isBookmarkAfter, false);
+    }
+
+    @Test(expected = NotExistedPlaceBookmarkException.class)
+    public void 없는_북마크_삭제_예외() throws Exception {
+
+        // given
+
+        // 유저 정보 저장
+        User user = new User();
+        user.setId("sangjun");
+        user.setEmail("soma@gmail.com");
+        user.setNickname("testNickname");
+        user.setPhoneNumber("010-1234-5678");
+        user.setBirthday(LocalDateTime.now());
+        userRepository.save(user);
+
+        // 공간 정보 저장
+        Place place = new Place();
+        place.setUser(user);
+        place.setName("테스트네임");
+        place.setAddress("테스트주소");
+        place.setLongitude(127.0);
+        place.setLatitude(37.0);
+        place.setLocationCode(333);
+        placeRepository.save(place);
+
+
+        // when
+        userService.deletePlaceBookmark(user, place); // 여기서 오류 발생.
+
+
+        // then
+        // expected = NotExistedPlaceBookmarkException에 의한 존재하지 않는 북마크 삭제 오류 발생 검증.
     }
 }

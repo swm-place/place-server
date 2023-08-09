@@ -179,8 +179,6 @@ public class PlaceServiceTest {
 
         // 북마크 정보 저장
         PlaceBookmark placeBookmark = new PlaceBookmark(user, place);
-        //placeBookmark.setUser(user);
-        //placeBookmark.setPlace(place);
         placeBookmarkRepository.save(placeBookmark);
 
         // when

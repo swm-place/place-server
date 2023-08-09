@@ -50,4 +50,18 @@ public class ExceptionManager {
         return ResponseEntity.status(e.getErrorCode().getStatus())
                 .body(Response.error(e.getErrorCode().getMessage()));
     }
+
+    @ExceptionHandler(DuplicatedPlaceBookmarkException.class)
+    public ResponseEntity<?> duplicatedPlaceBookmarkException(DuplicatedPlaceBookmarkException e) {
+
+        return ResponseEntity.status(e.getErrorCode().getStatus())
+                .body(Response.error(e.getErrorCode().getMessage()));
+    }
+
+    @ExceptionHandler(NotExistedPlaceBookmarkException.class)
+    public ResponseEntity<?> notExistedPlaceBookmarkException(NotExistedPlaceBookmarkException e) {
+
+        return ResponseEntity.status(e.getErrorCode().getStatus())
+                .body(Response.error(e.getErrorCode().getMessage()));
+    }
 }

@@ -106,7 +106,22 @@ public class UserService {
     @Transactional
     public void createPlaceBookmark(User user, Place place) {
 
-        PlaceBookmark placeBookmark = new PlaceBookmark(user, place);
-        placeBookmarkRepository.save(placeBookmark);
+        Optional<PlaceBookmark> placeBookmark = placeBookmarkRepository.findByIds(user.getId(), place.getId());
+        if(placeBookmark.isPresent()) throw new DuplicatedPlaceBookmarkException(ErrorCode.DUPLICATED_PLACE_BOOKMARK);
+
+        PlaceBookmark newPlaceBookmark = new PlaceBookmark(user, place);
+        placeBookmarkRepository.save(newPlaceBookmark);
+    }
+
+    /**
+     * 공간 북마크 삭제하기
+     */
+    @Transactional
+    public void deletePlaceBookmark(User user, Place place) {
+
+        Optional<PlaceBookmark> placeBookmark = placeBookmarkRepository.findByIds(user.getId(), place.getId());
+        if(!placeBookmark.isPresent()) throw new NotExistedPlaceBookmarkException(ErrorCode.NOT_EXISTED_PLACE_BOOKMARK);
+
+        placeBookmarkRepository.delete(placeBookmark.get());
     }
 }

@@ -36,4 +36,12 @@ public class PlaceBookmarkRepository {
 
         return placeBookmark.stream().findAny();
     }
+
+    /**
+     * 북마크 삭제하기
+     */
+    public void delete(PlaceBookmark placeBookmark) {
+
+        em.remove(placeBookmark);
+    }
 }

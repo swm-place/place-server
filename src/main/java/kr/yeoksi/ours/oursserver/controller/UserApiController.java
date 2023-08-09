@@ -149,8 +149,8 @@ public class UserApiController {
      * 공간 북마크하기.
      */
     @PostMapping("/user/{userIndex}/place-bookmark")
-    public ResponseEntity<Response<CreatePlaceBookmarkResponse>> createPlaceBookmark(
-            @PathVariable("userIndex") @NotNull String userId,
+    public ResponseEntity<Response<PlaceBookmarkResponse>> createPlaceBookmark(
+            @PathVariable("userIndex") @NotBlank String userId,
             @RequestBody @Valid CreatePlaceBookmarkRequest request) {
 
         User user = userService.findById(userId);
@@ -161,7 +161,30 @@ public class UserApiController {
 
         return ResponseEntity.ok().body(
                 Response.success(
-                        new CreatePlaceBookmarkResponse(
+                        new PlaceBookmarkResponse(
+                                isBookmark
+                        )
+                )
+        );
+    }
+
+    /**
+     * 공간 북마크 삭제하기.
+     */
+    @DeleteMapping("/user/{userIndex}/place-bookmark/{placeIndex}")
+    public ResponseEntity<Response<PlaceBookmarkResponse>> deletePlaceBookmark(
+            @PathVariable("userIndex") @NotBlank String userId,
+            @PathVariable("placeIndex") @NotNull Long placeId) {
+
+        User user = userService.findById(userId);
+        Place place = placeService.findById(placeId);
+        userService.deletePlaceBookmark(user, place);
+
+        boolean isBookmark = placeService.checkBookmark(userId, placeId);
+
+        return ResponseEntity.ok().body(
+                Response.success(
+                        new PlaceBookmarkResponse(
                                 isBookmark
                         )
                 )
@@ -247,11 +270,11 @@ public class UserApiController {
     }
 
     /**
-     * 공간 북마크하기의 응답을 위한 DTO
+     * 공간 북마크하기/삭제의 응답을 위한 DTO
      */
     @Data
     @AllArgsConstructor
-    static class CreatePlaceBookmarkResponse {
+    static class PlaceBookmarkResponse {
 
         private boolean isBookmark;
     }
