@@ -45,19 +45,18 @@ public class Place {
     private String address;
 
     @NotNull
-    private Double longitude;
+    private double longitude;
 
     @NotNull
-    private Double latitude;
+    private double latitude;
 
     @NotNull
     @Column(name = "location_code")
-    private Integer locationCode;
+    private int locationCode;
 
     @Column(columnDefinition = "TEXT")
     private String activity;
 
-    @NotNull
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;

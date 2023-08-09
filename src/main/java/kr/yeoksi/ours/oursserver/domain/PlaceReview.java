@@ -33,7 +33,6 @@ public class PlaceReview {
     @Size(max = 150)
     private String contents;
 
-    @NotNull
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime cratedAt;

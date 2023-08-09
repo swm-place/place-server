@@ -27,7 +27,6 @@ public class PlaceToPlace {
     @JoinColumn(name = "transportaion_index")
     private Transportation transportation;
 
-    @NotNull
     @Column(name = "required_time")
     private Integer requiredTime;
 }

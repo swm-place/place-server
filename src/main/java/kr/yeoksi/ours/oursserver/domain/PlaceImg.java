@@ -27,7 +27,6 @@ public class PlaceImg {
     @Column(name = "img_url")
     private String imgUrl;
 
-    @NotNull
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;

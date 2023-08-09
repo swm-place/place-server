@@ -39,7 +39,6 @@ public class Course {
     @Column(name = "is_finished", columnDefinition = "TINYINT(1)")
     private boolean isFinished;
 
-    @NotNull
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;

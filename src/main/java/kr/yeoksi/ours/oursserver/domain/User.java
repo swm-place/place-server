@@ -39,7 +39,7 @@ public class User {
     @NotNull
     @ColumnDefault("true")
     @Column(columnDefinition = "TINYINT(1)")
-    private Integer gender;
+    private int gender;
 
     @NotNull
     private LocalDateTime birthday;
@@ -47,12 +47,10 @@ public class User {
     @Column(name = "img_url")
     private String imgUrl;
 
-    @NotNull
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @NotNull
     @CreationTimestamp
     @Column(name = "last_login_at")
     private LocalDateTime lastLoginAt;
