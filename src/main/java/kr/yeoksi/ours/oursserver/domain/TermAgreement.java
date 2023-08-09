@@ -26,7 +26,6 @@ public class TermAgreement {
     @JoinColumn(name = "term_index")
     private TermsOfService termsOfService;
 
-    @NotNull
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;

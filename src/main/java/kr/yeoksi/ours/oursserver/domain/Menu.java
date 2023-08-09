@@ -27,7 +27,7 @@ public class Menu {
     private String name;
 
     @NotNull
-    private Integer price;
+    private int price;
 
     @Column(name = "img_url")
     private String imgUrl;

@@ -36,14 +36,13 @@ public class TermsOfService {
     private String type;
 
     @NotNull
-    private Integer version;
+    private int version;
 
     @NotNull
     @ColumnDefault("true")
     @Column(columnDefinition = "TINYINT(1)")
     private boolean required;
 
-    @NotNull
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;

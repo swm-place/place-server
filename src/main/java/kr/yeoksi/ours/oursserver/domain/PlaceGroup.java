@@ -22,7 +22,6 @@ public class PlaceGroup {
     @JoinColumn(name = "user_index")
     private User user;
 
-    @NotNull
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;

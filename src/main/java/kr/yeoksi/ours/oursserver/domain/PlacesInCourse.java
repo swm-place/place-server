@@ -28,22 +28,19 @@ public class PlacesInCourse {
 
     @NotNull
     @Column(name = "visit_order")
-    private Integer visitOrder;
+    private int visitOrder;
 
-    // 필요 없나?
     @Column(name = "start_at")
     private LocalDateTime startAt;
 
-    // 필요 없나?
     @Column(name = "time_required")
-    private Integer timeRequired;
+    private int timeRequired;
 
-    private Integer day;
+    private int day;
 
     @Column(name = "transportation_time")
-    private Integer transportationTime;
+    private int transportationTime;
 
-    @NotNull
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
