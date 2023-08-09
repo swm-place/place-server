@@ -3,9 +3,11 @@ package kr.yeoksi.ours.oursserver.controller;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import kr.yeoksi.ours.oursserver.domain.Place;
 import kr.yeoksi.ours.oursserver.domain.Response;
 import kr.yeoksi.ours.oursserver.domain.TermsOfService;
 import kr.yeoksi.ours.oursserver.domain.User;
+import kr.yeoksi.ours.oursserver.service.PlaceService;
 import kr.yeoksi.ours.oursserver.service.TermService;
 import kr.yeoksi.ours.oursserver.service.UserService;
 import lombok.AllArgsConstructor;
@@ -24,6 +26,7 @@ public class UserApiController {
 
     private final UserService userService;
     private final TermService termService;
+    private final PlaceService placeService;
 
     /**
      * 회원 가입
@@ -143,6 +146,29 @@ public class UserApiController {
     }
 
     /**
+     * 공간 북마크하기.
+     */
+    @PostMapping("/user/{userIndex}/place-bookmark")
+    public ResponseEntity<Response<CreatePlaceBookmarkResponse>> createPlaceBookmark(
+            @PathVariable("userIndex") @NotNull String userId,
+            @RequestBody @Valid CreatePlaceBookmarkRequest request) {
+
+        User user = userService.findById(userId);
+        Place place = placeService.findById(request.getPlaceId());
+        userService.createPlaceBookmark(user,place);
+
+        boolean isBookmark = placeService.checkBookmark(userId, request.getPlaceId());
+
+        return ResponseEntity.ok().body(
+                Response.success(
+                        new CreatePlaceBookmarkResponse(
+                                isBookmark
+                        )
+                )
+        );
+    }
+
+    /**
      * 회원가입에 필요한 정보를 받아오기 위한 DTO
      */
     @Data
@@ -194,9 +220,13 @@ public class UserApiController {
         private LocalDateTime birthday;
     }
 
+    /**
+     * 이용약관 리스트 조회의 응답을 위한 DTO
+     */
     @Data
     @AllArgsConstructor
     static class TermResponse {
+
         private Long id;
         private String title;
         private String contents;
@@ -204,5 +234,25 @@ public class UserApiController {
         private Integer version;
         private boolean required;
         private LocalDateTime createdAt;
+    }
+
+    /**
+     * 공간 북마크하기의 요청을 위한 DTO
+     */
+    @Data
+    static class CreatePlaceBookmarkRequest {
+
+        @NotNull
+        private Long placeId;
+    }
+
+    /**
+     * 공간 북마크하기의 응답을 위한 DTO
+     */
+    @Data
+    @AllArgsConstructor
+    static class CreatePlaceBookmarkResponse {
+
+        private boolean isBookmark;
     }
 }

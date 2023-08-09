@@ -1,10 +1,9 @@
 package kr.yeoksi.ours.oursserver.service;
 
 import kr.yeoksi.ours.oursserver.controller.UserApiController;
-import kr.yeoksi.ours.oursserver.domain.TermAgreement;
-import kr.yeoksi.ours.oursserver.domain.TermsOfService;
-import kr.yeoksi.ours.oursserver.domain.User;
+import kr.yeoksi.ours.oursserver.domain.*;
 import kr.yeoksi.ours.oursserver.exception.*;
+import kr.yeoksi.ours.oursserver.repository.PlaceBookmarkRepository;
 import kr.yeoksi.ours.oursserver.repository.TermsAgreementRepository;
 import kr.yeoksi.ours.oursserver.repository.TermsOfServiceRepository;
 import kr.yeoksi.ours.oursserver.repository.UserRepository;
@@ -25,6 +24,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final TermsOfServiceRepository termsOfServiceRepository;
     private final TermsAgreementRepository termsAgreementRepository;
+    private final PlaceBookmarkRepository placeBookmarkRepository;
 
     /**
      * 회원 가입
@@ -98,5 +98,15 @@ public class UserService {
     public List<TermsOfService> readAllTerms() {
 
         return termsOfServiceRepository.readAllTerms();
+    }
+
+    /**
+     * 공간에 북마크 누르기
+     */
+    @Transactional
+    public void createPlaceBookmark(User user, Place place) {
+
+        PlaceBookmark placeBookmark = new PlaceBookmark(user, place);
+        placeBookmarkRepository.save(placeBookmark);
     }
 }

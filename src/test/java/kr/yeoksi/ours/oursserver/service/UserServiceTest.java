@@ -32,9 +32,6 @@ public class UserServiceTest {
     @Autowired
     TermsOfServiceRepository termsOfServiceRepository;
 
-    /**
-     * 회원 가입
-     */
     @Test
     public void 회원가입() throws Exception {
 
@@ -67,9 +64,6 @@ public class UserServiceTest {
         assertEquals(user, userRepository.findById(savedUserId).get());
     }
 
-    /**
-     * 중복 회원 예외 확인
-     */
     @Test(expected = DuplicatedUserException.class)
     public void 중복_회원가입_예외() throws Exception {
 
@@ -102,9 +96,6 @@ public class UserServiceTest {
         // expected = DuplicatedUserException에 의한 중복 유저 오류 발생 검증.
     }
 
-    /**
-     * 이미 존재하는 이메일인지 확인
-     */
     @Test(expected = DuplicatedEmailException.class)
     public void 중복_이메일_예외() throws Exception {
 
@@ -130,9 +121,6 @@ public class UserServiceTest {
         // expected = DuplicatedEmailException에 의한 중복 이메일 오류 발생 검증.
     }
 
-    /**
-     * 없는 유저를 조회 예외
-     */
     @Test(expected = NotExistedUserException.class)
     public void 없는_유저_조회_예외() throws Exception {
 
@@ -147,11 +135,8 @@ public class UserServiceTest {
         // expected = NotExistedUserException에 의한 존재하지 않는 유저 오류 발생 검증.
     }
 
-    /**
-     * 닉네임 중복 확인
-     */
     @Test(expected = DuplicatedNicknameException.class)
-    public void 닉네임_중복() throws Exception {
+    public void 닉네임_중복_확인() throws Exception {
 
         // given
         User user = new User();
@@ -175,9 +160,6 @@ public class UserServiceTest {
         // expected = DuplicatedNicknameException에 의한 중복 닉네임 오류 발생 검증.
     }
 
-    /**
-     * 유저 정보 수정
-     */
     @Test
     public void 유저_정보_수정() throws Exception {
 
