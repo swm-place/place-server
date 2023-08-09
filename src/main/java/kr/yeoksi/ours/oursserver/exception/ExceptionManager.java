@@ -71,4 +71,11 @@ public class ExceptionManager {
         return ResponseEntity.status(e.getErrorCode().getStatus())
                 .body(Response.error(e.getErrorCode().getMessage()));
     }
+
+    @ExceptionHandler(NotExistedPlaceFavoriteException.class)
+    public ResponseEntity<?> notExistedPlaceFavoriteExceptions(NotExistedPlaceFavoriteException e) {
+
+        return ResponseEntity.status(e.getErrorCode().getStatus())
+                .body(Response.error(e.getErrorCode().getMessage()));
+    }
 }

@@ -232,6 +232,29 @@ public class UserApiController {
     }
 
     /**
+     * 공간 좋아요 삭제하기.
+     */
+    @DeleteMapping("/user/{userIndex}/place-favorite/{placeIndex}")
+    public ResponseEntity<Response<PlaceFavoriteResponse>> deletePlaceFavorite(
+            @PathVariable("userIndex") @NotBlank String userId,
+            @PathVariable("placeIndex") @NotNull Long placeId) {
+
+        User user = userService.findById(userId);
+        Place place = placeService.findById(placeId);
+        userService.deletePlaceFavorite(user, place);
+
+        boolean isFavorite = placeService.checkFavorite(userId, placeId);
+
+        return ResponseEntity.ok().body(
+                Response.success(
+                        new PlaceFavoriteResponse(
+                                isFavorite
+                        )
+                )
+        );
+    }
+
+    /**
      * 회원가입에 필요한 정보를 받아오기 위한 DTO
      */
     @Data

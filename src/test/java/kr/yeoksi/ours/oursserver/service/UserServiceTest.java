@@ -1,15 +1,9 @@
 package kr.yeoksi.ours.oursserver.service;
 
 import kr.yeoksi.ours.oursserver.controller.UserApiController;
-import kr.yeoksi.ours.oursserver.domain.Place;
-import kr.yeoksi.ours.oursserver.domain.PlaceBookmark;
-import kr.yeoksi.ours.oursserver.domain.TermsOfService;
-import kr.yeoksi.ours.oursserver.domain.User;
+import kr.yeoksi.ours.oursserver.domain.*;
 import kr.yeoksi.ours.oursserver.exception.*;
-import kr.yeoksi.ours.oursserver.repository.PlaceBookmarkRepository;
-import kr.yeoksi.ours.oursserver.repository.PlaceRepository;
-import kr.yeoksi.ours.oursserver.repository.TermsOfServiceRepository;
-import kr.yeoksi.ours.oursserver.repository.UserRepository;
+import kr.yeoksi.ours.oursserver.repository.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +32,8 @@ public class UserServiceTest {
     PlaceRepository placeRepository;
     @Autowired
     PlaceBookmarkRepository placeBookmarkRepository;
+    @Autowired
+    PlaceFavoriteRepository placeFavoriteRepository;
 
     @Test
     public void 회원가입() throws Exception {
@@ -454,5 +450,79 @@ public class UserServiceTest {
 
         // then
         // expected = DuplicatedPlaceFavoriteException에 의한 중복 좋아요 오류 발생 검증.
+    }
+
+    @Test
+    public void 공간_좋아요_삭제하기() throws Exception {
+
+        // given
+
+        // 유저 정보 저장
+        User user = new User();
+        user.setId("sangjun");
+        user.setEmail("soma@gmail.com");
+        user.setNickname("testNickname");
+        user.setPhoneNumber("010-1234-5678");
+        user.setBirthday(LocalDateTime.now());
+        userRepository.save(user);
+
+        // 공간 정보 저장
+        Place place = new Place();
+        place.setUser(user);
+        place.setName("테스트네임");
+        place.setAddress("테스트주소");
+        place.setLongitude(127.0);
+        place.setLatitude(37.0);
+        place.setLocationCode(333);
+        placeRepository.save(place);
+
+        // 좋아요 정보 저장
+        PlaceFavorite placeFavorite = new PlaceFavorite(user, place);
+        placeFavoriteRepository.save(placeFavorite);
+
+
+        // when
+        boolean isFavoriteBefore = placeService.checkFavorite(user.getId(), place.getId());
+
+        userService.deletePlaceFavorite(user, place);
+
+        boolean isFavoriteAfter = placeService.checkFavorite(user.getId(), place.getId());
+
+        // then
+        assertEquals(isFavoriteBefore, true);
+        assertEquals(isFavoriteAfter, false);
+    }
+
+    @Test(expected = NotExistedPlaceFavoriteException.class)
+    public void 없는_좋아요_삭제_예외() throws Exception {
+
+        // given
+
+        // 유저 정보 저장
+        User user = new User();
+        user.setId("sangjun");
+        user.setEmail("soma@gmail.com");
+        user.setNickname("testNickname");
+        user.setPhoneNumber("010-1234-5678");
+        user.setBirthday(LocalDateTime.now());
+        userRepository.save(user);
+
+        // 공간 정보 저장
+        Place place = new Place();
+        place.setUser(user);
+        place.setName("테스트네임");
+        place.setAddress("테스트주소");
+        place.setLongitude(127.0);
+        place.setLatitude(37.0);
+        place.setLocationCode(333);
+        placeRepository.save(place);
+
+
+        // when
+        userService.deletePlaceFavorite(user, place); // 여기서 오류 발생.
+
+
+        // then
+        // expected = NotExistedPlaceFavoriteException에 의한 존재하지 않는 좋아요 삭제 오류 발생 검증.
     }
 }

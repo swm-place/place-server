@@ -144,4 +144,15 @@ public class UserService {
         placeFavoriteRepository.save(newPlaceFavorite);
     }
 
+    /**
+     * 공간 좋아요 삭제하기
+     */
+    @Transactional
+    public void deletePlaceFavorite(User user, Place place) {
+
+        Optional<PlaceFavorite> placeFavorite = placeFavoriteRepository.findByIds(user.getId(), place.getId());
+        if(!placeFavorite.isPresent()) throw new NotExistedPlaceFavoriteException(ErrorCode.NOT_EXISTED_PLACE_FAVORITE);
+
+        placeFavoriteRepository.delete(placeFavorite.get());
+    }
 }

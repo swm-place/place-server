@@ -50,4 +50,12 @@ public class PlaceFavoriteRepository {
 
         return placeFavorite.stream().findAny();
     }
+
+    /**
+     * 좋아요 삭제하기
+     */
+    public void delete(PlaceFavorite placeFavorite) {
+
+        em.remove(placeFavorite);
+    }
 }
