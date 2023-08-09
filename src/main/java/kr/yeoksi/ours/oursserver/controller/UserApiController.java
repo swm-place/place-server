@@ -209,6 +209,29 @@ public class UserApiController {
     }
 
     /**
+     * 공간 좋아요 누르기.
+     */
+    @PostMapping("/user/{userIndex}/place-favorite")
+    public ResponseEntity<Response<PlaceFavoriteResponse>> createPlaceFavorite(
+            @PathVariable("userIndex") @NotBlank String userId,
+            @RequestBody @Valid CreatePlaceFavoriteRequest request) {
+
+        User user = userService.findById(userId);
+        Place place = placeService.findById(request.getPlaceId());
+        userService.createPlaceFavorite(user, place);
+
+        boolean isFavorite = placeService.checkFavorite(userId, request.getPlaceId());
+
+        return ResponseEntity.ok().body(
+                Response.success(
+                        new PlaceFavoriteResponse(
+                                isFavorite
+                        )
+                )
+        );
+    }
+
+    /**
      * 회원가입에 필요한 정보를 받아오기 위한 DTO
      */
     @Data
@@ -305,5 +328,25 @@ public class UserApiController {
 
         private Long placeId;
         private String placeName;
+    }
+
+    /**
+     * 공간 좋아요 누르기/삭제하기의 응답을 위한 DTO
+     */
+    @Data
+    @AllArgsConstructor
+    static class PlaceFavoriteResponse {
+
+        private boolean isFavorite;
+    }
+
+    /**
+     * 공간 좋아요 누르기의 요청을 위한 DTO
+     */
+    @Data
+    static class CreatePlaceFavoriteRequest {
+
+        @NotNull
+        private Long placeId;
     }
 }

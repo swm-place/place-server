@@ -64,4 +64,11 @@ public class ExceptionManager {
         return ResponseEntity.status(e.getErrorCode().getStatus())
                 .body(Response.error(e.getErrorCode().getMessage()));
     }
+
+    @ExceptionHandler(DuplicatedPlaceFavoriteException.class)
+    public ResponseEntity<?> duplicatedPlaceFavoriteException(DuplicatedPlaceFavoriteException e) {
+
+        return ResponseEntity.status(e.getErrorCode().getStatus())
+                .body(Response.error(e.getErrorCode().getMessage()));
+    }
 }

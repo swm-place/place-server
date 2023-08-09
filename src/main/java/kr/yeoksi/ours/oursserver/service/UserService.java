@@ -3,10 +3,7 @@ package kr.yeoksi.ours.oursserver.service;
 import kr.yeoksi.ours.oursserver.controller.UserApiController;
 import kr.yeoksi.ours.oursserver.domain.*;
 import kr.yeoksi.ours.oursserver.exception.*;
-import kr.yeoksi.ours.oursserver.repository.PlaceBookmarkRepository;
-import kr.yeoksi.ours.oursserver.repository.TermsAgreementRepository;
-import kr.yeoksi.ours.oursserver.repository.TermsOfServiceRepository;
-import kr.yeoksi.ours.oursserver.repository.UserRepository;
+import kr.yeoksi.ours.oursserver.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +22,7 @@ public class UserService {
     private final TermsOfServiceRepository termsOfServiceRepository;
     private final TermsAgreementRepository termsAgreementRepository;
     private final PlaceBookmarkRepository placeBookmarkRepository;
+    private final PlaceFavoriteRepository placeFavoriteRepository;
 
     /**
      * 회원 가입
@@ -132,4 +130,18 @@ public class UserService {
 
         return placeBookmarkRepository.findAllBookmarkedPlace(user.getId());
     }
+
+    /**
+     * 공간에 좋아요 누르기
+     */
+    @Transactional
+    public void createPlaceFavorite(User user, Place place) {
+
+        Optional<PlaceFavorite> placeFavorite = placeFavoriteRepository.findByIds(user.getId(), place.getId());
+        if(placeFavorite.isPresent()) throw new DuplicatedPlaceFavoriteException(ErrorCode.DUPLICATED_PLACE_FAVORITE);
+
+        PlaceFavorite newPlaceFavorite = new PlaceFavorite(user, place);
+        placeFavoriteRepository.save(newPlaceFavorite);
+    }
+
 }

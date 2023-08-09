@@ -388,4 +388,71 @@ public class UserServiceTest {
         assertEquals(placeBookmarkList.get(0), placeBookmark);
         assertEquals(placeBookmarkList.get(1), placeBookmark2);
     }
+
+    @Test
+    public void 공간_좋아요_누르기() throws Exception {
+
+        // given
+
+        // 유저 정보 저장
+        User user = new User();
+        user.setId("sangjun");
+        user.setEmail("soma@gmail.com");
+        user.setNickname("testNickname");
+        user.setPhoneNumber("010-1234-5678");
+        user.setBirthday(LocalDateTime.now());
+        userRepository.save(user);
+
+        // 공간 정보 저장
+        Place place = new Place();
+        place.setUser(user);
+        place.setName("테스트네임");
+        place.setAddress("테스트주소");
+        place.setLongitude(127.0);
+        place.setLatitude(37.0);
+        place.setLocationCode(333);
+        placeRepository.save(place);
+
+
+        // when
+        userService.createPlaceFavorite(user, place);
+        boolean isFavorite = placeService.checkFavorite(user.getId(), place.getId());
+
+        // then
+        assertEquals(isFavorite, true);
+    }
+
+    @Test(expected = DuplicatedPlaceFavoriteException.class)
+    public void 공간_좋아요_중복_예외() throws Exception {
+
+        // given
+
+        // 유저 정보 저장
+        User user = new User();
+        user.setId("sangjun");
+        user.setEmail("soma@gmail.com");
+        user.setNickname("testNickname");
+        user.setPhoneNumber("010-1234-5678");
+        user.setBirthday(LocalDateTime.now());
+        userRepository.save(user);
+
+        // 공간 정보 저장
+        Place place = new Place();
+        place.setUser(user);
+        place.setName("테스트네임");
+        place.setAddress("테스트주소");
+        place.setLongitude(127.0);
+        place.setLatitude(37.0);
+        place.setLocationCode(333);
+        placeRepository.save(place);
+
+
+        // when
+        userService.createPlaceFavorite(user, place);
+        userService.createPlaceFavorite(user, place); // 여기서 오류 발생.
+
+
+        // then
+        // expected = DuplicatedPlaceFavoriteException에 의한 중복 좋아요 오류 발생 검증.
+    }
 }
