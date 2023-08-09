@@ -20,6 +20,7 @@ public class HeaderFilter extends OncePerRequestFilter {
 
         // uid와 email에 대한 유효성 검사 로직
         if(uid == null || uid.isEmpty() || email == null || email.isEmpty()) {
+            System.out.println("uid와 email에 대한 유효성 검사를 통과하지 못했습니다.");
             logger.debug("uid와 email에 대한 유효성 검사를 통과하지 못했습니다.");
         }
 

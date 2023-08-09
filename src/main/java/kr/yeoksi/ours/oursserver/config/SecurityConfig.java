@@ -30,7 +30,7 @@ public class SecurityConfig {
             .httpBasic(AbstractHttpConfigurer::disable);
 
         http
-            .addFilterBefore(new HeaderFilter(), AbstractPreAuthenticatedProcessingFilter.class);
+         .addFilterBefore(new HeaderFilter(), AbstractPreAuthenticatedProcessingFilter.class);
 
         return http.build();
     }

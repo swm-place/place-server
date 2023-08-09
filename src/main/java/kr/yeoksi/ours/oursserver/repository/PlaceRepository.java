@@ -14,6 +14,14 @@ public class PlaceRepository {
     private final EntityManager em;
 
     /**
+     * 공간 저장하기.
+     */
+    public Long save(Place place) {
+        em.persist(place);
+        return place.getId();
+    }
+
+    /**
      * id로 공간 조회하기.
      */
     public Optional<Place> findById(Long id) {
