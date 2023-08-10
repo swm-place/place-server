@@ -54,12 +54,12 @@ pipeline {
                     --link $MARIADB_TEST_HOST:$MARIADB_TEST_HOST \
                     $DOCKER_IMAGE_NAME'
                 sh 'docker cp ${DOCKER_IMAGE_NAME}-build:/project/build ./project/build'
-                sh 'docker rm ${DOCKER_IMAGE_NAME}-build'
             }
             post {
                 always {
                     echo '🚀 Cleaning up...'
                     sh 'docker stop $MARIADB_TEST_HOST'
+                    sh 'docker rm -f ${DOCKER_IMAGE_NAME}-build'
                 }
                 success {
                     echo '☀️ Successfully built!'
