@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         MARIADB_TEST_HOST = 'mariadb-test'
-        MARIADB_TEST_PORT = '3307'
+        MARIADB_TEST_PORT = '3306'
         MARIADB_TEST_ROOT_PASSWORD = 'root'
         MARIADB_TEST_DATABASE = 'ours'
         MARIADB_TEST_USER = 'tester'
@@ -43,20 +43,24 @@ pipeline {
                     mariadb:10.5.18'
 
                 echo '🚀 Testing and Building...'
-                sh 'docker buildx build \
-                    --build-arg MARIADB_HOST=$MARIADB_TEST_HOST \
-                    --build-arg MARIADB_PORT=$MARIADB_TEST_PORT \
-                    --build-arg MARIADB_USERNAME=$MARIADB_TEST_USER \
-                    --build-arg MARIADB_PASSWORD=$MARIADB_TEST_USER_PASSWORD \
-                    --platform=linux/arm64 \
-                    --target build \
-                    -t $DOCKER_IMAGE_NAME \
-                    .'
+                sh 'docker buildx build --platform=linux/arm64 --target build -t $DOCKER_IMAGE_NAME .'
+                sh 'rm -rf ./project'
+                sh 'mkdir ./project'
+                sh 'docker run \
+                    --name ${DOCKER_IMAGE_NAME}-build \
+                    -e MARIADB_HOST=$MARIADB_TEST_HOST \
+                    -e MARIADB_PORT=$MARIADB_TEST_PORT \
+                    -e MARIADB_USERNAME=$MARIADB_TEST_USER \
+                    -e MARIADB_PASSWORD=$MARIADB_TEST_USER_PASSWORD \
+                    --link $MARIADB_TEST_HOST:$MARIADB_TEST_HOST \
+                    $DOCKER_IMAGE_NAME'
+                sh 'docker cp ${DOCKER_IMAGE_NAME}-build:/project/build ./project/build'
             }
             post {
                 always {
                     echo '🚀 Cleaning up...'
-                    sh 'docker stop mariadb-test'
+                    sh 'docker stop $MARIADB_TEST_HOST'
+                    sh 'docker rm -f ${DOCKER_IMAGE_NAME}-build'
                 }
                 success {
                     echo '☀️ Successfully built!'
@@ -96,7 +100,7 @@ pipeline {
                     $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com'
 
                 echo '🚀 Pushing to ECR...'
-                sh 'docker tag been-api-gateway-scg:latest \
+                sh 'docker tag $DOCKER_IMAGE_NAME:latest \
                     $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$DOCKER_IMAGE_NAME:latest'
                 sh 'docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$DOCKER_IMAGE_NAME:latest'
             }
