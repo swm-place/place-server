@@ -44,6 +44,7 @@ pipeline {
 
                 echo '🚀 Testing and Building...'
                 sh 'docker buildx build --platform=linux/arm64 --target build -t $DOCKER_IMAGE_NAME .'
+                sh 'rm -rf ./project'
                 sh 'docker run \
                     --rm \
                     --name ${DOCKER_IMAGE_NAME}-build \
@@ -51,7 +52,7 @@ pipeline {
                     -e MARIADB_PORT=$MARIADB_TEST_PORT \
                     -e MARIADB_USERNAME=$MARIADB_TEST_USER \
                     -e MARIADB_PASSWORD=$MARIADB_TEST_USER_PASSWORD \
-                    -v ./project/build:/project/build \
+                    -v $(pwd)/project/build:/project/build \
                     --link $MARIADB_TEST_HOST:$MARIADB_TEST_HOST \
                     $DOCKER_IMAGE_NAME'
             }
