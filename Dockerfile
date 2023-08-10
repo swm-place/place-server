@@ -15,7 +15,7 @@ RUN echo Asia/Seoul > /etc/timezone
 WORKDIR /project
 COPY --from=source project .
 
-ENTRYPOINT ["./gradlew", "clean", "build"]
+ENTRYPOINT ["./gradlew", "build"]
 
 
 # RUNNER
