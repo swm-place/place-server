@@ -46,7 +46,6 @@ pipeline {
                 sh 'docker buildx build --platform=linux/arm64 --target build -t $DOCKER_IMAGE_NAME .'
                 sh 'rm -rf ./project'
                 sh 'docker run \
-                    --rm \
                     --name ${DOCKER_IMAGE_NAME}-build \
                     -e MARIADB_HOST=$MARIADB_TEST_HOST \
                     -e MARIADB_PORT=$MARIADB_TEST_PORT \
@@ -54,8 +53,9 @@ pipeline {
                     -e MARIADB_PASSWORD=$MARIADB_TEST_USER_PASSWORD \
                     -v $(pwd)/project/build:/project/build \
                     --link $MARIADB_TEST_HOST:$MARIADB_TEST_HOST \
-                    --user $(id -u):$(id -g) \
                     $DOCKER_IMAGE_NAME'
+                sh 'docker cp ${DOCKER_IMAGE_NAME}-build:/project/build ./project/build'
+                sh 'docker rm ${DOCKER_IMAGE_NAME}-build'
             }
             post {
                 always {
