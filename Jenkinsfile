@@ -54,6 +54,7 @@ pipeline {
                     -e MARIADB_PASSWORD=$MARIADB_TEST_USER_PASSWORD \
                     -v $(pwd)/project/build:/project/build \
                     --link $MARIADB_TEST_HOST:$MARIADB_TEST_HOST \
+                    --user $(id -u):$(id -g) \
                     $DOCKER_IMAGE_NAME'
             }
             post {
