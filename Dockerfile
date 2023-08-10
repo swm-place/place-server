@@ -29,6 +29,6 @@ VOLUME /tmp
 WORKDIR /project
 
 ARG JAR_FILE=project/build/libs/*.jar
-COPY --from=build ${JAR_FILE} app.jar
+COPY ${JAR_FILE} app.jar
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
