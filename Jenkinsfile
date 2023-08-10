@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         MARIADB_TEST_HOST = 'mariadb-test'
-        MARIADB_TEST_PORT = '3307'
+        MARIADB_TEST_PORT = '3306'
         MARIADB_TEST_ROOT_PASSWORD = 'root'
         MARIADB_TEST_DATABASE = 'ours'
         MARIADB_TEST_USER = 'tester'
