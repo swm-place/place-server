@@ -12,6 +12,11 @@ FROM azul/zulu-openjdk-alpine:17-jre-latest AS build
 RUN ln -snf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 RUN echo Asia/Seoul > /etc/timezone
 
+ARG MARIADB_HOST
+ARG MARIADB_PORT
+ARG MARIADB_USERNAME
+ARG MARIADB_PASSWORD
+
 WORKDIR /project
 COPY --from=source project .
 
