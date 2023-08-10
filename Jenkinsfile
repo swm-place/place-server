@@ -51,7 +51,6 @@ pipeline {
                     -e MARIADB_PORT=$MARIADB_TEST_PORT \
                     -e MARIADB_USERNAME=$MARIADB_TEST_USER \
                     -e MARIADB_PASSWORD=$MARIADB_TEST_USER_PASSWORD \
-                    -v $(pwd)/project/build:/project/build \
                     --link $MARIADB_TEST_HOST:$MARIADB_TEST_HOST \
                     $DOCKER_IMAGE_NAME'
                 sh 'docker cp ${DOCKER_IMAGE_NAME}-build:/project/build ./project/build'
