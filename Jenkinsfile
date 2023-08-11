@@ -124,7 +124,7 @@ pipeline {
             }
             steps {
                 echo '🚀 Deploying to dev server...'
-                sh 'aws ecs update-service --cluster $AWS_BEEN_ECS_CLUSTER_NAME --service $AWS_BEEN_ECS_GATEWAY_SERVICE_NAME --force-new-deployment'
+                sh 'aws ecs update-service --cluster $AWS_BEEN_ECS_CLUSTER_NAME --service $AWS_BEEN_ECS_API_MAIN_SERVICE_NAME --force-new-deployment'
             }
             post {
                 success {
