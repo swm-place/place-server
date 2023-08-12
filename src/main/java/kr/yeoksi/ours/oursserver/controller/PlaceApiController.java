@@ -139,3 +139,5 @@ public class PlaceApiController {
         private boolean isFavorite;
     }
 }
+
+// db 캐릭터셋 변경 테스트
