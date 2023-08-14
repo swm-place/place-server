@@ -28,7 +28,7 @@ public class User {
 
     @NotBlank
     @Column(unique = true, length = 20)
-    @Size(min = 3, max = 10)
+    @Size(min = 3, max = 20)
     private String nickname;
 
     @NotBlank
@@ -57,9 +57,6 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Course> courses;
-
-    @OneToMany(mappedBy = "user")
-    private List<PlaceGroup> placeGroups;
 
     @OneToMany(mappedBy = "user")
     private List<PlaceFavorite> placeFavorites;

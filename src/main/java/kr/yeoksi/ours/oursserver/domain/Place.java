@@ -74,9 +74,6 @@ public class Place {
     private List<PlaceFavorite> placeFavorites = new ArrayList<>();
 
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
-    private List<PlaceBookmark> placeBookmarks = new ArrayList<>();
-
-    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
     private List<PlaceOpen> placeOpens = new ArrayList<>();
 
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
