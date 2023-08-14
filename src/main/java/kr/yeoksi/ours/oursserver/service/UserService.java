@@ -23,6 +23,7 @@ public class UserService {
     private final TermsAgreementRepository termsAgreementRepository;
     private final PlaceBookmarkRepository placeBookmarkRepository;
     private final PlaceFavoriteRepository placeFavoriteRepository;
+    private final PlacesInBookmarkRepository placesInBookmarkRepository;
 
     /**
      * 회원 가입
@@ -99,21 +100,52 @@ public class UserService {
     }
 
     /**
-     * 공간에 북마크 누르기
+     * 공간 북마크 그룹 생성하기.
      */
     @Transactional
-    public void createPlaceBookmark(User user, Place place) {
+    public Long createPlaceBookmark(PlaceBookmark placeBookmark) {
 
-        Optional<PlaceBookmark> placeBookmark = placeBookmarkRepository.findByIds(user.getId(), place.getId());
-        if(placeBookmark.isPresent()) throw new DuplicatedPlaceBookmarkException(ErrorCode.DUPLICATED_PLACE_BOOKMARK);
+        placeBookmarkRepository.save(placeBookmark);
+        return placeBookmark.getId();
+    }
 
-        PlaceBookmark newPlaceBookmark = new PlaceBookmark(user, place);
-        placeBookmarkRepository.save(newPlaceBookmark);
+    /**
+     * 공간 북마크 그룹 조회하기
+     */
+    public PlaceBookmark getPlaceBookmark(Long placeBookmarkId) {
+
+        Optional<PlaceBookmark> placeBookmark = placeBookmarkRepository.findById(placeBookmarkId);
+        if(!placeBookmark.isPresent()) throw new NotExistedPlaceBookmarkException(ErrorCode.NOT_EXISTED_PLACE_BOOKMARK);
+
+        return placeBookmark.get();
+    }
+
+    /**
+     * 공간 북마크 그룹 삭제하기
+     */
+    @Transactional
+    public void deletePlaceBookmark(PlaceBookmark placeBookmark) {
+
+        placeBookmarkRepository.delete(placeBookmark);
+    }
+
+    /**
+     * 공간 북마크하기
+     */
+    @Transactional
+    public Long createPlaceInBookmark(PlacesInBookmark placesInBookmark) {
+
+        Optional<PlacesInBookmark> checkPlaceInBookmark = placesInBookmarkRepository.findByIds(placesInBookmark.getPlace().getId(), placesInBookmark.getPlaceBookmark().getId());
+        if(checkPlaceInBookmark.isPresent()) throw new DuplicatedPlaceInBookmarkException(ErrorCode.DUPLICATED_PLACE_IN_BOOKMARK);
+
+        placesInBookmarkRepository.save(placesInBookmark);
+        return placesInBookmark.getId();
     }
 
     /**
      * 공간 북마크 삭제하기
      */
+    /*
     @Transactional
     public void deletePlaceBookmark(User user, Place place) {
 
@@ -122,15 +154,17 @@ public class UserService {
 
         placeBookmarkRepository.delete(placeBookmark.get());
     }
+     */
 
     /**
      * 유저가 북마크한 공간 리스트 조회하기
      */
+    /*
     public List<PlaceBookmark> readAllPlaceBookmark(User user) {
 
         return placeBookmarkRepository.findAllBookmarkedPlace(user.getId());
     }
-
+     */
     /**
      * 공간에 좋아요 누르기
      */

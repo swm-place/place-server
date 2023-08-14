@@ -78,4 +78,11 @@ public class ExceptionManager {
         return ResponseEntity.status(e.getErrorCode().getStatus())
                 .body(Response.error(e.getErrorCode().getMessage()));
     }
+
+    @ExceptionHandler(DuplicatedPlaceInBookmarkException.class)
+    public ResponseEntity<?> duplicatedPlaceInBookmarkException(DuplicatedPlaceInBookmarkException e) {
+
+        return ResponseEntity.status(e.getErrorCode().getStatus())
+                .body(Response.error(e.getErrorCode().getMessage()));
+    }
 }

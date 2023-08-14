@@ -16,15 +16,26 @@ public class PlaceBookmarkRepository {
     private final EntityManager em;
 
     /**
-     * 유저의 북마크 정보 저장하기
+     * 유저의 북마크 그룹 생성하기.
      */
     public void save(PlaceBookmark placeBookmark) {
+
         em.persist(placeBookmark);
+    }
+
+    /**
+     * 공간 북마크 그룹 아이디로 조회하기.
+     */
+    public Optional<PlaceBookmark> findById(Long id) {
+
+        PlaceBookmark placeBookmark = em.find(PlaceBookmark.class, id);
+        return Optional.ofNullable(placeBookmark);
     }
 
     /**
      * 유저 아이디와 공간 아이디로 유저의 북마크 여부 조회하기
      */
+    /*
     public Optional<PlaceBookmark> findByIds(String userId, Long placeId) {
 
         List<PlaceBookmark> placeBookmark =  em.createQuery(
@@ -38,8 +49,10 @@ public class PlaceBookmarkRepository {
         return placeBookmark.stream().findAny();
     }
 
+     */
+
     /**
-     * 북마크 삭제하기
+     * 공간 북마크 그룹 삭제하기
      */
     public void delete(PlaceBookmark placeBookmark) {
 
@@ -49,6 +62,7 @@ public class PlaceBookmarkRepository {
     /**
      * 유저가 북마크한 공간 리스트 조회하기
      */
+    /*
     public List<PlaceBookmark> findAllBookmarkedPlace(String userId) {
 
         return em.createQuery(
@@ -60,4 +74,6 @@ public class PlaceBookmarkRepository {
                 .setParameter("userId", userId)
                 .getResultList();
     }
+
+     */
 }

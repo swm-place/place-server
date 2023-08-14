@@ -1,26 +1,20 @@
 package kr.yeoksi.ours.oursserver.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static jakarta.persistence.FetchType.*;
 
 @Entity
 @Getter @Setter
-@NoArgsConstructor
-@Table(
-        uniqueConstraints = {
-                @UniqueConstraint(
-                        columnNames = {"place_index", "user_index"}
-                )
-        }
-)
 public class PlaceBookmark {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,19 +22,18 @@ public class PlaceBookmark {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "place_index")
-    private Place place;
-
-    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_index")
     private User user;
+
+    @NotBlank
+    @Column(length = 50)
+    @Size(min = 3, max = 50)
+    private String title;
 
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    public PlaceBookmark(User user, Place place) {
-        this.user = user;
-        this.place = place;
-    }
+    @OneToMany(mappedBy = "placeBookmark", cascade = CascadeType.ALL)
+    private List<PlacesInBookmark> placesInBookmarks;
 }

@@ -146,52 +146,6 @@ public class PlaceServiceTest {
     }
 
     @Test
-    public void 유저가_공간을_북마크했는지_확인() {
-
-        // given
-
-        // 유저 정보 저장
-        User user = new User();
-        user.setId("sangjun");
-        user.setEmail("soma@gmail.com");
-        user.setNickname("testNickname");
-        user.setPhoneNumber("010-1234-5678");
-        user.setBirthday(LocalDateTime.now());
-
-        User user2 = new User();
-        user2.setId("sangjun2");
-        user2.setEmail("soma2@gmail.com");
-        user2.setNickname("testNickname2");
-        user2.setPhoneNumber("010-1234-5673");
-        user2.setBirthday(LocalDateTime.now());
-        userRepository.save(user);
-        userRepository.save(user2);
-
-        // 공간 정보 저장
-        Place place = new Place();
-        place.setUser(user);
-        place.setName("테스트네임");
-        place.setAddress("테스트주소");
-        place.setLongitude(127.0);
-        place.setLatitude(37.0);
-        place.setLocationCode(333);
-        placeRepository.save(place);
-
-        // 북마크 정보 저장
-        PlaceBookmark placeBookmark = new PlaceBookmark(user, place);
-        placeBookmarkRepository.save(placeBookmark);
-
-        // when
-        boolean check1 = placeService.checkBookmark(user.getId(), place.getId());
-        boolean check2 = placeService.checkBookmark(user2.getId(), place.getId());
-
-
-        // then
-        assertEquals(check1, true);
-        assertEquals(check2, false);
-    }
-
-    @Test
     public void 공간의_좋아요_개수_조회() {
 
         // given

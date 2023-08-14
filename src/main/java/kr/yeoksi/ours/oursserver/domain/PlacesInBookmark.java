@@ -1,7 +1,6 @@
 package kr.yeoksi.ours.oursserver.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -12,15 +11,26 @@ import static jakarta.persistence.FetchType.*;
 
 @Entity
 @Getter @Setter
-public class PlaceGroup {
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        columnNames = {"place_index", "place_bookmark_index"}
+                )
+        }
+)
+public class PlacesInBookmark {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "place_group_index")
+    @Column(name = "places_in_bookmark_index")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_index")
-    private User user;
+    @JoinColumn(name = "place_index")
+    private Place place;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "place_bookmark_index")
+    private PlaceBookmark placeBookmark;
 
     @CreationTimestamp
     @Column(name = "created_at")

@@ -144,23 +144,92 @@ public class UserApiController {
     }
 
     /**
-     * 공간 북마크하기.
+     * 공간 북마크 그룹 생성하기
      */
     @PostMapping("/user/{userIndex}/place-bookmark")
-    public ResponseEntity<Response<PlaceBookmarkResponse>> createPlaceBookmark(
+    public ResponseEntity<Response<CreatePlaceBookmarkResponse>> createPlaceBookmark(
             @PathVariable("userIndex") @NotBlank String userId,
             @RequestBody @Valid CreatePlaceBookmarkRequest request) {
 
         User user = userService.findById(userId);
-        Place place = placeService.findById(request.getPlaceId());
-        userService.createPlaceBookmark(user,place);
 
-        boolean isBookmark = placeService.checkBookmark(userId, request.getPlaceId());
+        PlaceBookmark placeBookmark = new PlaceBookmark();
+        placeBookmark.setUser(user);
+        placeBookmark.setTitle(request.getTitle());
+        Long savedBookmarkId = userService.createPlaceBookmark(placeBookmark);
 
         return ResponseEntity.ok().body(
                 Response.success(
-                        new PlaceBookmarkResponse(
-                                isBookmark
+                        new CreatePlaceBookmarkResponse(
+                                savedBookmarkId
+                        )
+                )
+        );
+    }
+
+    /**
+     * 유저의 공간 북마크 그룹 리스트 조회하기
+     */
+    @GetMapping("/user/{userIndex}/place-bookmark")
+    public ResponseEntity<Response<List<ReadPlaceBookmarkResponse>>> readPlaceBookmark(
+            @PathVariable("userIndex") @NotBlank String userId) {
+
+        User user = userService.findById(userId);
+
+        List<PlaceBookmark> placeBookmarkList = user.getPlaceBookmarks();
+        List<ReadPlaceBookmarkResponse> readPlaceBookmarkResponse
+                = placeBookmarkList.stream()
+                .map(
+                        b -> new ReadPlaceBookmarkResponse(
+                                b.getId(),
+                                b.getTitle()))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok().body(
+                Response.success(
+                        readPlaceBookmarkResponse
+                )
+        );
+    }
+
+    /**
+     * 공간 북마크 그룹 삭제하기
+     */
+    @DeleteMapping("/user/{userIndex}/place-bookmark/{placeBookmarkIndex}")
+    public ResponseEntity<Response<Void>> deletePlaceBookmark(
+            @PathVariable("userIndex") @NotBlank String userId,
+            @PathVariable("placeBookmarkIndex") @NotNull Long placeBookmarkId) {
+
+        PlaceBookmark placeBookmark = userService.getPlaceBookmark(placeBookmarkId);
+
+        userService.deletePlaceBookmark(placeBookmark);
+
+        return ResponseEntity.ok().body(
+                Response.success(null)
+        );
+    }
+
+    /**
+     * 공간 북마크하기.
+     */
+    @PostMapping("/place-bookmark/{placeBookmarkIndex}")
+    public ResponseEntity<Response<CreatePlaceInBookmarkResponse>> createPlaceInBookmark(
+            @PathVariable("placeBookmarkIndex") @NotNull Long placeBookmarkId,
+            @RequestBody @Valid CreatePlaceInBookmarkRequest request) {
+
+        PlaceBookmark placeBookmark = userService.getPlaceBookmark(placeBookmarkId);
+        Place place = placeService.findById(request.getPlaceId());
+
+        PlacesInBookmark placesInBookmark = new PlacesInBookmark();
+        placesInBookmark.setPlace(place);
+        placesInBookmark.setPlaceBookmark(placeBookmark);
+        Long savedPlaceBookmarkId = userService.createPlaceInBookmark(placesInBookmark);
+
+
+        return ResponseEntity.ok().body(
+                Response.success(
+                        new CreatePlaceInBookmarkResponse(
+                                savedPlaceBookmarkId
                         )
                 )
         );
@@ -169,6 +238,7 @@ public class UserApiController {
     /**
      * 공간 북마크 삭제하기.
      */
+    /*
     @DeleteMapping("/user/{userIndex}/place-bookmark/{placeIndex}")
     public ResponseEntity<Response<PlaceBookmarkResponse>> deletePlaceBookmark(
             @PathVariable("userIndex") @NotBlank String userId,
@@ -189,9 +259,12 @@ public class UserApiController {
         );
     }
 
+     */
+
     /**
      * 유저가 북마크한 공간 조회하기.
      */
+    /*
     @GetMapping("/user/{userIndex}/place-bookmark")
     public ResponseEntity<Response<List<ReadPlaceBookmarkResponse>>> readPlaceBookmarks(
             @PathVariable("userIndex") @NotBlank String userId) {
@@ -207,6 +280,7 @@ public class UserApiController {
                                         b.getPlace().getName()))
                                 .collect(Collectors.toList())));
     }
+     */
 
     /**
      * 공간 좋아요 누르기.
@@ -323,34 +397,24 @@ public class UserApiController {
     }
 
     /**
-     * 공간 북마크하기의 요청을 위한 DTO
+     * 공간 북마크 그룹 생성하기의 요청을 위한 DTO
      */
     @Data
     static class CreatePlaceBookmarkRequest {
 
-        @NotNull
-        private Long placeId;
+        @NotBlank
+        private String title;
     }
 
     /**
-     * 공간 북마크하기/삭제의 응답을 위한 DTO
-     */
-    @Data
-    @AllArgsConstructor
-    static class PlaceBookmarkResponse {
-
-        private boolean isBookmark;
-    }
-
-    /**
-     * 유저가 북마크한 공간 응답을 위한 DTO
+     * 유저의 북마크 그룹 리스트 조회하기의 응답을 위한 DTO
      */
     @Data
     @AllArgsConstructor
     static class ReadPlaceBookmarkResponse {
 
-        private Long placeId;
-        private String placeName;
+        private Long placeBookmarkId;
+        private String title;
     }
 
     /**
@@ -371,5 +435,35 @@ public class UserApiController {
 
         @NotNull
         private Long placeId;
+    }
+
+    /**
+     * 공간 북마크 그룹 생성하기의 응답을 위한 DTO
+     */
+    @Data
+    @AllArgsConstructor
+    static class CreatePlaceBookmarkResponse {
+
+        private Long placeBookmarkId;
+    }
+
+    /**
+     * 공간 북마크하기의 요청을 위한 DTO
+     */
+    @Data
+    static class CreatePlaceInBookmarkRequest {
+
+        @NotNull
+        private Long placeId;
+    }
+
+    /**
+     * 공간 북마크하기의 응답을 위한 DTO
+     */
+    @Data
+    @AllArgsConstructor
+    static class CreatePlaceInBookmarkResponse {
+
+        private Long placeInBookmarkId;
     }
 }

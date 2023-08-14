@@ -59,9 +59,6 @@ public class User {
     private List<Course> courses;
 
     @OneToMany(mappedBy = "user")
-    private List<PlaceGroup> placeGroups;
-
-    @OneToMany(mappedBy = "user")
     private List<PlaceFavorite> placeFavorites;
 
     @OneToMany(mappedBy = "user")

@@ -40,7 +40,7 @@ public class PlaceApiController {
         List<String> hashtagList = placeService.getHashtagList(id);
 
         // 북마크 여부 확인
-        boolean isBookmark = placeService.checkBookmark(uid, id);
+        //boolean isBookmark = placeService.checkBookmark(uid, id);
 
         // 해당 공간의 좋아요 개수 확인
         int favorites = placeService.getFavoriteCount(id);
@@ -85,7 +85,7 @@ public class PlaceApiController {
                                 place.getLocationCode(),
                                 place.getActivity(),
                                 place.getCreatedAt(),
-                                isBookmark,
+                                false,
                                 favorites,
                                 isFavorite,
                                 open,

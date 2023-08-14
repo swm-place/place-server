@@ -57,6 +57,9 @@ public class Place {
     @Column(columnDefinition = "TEXT CHARACTER SET UTF8")
     private String activity;
 
+    @Column(name = "img_url")
+    private String imgUrl;
+
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -69,9 +72,6 @@ public class Place {
 
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
     private List<PlaceFavorite> placeFavorites = new ArrayList<>();
-
-    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
-    private List<PlaceBookmark> placeBookmarks = new ArrayList<>();
 
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
     private List<PlaceOpen> placeOpens = new ArrayList<>();

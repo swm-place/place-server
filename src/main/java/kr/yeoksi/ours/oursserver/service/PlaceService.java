@@ -74,12 +74,15 @@ public class PlaceService {
     /**
      * 유저가 공간을 북마크했는지 여부를 확인하기.
      */
+    /*
     public boolean checkBookmark(String userid, Long placeId) {
 
         Optional<PlaceBookmark> placeBookmark = placeBookmarkRepository.findByIds(userid, placeId);
         if(!placeBookmark.isPresent()) return false;
         else return true;
     }
+
+     */
 
     /**
      * 공간의 좋아요 개수 조회하기.
