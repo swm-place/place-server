@@ -22,7 +22,7 @@ public class Menu {
     private Place place;
 
     @NotBlank
-    @Column(length = 30, columnDefinition = "VARCHAR(30) CHARACTER SET UTF8")
+    @Column(length = 30)
     @Size(max = 30)
     private String name;
 

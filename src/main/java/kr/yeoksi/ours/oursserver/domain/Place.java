@@ -27,11 +27,11 @@ public class Place {
     private User user;
 
     @NotBlank
-    @Column(length = 30, columnDefinition = "VARCHAR(30) CHARACTER SET UTF8")
+    @Column(length = 30)
     @Size(max = 30)
     private String name;
 
-    @Column(length = 20, columnDefinition = "VARCHAR(20) CHARACTER SET UTF8")
+    @Column(length = 20)
     @Size(max = 20)
     private String category;
 
@@ -40,7 +40,7 @@ public class Place {
     private String phoneNumber;
 
     @NotBlank
-    @Column(length = 100, columnDefinition = "VARCHAR(100) CHARACTER SET UTF8")
+    @Column(length = 100)
     @Size(max = 100)
     private String address;
 

@@ -29,7 +29,7 @@ public class PlaceReview {
     private User user;
 
     @NotBlank
-    @Column(length = 150, columnDefinition = "VARCHAR(150) CHARACTER SET UTF8")
+    @Column(length = 150)
     @Size(max = 150)
     private String contents;
 
