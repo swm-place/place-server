@@ -57,6 +57,9 @@ public class Place {
     @Column(columnDefinition = "TEXT")
     private String activity;
 
+    @Column(name = "img_url")
+    private String imgUrl;
+
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
