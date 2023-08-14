@@ -366,4 +366,79 @@ public class UserServiceTest {
         // then
         assertEquals(placeBookmark, placeBookmarkRepository.findById(savedBookmarkId).get());
     }
+
+    @Test
+    public void 공간_북마크_그룹_조회() throws Exception {
+
+        // given
+
+        // 유저 정보 저장
+        User user = new User();
+        user.setId("sangjun");
+        user.setEmail("soma@gmail.com");
+        user.setNickname("testNickname");
+        user.setPhoneNumber("010-1234-5678");
+        user.setBirthday(LocalDateTime.now());
+        userRepository.save(user);
+
+        // 공간 북마크 그룹 정보 저장
+        String title = "테스트타이틀";
+
+        PlaceBookmark placeBookmark = new PlaceBookmark();
+        placeBookmark.setUser(user);
+        placeBookmark.setTitle(title);
+        placeBookmarkRepository.save(placeBookmark);
+
+
+        // when
+        PlaceBookmark getPlaceBookmark = userService.getPlaceBookmark(placeBookmark.getId());
+
+
+        // then
+        assertEquals(getPlaceBookmark, placeBookmark);
+    }
+
+    @Test(expected = NotExistedPlaceBookmarkException.class)
+    public void 없는_공간_북마크_그룹_조회_예외() throws Exception {
+
+        // given
+
+
+        // when
+        PlaceBookmark placeBookmark = userService.getPlaceBookmark(324L);
+
+        // then
+        // expected = NotExistedPlaceBookmarkException에 의한 존재하지 않는 공간 북마크 그룹 조회 오류 발생 검증.
+    }
+
+    @Test(expected = NotExistedPlaceBookmarkException.class)
+    public void 공간_북마크_그룹_삭제() throws Exception {
+
+        // given
+
+        // 유저 정보 저장
+        User user = new User();
+        user.setId("sangjun");
+        user.setEmail("soma@gmail.com");
+        user.setNickname("testNickname");
+        user.setPhoneNumber("010-1234-5678");
+        user.setBirthday(LocalDateTime.now());
+        userRepository.save(user);
+
+        // 공간 북마크 그룹 정보 저장
+        String title = "테스트타이틀";
+
+        PlaceBookmark placeBookmark = new PlaceBookmark();
+        placeBookmark.setUser(user);
+        placeBookmark.setTitle(title);
+        placeBookmarkRepository.save(placeBookmark);
+
+
+        // when
+        userService.deletePlaceBookmark(placeBookmark);
+        userService.getPlaceBookmark(placeBookmark.getId());
+
+        // then
+        // expected = NotExistedPlaceBookmarkException에 의한 공간 북마크 그룹 삭제 성공 검증.
+    }
 }

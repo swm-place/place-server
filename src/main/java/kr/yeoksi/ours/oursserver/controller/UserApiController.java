@@ -193,6 +193,23 @@ public class UserApiController {
     }
 
     /**
+     * 공간 북마크 그룹 삭제하기
+     */
+    @DeleteMapping("/user/{userIndex}/place-bookmark/{placeBookmarkIndex}")
+    public ResponseEntity<Response<Void>> deletePlaceBookmark(
+            @PathVariable("userIndex") @NotBlank String userId,
+            @PathVariable("placeBookmarkIndex") @NotNull Long placeBookmarkId) {
+
+        PlaceBookmark placeBookmark = userService.getPlaceBookmark(placeBookmarkId);
+
+        userService.deletePlaceBookmark(placeBookmark);
+
+        return ResponseEntity.ok().body(
+                Response.success(null)
+        );
+    }
+
+    /**
      * 공간 북마크하기.
      */
     /*

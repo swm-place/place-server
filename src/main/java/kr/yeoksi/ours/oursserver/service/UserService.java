@@ -99,7 +99,7 @@ public class UserService {
     }
 
     /**
-     * 공간에 북마크 누르기
+     * 공간 북마크 그룹 생성하기.
      */
     @Transactional
     public Long createPlaceBookmark(PlaceBookmark placeBookmark) {
@@ -109,8 +109,28 @@ public class UserService {
     }
 
     /**
+     * 공간 북마크 그룹 조회하기
+     */
+    public PlaceBookmark getPlaceBookmark(Long placeBookmarkId) {
+
+        Optional<PlaceBookmark> placeBookmark = placeBookmarkRepository.findById(placeBookmarkId);
+        if(!placeBookmark.isPresent()) throw new NotExistedPlaceBookmarkException(ErrorCode.NOT_EXISTED_PLACE_BOOKMARK);
+
+        return placeBookmark.get();
+    }
+
+    /**
+     * 공간 북마크 그룹 삭제하기
+     */
+    public void deletePlaceBookmark(PlaceBookmark placeBookmark) {
+
+        placeBookmarkRepository.delete(placeBookmark);
+    }
+
+    /**
      * 공간 북마크 삭제하기
      */
+    /*
     @Transactional
     public void deletePlaceBookmark(User user, Place place) {
 
@@ -119,15 +139,17 @@ public class UserService {
 
         placeBookmarkRepository.delete(placeBookmark.get());
     }
+     */
 
     /**
      * 유저가 북마크한 공간 리스트 조회하기
      */
+    /*
     public List<PlaceBookmark> readAllPlaceBookmark(User user) {
 
         return placeBookmarkRepository.findAllBookmarkedPlace(user.getId());
     }
-
+     */
     /**
      * 공간에 좋아요 누르기
      */

@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static jakarta.persistence.FetchType.*;
 
@@ -32,4 +33,7 @@ public class PlaceBookmark {
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "placeBookmark", cascade = CascadeType.ALL)
+    private List<PlacesInBookmark> placesInBookmarks;
 }
