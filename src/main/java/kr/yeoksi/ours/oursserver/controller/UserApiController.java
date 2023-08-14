@@ -168,6 +168,31 @@ public class UserApiController {
     }
 
     /**
+     * 유저의 공간 북마크 그룹 리스트 조회하기
+     */
+    @GetMapping("/user/{userIndex}/place-bookmark")
+    public ResponseEntity<Response<List<ReadPlaceBookmarkResponse>>> readPlaceBookmark(
+            @PathVariable("userIndex") @NotBlank String userId) {
+
+        User user = userService.findById(userId);
+
+        List<PlaceBookmark> placeBookmarkList = user.getPlaceBookmarks();
+        List<ReadPlaceBookmarkResponse> readPlaceBookmarkResponse
+                = placeBookmarkList.stream()
+                .map(
+                        b -> new ReadPlaceBookmarkResponse(
+                                b.getId(),
+                                b.getTitle()))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok().body(
+                Response.success(
+                        readPlaceBookmarkResponse
+                )
+        );
+    }
+
+    /**
      * 공간 북마크하기.
      */
     /*
@@ -195,6 +220,7 @@ public class UserApiController {
     /**
      * 공간 북마크 삭제하기.
      */
+    /*
     @DeleteMapping("/user/{userIndex}/place-bookmark/{placeIndex}")
     public ResponseEntity<Response<PlaceBookmarkResponse>> deletePlaceBookmark(
             @PathVariable("userIndex") @NotBlank String userId,
@@ -214,6 +240,8 @@ public class UserApiController {
                 )
         );
     }
+
+     */
 
     /**
      * 유저가 북마크한 공간 조회하기.
@@ -371,14 +399,14 @@ public class UserApiController {
     }
 
     /**
-     * 유저가 북마크한 공간 응답을 위한 DTO
+     * 유저의 북마크 그룹 리스트 조회하기의 응답을 위한 DTO
      */
     @Data
     @AllArgsConstructor
     static class ReadPlaceBookmarkResponse {
 
-        private Long placeId;
-        private String placeName;
+        private Long placeBookmarkId;
+        private String title;
     }
 
     /**
