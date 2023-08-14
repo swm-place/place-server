@@ -27,7 +27,7 @@ public class User {
     private String email;
 
     @NotBlank
-    @Column(unique = true, length = 20, columnDefinition = "VARCHAR(20) CHARACTER SET UTF8")
+    @Column(unique = true, length = 20)
     @Size(min = 3, max = 20)
     private String nickname;
 
