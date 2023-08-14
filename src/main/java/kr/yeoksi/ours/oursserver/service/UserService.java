@@ -23,6 +23,7 @@ public class UserService {
     private final TermsAgreementRepository termsAgreementRepository;
     private final PlaceBookmarkRepository placeBookmarkRepository;
     private final PlaceFavoriteRepository placeFavoriteRepository;
+    private final PlacesInBookmarkRepository placesInBookmarkRepository;
 
     /**
      * 회원 가입
@@ -122,9 +123,23 @@ public class UserService {
     /**
      * 공간 북마크 그룹 삭제하기
      */
+    @Transactional
     public void deletePlaceBookmark(PlaceBookmark placeBookmark) {
 
         placeBookmarkRepository.delete(placeBookmark);
+    }
+
+    /**
+     * 공간 북마크하기
+     */
+    @Transactional
+    public Long createPlaceInBookmark(PlacesInBookmark placesInBookmark) {
+
+        Optional<PlacesInBookmark> checkPlaceInBookmark = placesInBookmarkRepository.findByIds(placesInBookmark.getPlace().getId(), placesInBookmark.getPlaceBookmark().getId());
+        if(checkPlaceInBookmark.isPresent()) throw new DuplicatedPlaceInBookmarkException(ErrorCode.DUPLICATED_PLACE_IN_BOOKMARK);
+
+        placesInBookmarkRepository.save(placesInBookmark);
+        return placesInBookmark.getId();
     }
 
     /**

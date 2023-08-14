@@ -212,27 +212,28 @@ public class UserApiController {
     /**
      * 공간 북마크하기.
      */
-    /*
-    @PostMapping("/user/{userIndex}/place-bookmark/{placeBookmarkIndex}")
-    public ResponseEntity<Response<PlaceBookmarkResponse>> createPlaceBookmark2(
-            @PathVariable("userIndex") @NotBlank String userId,
-            @RequestBody @Valid CreatePlaceBookmarkRequest2 request) {
+    @PostMapping("/place-bookmark/{placeBookmarkIndex}")
+    public ResponseEntity<Response<CreatePlaceInBookmarkResponse>> createPlaceInBookmark(
+            @PathVariable("placeBookmarkIndex") @NotNull Long placeBookmarkId,
+            @RequestBody @Valid CreatePlaceInBookmarkRequest request) {
 
-        User user = userService.findById(userId);
+        PlaceBookmark placeBookmark = userService.getPlaceBookmark(placeBookmarkId);
         Place place = placeService.findById(request.getPlaceId());
-        //userService.createPlaceBookmark(user,place);
 
-        boolean isBookmark = placeService.checkBookmark(userId, request.getPlaceId());
+        PlacesInBookmark placesInBookmark = new PlacesInBookmark();
+        placesInBookmark.setPlace(place);
+        placesInBookmark.setPlaceBookmark(placeBookmark);
+        Long savedPlaceBookmarkId = userService.createPlaceInBookmark(placesInBookmark);
+
 
         return ResponseEntity.ok().body(
                 Response.success(
-                        new PlaceBookmarkResponse(
-                                isBookmark
+                        new CreatePlaceInBookmarkResponse(
+                                savedPlaceBookmarkId
                         )
                 )
         );
     }
-     */
 
     /**
      * 공간 북마크 삭제하기.
@@ -406,16 +407,6 @@ public class UserApiController {
     }
 
     /**
-     * 공간 북마크하기/삭제의 응답을 위한 DTO
-     */
-    @Data
-    @AllArgsConstructor
-    static class PlaceBookmarkResponse {
-
-        private boolean isBookmark;
-    }
-
-    /**
      * 유저의 북마크 그룹 리스트 조회하기의 응답을 위한 DTO
      */
     @Data
@@ -454,5 +445,25 @@ public class UserApiController {
     static class CreatePlaceBookmarkResponse {
 
         private Long placeBookmarkId;
+    }
+
+    /**
+     * 공간 북마크하기의 요청을 위한 DTO
+     */
+    @Data
+    static class CreatePlaceInBookmarkRequest {
+
+        @NotNull
+        private Long placeId;
+    }
+
+    /**
+     * 공간 북마크하기의 응답을 위한 DTO
+     */
+    @Data
+    @AllArgsConstructor
+    static class CreatePlaceInBookmarkResponse {
+
+        private Long placeInBookmarkId;
     }
 }

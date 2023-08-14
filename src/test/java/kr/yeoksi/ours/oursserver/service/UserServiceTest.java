@@ -441,4 +441,13 @@ public class UserServiceTest {
         // then
         // expected = NotExistedPlaceBookmarkException에 의한 공간 북마크 그룹 삭제 성공 검증.
     }
+
+    @Test
+    public void 공간_북마크하기() throws Exception {
+
+        // given
+
+
+    }
+
 }
