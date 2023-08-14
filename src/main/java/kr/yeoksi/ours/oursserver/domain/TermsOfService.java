@@ -22,16 +22,16 @@ public class TermsOfService {
     private Long id;
 
     @NotBlank
-    @Column(length = 50)
+    @Column(length = 50, columnDefinition = "VARCHAR(50) CHARACTER SET UTF8")
     @Size(max = 50)
     private String title;
 
     @NotBlank
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT CHARACTER SET UTF8")
     private String contents;
 
     @NotBlank
-    @Column(length = 20)
+    @Column(length = 20, columnDefinition = "VARCHAR(20) CHARACTER SET UTF8")
     @Size(max = 20)
     private String type;
 
