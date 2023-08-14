@@ -196,196 +196,6 @@ public class UserServiceTest {
     }
 
     @Test
-    public void 공간_북마크하기() throws Exception {
-
-        // given
-
-        // 유저 정보 저장
-        User user = new User();
-        user.setId("sangjun");
-        user.setEmail("soma@gmail.com");
-        user.setNickname("testNickname");
-        user.setPhoneNumber("010-1234-5678");
-        user.setBirthday(LocalDateTime.now());
-        userRepository.save(user);
-
-        // 공간 정보 저장
-        Place place = new Place();
-        place.setUser(user);
-        place.setName("테스트네임");
-        place.setAddress("테스트주소");
-        place.setLongitude(127.0);
-        place.setLatitude(37.0);
-        place.setLocationCode(333);
-        placeRepository.save(place);
-
-
-        // when
-        userService.createPlaceBookmark(user, place);
-        boolean isBookmark = placeService.checkBookmark(user.getId(), place.getId());
-
-        // then
-        assertEquals(isBookmark, true);
-    }
-
-    @Test(expected = DuplicatedPlaceBookmarkException.class)
-    public void 공간_북마크_중복_예외() throws Exception {
-
-        // given
-
-        // 유저 정보 저장
-        User user = new User();
-        user.setId("sangjun");
-        user.setEmail("soma@gmail.com");
-        user.setNickname("testNickname");
-        user.setPhoneNumber("010-1234-5678");
-        user.setBirthday(LocalDateTime.now());
-        userRepository.save(user);
-
-        // 공간 정보 저장
-        Place place = new Place();
-        place.setUser(user);
-        place.setName("테스트네임");
-        place.setAddress("테스트주소");
-        place.setLongitude(127.0);
-        place.setLatitude(37.0);
-        place.setLocationCode(333);
-        placeRepository.save(place);
-
-
-        // when
-        userService.createPlaceBookmark(user, place);
-        userService.createPlaceBookmark(user, place); // 여기서 오류 발생.
-
-
-        // then
-        // expected = DuplicatedPlaceBookmarkException에 의한 중복 북마크 오류 발생 검증.
-    }
-
-    @Test
-    public void 공간_북마크_삭제하기() throws Exception {
-
-        // given
-
-        // 유저 정보 저장
-        User user = new User();
-        user.setId("sangjun");
-        user.setEmail("soma@gmail.com");
-        user.setNickname("testNickname");
-        user.setPhoneNumber("010-1234-5678");
-        user.setBirthday(LocalDateTime.now());
-        userRepository.save(user);
-
-        // 공간 정보 저장
-        Place place = new Place();
-        place.setUser(user);
-        place.setName("테스트네임");
-        place.setAddress("테스트주소");
-        place.setLongitude(127.0);
-        place.setLatitude(37.0);
-        place.setLocationCode(333);
-        placeRepository.save(place);
-
-        // 북마크 정보 저장
-        PlaceBookmark placeBookmark = new PlaceBookmark(user, place);
-        placeBookmarkRepository.save(placeBookmark);
-
-
-        // when
-        boolean isBookmarkBefore = placeService.checkBookmark(user.getId(), place.getId());
-
-        userService.deletePlaceBookmark(user, place);
-
-        boolean isBookmarkAfter = placeService.checkBookmark(user.getId(), place.getId());
-
-        // then
-        assertEquals(isBookmarkBefore, true);
-        assertEquals(isBookmarkAfter, false);
-    }
-
-    @Test(expected = NotExistedPlaceBookmarkException.class)
-    public void 없는_북마크_삭제_예외() throws Exception {
-
-        // given
-
-        // 유저 정보 저장
-        User user = new User();
-        user.setId("sangjun");
-        user.setEmail("soma@gmail.com");
-        user.setNickname("testNickname");
-        user.setPhoneNumber("010-1234-5678");
-        user.setBirthday(LocalDateTime.now());
-        userRepository.save(user);
-
-        // 공간 정보 저장
-        Place place = new Place();
-        place.setUser(user);
-        place.setName("테스트네임");
-        place.setAddress("테스트주소");
-        place.setLongitude(127.0);
-        place.setLatitude(37.0);
-        place.setLocationCode(333);
-        placeRepository.save(place);
-
-
-        // when
-        userService.deletePlaceBookmark(user, place); // 여기서 오류 발생.
-
-
-        // then
-        // expected = NotExistedPlaceBookmarkException에 의한 존재하지 않는 북마크 삭제 오류 발생 검증.
-    }
-
-    @Test
-    public void 북마크한_공간_리스트_조회() throws Exception {
-
-        // given
-
-        // 유저 정보 저장
-        User user = new User();
-        user.setId("sangjun");
-        user.setEmail("soma@gmail.com");
-        user.setNickname("testNickname");
-        user.setPhoneNumber("010-1234-5678");
-        user.setBirthday(LocalDateTime.now());
-        userRepository.save(user);
-
-        // 공간 정보 저장
-        Place place = new Place();
-        place.setUser(user);
-        place.setName("테스트네임");
-        place.setAddress("테스트주소");
-        place.setLongitude(127.0);
-        place.setLatitude(37.0);
-        place.setLocationCode(333);
-
-        Place place2 = new Place();
-        place2.setUser(user);
-        place2.setName("테스트네임2");
-        place2.setAddress("테스트주소2");
-        place2.setLongitude(127.0);
-        place2.setLatitude(37.0);
-        place2.setLocationCode(333);
-        placeRepository.save(place);
-        placeRepository.save(place2);
-
-        // 북마크 정보 저장
-        PlaceBookmark placeBookmark = new PlaceBookmark(user, place);
-        PlaceBookmark placeBookmark2 = new PlaceBookmark(user, place2);
-        placeBookmarkRepository.save(placeBookmark);
-        placeBookmarkRepository.save(placeBookmark2);
-
-
-        // when
-        List<PlaceBookmark> placeBookmarkList = userService.readAllPlaceBookmark(user);
-
-
-        // then;
-        assertEquals(placeBookmarkList.get(0), placeBookmark);
-        assertEquals(placeBookmarkList.get(1), placeBookmark2);
-    }
-
-    @Test
     public void 공간_좋아요_누르기() throws Exception {
 
         // given
@@ -407,6 +217,7 @@ public class UserServiceTest {
         place.setLongitude(127.0);
         place.setLatitude(37.0);
         place.setLocationCode(333);
+        place.setImgUrl("imgurl");
         placeRepository.save(place);
 
 
@@ -524,5 +335,35 @@ public class UserServiceTest {
 
         // then
         // expected = NotExistedPlaceFavoriteException에 의한 존재하지 않는 좋아요 삭제 오류 발생 검증.
+    }
+
+    @Test
+    public void 공간_북마크_그룹_생성() throws Exception {
+
+        // given
+
+        // 유저 정보 저장
+        User user = new User();
+        user.setId("sangjun");
+        user.setEmail("soma@gmail.com");
+        user.setNickname("testNickname");
+        user.setPhoneNumber("010-1234-5678");
+        user.setBirthday(LocalDateTime.now());
+        userRepository.save(user);
+
+        // 공간 북마크 그룹 정보 저장
+        String title = "테스트타이틀";
+
+        PlaceBookmark placeBookmark = new PlaceBookmark();
+        placeBookmark.setUser(user);
+        placeBookmark.setTitle(title);
+
+
+        // when
+        Long savedBookmarkId = userService.createPlaceBookmark(placeBookmark);
+
+
+        // then
+        assertEquals(placeBookmark, placeBookmarkRepository.findById(savedBookmarkId).get());
     }
 }

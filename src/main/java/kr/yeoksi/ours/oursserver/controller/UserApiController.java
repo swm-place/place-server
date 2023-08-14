@@ -144,16 +144,41 @@ public class UserApiController {
     }
 
     /**
-     * 공간 북마크하기.
+     * 공간 북마크 그룹 생성하기
      */
     @PostMapping("/user/{userIndex}/place-bookmark")
-    public ResponseEntity<Response<PlaceBookmarkResponse>> createPlaceBookmark(
+    public ResponseEntity<Response<CreatePlaceBookmarkResponse>> createPlaceBookmark(
             @PathVariable("userIndex") @NotBlank String userId,
             @RequestBody @Valid CreatePlaceBookmarkRequest request) {
 
         User user = userService.findById(userId);
+
+        PlaceBookmark placeBookmark = new PlaceBookmark();
+        placeBookmark.setUser(user);
+        placeBookmark.setTitle(request.getTitle());
+        Long savedBookmarkId = userService.createPlaceBookmark(placeBookmark);
+
+        return ResponseEntity.ok().body(
+                Response.success(
+                        new CreatePlaceBookmarkResponse(
+                                savedBookmarkId
+                        )
+                )
+        );
+    }
+
+    /**
+     * 공간 북마크하기.
+     */
+    /*
+    @PostMapping("/user/{userIndex}/place-bookmark/{placeBookmarkIndex}")
+    public ResponseEntity<Response<PlaceBookmarkResponse>> createPlaceBookmark2(
+            @PathVariable("userIndex") @NotBlank String userId,
+            @RequestBody @Valid CreatePlaceBookmarkRequest2 request) {
+
+        User user = userService.findById(userId);
         Place place = placeService.findById(request.getPlaceId());
-        userService.createPlaceBookmark(user,place);
+        //userService.createPlaceBookmark(user,place);
 
         boolean isBookmark = placeService.checkBookmark(userId, request.getPlaceId());
 
@@ -165,6 +190,7 @@ public class UserApiController {
                 )
         );
     }
+     */
 
     /**
      * 공간 북마크 삭제하기.
@@ -192,6 +218,7 @@ public class UserApiController {
     /**
      * 유저가 북마크한 공간 조회하기.
      */
+    /*
     @GetMapping("/user/{userIndex}/place-bookmark")
     public ResponseEntity<Response<List<ReadPlaceBookmarkResponse>>> readPlaceBookmarks(
             @PathVariable("userIndex") @NotBlank String userId) {
@@ -207,6 +234,7 @@ public class UserApiController {
                                         b.getPlace().getName()))
                                 .collect(Collectors.toList())));
     }
+     */
 
     /**
      * 공간 좋아요 누르기.
@@ -323,13 +351,13 @@ public class UserApiController {
     }
 
     /**
-     * 공간 북마크하기의 요청을 위한 DTO
+     * 공간 북마크 그룹 생성하기의 요청을 위한 DTO
      */
     @Data
     static class CreatePlaceBookmarkRequest {
 
-        @NotNull
-        private Long placeId;
+        @NotBlank
+        private String title;
     }
 
     /**
@@ -371,5 +399,15 @@ public class UserApiController {
 
         @NotNull
         private Long placeId;
+    }
+
+    /**
+     * 공간 북마크 그룹 생성하기의 응답을 위한 DTO
+     */
+    @Data
+    @AllArgsConstructor
+    static class CreatePlaceBookmarkResponse {
+
+        private Long placeBookmarkId;
     }
 }

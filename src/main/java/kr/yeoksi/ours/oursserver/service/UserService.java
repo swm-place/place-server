@@ -102,13 +102,10 @@ public class UserService {
      * 공간에 북마크 누르기
      */
     @Transactional
-    public void createPlaceBookmark(User user, Place place) {
+    public Long createPlaceBookmark(PlaceBookmark placeBookmark) {
 
-        Optional<PlaceBookmark> placeBookmark = placeBookmarkRepository.findByIds(user.getId(), place.getId());
-        if(placeBookmark.isPresent()) throw new DuplicatedPlaceBookmarkException(ErrorCode.DUPLICATED_PLACE_BOOKMARK);
-
-        PlaceBookmark newPlaceBookmark = new PlaceBookmark(user, place);
-        placeBookmarkRepository.save(newPlaceBookmark);
+        placeBookmarkRepository.save(placeBookmark);
+        return placeBookmark.getId();
     }
 
     /**

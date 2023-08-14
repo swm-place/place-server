@@ -16,10 +16,17 @@ public class PlaceBookmarkRepository {
     private final EntityManager em;
 
     /**
-     * 유저의 북마크 정보 저장하기
+     * 유저의 북마크 그룹 생성하기.
      */
     public void save(PlaceBookmark placeBookmark) {
+
         em.persist(placeBookmark);
+    }
+
+    public Optional<PlaceBookmark> findById(Long id) {
+
+        PlaceBookmark placeBookmark = em.find(PlaceBookmark.class, id);
+        return Optional.ofNullable(placeBookmark);
     }
 
     /**
