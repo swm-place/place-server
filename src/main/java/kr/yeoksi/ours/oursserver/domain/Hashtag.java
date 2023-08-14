@@ -18,7 +18,7 @@ public class Hashtag {
     private Long id;
 
     @NotBlank
-    @Column(length = 30)
+    @Column(length = 30, columnDefinition = "VARCHAR(30) CHARACTER SET UTF8")
     @Size(max = 30)
     private String name;
 

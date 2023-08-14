@@ -15,7 +15,7 @@ public class Transportation {
     private Long id;
 
     @NotBlank
-    @Column(length = 20)
+    @Column(length = 20, columnDefinition = "VARCHAR(20) CHARACTER SET UTF8")
     @Size(max = 20)
     private String name;
 }
