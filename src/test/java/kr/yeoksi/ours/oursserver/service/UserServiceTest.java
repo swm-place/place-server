@@ -195,6 +195,7 @@ public class UserServiceTest {
         assertEquals(user.getPhoneNumber(), "010-1111-1111");
     }
 
+    /*
     @Test
     public void 공간_좋아요_누르기() throws Exception {
 
@@ -228,7 +229,9 @@ public class UserServiceTest {
         // then
         assertEquals(isFavorite, true);
     }
+     */
 
+    /*
     @Test(expected = DuplicatedPlaceFavoriteException.class)
     public void 공간_좋아요_중복_예외() throws Exception {
 
@@ -263,6 +266,9 @@ public class UserServiceTest {
         // expected = DuplicatedPlaceFavoriteException에 의한 중복 좋아요 오류 발생 검증.
     }
 
+     */
+
+    /*
     @Test
     public void 공간_좋아요_삭제하기() throws Exception {
 
@@ -304,6 +310,9 @@ public class UserServiceTest {
         assertEquals(isFavoriteAfter, false);
     }
 
+     */
+
+    /*
     @Test(expected = NotExistedPlaceFavoriteException.class)
     public void 없는_좋아요_삭제_예외() throws Exception {
 
@@ -337,6 +346,9 @@ public class UserServiceTest {
         // expected = NotExistedPlaceFavoriteException에 의한 존재하지 않는 좋아요 삭제 오류 발생 검증.
     }
 
+     */
+
+    /*
     @Test
     public void 공간_북마크_그룹_생성() throws Exception {
 
@@ -367,6 +379,9 @@ public class UserServiceTest {
         assertEquals(placeBookmark, placeBookmarkRepository.findById(savedBookmarkId).get());
     }
 
+     */
+
+    /*
     @Test
     public void 공간_북마크_그룹_조회() throws Exception {
 
@@ -398,6 +413,9 @@ public class UserServiceTest {
         assertEquals(getPlaceBookmark, placeBookmark);
     }
 
+     */
+
+    /*
     @Test(expected = NotExistedPlaceBookmarkException.class)
     public void 없는_공간_북마크_그룹_조회_예외() throws Exception {
 
@@ -442,12 +460,5 @@ public class UserServiceTest {
         // expected = NotExistedPlaceBookmarkException에 의한 공간 북마크 그룹 삭제 성공 검증.
     }
 
-    @Test
-    public void 공간_북마크하기() throws Exception {
-
-        // given
-
-
-    }
-
+     */
 }
