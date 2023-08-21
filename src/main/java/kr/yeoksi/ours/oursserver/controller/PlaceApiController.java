@@ -38,8 +38,9 @@ public class PlaceApiController {
 
         // URL and API key
         String serverUrl = "${ELASTIC_HOST}";
-        //String apiKey = "${ELASTIC_API_KEY}";
+        String apiKey = "${ELASTIC_API_KEY}";
 
+        /*
         // Create the low-level client
         RestClient restClient = RestClient
                 .builder(HttpHost.create(serverUrl))
@@ -48,9 +49,11 @@ public class PlaceApiController {
                 })
                 .build();
 
+         */
+
         List<String> checkVariable = new ArrayList<>();
         checkVariable.add(serverUrl);
-        //checkVariable.add(apiKey);
+        checkVariable.add(apiKey);
 
         /*
 
