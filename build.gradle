@@ -37,6 +37,12 @@ dependencies {
     testImplementation("org.junit.vintage:junit-vintage-engine") {
         exclude group: "org.hamcrest", module: "hamcrest-core"
     }
+
+    // elasticsearch 통신을 위해 추가
+    implementation 'co.elastic.clients:elasticsearch-java'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+
 }
 
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat

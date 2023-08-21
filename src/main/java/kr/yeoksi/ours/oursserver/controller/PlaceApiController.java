@@ -1,5 +1,10 @@
 package kr.yeoksi.ours.oursserver.controller;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch.core.GetResponse;
+import co.elastic.clients.json.jackson.JacksonJsonpMapper;
+import co.elastic.clients.transport.ElasticsearchTransport;
+import co.elastic.clients.transport.rest_client.RestClientTransport;
 import kr.yeoksi.ours.oursserver.domain.Place;
 import kr.yeoksi.ours.oursserver.domain.PlaceReview;
 import kr.yeoksi.ours.oursserver.domain.Response;
@@ -7,12 +12,18 @@ import kr.yeoksi.ours.oursserver.service.PlaceService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.apache.http.Header;
+import org.apache.http.HttpHost;
+import org.apache.http.message.BasicHeader;
+import org.elasticsearch.client.RestClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -21,9 +32,48 @@ public class PlaceApiController {
 
     private final PlaceService placeService;
 
+    @GetMapping("/place/{placeIndex}")
+    public ResponseEntity<Response<PlaceReadTest>> readPlace (
+            @PathVariable("placeIndex") String placeId) throws Exception {
+
+        // URL and API key
+        String serverUrl = "${ELASTIC_HOST}";
+        String apiKey = "${ELASTIC_API_KEY}";
+
+        // Create the low-level client
+        RestClient restClient = RestClient
+                .builder(HttpHost.create(serverUrl))
+                .setDefaultHeaders(new Header[]{
+                        new BasicHeader("Authorization", "ApiKey " + apiKey)
+                })
+                .build();
+
+        // Create the transport with a Jackson mapper
+        ElasticsearchTransport transport = new RestClientTransport(
+                restClient, new JacksonJsonpMapper());
+
+        // And create the API client
+        ElasticsearchClient esClient = new ElasticsearchClient(transport);
+
+        GetResponse<PlaceReadTest> response = esClient.get(g -> g
+                .index("place")
+                .id(placeId),
+                PlaceReadTest.class
+        );
+
+        if(!response.found()) throw new RuntimeException();
+
+        return ResponseEntity.ok().body(
+                Response.success(
+                        response.source()
+                )
+        );
+    }
+
     /**
      * id로 공간 하나 조회하기.
      */
+    /*
     @GetMapping("/place/{placeIndex}")
     public ResponseEntity<Response<PlaceResponse>> readPlace(
             @RequestHeader("X-User-Uid") String uid,
@@ -96,6 +146,8 @@ public class PlaceApiController {
                         )));
     }
 
+     */
+
     /**
      * id로 공간 조회하는 것에 응답을 위한 DTO
      */
@@ -137,5 +189,19 @@ public class PlaceApiController {
         private String contents;
         private LocalDateTime createdAt;
         private boolean isFavorite;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class PlaceReadTest {
+        private String id;
+        private String name;
+        private HashMap<String, Double> location;
+        private String road_address;
+        private String address;
+        private String category;
+        private List<String> hashtags;
+        private String summary;
+        private Double embeddings;
     }
 }

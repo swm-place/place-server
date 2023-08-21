@@ -22,47 +22,14 @@ public class Place {
     @Column(name = "place_index")
     private Long id;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_index")
-    private User user;
+    @NotBlank
+    @Column(length = 30)
+    private String elastic_index;
 
     @NotBlank
     @Column(length = 30)
     @Size(max = 30)
     private String name;
-
-    @Column(length = 20)
-    @Size(max = 20)
-    private String category;
-
-    @Column(name = "phone_number", length = 15)
-    @Size(max = 15)
-    private String phoneNumber;
-
-    @NotBlank
-    @Column(length = 100)
-    @Size(max = 100)
-    private String address;
-
-    @NotNull
-    private double longitude;
-
-    @NotNull
-    private double latitude;
-
-    @NotNull
-    @Column(name = "location_code")
-    private int locationCode;
-
-    @Column(columnDefinition = "TEXT CHARACTER SET UTF8")
-    private String activity;
-
-    @Column(name = "img_url")
-    private String imgUrl;
-
-    @CreationTimestamp
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
     private List<PlaceImg> placeImgs = new ArrayList<>();
