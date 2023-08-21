@@ -157,6 +157,7 @@ pipeline {
             steps {
                 echo '🚀 Cleaning up...'
                 sh 'rm -rf ./*'
+                sh 'rm -rf .git'
             }
             post {
                 success {
