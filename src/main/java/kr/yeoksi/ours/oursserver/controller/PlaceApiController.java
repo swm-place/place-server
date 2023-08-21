@@ -33,7 +33,7 @@ public class PlaceApiController {
     private final PlaceService placeService;
 
     @GetMapping("/place/{placeIndex}")
-    public ResponseEntity<Response<PlaceReadTest>> readPlace (
+    public ResponseEntity<Response<List<String>>> readPlace (
             @PathVariable("placeIndex") String placeId) throws Exception {
 
         // URL and API key
@@ -47,6 +47,12 @@ public class PlaceApiController {
                         new BasicHeader("Authorization", "ApiKey " + apiKey)
                 })
                 .build();
+
+        List<String> checkVariable = new ArrayList<>();
+        checkVariable.add(serverUrl);
+        checkVariable.add(apiKey);
+
+        /*
 
         // Create the transport with a Jackson mapper
         ElasticsearchTransport transport = new RestClientTransport(
@@ -63,9 +69,11 @@ public class PlaceApiController {
 
         if(!response.found()) throw new RuntimeException();
 
+         */
+
         return ResponseEntity.ok().body(
                 Response.success(
-                        response.source()
+                        checkVariable
                 )
         );
     }
