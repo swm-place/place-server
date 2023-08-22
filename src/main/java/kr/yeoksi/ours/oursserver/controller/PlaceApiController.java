@@ -33,31 +33,12 @@ public class PlaceApiController {
 
     private final PlaceService placeService;
 
-    // URL and API key
-    @Value("${ELASTIC_HOST}")
-    private String serverUrl;
-
-    @Value("${ELASTIC_API_KEY}")
-    private String apiKey;
+    // And create the API client
+    private final ElasticsearchClient elasticsearchClient;
 
     @GetMapping("/place/{placeIndex}")
     public ResponseEntity<Response<PlaceReadTest>> readPlace (
             @PathVariable("placeIndex") String placeId) throws Exception {
-
-        // Create the low-level client
-        RestClient restClient = RestClient
-                .builder(HttpHost.create(serverUrl))
-                .setDefaultHeaders(new Header[]{
-                        new BasicHeader("Authorization", "ApiKey " + apiKey)
-                })
-                .build();
-
-        // Create the transport with a Jackson mapper
-        ElasticsearchTransport transport = new RestClientTransport(
-                restClient, new JacksonJsonpMapper());
-
-        // And create the API client
-        ElasticsearchClient elasticsearchClient = new ElasticsearchClient(transport);
 
 
         GetResponse<PlaceReadTest> response = elasticsearchClient.get(g -> g

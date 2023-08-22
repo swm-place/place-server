@@ -1,4 +1,3 @@
-/*
 package kr.yeoksi.ours.oursserver.config;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
@@ -21,10 +20,10 @@ import org.springframework.context.annotation.Configuration;
 public class ElasticSearchConfig {
 
     // URL and API key
-    @Value("${ELASTIC_HOST}")
+    @Value("{elasticsearch.server.url}")
     private String serverUrl;
 
-    @Value("${ELASTIC_API_KEY}")
+    @Value("${elasticsearch.api.key}")
     private String apiKey;
 
     @Bean
@@ -48,6 +47,3 @@ public class ElasticSearchConfig {
         return elasticsearchClient;
     }
 }
-
-
- */
