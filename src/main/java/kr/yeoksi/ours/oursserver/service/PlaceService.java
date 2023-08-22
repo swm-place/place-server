@@ -1,5 +1,8 @@
 package kr.yeoksi.ours.oursserver.service;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch.core.GetResponse;
+import kr.yeoksi.ours.oursserver.controller.PlaceApiController;
 import kr.yeoksi.ours.oursserver.domain.*;
 import kr.yeoksi.ours.oursserver.exception.ErrorCode;
 import kr.yeoksi.ours.oursserver.exception.NotExistedPlaceException;
@@ -33,6 +36,22 @@ public class PlaceService {
     private final PlaceOpenRepository placeOpenRepository;
     private final PlaceReviewRepository placeReviewRepository;
     private final PlaceReviewFavoriteRepository placeReviewFavoriteRepository;
+
+    // And create the API client
+    private final ElasticsearchClient elasticsearchClient;
+
+    public PlaceApiController.PlaceReadTest findElasticSearch(String placeId) throws Exception {
+
+        GetResponse<PlaceApiController.PlaceReadTest> response = elasticsearchClient.get(g -> g
+                        .index("place")
+                        .id(placeId),
+                PlaceApiController.PlaceReadTest.class
+        );
+
+        if(!response.found()) throw new RuntimeException();
+
+        return response.source();
+    }
 
     /**
      * id로 공간 조회하기.

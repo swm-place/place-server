@@ -16,6 +16,7 @@ import org.apache.http.Header;
 import org.apache.http.HttpHost;
 import org.apache.http.message.BasicHeader;
 import org.elasticsearch.client.RestClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -32,51 +33,18 @@ public class PlaceApiController {
 
     private final PlaceService placeService;
 
+
     @GetMapping("/place/{placeIndex}")
-    public ResponseEntity<Response<List<String>>> readPlace (
+    public ResponseEntity<Response<PlaceReadTest>> readPlace (
             @PathVariable("placeIndex") String placeId) throws Exception {
 
-        // URL and API key
-        String serverUrl = "${ELASTIC_HOST}";
-        String apiKey = "${ELASTIC_API_KEY}";
 
-        /*
-        // Create the low-level client
-        RestClient restClient = RestClient
-                .builder(HttpHost.create(serverUrl))
-                .setDefaultHeaders(new Header[]{
-                        new BasicHeader("Authorization", "ApiKey " + apiKey)
-                })
-                .build();
+        PlaceReadTest elasticSearch = placeService.findElasticSearch(placeId);
 
-         */
-
-        List<String> checkVariable = new ArrayList<>();
-        checkVariable.add(serverUrl);
-        checkVariable.add(apiKey);
-
-        /*
-
-        // Create the transport with a Jackson mapper
-        ElasticsearchTransport transport = new RestClientTransport(
-                restClient, new JacksonJsonpMapper());
-
-        // And create the API client
-        ElasticsearchClient esClient = new ElasticsearchClient(transport);
-
-        GetResponse<PlaceReadTest> response = esClient.get(g -> g
-                .index("place")
-                .id(placeId),
-                PlaceReadTest.class
-        );
-
-        if(!response.found()) throw new RuntimeException();
-
-         */
 
         return ResponseEntity.ok().body(
                 Response.success(
-                        checkVariable
+                        elasticSearch
                 )
         );
     }
@@ -204,7 +172,7 @@ public class PlaceApiController {
 
     @Data
     @AllArgsConstructor
-    static class PlaceReadTest {
+    public static class PlaceReadTest {
         private String id;
         private String name;
         private HashMap<String, Double> location;
