@@ -33,26 +33,18 @@ public class PlaceApiController {
 
     private final PlaceService placeService;
 
-    // And create the API client
-    private final ElasticsearchClient elasticsearchClient;
 
     @GetMapping("/place/{placeIndex}")
     public ResponseEntity<Response<PlaceReadTest>> readPlace (
             @PathVariable("placeIndex") String placeId) throws Exception {
 
 
-        GetResponse<PlaceReadTest> response = elasticsearchClient.get(g -> g
-                .index("place")
-                .id(placeId),
-                PlaceReadTest.class
-        );
-
-        if(!response.found()) throw new RuntimeException();
+        PlaceReadTest elasticSearch = placeService.findElasticSearch(placeId);
 
 
         return ResponseEntity.ok().body(
                 Response.success(
-                        response.source()
+                        elasticSearch
                 )
         );
     }
@@ -180,7 +172,7 @@ public class PlaceApiController {
 
     @Data
     @AllArgsConstructor
-    static class PlaceReadTest {
+    public static class PlaceReadTest {
         private String id;
         private String name;
         private HashMap<String, Double> location;
