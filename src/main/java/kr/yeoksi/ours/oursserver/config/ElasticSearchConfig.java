@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Configuration;
 public class ElasticSearchConfig {
 
     // URL and API key
-    @Value("{elasticsearch.server.url}")
+    @Value("${elasticsearch.server.url}")
     private String serverUrl;
 
     @Value("${elasticsearch.api.key}")

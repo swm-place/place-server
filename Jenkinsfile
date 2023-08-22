@@ -53,6 +53,8 @@ pipeline {
                     -e MARIADB_USERNAME=$MARIADB_TEST_USER \
                     -e MARIADB_PASSWORD=$MARIADB_TEST_USER_PASSWORD \
                     -e ELASTIC_API_KEY=$ELASTIC_API_KEY \
+                    -e ELASTIC_HOST=$ELASTIC_HOST \
+                    -e ELASTIC_PORT=$ELASTIC_PORT \
                     --link $MARIADB_TEST_HOST:$MARIADB_TEST_HOST \
                     $DOCKER_IMAGE_NAME'
                 sh 'docker cp ${DOCKER_IMAGE_NAME}-build:/project/build ./project/build'
