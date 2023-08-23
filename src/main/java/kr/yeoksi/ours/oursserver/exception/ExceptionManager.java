@@ -85,4 +85,11 @@ public class ExceptionManager {
         return ResponseEntity.status(e.getErrorCode().getStatus())
                 .body(Response.error(e.getErrorCode().getMessage()));
     }
+
+    @ExceptionHandler(NotFoundPlaceAtElasticSearchException.class)
+    public ResponseEntity<?> notFoundPlaceAtElasticSearchException(NotFoundPlaceAtElasticSearchException e) {
+
+        return ResponseEntity.status(e.getErrorCode().getStatus())
+                .body(Response.error(e.getErrorCode().getMessage()));
+    }
 }
