@@ -33,27 +33,21 @@ public class PlaceApiController {
 
     private final PlaceService placeService;
 
-    // URL and API key
-    @Value("${elasticsearch.server.url}")
-    private String serverUrl;
-
-    @Value("${elasticsearch.api.key}")
-    private String apiKey;
 
     @GetMapping("/place/{placeIndex}")
-    public ResponseEntity<Response<List<String>>> readPlace (
+    public ResponseEntity<Response<PlaceReadTest>> readPlace (
             @PathVariable("placeIndex") String placeId) throws Exception {
 
-        // 제발 통과해라..
-        //PlaceReadTest elasticSearch = placeService.findElasticSearch(placeId);
+        PlaceReadTest elasticSearch = placeService.findElasticSearch(placeId);
 
+        /*
         List<String> variables = new ArrayList<>();
         variables.add(serverUrl);
         variables.add(apiKey);
-
+         */
         return ResponseEntity.ok().body(
                 Response.success(
-                        variables
+                        elasticSearch
                 )
         );
     }
