@@ -50,7 +50,7 @@ public class PlaceApiController {
     public ResponseEntity<Response<String>> checkConnection() {
         return ResponseEntity.ok().body(
                 Response.success(
-                        "500 에러가 왜 나는 거지."
+                        "config에 들어갈 것들을 서비스로 이동"
                 )
         );
     }
