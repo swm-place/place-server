@@ -44,7 +44,7 @@ public class PlaceApiController {
     public ResponseEntity<Response<List<String>>> readPlace (
             @PathVariable("placeIndex") String placeId) throws Exception {
 
-
+        // 제발 통과해라..
         //PlaceReadTest elasticSearch = placeService.findElasticSearch(placeId);
 
         List<String> variables = new ArrayList<>();
