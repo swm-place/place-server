@@ -33,21 +33,27 @@ public class PlaceApiController {
 
     private final PlaceService placeService;
 
+    // URL and API key
+    @Value("${elasticsearch.server.url}")
+    private String serverUrl;
+
+    @Value("${elasticsearch.api.key}")
+    private String apiKey;
 
     @GetMapping("/place/{placeIndex}")
-    public ResponseEntity<Response<PlaceReadTest>> readPlace (
+    public ResponseEntity<Response<List<String ad>>> readPlace (
             @PathVariable("placeIndex") String placeId) throws Exception {
 
-        PlaceReadTest elasticSearch = placeService.findElasticSearch(placeId);
+        //PlaceReadTest elasticSearch = placeService.findElasticSearch(placeId);
 
-        /*
+
         List<String> variables = new ArrayList<>();
         variables.add(serverUrl);
         variables.add(apiKey);
-         */
+
         return ResponseEntity.ok().body(
                 Response.success(
-                        elasticSearch
+                        variables
                 )
         );
     }
@@ -56,7 +62,7 @@ public class PlaceApiController {
     public ResponseEntity<Response<String>> checkConnection() {
         return ResponseEntity.ok().body(
                 Response.success(
-                        "엘라스틱 확인중."
+                        "환경변수 찍어보기 테스트"
                 )
         );
     }
