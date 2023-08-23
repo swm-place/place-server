@@ -41,7 +41,7 @@ public class PlaceApiController {
     private String apiKey;
 
     @GetMapping("/place/{placeIndex}")
-    public ResponseEntity<Response<List<String ad>>> readPlace (
+    public ResponseEntity<Response<List<String>>> readPlace (
             @PathVariable("placeIndex") String placeId) throws Exception {
 
         //PlaceReadTest elasticSearch = placeService.findElasticSearch(placeId);
