@@ -2,6 +2,9 @@ package kr.yeoksi.ours.oursserver.service;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.GetResponse;
+import co.elastic.clients.json.jackson.JacksonJsonpMapper;
+import co.elastic.clients.transport.ElasticsearchTransport;
+import co.elastic.clients.transport.rest_client.RestClientTransport;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import kr.yeoksi.ours.oursserver.controller.PlaceApiController;
 import kr.yeoksi.ours.oursserver.domain.*;
@@ -10,6 +13,11 @@ import kr.yeoksi.ours.oursserver.exception.NotExistedPlaceException;
 import kr.yeoksi.ours.oursserver.exception.NotFoundPlaceAtElasticSearchException;
 import kr.yeoksi.ours.oursserver.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.apache.http.Header;
+import org.apache.http.HttpHost;
+import org.apache.http.message.BasicHeader;
+import org.elasticsearch.client.RestClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -40,9 +48,31 @@ public class PlaceService {
     private final PlaceReviewFavoriteRepository placeReviewFavoriteRepository;
 
     // And create the API client
-    private final ElasticsearchClient elasticsearchClient;
+    //private final ElasticsearchClient elasticsearchClient;
+
+    // URL and API key
+    @Value("${elasticsearch.server.url}")
+    private String serverUrl;
+
+    @Value("${elasticsearch.api.key}")
+    private String apiKey;
 
     public PlaceApiController.PlaceReadTest findElasticSearch(String placeId) throws Exception {
+
+        // Create the low-level client
+        RestClient restClient = RestClient
+                .builder(HttpHost.create(serverUrl))
+                .setDefaultHeaders(new Header[]{
+                        new BasicHeader("Authorization", "ApiKey " + apiKey)
+                })
+                .build();
+
+        // Create the transport with a Jackson mapper
+        ElasticsearchTransport transport = new RestClientTransport(
+                restClient, new JacksonJsonpMapper());
+
+        // And create the API client
+        ElasticsearchClient elasticsearchClient = new ElasticsearchClient(transport);
 
         GetResponse<ObjectNode> response = elasticsearchClient.get(g -> g
                         .index("place")
