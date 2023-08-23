@@ -34,7 +34,7 @@ public class PlaceApiController {
     private final PlaceService placeService;
 
     // URL and API key
-    @Value("{elasticsearch.server.url}")
+    @Value("${elasticsearch.server.url}")
     private String serverUrl;
 
     @Value("${elasticsearch.api.key}")
