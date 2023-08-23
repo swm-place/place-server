@@ -52,6 +52,15 @@ public class PlaceApiController {
         );
     }
 
+    @GetMapping("/connection")
+    public ResponseEntity<Response<String>> checkConnection() {
+        return ResponseEntity.ok().body(
+                Response.success(
+                        "엘라스틱 확인중."
+                )
+        );
+    }
+
     /**
      * id로 공간 하나 조회하기.
      */
