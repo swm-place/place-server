@@ -1,4 +1,3 @@
-/*
 package kr.yeoksi.ours.oursserver.config;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
@@ -48,5 +47,3 @@ public class ElasticSearchConfig {
         return elasticsearchClient;
     }
 }
-
- */
