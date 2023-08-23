@@ -33,23 +33,11 @@ public class PlaceApiController {
 
     private final PlaceService placeService;
 
-    // URL and API key
-    @Value("${elasticsearch.server.url}")
-    private String serverUrl;
-
-    @Value("${elasticsearch.api.key}")
-    private String apiKey;
-
     @GetMapping("/place/{placeIndex}")
     public ResponseEntity<Response<PlaceReadTest>> readPlace (
             @PathVariable("placeIndex") String placeId) throws Exception {
 
         PlaceReadTest elasticSearch = placeService.findElasticSearch(placeId);
-
-
-        List<String> variables = new ArrayList<>();
-        variables.add(serverUrl);
-        variables.add(apiKey);
 
         return ResponseEntity.ok().body(
                 Response.success(
@@ -62,7 +50,7 @@ public class PlaceApiController {
     public ResponseEntity<Response<String>> checkConnection() {
         return ResponseEntity.ok().body(
                 Response.success(
-                        "엘라스틱 연결 시도중"
+                        "500 에러가 왜 나는 거지."
                 )
         );
     }
