@@ -41,10 +41,10 @@ public class PlaceApiController {
     private String apiKey;
 
     @GetMapping("/place/{placeIndex}")
-    public ResponseEntity<Response<List<String>>> readPlace (
+    public ResponseEntity<Response<PlaceReadTest>> readPlace (
             @PathVariable("placeIndex") String placeId) throws Exception {
 
-        //PlaceReadTest elasticSearch = placeService.findElasticSearch(placeId);
+        PlaceReadTest elasticSearch = placeService.findElasticSearch(placeId);
 
 
         List<String> variables = new ArrayList<>();
@@ -53,7 +53,7 @@ public class PlaceApiController {
 
         return ResponseEntity.ok().body(
                 Response.success(
-                        variables
+                        elasticSearch
                 )
         );
     }
@@ -62,7 +62,7 @@ public class PlaceApiController {
     public ResponseEntity<Response<String>> checkConnection() {
         return ResponseEntity.ok().body(
                 Response.success(
-                        "환경변수 찍어보기 테스트"
+                        "엘라스틱 연결 시도중"
                 )
         );
     }
@@ -192,13 +192,14 @@ public class PlaceApiController {
     @AllArgsConstructor
     public static class PlaceReadTest {
         private String id;
-        private String name;
-        private HashMap<String, Double> location;
-        private String road_address;
-        private String address;
-        private String category;
-        private List<String> hashtags;
-        private String summary;
-        private Double embeddings;
+        private Long score;
+        //private String name;
+        //private HashMap<String, Double> location;
+        //private String road_address;
+        //private String address;
+        //private String category;
+        //private List<String> hashtags;
+        //private String summary;
+        //private Double embeddings;
     }
 }

@@ -2,10 +2,12 @@ package kr.yeoksi.ours.oursserver.service;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.GetResponse;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import kr.yeoksi.ours.oursserver.controller.PlaceApiController;
 import kr.yeoksi.ours.oursserver.domain.*;
 import kr.yeoksi.ours.oursserver.exception.ErrorCode;
 import kr.yeoksi.ours.oursserver.exception.NotExistedPlaceException;
+import kr.yeoksi.ours.oursserver.exception.NotFoundPlaceAtElasticSearchException;
 import kr.yeoksi.ours.oursserver.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
@@ -42,15 +44,23 @@ public class PlaceService {
 
     public PlaceApiController.PlaceReadTest findElasticSearch(String placeId) throws Exception {
 
-        GetResponse<PlaceApiController.PlaceReadTest> response = elasticsearchClient.get(g -> g
+        GetResponse<ObjectNode> response = elasticsearchClient.get(g -> g
                         .index("place")
                         .id(placeId),
-                PlaceApiController.PlaceReadTest.class
+                ObjectNode.class
         );
 
-        if(!response.found()) throw new RuntimeException();
+        if(!response.found()) {
+            throw new NotFoundPlaceAtElasticSearchException(ErrorCode.NOT_FOUND_PLACE_AT_ELASTIC_SEARCH);
+        }
 
-        return response.source();
+        ObjectNode json = response.source();
+        PlaceApiController.PlaceReadTest placeReadTest = new PlaceApiController.PlaceReadTest(
+                json.get("_id").asText(),
+                json.get("_score").asLong()
+        );
+
+        return placeReadTest;
     }
 
     /**
