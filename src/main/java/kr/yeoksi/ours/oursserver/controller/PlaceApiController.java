@@ -54,7 +54,7 @@ public class PlaceApiController {
 
         return ResponseEntity.ok().body(
                 Response.success(
-                        "받아오는 값 변경"
+                        "config로 재설정"
                 )
         );
     }
