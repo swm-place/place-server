@@ -3,7 +3,6 @@ package kr.yeoksi.ours.oursserver.service;
 import kr.yeoksi.ours.oursserver.domain.*;
 import kr.yeoksi.ours.oursserver.exception.NotExistedPlaceException;
 import kr.yeoksi.ours.oursserver.repository.*;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.Assert.*;
-/*
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
@@ -25,11 +19,49 @@ public class PlaceServiceTest {
     @Autowired PlaceService placeService;
 
     @Autowired
+    PlaceRepository placeRepository;
+
+    @Test
+    public void 엘라스틱id로_DB_공간_정보_조회() {
+
+        // given
+
+        // 공간 정보 저장
+        Place place = new Place();
+        place.setElasticId("elasticId");
+        place.setName("테스트네임");
+        placeRepository.save(place);
+
+
+        // when
+        Place getPlace = placeService.findByElasticId("elasticId");
+
+        // then
+        assertEquals(place, getPlace);
+    }
+
+    @Test(expected = NotExistedPlaceException.class)
+    public void 엘라스틱id로_없는_공간_조회_예외() {
+
+        // given
+
+
+        // when
+        placeService.findByElasticId("elasticId"); // 여기서 예외가 발생해야 함.
+
+        // then
+        // expected = NotExistedPlaceException에 의한 존재하지 않는 공간 오류 발생 검증.
+    }
+
+
+
+    /*
+
+
+    @Autowired
     UserRepository userRepository;
     @Autowired
     TermsOfServiceRepository termsOfServiceRepository;
-    @Autowired
-    PlaceRepository placeRepository;
     @Autowired
     PlaceImgRepository placeImgRepository;
     @Autowired
@@ -47,18 +79,6 @@ public class PlaceServiceTest {
     @Autowired
     PlaceReviewFavoriteRepository placeReviewFavoriteRepository;
 
-    @Test(expected = NotExistedPlaceException.class)
-    public void 없는_공간_조회_예외() {
-
-        // given
-
-
-        // when
-        placeService.findById(324L); // 여기서 예외가 발생해야 함.
-
-        // then
-        // expected = NotExistedPlaceException에 의한 존재하지 않는 공간 오류 발생 검증.
-    }
 
     @Test
     public void 공간에_매핑된_이미지_조회() {
@@ -439,6 +459,6 @@ public class PlaceServiceTest {
         assertEquals(check1, true);
         assertEquals(check2, false);
     }
-}
 
- */
+     */
+}

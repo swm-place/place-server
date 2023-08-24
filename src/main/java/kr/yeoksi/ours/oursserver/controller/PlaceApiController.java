@@ -1,31 +1,13 @@
 package kr.yeoksi.ours.oursserver.controller;
 
-import co.elastic.clients.elasticsearch.ElasticsearchClient;
-import co.elastic.clients.elasticsearch.core.GetResponse;
-import co.elastic.clients.json.jackson.JacksonJsonpMapper;
-import co.elastic.clients.transport.ElasticsearchTransport;
-import co.elastic.clients.transport.rest_client.RestClientTransport;
 import kr.yeoksi.ours.oursserver.domain.Place;
-import kr.yeoksi.ours.oursserver.domain.PlaceReview;
 import kr.yeoksi.ours.oursserver.domain.Response;
+import kr.yeoksi.ours.oursserver.domain.dto.place.request.ReadPlaceFromElastic;
+import kr.yeoksi.ours.oursserver.domain.dto.place.response.ReadPlaceResponse;
 import kr.yeoksi.ours.oursserver.service.PlaceService;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.apache.http.Header;
-import org.apache.http.HttpHost;
-import org.apache.http.message.BasicHeader;
-import org.elasticsearch.client.RestClient;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,18 +15,30 @@ public class PlaceApiController {
 
     private final PlaceService placeService;
 
-    @Value("${elasticsearch.ssl.fingerprint}")
-    private String sslFingerPrint;
-
+    /**
+     * 장소 세부정보 조회
+     */
     @GetMapping("/place/{placeIndex}")
-    public ResponseEntity<Response<PlaceReadTest>> readPlace (
+    public ResponseEntity<Response<ReadPlaceResponse>> readPlace (
             @PathVariable("placeIndex") String placeId) throws Exception {
 
-        PlaceReadTest elasticSearch = placeService.findElasticSearch(placeId);
+        // DB에서 공간 정보 조회하기.
+        Place place = placeService.findByElasticId(placeId);
+
+        // 엘라스틱에서 공간 정보 조회하기.
+        ReadPlaceFromElastic readPlaceFromElastic = placeService.readPlaceFromElastic(placeId);
 
         return ResponseEntity.ok().body(
                 Response.success(
-                        elasticSearch
+                        new ReadPlaceResponse(
+                                place.getId(),
+                                place.getName(),
+                                place.getImgUrl(),
+                                readPlaceFromElastic.getHashtagList(),
+                                readPlaceFromElastic.getSummary(),
+                                readPlaceFromElastic.getRoadAddress(),
+                                readPlaceFromElastic.getAddress()
+                        )
                 )
         );
     }
@@ -54,7 +48,7 @@ public class PlaceApiController {
 
         return ResponseEntity.ok().body(
                 Response.success(
-                        "config로 재설정"
+                        "공간 상세정보 조회1"
                 )
         );
     }
@@ -136,62 +130,4 @@ public class PlaceApiController {
     }
 
      */
-
-    /**
-     * id로 공간 조회하는 것에 응답을 위한 DTO
-     */
-    @Data
-    @AllArgsConstructor
-    static class PlaceResponse {
-
-        private String name;
-        private String category;
-        private String phoneNumber;
-        private String address;
-        private Double longitude;
-        private Double latitude;
-        private Integer locationCode;
-        private String activity;
-        private LocalDateTime createdAt;
-        private boolean isBookamrk;
-        private int favorites;
-        private boolean isFavorite;
-        private int open;
-        private boolean isOpen;
-
-        private List<String> hashtagList;
-        private List<String> placeImgUrlList;
-
-        private List<PlaceReviewResponse> placeReviewResponseList;
-    }
-
-    /**
-     * 공간 상세 조회 페이지에서 한줄평을 전달하기 위한 DTO
-     */
-    @Data
-    @AllArgsConstructor
-    static class PlaceReviewResponse {
-        private Long id;
-        private String userIndex;
-        private String userNickName;
-        private String userImgUrl;
-        private String contents;
-        private LocalDateTime createdAt;
-        private boolean isFavorite;
-    }
-
-    @Data
-    @AllArgsConstructor
-    public static class PlaceReadTest {
-        //private String id;
-        //private Long score;
-        private String name;
-        //private HashMap<String, Double> location;
-        private String road_address;
-        //private String address;
-        private String category;
-        //private List<String> hashtags;
-        //private String summary;
-        //private Double embeddings;
-    }
 }
