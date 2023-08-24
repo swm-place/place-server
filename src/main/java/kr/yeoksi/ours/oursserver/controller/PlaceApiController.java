@@ -33,6 +33,9 @@ public class PlaceApiController {
 
     private final PlaceService placeService;
 
+    @Value("${elasticsearch.ssl.fingerprint}")
+    private String sslFingerPrint;
+
     @GetMapping("/place/{placeIndex}")
     public ResponseEntity<Response<PlaceReadTest>> readPlace (
             @PathVariable("placeIndex") String placeId) throws Exception {
@@ -51,7 +54,7 @@ public class PlaceApiController {
 
         return ResponseEntity.ok().body(
                 Response.success(
-                        "핑거프린트 값 변경"
+                        sslFingerPrint
                 )
         );
     }
