@@ -31,10 +31,16 @@ public class Place {
     @Size(max = 30)
     private String name;
 
-    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
+    @Column(length = 20)
+    @Size(max = 20)
+    private String category;
+
+    private String imgUrl;
+
+    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PlaceImg> placeImgs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Menu> menus = new ArrayList<>();
 
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
