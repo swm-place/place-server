@@ -110,8 +110,9 @@ public class PlaceService {
 
         ObjectNode json = response.source();
         PlaceApiController.PlaceReadTest placeReadTest = new PlaceApiController.PlaceReadTest(
-                json.get("_id").asText(),
-                json.get("_score").asLong()
+                json.get("name").asText(),
+                json.get("road_address").asText(),
+                json.get("category").asText()
         );
 
         return placeReadTest;

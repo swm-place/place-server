@@ -54,7 +54,7 @@ public class PlaceApiController {
 
         return ResponseEntity.ok().body(
                 Response.success(
-                        "hostname 해제 시도"
+                        "받아오는 값 변경"
                 )
         );
     }
@@ -183,13 +183,13 @@ public class PlaceApiController {
     @Data
     @AllArgsConstructor
     public static class PlaceReadTest {
-        private String id;
-        private Long score;
-        //private String name;
+        //private String id;
+        //private Long score;
+        private String name;
         //private HashMap<String, Double> location;
-        //private String road_address;
+        private String road_address;
         //private String address;
-        //private String category;
+        private String category;
         //private List<String> hashtags;
         //private String summary;
         //private Double embeddings;
