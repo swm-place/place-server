@@ -50,7 +50,7 @@ public class PlaceApiController {
     public ResponseEntity<Response<String>> checkConnection() {
         return ResponseEntity.ok().body(
                 Response.success(
-                        "config에 들어갈 것들을 서비스로 이동"
+                        "gradle 버전 지정"
                 )
         );
     }

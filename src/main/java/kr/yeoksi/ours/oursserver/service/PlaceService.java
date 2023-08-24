@@ -4,6 +4,7 @@ import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.GetResponse;
 import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import co.elastic.clients.transport.ElasticsearchTransport;
+import co.elastic.clients.transport.TransportUtils;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import kr.yeoksi.ours.oursserver.controller.PlaceApiController;
@@ -15,6 +16,9 @@ import kr.yeoksi.ours.oursserver.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.http.Header;
 import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.message.BasicHeader;
 import org.elasticsearch.client.RestClient;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +35,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.net.ssl.SSLContext;
 import java.util.*;
 
 @Service
@@ -57,14 +62,31 @@ public class PlaceService {
     @Value("${elasticsearch.api.key}")
     private String apiKey;
 
+    @Value("${elasticsearch.ssl.fingerprint}")
+    private String sslFingerPrint;
+
+    @Value("${elasticsearch.username}")
+    private String elasticUsername;
+
+    @Value("${elasticsearch.password}")
+    private String elasticPassword;
+
     public PlaceApiController.PlaceReadTest findElasticSearch(String placeId) throws Exception {
+
+        SSLContext sslContext = TransportUtils
+                .sslContextFromCaFingerprint(sslFingerPrint);
+
+        BasicCredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+        credentialsProvider.setCredentials(
+                AuthScope.ANY, new UsernamePasswordCredentials(elasticUsername, elasticPassword)
+        );
 
         // Create the low-level client
         RestClient restClient = RestClient
                 .builder(HttpHost.create(serverUrl))
-                .setDefaultHeaders(new Header[]{
-                        new BasicHeader("Authorization", "ApiKey " + apiKey)
-                })
+                .setHttpClientConfigCallback(hc -> hc
+                        .setSSLContext(sslContext)
+                        .setDefaultCredentialsProvider(credentialsProvider))
                 .build();
 
         // Create the transport with a Jackson mapper
