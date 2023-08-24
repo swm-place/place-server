@@ -26,6 +26,6 @@ public class Hashtag {
     @Column(name = "img_url")
     private String imgUrl;
 
-    @OneToMany(mappedBy = "hashtag", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "hashtag")
     private List<HashtagAtPlace> mappedPlaces = new ArrayList<>();
 }

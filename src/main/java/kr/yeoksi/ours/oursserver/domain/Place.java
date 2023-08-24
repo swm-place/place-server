@@ -2,17 +2,11 @@ package kr.yeoksi.ours.oursserver.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import static jakarta.persistence.FetchType.*;
 
 @Entity
 @Getter @Setter
@@ -31,18 +25,24 @@ public class Place {
     @Size(max = 30)
     private String name;
 
-    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
+    @Column(length = 20)
+    @Size(max = 20)
+    private String category;
+
+    private String imgUrl;
+
+    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PlaceImg> placeImgs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Menu> menus = new ArrayList<>();
 
-    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "place")
     private List<PlaceFavorite> placeFavorites = new ArrayList<>();
 
-    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "place")
     private List<PlaceOpen> placeOpens = new ArrayList<>();
 
-    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "place")
     private List<PlaceReview> placeReviews = new ArrayList<>();
 }

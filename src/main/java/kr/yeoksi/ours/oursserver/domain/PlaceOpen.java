@@ -1,8 +1,6 @@
 package kr.yeoksi.ours.oursserver.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import kr.yeoksi.ours.oursserver.domain.idclass.UserPlaceId;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -13,7 +11,6 @@ import static jakarta.persistence.FetchType.*;
 
 @Entity
 @Getter @Setter
-@IdClass(UserPlaceId.class)
 @Table(
         uniqueConstraints = {
                 @UniqueConstraint(
@@ -23,12 +20,14 @@ import static jakarta.persistence.FetchType.*;
 )
 public class PlaceOpen {
 
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "place_open_index")
+    private Long id;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "place_index")
     private Place place;
 
-    @Id
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_index")
     private User user;
