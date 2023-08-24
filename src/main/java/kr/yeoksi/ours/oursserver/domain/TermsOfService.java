@@ -50,9 +50,4 @@ public class TermsOfService {
     public boolean isRequired() {
         return required;
     }
-
-    public boolean setRequired(boolean required) {
-        this.required = required;
-        return this.required;
-    }
 }
