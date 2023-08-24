@@ -33,6 +33,15 @@ public class PlaceApiController {
 
     private final PlaceService placeService;
 
+    @Value("${elasticsearch.ssl.fingerprint}")
+    private String sslFingerPrint;
+
+    @Value("${elasticsearch.username}")
+    private String elasticUsername;
+
+    @Value("${elasticsearch.password}")
+    private String elasticPassword;
+
     @GetMapping("/place/{placeIndex}")
     public ResponseEntity<Response<PlaceReadTest>> readPlace (
             @PathVariable("placeIndex") String placeId) throws Exception {
@@ -47,10 +56,16 @@ public class PlaceApiController {
     }
 
     @GetMapping("/connection")
-    public ResponseEntity<Response<String>> checkConnection() {
+    public ResponseEntity<Response<List<String>>> checkConnection() {
+
+        List<String> variables = new ArrayList<>();
+        variables.add(sslFingerPrint);
+        variables.add(elasticUsername);
+        variables.add(elasticPassword);
+
         return ResponseEntity.ok().body(
                 Response.success(
-                        "gradle 버전 지정"
+                        variables
                 )
         );
     }
