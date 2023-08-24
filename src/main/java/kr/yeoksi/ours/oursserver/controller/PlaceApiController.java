@@ -48,7 +48,7 @@ public class PlaceApiController {
 
         return ResponseEntity.ok().body(
                 Response.success(
-                        "데이터베이스 재생성"
+                        "jsonNode 타입을 리스트로 변환"
                 )
         );
     }

@@ -2,8 +2,8 @@ package kr.yeoksi.ours.oursserver.service;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.GetResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import kr.yeoksi.ours.oursserver.controller.PlaceApiController;
 import kr.yeoksi.ours.oursserver.domain.*;
 import kr.yeoksi.ours.oursserver.domain.dto.place.request.ReadPlaceFromElastic;
 import kr.yeoksi.ours.oursserver.exception.ErrorCode;
@@ -53,10 +53,11 @@ public class PlaceService {
             throw new NotFoundPlaceAtElasticSearchException(ErrorCode.NOT_FOUND_PLACE_AT_ELASTIC_SEARCH);
         }
 
+        ObjectMapper objectMapper = new ObjectMapper();
         ObjectNode json = response.source();
         ReadPlaceFromElastic readResult = new ReadPlaceFromElastic(
                 json.get("name").asText(),
-                json.findValuesAsText("hashtags"),
+                objectMapper.treeToValue(json.get("hashtags"), List.class),
                 json.get("summary").asText(),
                 json.get("road_address").asText(),
                 json.get("category").asText()
