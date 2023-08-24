@@ -54,7 +54,7 @@ public class PlaceApiController {
 
         return ResponseEntity.ok().body(
                 Response.success(
-                        sslFingerPrint
+                        "hostname 해제 시도"
                 )
         );
     }
