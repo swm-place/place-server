@@ -48,7 +48,7 @@ public class PlaceApiController {
 
         return ResponseEntity.ok().body(
                 Response.success(
-                        "공간 상세정보 조회1"
+                        "elasticId 컬럼명 설정"
                 )
         );
     }

@@ -17,7 +17,7 @@ public class Place {
     private Long id;
 
     @NotBlank
-    @Column(length = 30)
+    @Column(name = "elastic_id", length = 30)
     private String elasticId;
 
     @NotBlank
