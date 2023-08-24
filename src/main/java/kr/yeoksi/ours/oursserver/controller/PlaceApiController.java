@@ -48,7 +48,7 @@ public class PlaceApiController {
 
         return ResponseEntity.ok().body(
                 Response.success(
-                        "elasticId 컬럼명 설정"
+                        "데이터베이스 재생성"
                 )
         );
     }
