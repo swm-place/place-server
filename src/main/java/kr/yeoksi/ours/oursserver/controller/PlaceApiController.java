@@ -33,15 +33,6 @@ public class PlaceApiController {
 
     private final PlaceService placeService;
 
-    @Value("${elasticsearch.ssl.fingerprint}")
-    private String sslFingerPrint;
-
-    @Value("${elasticsearch.username}")
-    private String elasticUsername;
-
-    @Value("${elasticsearch.password}")
-    private String elasticPassword;
-
     @GetMapping("/place/{placeIndex}")
     public ResponseEntity<Response<PlaceReadTest>> readPlace (
             @PathVariable("placeIndex") String placeId) throws Exception {
@@ -56,16 +47,11 @@ public class PlaceApiController {
     }
 
     @GetMapping("/connection")
-    public ResponseEntity<Response<List<String>>> checkConnection() {
-
-        List<String> variables = new ArrayList<>();
-        variables.add(sslFingerPrint);
-        variables.add(elasticUsername);
-        variables.add(elasticPassword);
+    public ResponseEntity<Response<String>> checkConnection() {
 
         return ResponseEntity.ok().body(
                 Response.success(
-                        variables
+                        "핑거프린트 값 변경"
                 )
         );
     }
