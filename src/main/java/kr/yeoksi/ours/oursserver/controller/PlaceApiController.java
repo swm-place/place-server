@@ -22,7 +22,10 @@ public class PlaceApiController {
     public ResponseEntity<Response<ReadPlaceResponse>> readPlace (
             @PathVariable("placeIndex") String placeId) throws Exception {
 
+        // DB에서 공간 정보 조회하기.
         Place place = placeService.findByElasticId(placeId);
+
+        // 엘라스틱에서 공간 정보 조회하기.
         ReadPlaceFromElastic readPlaceFromElastic = placeService.readPlaceFromElastic(placeId);
 
         return ResponseEntity.ok().body(
