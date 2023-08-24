@@ -5,6 +5,7 @@ import co.elastic.clients.elasticsearch.core.GetResponse;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import kr.yeoksi.ours.oursserver.controller.PlaceApiController;
 import kr.yeoksi.ours.oursserver.domain.*;
+import kr.yeoksi.ours.oursserver.domain.dto.place.request.ReadPlaceFromElastic;
 import kr.yeoksi.ours.oursserver.exception.ErrorCode;
 import kr.yeoksi.ours.oursserver.exception.NotExistedPlaceException;
 import kr.yeoksi.ours.oursserver.exception.NotFoundPlaceAtElasticSearchException;
@@ -22,8 +23,6 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import javax.net.ssl.SSLContext;
 import java.util.*;
 
 @Service
@@ -42,7 +41,7 @@ public class PlaceService {
     // Create the API client
     private final ElasticsearchClient elasticsearchClient;
 
-    public PlaceApiController.PlaceReadTest findElasticSearch(String placeId) throws Exception {
+    public ReadPlaceFromElastic readPlaceFromElastic(String placeId) throws Exception {
 
         GetResponse<ObjectNode> response = elasticsearchClient.get(g -> g
                         .index("place")
@@ -55,13 +54,15 @@ public class PlaceService {
         }
 
         ObjectNode json = response.source();
-        PlaceApiController.PlaceReadTest placeReadTest = new PlaceApiController.PlaceReadTest(
+        ReadPlaceFromElastic readResult = new ReadPlaceFromElastic(
                 json.get("name").asText(),
+                json.findValuesAsText("hashtags"),
+                json.get("summary").asText(),
                 json.get("road_address").asText(),
                 json.get("category").asText()
         );
 
-        return placeReadTest;
+        return readResult;
     }
 
     /**
@@ -74,6 +75,21 @@ public class PlaceService {
 
         return place.get();
     }
+
+    /**
+     * 엘라스틱 id로 공간 조회하기
+     */
+    public Place findByElasticId(String elasticId) {
+
+        Optional<Place> place = placeRepository.findByElasticId(elasticId);
+        if(!place.isPresent()) throw new NotExistedPlaceException(ErrorCode.NOT_EXISTED_PLACE);
+
+        return place.get();
+    }
+
+
+
+    ///////////////////////////////////////////
 
     /**
      * 공간에 매핑된 모든 이미지 url들을 조회하기

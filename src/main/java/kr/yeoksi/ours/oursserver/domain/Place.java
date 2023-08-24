@@ -18,7 +18,7 @@ public class Place {
 
     @NotBlank
     @Column(length = 30)
-    private String elastic_index;
+    private String elasticId;
 
     @NotBlank
     @Column(length = 30)
