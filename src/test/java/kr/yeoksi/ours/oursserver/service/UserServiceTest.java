@@ -252,6 +252,51 @@ public class UserServiceTest {
         assertEquals(false, isBookmark2);
     }
 
+    @Test
+    public void 유저_장소_좋아요_여부_확인() {
+
+        // given
+
+        // 유저 정보 저장
+        User user = new User();
+        user.setId("sangjun");
+        user.setEmail("soma@gmail.com");
+        user.setNickname("testNickname");
+        user.setPhoneNumber("010-1234-5678");
+        user.setBirthday(LocalDateTime.now());
+
+        User user2 = new User();
+        user2.setId("sangjun2");
+        user2.setEmail("soma2@gmail.com");
+        user2.setNickname("testNickname2");
+        user2.setPhoneNumber("010-1234-5673");
+        user2.setBirthday(LocalDateTime.now());
+        userRepository.save(user);
+        userRepository.save(user2);
+
+        // 공간 정보 저장
+        Place place = new Place();
+        place.setElasticId("elasticId");
+        place.setName("테스트네임");
+        placeRepository.save(place);
+
+        // 좋아요 정보 저장
+        PlaceFavorite placeFavorite = new PlaceFavorite();
+        placeFavorite.setUser(user);
+        placeFavorite.setPlace(place);
+        placeFavoriteRepository.save(placeFavorite);
+
+
+        // when
+        boolean check1 = userService.checkFavorite(user.getId(), place.getId());
+        boolean check2 = userService.checkFavorite(user2.getId(), place.getId());
+
+
+        // then
+        assertEquals(true, check1);
+        assertEquals(false, check2);
+    }
+
     /*
     @Test
     public void 공간_좋아요_누르기() throws Exception {

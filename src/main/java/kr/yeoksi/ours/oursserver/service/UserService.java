@@ -198,4 +198,14 @@ public class UserService {
         if(!placeInBookmark.isPresent()) return false;
         else return true;
     }
+
+    /**
+     * 해당 장소에 대한 유저의 좋아요 여부 확인하기.
+     */
+    public boolean checkFavorite(String userId, Long placeId) {
+
+        Optional<PlaceFavorite> placeFavorite = placeFavoriteRepository.findByIds(userId, placeId);
+        if(!placeFavorite.isPresent()) return false;
+        else return true;
+    }
 }

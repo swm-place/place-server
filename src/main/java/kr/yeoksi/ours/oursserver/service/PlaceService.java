@@ -144,15 +144,6 @@ public class PlaceService {
         return placeFavoriteRepository.countFavorite(id);
     }
 
-    /**
-     * 해당 공간에 대한 유저의 좋아요 여부 확인하기.
-     */
-    public boolean checkFavorite(String userId, Long placeId) {
-
-        Optional<PlaceFavorite> placeFavorite = placeFavoriteRepository.findByIds(userId, placeId);
-        if(!placeFavorite.isPresent()) return false;
-        else return true;
-    }
 
     /**
      * 현재 운영중이라고 응답한 유저의 수 조회하기.
@@ -197,44 +188,4 @@ public class PlaceService {
         if(!placeReviewFavorite.isPresent()) return false;
         else return true;
     }
-
-    /**
-     * 엘라스틱 get 테스트
-     */
-    public ResponseEntity<Object> getPlaceData(String url) {
-
-        HashMap<String, Object> result = new HashMap<String, Object>();
-        ResponseEntity<Object> resultMap = new ResponseEntity<>(null, null, 200);
-
-        try {
-            RestTemplate restTemplate = new RestTemplate();
-            HttpHeaders header = new HttpHeaders();
-            HttpEntity<?> entity = new HttpEntity<>(header);
-
-            UriComponents uri = UriComponentsBuilder.fromHttpUrl(url).build();
-            resultMap = restTemplate.exchange(uri.toString(), HttpMethod.GET, entity, Object.class);
-
-            result.put("statusCode", resultMap.getStatusCodeValue()); //http status code를 확인
-            result.put("header", resultMap.getHeaders()); //헤더 정보 확인
-            result.put("body", resultMap.getBody()); //실제 데이터 정보 확인
-        } catch (HttpClientErrorException | HttpServerErrorException e) {
-            result.put("statusCode", e.getRawStatusCode());
-            result.put("body"  , e.getStatusText());
-            System.out.println("error");
-            System.out.println(e.toString());
-
-            return resultMap;
-        }
-        catch (Exception e) {
-            result.put("statusCode", "999");
-            result.put("body"  , "excpetion오류");
-            System.out.println(e.toString());
-
-            return resultMap;
-
-        }
-
-        return resultMap;
-    }
-
 }
