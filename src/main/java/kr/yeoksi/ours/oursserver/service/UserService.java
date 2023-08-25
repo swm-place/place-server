@@ -7,9 +7,7 @@ import kr.yeoksi.ours.oursserver.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -133,13 +131,13 @@ public class UserService {
      * 공간 북마크하기
      */
     @Transactional
-    public Long createPlaceInBookmark(PlacesInBookmark placesInBookmark) {
+    public Long createPlaceInBookmark(PlaceInBookmark placeInBookmark) {
 
-        Optional<PlacesInBookmark> checkPlaceInBookmark = placesInBookmarkRepository.findByIds(placesInBookmark.getPlace().getId(), placesInBookmark.getPlaceBookmark().getId());
+        Optional<PlaceInBookmark> checkPlaceInBookmark = placesInBookmarkRepository.findByIds(placeInBookmark.getPlace().getId(), placeInBookmark.getPlaceBookmark().getId());
         if(checkPlaceInBookmark.isPresent()) throw new DuplicatedPlaceInBookmarkException(ErrorCode.DUPLICATED_PLACE_IN_BOOKMARK);
 
-        placesInBookmarkRepository.save(placesInBookmark);
-        return placesInBookmark.getId();
+        placesInBookmarkRepository.save(placeInBookmark);
+        return placeInBookmark.getId();
     }
 
     /**

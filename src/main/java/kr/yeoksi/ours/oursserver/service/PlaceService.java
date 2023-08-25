@@ -37,6 +37,7 @@ public class PlaceService {
     private final PlaceOpenRepository placeOpenRepository;
     private final PlaceReviewRepository placeReviewRepository;
     private final PlaceReviewFavoriteRepository placeReviewFavoriteRepository;
+    private final PlaceInBookmarkRepository placeInBookmarkRepository;
 
     // Create the API client
     private final ElasticsearchClient elasticsearchClient;
@@ -88,6 +89,24 @@ public class PlaceService {
         return place.get();
     }
 
+    /**
+     * 유저가 공간을 북마크했는지 여부를 확인하기.
+     */
+    public boolean checkBookmark(String userId, Long placeId) {
+
+        Optional<PlaceInBookmark> placeInBookmark = placeInBookmarkRepository.findByIds(userId, placeId);
+        if(!placeInBookmark.isPresent()) return false;
+        else return true;
+    }
+
+
+
+
+
+
+
+
+
 
 
     ///////////////////////////////////////////
@@ -124,19 +143,6 @@ public class PlaceService {
 
         return hashtagNameList;
     }
-
-    /**
-     * 유저가 공간을 북마크했는지 여부를 확인하기.
-     */
-    /*
-    public boolean checkBookmark(String userid, Long placeId) {
-
-        Optional<PlaceBookmark> placeBookmark = placeBookmarkRepository.findByIds(userid, placeId);
-        if(!placeBookmark.isPresent()) return false;
-        else return true;
-    }
-
-     */
 
     /**
      * 공간의 좋아요 개수 조회하기.

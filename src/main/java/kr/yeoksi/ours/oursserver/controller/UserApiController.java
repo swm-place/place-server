@@ -220,10 +220,10 @@ public class UserApiController {
         PlaceBookmark placeBookmark = userService.getPlaceBookmark(placeBookmarkId);
         Place place = placeService.findById(request.getPlaceId());
 
-        PlacesInBookmark placesInBookmark = new PlacesInBookmark();
-        placesInBookmark.setPlace(place);
-        placesInBookmark.setPlaceBookmark(placeBookmark);
-        Long savedPlaceBookmarkId = userService.createPlaceInBookmark(placesInBookmark);
+        PlaceInBookmark placeInBookmark = new PlaceInBookmark();
+        placeInBookmark.setPlace(place);
+        placeInBookmark.setPlaceBookmark(placeBookmark);
+        Long savedPlaceBookmarkId = userService.createPlaceInBookmark(placeInBookmark);
 
 
         return ResponseEntity.ok().body(

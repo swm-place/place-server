@@ -16,7 +16,7 @@ public class ReadPlaceResponse {
     private String name;
     private String imgUrl;
     private List<String> hashtagList;
-    //private boolean isBookmark;
+    private boolean isBookmark;
     //private boolean isFavorite;
     private String summary;
     private String roadAddress;

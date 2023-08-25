@@ -20,6 +20,7 @@ public class PlaceApiController {
      */
     @GetMapping("/place/{placeIndex}")
     public ResponseEntity<Response<ReadPlaceResponse>> readPlace (
+            @RequestHeader("X-User-Uid") String userId,
             @PathVariable("placeIndex") String placeId) throws Exception {
 
         // DB에서 공간 정보 조회하기.
@@ -28,6 +29,19 @@ public class PlaceApiController {
         // 엘라스틱에서 공간 정보 조회하기.
         ReadPlaceFromElastic readPlaceFromElastic = placeService.readPlaceFromElastic(placeId);
 
+        // 공간 북마크 여부 확인
+        boolean isBookmark = placeService.checkBookmark(userId, place.getId());
+
+        // 공간 좋아요 여부 확인
+
+        // 운영중 응답자 수 확인
+
+        // 운영중 응답 여부 확인
+
+        // 한줄평 조회
+
+        // 사진 조회
+
         return ResponseEntity.ok().body(
                 Response.success(
                         new ReadPlaceResponse(
@@ -35,6 +49,7 @@ public class PlaceApiController {
                                 place.getName(),
                                 place.getImgUrl(),
                                 readPlaceFromElastic.getHashtagList(),
+                                isBookmark,
                                 readPlaceFromElastic.getSummary(),
                                 readPlaceFromElastic.getRoadAddress(),
                                 readPlaceFromElastic.getAddress()

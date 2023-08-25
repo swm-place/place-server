@@ -16,11 +16,11 @@ public class PlaceToPlace {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(referencedColumnName = "places_in_course_index", name = "places_in_course_index_left")
-    private PlacesInCourse leftPlace;
+    private PlaceInCourse leftPlace;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(referencedColumnName = "places_in_course_index", name = "places_in_course_index_right")
-    private PlacesInCourse rightPlace;
+    private PlaceInCourse rightPlace;
 
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "transportaion_index")
