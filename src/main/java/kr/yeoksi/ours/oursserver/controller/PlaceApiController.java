@@ -1,5 +1,7 @@
 package kr.yeoksi.ours.oursserver.controller;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import kr.yeoksi.ours.oursserver.domain.Place;
 import kr.yeoksi.ours.oursserver.domain.Response;
 import kr.yeoksi.ours.oursserver.domain.dto.place.request.ReadPlaceFromElastic;
@@ -7,6 +9,7 @@ import kr.yeoksi.ours.oursserver.domain.dto.place.response.ReadPlaceResponse;
 import kr.yeoksi.ours.oursserver.domain.dto.place.response.ReadPlaceReviewResponse;
 import kr.yeoksi.ours.oursserver.service.PlaceService;
 import kr.yeoksi.ours.oursserver.service.UserService;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -79,12 +82,28 @@ public class PlaceApiController {
         );
     }
 
+    /**
+     * 공간 정보 저장
+     */
+    @PostMapping("/place")
+    public void uploadPlace(@RequestBody @Valid CreatePlaceRequest request) {
+
+        Place place = new Place();
+        place.setName(request.getName());
+        place.setElasticId(request.getElasticId());
+        place.setCategory(request.getCategory());
+        place.setImgUrl(request.getImgUrl());
+
+        placeService.createPlace(place);
+    }
+
+
     @GetMapping("/connection")
     public ResponseEntity<Response<String>> checkConnection() {
 
         return ResponseEntity.ok().body(
                 Response.success(
-                        "jsonNode 타입을 리스트로 변환"
+                        "공간 정보 조회 api"
                 )
         );
     }
@@ -128,4 +147,21 @@ public class PlaceApiController {
     }
 
      */
+
+    /**
+     * 장소 데이터 저장을 위한 DTO
+     */
+    @Data
+    static class CreatePlaceRequest {
+
+        @NotBlank
+        private String elasticId;
+
+        @NotBlank
+        private String name;
+
+        private String category;
+
+        private String imgUrl;
+    }
 }

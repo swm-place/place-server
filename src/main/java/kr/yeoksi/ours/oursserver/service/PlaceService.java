@@ -44,6 +44,14 @@ public class PlaceService {
     private final ElasticsearchClient elasticsearchClient;
 
     /**
+     * 장소 저장하기
+     */
+    @Transactional
+    public void createPlace(Place place) {
+        placeRepository.save(place);
+    }
+
+    /**
      * 엘라스틱에서 장소 정보 조회하기
      */
     public ReadPlaceFromElastic readPlaceFromElastic(String placeId) throws Exception {
