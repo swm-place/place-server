@@ -4,11 +4,14 @@ import kr.yeoksi.ours.oursserver.domain.Place;
 import kr.yeoksi.ours.oursserver.domain.Response;
 import kr.yeoksi.ours.oursserver.domain.dto.place.request.ReadPlaceFromElastic;
 import kr.yeoksi.ours.oursserver.domain.dto.place.response.ReadPlaceResponse;
+import kr.yeoksi.ours.oursserver.domain.dto.place.response.ReadPlaceReviewResponse;
 import kr.yeoksi.ours.oursserver.service.PlaceService;
 import kr.yeoksi.ours.oursserver.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,7 +26,8 @@ public class PlaceApiController {
     @GetMapping("/place/{placeIndex}")
     public ResponseEntity<Response<ReadPlaceResponse>> readPlace (
             @RequestHeader("X-User-Uid") String userId,
-            @PathVariable("placeIndex") String placeId) throws Exception {
+            @PathVariable("placeIndex") String placeId,
+            @RequestParam(value = "reviewCount") int reviewCount) throws Exception {
 
         // DB에서 장소 정보 조회하기.
         Place place = placeService.findByElasticId(placeId);
@@ -47,6 +51,7 @@ public class PlaceApiController {
         int openCnt = placeService.getOpenCount(place.getId());
 
         // 한줄평 조회
+        List<ReadPlaceReviewResponse> placeReviewResponseList = placeService.getPlaceReviewList(userId, place.getId(), reviewCount);
 
         // 사진 조회
 
@@ -64,7 +69,8 @@ public class PlaceApiController {
                                 readPlaceFromElastic.getRoadAddress(),
                                 readPlaceFromElastic.getAddress(),
                                 isOpen,
-                                openCnt
+                                openCnt,
+                                placeReviewResponseList
                         )
                 )
         );

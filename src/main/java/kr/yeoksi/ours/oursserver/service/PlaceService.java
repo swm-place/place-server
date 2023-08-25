@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import kr.yeoksi.ours.oursserver.domain.*;
 import kr.yeoksi.ours.oursserver.domain.dto.place.request.ReadPlaceFromElastic;
+import kr.yeoksi.ours.oursserver.domain.dto.place.response.ReadPlaceReviewResponse;
 import kr.yeoksi.ours.oursserver.exception.ErrorCode;
 import kr.yeoksi.ours.oursserver.exception.NotExistedPlaceException;
 import kr.yeoksi.ours.oursserver.exception.NotFoundPlaceAtElasticSearchException;
@@ -37,6 +38,7 @@ public class PlaceService {
     private final PlaceOpenRepository placeOpenRepository;
     private final PlaceReviewRepository placeReviewRepository;
     private final PlaceReviewFavoriteRepository placeReviewFavoriteRepository;
+    private final PlaceReviewComplainRepository placeReviewComplainRepository;
 
     // Create the API client
     private final ElasticsearchClient elasticsearchClient;
@@ -91,6 +93,63 @@ public class PlaceService {
         return place.get();
     }
 
+    /**
+     * 공간의 좋아요 개수 조회하기.
+     */
+    public int getFavoriteCount(Long id) {
+
+        return placeFavoriteRepository.countFavorite(id);
+    }
+
+
+    /**
+     * 현재 운영중이라고 응답한 유저의 수 조회하기.
+     */
+    public int getOpenCount(Long id) {
+
+        return placeOpenRepository.countOpen(id);
+    }
+
+    /**
+     * 해당 장소에 매핑된 한줄평을 주어진 개수만큼 조회하기
+     */
+    public List<ReadPlaceReviewResponse> getPlaceReviewList(String uesrId, Long placeId, int reviewCount) {
+
+        // 장소에 매핑된 한줄평을 주어진 개수만큼 조회
+        List<PlaceReview> placeReviewList = placeReviewRepository.findByPlaceId(placeId, reviewCount);
+
+        List<ReadPlaceReviewResponse> readPlaceReviewResponseList = new ArrayList<>();
+        if(!CollectionUtils.isEmpty(placeReviewList)) {
+            for(PlaceReview placeReview : placeReviewList) {
+
+                // 각각의 한줄평에 대한 유저의 좋아요 여부 확인
+                Optional<PlaceReviewFavorite> placeReviewFavorite = placeReviewFavoriteRepository.findByIds(uesrId, placeReview.getId());
+                boolean isFavorite;
+                if(!placeReviewFavorite.isPresent()) isFavorite = false;
+                else isFavorite = true;
+
+                // 각각의 한줄평에 대한 유저의 신고 여부 확인
+                Optional<PlaceReviewComplain> placeReviewComplain = placeReviewComplainRepository.findByIds(uesrId, placeReview.getId());
+                boolean isComplain;
+                if(!placeReviewComplain.isPresent()) isComplain = false;
+                else isComplain = true;
+
+                readPlaceReviewResponseList.add(
+                        new ReadPlaceReviewResponse(
+                                placeReview.getId(),
+                                placeReview.getContents(),
+                                placeReview.getUser().getImgUrl(),
+                                placeReview.getUser().getNickname(),
+                                placeReview.getCratedAt(),
+                                isFavorite,
+                                isComplain
+                        )
+                );
+            }
+        }
+        return readPlaceReviewResponseList;
+    }
+
 
 
 
@@ -137,23 +196,6 @@ public class PlaceService {
     }
 
     /**
-     * 공간의 좋아요 개수 조회하기.
-     */
-    public int getFavoriteCount(Long id) {
-
-        return placeFavoriteRepository.countFavorite(id);
-    }
-
-
-    /**
-     * 현재 운영중이라고 응답한 유저의 수 조회하기.
-     */
-    public int getOpenCount(Long id) {
-
-        return placeOpenRepository.countOpen(id);
-    }
-
-    /**
      * 해당 공간에 매핑된 한줄평들 조회하기.
      */
     public List<PlaceReview> getAllPlaceReviewList(Long id) {
@@ -161,21 +203,4 @@ public class PlaceService {
         return placeReviewRepository.findAllByPlaceId(id);
     }
 
-    /**
-     * 해당 공간에 매핑된 한줄평을 주어진 개수만큼 조회하기
-     */
-    public List<PlaceReview> getPlaceReviewList(Long id, int reviewCount) {
-
-        return placeReviewRepository.findByPlaceId(id, reviewCount);
-    }
-
-    /**
-     * 한줄평에 대한 좋아요 여부 확인하기
-     */
-    public boolean checkReviewFavorite(String userId, Long placeReviewId) {
-
-        Optional<PlaceReviewFavorite> placeReviewFavorite = placeReviewFavoriteRepository.findByIds(userId, placeReviewId);
-        if(!placeReviewFavorite.isPresent()) return false;
-        else return true;
-    }
 }

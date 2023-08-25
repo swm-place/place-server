@@ -26,7 +26,7 @@ public class ReadPlaceResponse {
     private boolean isOpen;
     private int openCnt;
     // 전화번호 추가 필요
-    //private List<ReadPlaceReviewResponse> placeReviewList;
+    private List<ReadPlaceReviewResponse> placeReviewList;
     //private List<String> placeImgUrlList;
     // 관련 장소
     // 관련 스토리

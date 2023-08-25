@@ -34,13 +34,14 @@ public class PlaceReviewRepository {
     }
 
     /**
-     * 공간에 매핑된 한줄평을 주어진 개수만큼 조회하기
+     * 장소에 매핑된 한줄평을 주어진 개수만큼 조회하기
      */
     public List<PlaceReview> findByPlaceId(Long placeId, int reviewCount) {
 
         return em.createQuery(
                 "SELECT r FROM PlaceReview  r " +
-                        "WHERE r.place.id =: placeId", PlaceReview.class)
+                        "WHERE r.place.id =: placeId " +
+                        "ORDER BY r.id DESC ", PlaceReview.class)
                 .setParameter("placeId", placeId)
                 .setMaxResults(reviewCount)
                 .getResultList();
