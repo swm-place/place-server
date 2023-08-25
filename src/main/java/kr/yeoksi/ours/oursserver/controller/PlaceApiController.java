@@ -37,9 +37,8 @@ public class PlaceApiController {
         // 장소 좋아요 여부 확인
         boolean isFavorite = userService.checkFavorite(userId, place.getId());
 
-
-
         // 장소의 좋아요 개수 조회
+        int favoriteCnt = placeService.getFavoriteCount(place.getId());
 
 
         // 운영중 응답자 수 확인
@@ -59,6 +58,7 @@ public class PlaceApiController {
                                 readPlaceFromElastic.getHashtagList(),
                                 isBookmark,
                                 isFavorite,
+                                favoriteCnt,
                                 readPlaceFromElastic.getSummary(),
                                 readPlaceFromElastic.getRoadAddress(),
                                 readPlaceFromElastic.getAddress()
@@ -93,10 +93,6 @@ public class PlaceApiController {
 
         // 공간에 매핑된 해시태그 조회
         List<String> hashtagList = placeService.getHashtagList(id);
-
-
-        // 해당 공간의 좋아요 개수 확인
-        int favorites = placeService.getFavoriteCount(id);
 
 
 
