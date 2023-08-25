@@ -154,16 +154,6 @@ public class PlaceService {
     }
 
     /**
-     * 해당 공간에 대한 유저의 운영중 응답 여부 확인하기.
-     */
-    public boolean checkOpen(String userId, Long placeId) {
-
-        Optional<PlaceOpen> placeOpen = placeOpenRepository.findByIds(userId, placeId);
-        if(!placeOpen.isPresent()) return false;
-        else return true;
-    }
-
-    /**
      * 해당 공간에 매핑된 한줄평들 조회하기.
      */
     public List<PlaceReview> getAllPlaceReviewList(Long id) {

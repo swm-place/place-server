@@ -23,6 +23,7 @@ public class UserService {
     private final PlaceFavoriteRepository placeFavoriteRepository;
     private final PlacesInBookmarkRepository placesInBookmarkRepository;
     private final PlaceInBookmarkRepository placeInBookmarkRepository;
+    private final PlaceOpenRepository placeOpenRepository;
 
     /**
      * 회원 가입
@@ -206,6 +207,16 @@ public class UserService {
 
         Optional<PlaceFavorite> placeFavorite = placeFavoriteRepository.findByIds(userId, placeId);
         if(!placeFavorite.isPresent()) return false;
+        else return true;
+    }
+
+    /**
+     * 해당 장소에 대한 유저의 운영중 응답 여부 확인하기.
+     */
+    public boolean checkOpen(String userId, Long placeId) {
+
+        Optional<PlaceOpen> placeOpen = placeOpenRepository.findByIds(userId, placeId);
+        if(!placeOpen.isPresent()) return false;
         else return true;
     }
 }

@@ -40,10 +40,10 @@ public class PlaceApiController {
         // 장소의 좋아요 개수 조회
         int favoriteCnt = placeService.getFavoriteCount(place.getId());
 
+        // 운영중 응답 여부 확인
+        boolean isOpen = userService.checkOpen(userId, place.getId());
 
         // 운영중 응답자 수 확인
-
-        // 운영중 응답 여부 확인
 
         // 한줄평 조회
 
@@ -61,7 +61,8 @@ public class PlaceApiController {
                                 favoriteCnt,
                                 readPlaceFromElastic.getSummary(),
                                 readPlaceFromElastic.getRoadAddress(),
-                                readPlaceFromElastic.getAddress()
+                                readPlaceFromElastic.getAddress(),
+                                isOpen
                         )
                 )
         );
@@ -91,16 +92,11 @@ public class PlaceApiController {
         // 공간에 매핑된 이미지 조회
         List<String> placeImgUrlList = placeService.getImgUrlList(id);
 
-        // 공간에 매핑된 해시태그 조회
-        List<String> hashtagList = placeService.getHashtagList(id);
 
 
 
         // 현재 운영중이라고 응답한 유저의 수 조회
         int open = placeService.getOpenCount(id);
-
-        // 유저의 운영중 응답 여부 확인
-        boolean isOpen = placeService.checkOpen(uid, id);
 
         // 공간에 매핑된 한줄평들 조회하기
         List<PlaceReview> placeReviewList = placeService.getPlaceReviewList(id, reviewCount);

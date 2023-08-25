@@ -23,7 +23,7 @@ public class ReadPlaceResponse {
     private String roadAddress;
     private String address;
     // 운영시간 추가 필요
-    //private boolean isOpen;
+    private boolean isOpen;
     // 전화번호 추가 필요
     //private List<ReadPlaceReviewResponse> placeReviewList;
     //private List<String> placeImgUrlList;
