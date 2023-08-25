@@ -7,9 +7,7 @@ import kr.yeoksi.ours.oursserver.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +22,8 @@ public class UserService {
     private final PlaceBookmarkRepository placeBookmarkRepository;
     private final PlaceFavoriteRepository placeFavoriteRepository;
     private final PlacesInBookmarkRepository placesInBookmarkRepository;
+    private final PlaceInBookmarkRepository placeInBookmarkRepository;
+    private final PlaceOpenRepository placeOpenRepository;
 
     /**
      * 회원 가입
@@ -133,13 +133,13 @@ public class UserService {
      * 공간 북마크하기
      */
     @Transactional
-    public Long createPlaceInBookmark(PlacesInBookmark placesInBookmark) {
+    public Long createPlaceInBookmark(PlaceInBookmark placeInBookmark) {
 
-        Optional<PlacesInBookmark> checkPlaceInBookmark = placesInBookmarkRepository.findByIds(placesInBookmark.getPlace().getId(), placesInBookmark.getPlaceBookmark().getId());
+        Optional<PlaceInBookmark> checkPlaceInBookmark = placesInBookmarkRepository.findByIds(placeInBookmark.getPlace().getId(), placeInBookmark.getPlaceBookmark().getId());
         if(checkPlaceInBookmark.isPresent()) throw new DuplicatedPlaceInBookmarkException(ErrorCode.DUPLICATED_PLACE_IN_BOOKMARK);
 
-        placesInBookmarkRepository.save(placesInBookmark);
-        return placesInBookmark.getId();
+        placesInBookmarkRepository.save(placeInBookmark);
+        return placeInBookmark.getId();
     }
 
     /**
@@ -188,5 +188,35 @@ public class UserService {
         if(!placeFavorite.isPresent()) throw new NotExistedPlaceFavoriteException(ErrorCode.NOT_EXISTED_PLACE_FAVORITE);
 
         placeFavoriteRepository.delete(placeFavorite.get());
+    }
+
+    /**
+     * 유저가 장소를 북마크했는지 여부를 확인하기.
+     */
+    public boolean checkBookmark(String userId, Long placeId) {
+
+        Optional<PlaceInBookmark> placeInBookmark = placeInBookmarkRepository.findByIds(userId, placeId);
+        if(!placeInBookmark.isPresent()) return false;
+        else return true;
+    }
+
+    /**
+     * 해당 장소에 대한 유저의 좋아요 여부 확인하기.
+     */
+    public boolean checkFavorite(String userId, Long placeId) {
+
+        Optional<PlaceFavorite> placeFavorite = placeFavoriteRepository.findByIds(userId, placeId);
+        if(!placeFavorite.isPresent()) return false;
+        else return true;
+    }
+
+    /**
+     * 해당 장소에 대한 유저의 운영중 응답 여부 확인하기.
+     */
+    public boolean checkOpen(String userId, Long placeId) {
+
+        Optional<PlaceOpen> placeOpen = placeOpenRepository.findByIds(userId, placeId);
+        if(!placeOpen.isPresent()) return false;
+        else return true;
     }
 }

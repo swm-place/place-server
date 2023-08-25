@@ -34,5 +34,5 @@ public class PlaceBookmark {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "placeBookmark")
-    private List<PlacesInBookmark> placesInBookmarks;
+    private List<PlaceInBookmark> placeInBookmarks;
 }

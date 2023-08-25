@@ -10,26 +10,30 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class PlacesInBookmarkRepository {
+public class PlaceInBookmarkRepository {
 
     private final EntityManager em;
 
     /**
-     * 공간 북마크하기
+     * 장소 북마크 리스트에 장소 북마크 저장
      */
     public void save(PlaceInBookmark placeInBookmark) {
 
         em.persist(placeInBookmark);
     }
 
-    public Optional<PlaceInBookmark> findByIds(Long placeId, Long placeBookmarkId) {
+
+    /**
+     * 유저의 장소 북마크 여부 확인
+     */
+    public Optional<PlaceInBookmark> findByIds(String userId, Long placeId) {
 
         List<PlaceInBookmark> placeInBookmark = em.createQuery(
-                "SELECT p FROM PlaceInBookmark p " +
-                        "WHERE p.place.id =: placeId " +
-                        "AND p.placeBookmark.id =: placeBookmarkId ", PlaceInBookmark.class)
+                "SELECT pib FROM PlaceInBookmark pib " +
+                        "JOIN pib.placeBookmark pb " +
+                        "WHERE pb.user.id =: userId AND pib.place.id =: placeId", PlaceInBookmark.class)
+                .setParameter("userId", userId)
                 .setParameter("placeId", placeId)
-                .setParameter("placeBookmarkId", placeBookmarkId)
                 .getResultList();
 
         return placeInBookmark.stream().findAny();

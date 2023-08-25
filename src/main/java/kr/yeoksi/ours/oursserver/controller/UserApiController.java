@@ -220,10 +220,10 @@ public class UserApiController {
         PlaceBookmark placeBookmark = userService.getPlaceBookmark(placeBookmarkId);
         Place place = placeService.findById(request.getPlaceId());
 
-        PlacesInBookmark placesInBookmark = new PlacesInBookmark();
-        placesInBookmark.setPlace(place);
-        placesInBookmark.setPlaceBookmark(placeBookmark);
-        Long savedPlaceBookmarkId = userService.createPlaceInBookmark(placesInBookmark);
+        PlaceInBookmark placeInBookmark = new PlaceInBookmark();
+        placeInBookmark.setPlace(place);
+        placeInBookmark.setPlaceBookmark(placeBookmark);
+        Long savedPlaceBookmarkId = userService.createPlaceInBookmark(placeInBookmark);
 
 
         return ResponseEntity.ok().body(
@@ -294,7 +294,7 @@ public class UserApiController {
         Place place = placeService.findById(request.getPlaceId());
         userService.createPlaceFavorite(user, place);
 
-        boolean isFavorite = placeService.checkFavorite(userId, request.getPlaceId());
+        boolean isFavorite = userService.checkFavorite(userId, request.getPlaceId());
 
         return ResponseEntity.ok().body(
                 Response.success(
@@ -317,7 +317,7 @@ public class UserApiController {
         Place place = placeService.findById(placeId);
         userService.deletePlaceFavorite(user, place);
 
-        boolean isFavorite = placeService.checkFavorite(userId, placeId);
+        boolean isFavorite = userService.checkFavorite(userId, placeId);
 
         return ResponseEntity.ok().body(
                 Response.success(

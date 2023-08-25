@@ -34,6 +34,10 @@ public class UserServiceTest {
     PlaceBookmarkRepository placeBookmarkRepository;
     @Autowired
     PlaceFavoriteRepository placeFavoriteRepository;
+    @Autowired
+    PlaceInBookmarkRepository placeInBookmarkRepository;
+    @Autowired
+    PlaceOpenRepository placeOpenRepository;
 
     @Test
     public void 회원가입() throws Exception {
@@ -193,6 +197,151 @@ public class UserServiceTest {
         // then
         assertEquals(user.getNickname(), "changedNickname");
         assertEquals(user.getPhoneNumber(), "010-1111-1111");
+    }
+
+    @Test
+    public void 유저_장소_북마크_여부_확인() {
+
+        // given
+
+        // 유저 정보 저장
+        User user = new User();
+        user.setId("sangjun");
+        user.setEmail("soma@gmail.com");
+        user.setNickname("testNickname");
+        user.setPhoneNumber("010-1234-5678");
+        user.setBirthday(LocalDateTime.now());
+
+        User user2 = new User();
+        user2.setId("sangjun2");
+        user2.setEmail("soma2@gmail.com");
+        user2.setNickname("testNickname2");
+        user2.setPhoneNumber("010-1234-5673");
+        user2.setBirthday(LocalDateTime.now());
+        userRepository.save(user);
+        userRepository.save(user2);
+
+        // 공간 정보 저장
+        Place place = new Place();
+        place.setElasticId("elasticId");
+        place.setName("테스트네임");
+        placeRepository.save(place);
+
+        // 북마크 정보 저장
+        PlaceBookmark placeBookmark = new PlaceBookmark();
+        placeBookmark.setUser(user);
+        placeBookmark.setTitle("타이틀1");
+
+        PlaceBookmark placeBookmark2 = new PlaceBookmark();
+        placeBookmark2.setUser(user2);
+        placeBookmark.setTitle("타이틀2");
+        placeBookmarkRepository.save(placeBookmark);
+        placeBookmarkRepository.save(placeBookmark2);
+
+        PlaceInBookmark placeInBookmark = new PlaceInBookmark();
+        placeInBookmark.setPlace(place);
+        placeInBookmark.setPlaceBookmark(placeBookmark);
+        placeInBookmarkRepository.save(placeInBookmark);
+
+
+        // when
+        boolean isBookmark = userService.checkBookmark(user.getId(), place.getId());
+        boolean isBookmark2 = userService.checkBookmark(user2.getId(), place.getId());
+
+
+        // then
+        assertEquals(true, isBookmark);
+        assertEquals(false, isBookmark2);
+    }
+
+    @Test
+    public void 유저_장소_좋아요_여부_확인() {
+
+        // given
+
+        // 유저 정보 저장
+        User user = new User();
+        user.setId("sangjun");
+        user.setEmail("soma@gmail.com");
+        user.setNickname("testNickname");
+        user.setPhoneNumber("010-1234-5678");
+        user.setBirthday(LocalDateTime.now());
+
+        User user2 = new User();
+        user2.setId("sangjun2");
+        user2.setEmail("soma2@gmail.com");
+        user2.setNickname("testNickname2");
+        user2.setPhoneNumber("010-1234-5673");
+        user2.setBirthday(LocalDateTime.now());
+        userRepository.save(user);
+        userRepository.save(user2);
+
+        // 공간 정보 저장
+        Place place = new Place();
+        place.setElasticId("elasticId");
+        place.setName("테스트네임");
+        placeRepository.save(place);
+
+        // 좋아요 정보 저장
+        PlaceFavorite placeFavorite = new PlaceFavorite();
+        placeFavorite.setUser(user);
+        placeFavorite.setPlace(place);
+        placeFavoriteRepository.save(placeFavorite);
+
+
+        // when
+        boolean check1 = userService.checkFavorite(user.getId(), place.getId());
+        boolean check2 = userService.checkFavorite(user2.getId(), place.getId());
+
+
+        // then
+        assertEquals(true, check1);
+        assertEquals(false, check2);
+    }
+
+    @Test
+    public void 유저_장소_운영중_응답_여부_확인() {
+
+        // given
+
+        // 유저 정보 저장
+        User user = new User();
+        user.setId("sangjun");
+        user.setEmail("soma@gmail.com");
+        user.setNickname("testNickname");
+        user.setPhoneNumber("010-1234-5678");
+        user.setBirthday(LocalDateTime.now());
+
+        User user2 = new User();
+        user2.setId("sangjun2");
+        user2.setEmail("soma2@gmail.com");
+        user2.setNickname("testNickname2");
+        user2.setPhoneNumber("010-1234-5673");
+        user2.setBirthday(LocalDateTime.now());
+        userRepository.save(user);
+        userRepository.save(user2);
+
+        // 공간 정보 저장
+        Place place = new Place();
+        place.setElasticId("elasticId");
+        place.setName("테스트네임");
+        placeRepository.save(place);
+
+        // 운영중 정보 저장
+        PlaceOpen placeOpen = new PlaceOpen();
+        placeOpen.setUser(user);
+        placeOpen.setPlace(place);
+        placeOpenRepository.save(placeOpen);
+
+
+        // when
+        boolean check1 = userService.checkOpen(user.getId(), place.getId());
+        boolean check2 = userService.checkOpen(user2.getId(), place.getId());
+
+
+        // then
+        assertEquals(true, check1);
+        assertEquals(false, check2);
     }
 
     /*

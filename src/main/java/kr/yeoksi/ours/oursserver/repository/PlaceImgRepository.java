@@ -23,11 +23,25 @@ public class PlaceImgRepository {
     /**
      * placeId로 해당 공간에 매핑된 이미지 리스트 조회하기.
      */
-    public List<PlaceImg> findByPlaceId(Long placeId) {
+    public List<PlaceImg> findByPlaceId(Long placeId, int imgCount) {
 
         return em.createQuery(
                 "SELECT i FROM PlaceImg  i " +
-                        "WHERE i.place.id =: placeId ", PlaceImg.class)
+                        "WHERE i.place.id =: placeId " +
+                        "ORDER BY i.id DESC ", PlaceImg.class)
+                .setParameter("placeId", placeId)
+                .setMaxResults(imgCount)
+                .getResultList();
+    }
+
+    /**
+     * placeId로 해당 공간에 매핑된 이미지 리스트 조회하기.
+     */
+    public List<PlaceImg> findAllByPlaceId(Long placeId) {
+
+        return em.createQuery(
+                        "SELECT i FROM PlaceImg  i " +
+                                "WHERE i.place.id =: placeId ", PlaceImg.class)
                 .setParameter("placeId", placeId)
                 .getResultList();
     }
