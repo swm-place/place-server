@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 
 import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
@@ -30,7 +29,7 @@ public class PlaceServiceTest {
     PlaceInBookmarkRepository placeInBookmarkRepository;
 
     @Test
-    public void 엘라스틱id로_DB_공간_정보_조회() {
+    public void 엘라스틱id로_DB_장소_정보_조회() {
 
         // given
 
@@ -49,7 +48,7 @@ public class PlaceServiceTest {
     }
 
     @Test(expected = NotExistedPlaceException.class)
-    public void 엘라스틱id로_없는_공간_조회_예외() {
+    public void 엘라스틱id로_없는_장소_조회_예외() {
 
         // given
 
@@ -59,61 +58,6 @@ public class PlaceServiceTest {
 
         // then
         // expected = NotExistedPlaceException에 의한 존재하지 않는 공간 오류 발생 검증.
-    }
-
-    @Test
-    public void 유저_공간_북마크_여부_확인() {
-
-        // given
-
-        // 유저 정보 저장
-        User user = new User();
-        user.setId("sangjun");
-        user.setEmail("soma@gmail.com");
-        user.setNickname("testNickname");
-        user.setPhoneNumber("010-1234-5678");
-        user.setBirthday(LocalDateTime.now());
-
-        User user2 = new User();
-        user2.setId("sangjun2");
-        user2.setEmail("soma2@gmail.com");
-        user2.setNickname("testNickname2");
-        user2.setPhoneNumber("010-1234-5673");
-        user2.setBirthday(LocalDateTime.now());
-        userRepository.save(user);
-        userRepository.save(user2);
-
-        // 공간 정보 저장
-        Place place = new Place();
-        place.setElasticId("elasticId");
-        place.setName("테스트네임");
-        placeRepository.save(place);
-
-        // 북마크 정보 저장
-        PlaceBookmark placeBookmark = new PlaceBookmark();
-        placeBookmark.setUser(user);
-        placeBookmark.setTitle("타이틀1");
-
-        PlaceBookmark placeBookmark2 = new PlaceBookmark();
-        placeBookmark2.setUser(user2);
-        placeBookmark.setTitle("타이틀2");
-        placeBookmarkRepository.save(placeBookmark);
-        placeBookmarkRepository.save(placeBookmark2);
-
-        PlaceInBookmark placeInBookmark = new PlaceInBookmark();
-        placeInBookmark.setPlace(place);
-        placeInBookmark.setPlaceBookmark(placeBookmark);
-        placeInBookmarkRepository.save(placeInBookmark);
-
-
-        // when
-        boolean isBookmark = placeService.checkBookmark(user.getId(), place.getId());
-        boolean isBookmark2 = placeService.checkBookmark(user2.getId(), place.getId());
-
-
-        // then
-        assertEquals(true, isBookmark);
-        assertEquals(false, isBookmark2);
     }
 
 

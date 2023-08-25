@@ -37,11 +37,13 @@ public class PlaceService {
     private final PlaceOpenRepository placeOpenRepository;
     private final PlaceReviewRepository placeReviewRepository;
     private final PlaceReviewFavoriteRepository placeReviewFavoriteRepository;
-    private final PlaceInBookmarkRepository placeInBookmarkRepository;
 
     // Create the API client
     private final ElasticsearchClient elasticsearchClient;
 
+    /**
+     * 엘라스틱에서 장소 정보 조회하기
+     */
     public ReadPlaceFromElastic readPlaceFromElastic(String placeId) throws Exception {
 
         GetResponse<ObjectNode> response = elasticsearchClient.get(g -> g
@@ -68,7 +70,7 @@ public class PlaceService {
     }
 
     /**
-     * id로 공간 조회하기.
+     * id로 장소 조회하기.
      */
     public Place findById(Long id) {
 
@@ -79,7 +81,7 @@ public class PlaceService {
     }
 
     /**
-     * 엘라스틱 id로 공간 조회하기
+     * 엘라스틱 id로 장소 조회하기
      */
     public Place findByElasticId(String elasticId) {
 
@@ -87,16 +89,6 @@ public class PlaceService {
         if(!place.isPresent()) throw new NotExistedPlaceException(ErrorCode.NOT_EXISTED_PLACE);
 
         return place.get();
-    }
-
-    /**
-     * 유저가 공간을 북마크했는지 여부를 확인하기.
-     */
-    public boolean checkBookmark(String userId, Long placeId) {
-
-        Optional<PlaceInBookmark> placeInBookmark = placeInBookmarkRepository.findByIds(userId, placeId);
-        if(!placeInBookmark.isPresent()) return false;
-        else return true;
     }
 
 

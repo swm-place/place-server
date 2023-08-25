@@ -5,6 +5,7 @@ import kr.yeoksi.ours.oursserver.domain.Response;
 import kr.yeoksi.ours.oursserver.domain.dto.place.request.ReadPlaceFromElastic;
 import kr.yeoksi.ours.oursserver.domain.dto.place.response.ReadPlaceResponse;
 import kr.yeoksi.ours.oursserver.service.PlaceService;
+import kr.yeoksi.ours.oursserver.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class PlaceApiController {
 
     private final PlaceService placeService;
+    private final UserService userService;
 
     /**
      * 장소 세부정보 조회
@@ -23,16 +25,21 @@ public class PlaceApiController {
             @RequestHeader("X-User-Uid") String userId,
             @PathVariable("placeIndex") String placeId) throws Exception {
 
-        // DB에서 공간 정보 조회하기.
+        // DB에서 장소 정보 조회하기.
         Place place = placeService.findByElasticId(placeId);
 
-        // 엘라스틱에서 공간 정보 조회하기.
+        // 엘라스틱에서 장소 정보 조회하기.
         ReadPlaceFromElastic readPlaceFromElastic = placeService.readPlaceFromElastic(placeId);
 
-        // 공간 북마크 여부 확인
-        boolean isBookmark = placeService.checkBookmark(userId, place.getId());
+        // 장소 북마크 여부 조회
+        boolean isBookmark = userService.checkBookmark(userId, place.getId());
 
-        // 공간 좋아요 여부 확인
+        // 장소 좋아요 여부 확인
+
+
+
+        // 장소의 좋아요 개수 조회
+
 
         // 운영중 응답자 수 확인
 
@@ -78,8 +85,6 @@ public class PlaceApiController {
             @PathVariable("placeIndex") Long id,
             @RequestParam("reviewCount") int reviewCount) {
 
-        // 공간 정보 조회
-        Place place = placeService.findById(id);
 
         // 공간에 매핑된 이미지 조회
         List<String> placeImgUrlList = placeService.getImgUrlList(id);
@@ -87,8 +92,6 @@ public class PlaceApiController {
         // 공간에 매핑된 해시태그 조회
         List<String> hashtagList = placeService.getHashtagList(id);
 
-        // 북마크 여부 확인
-        //boolean isBookmark = placeService.checkBookmark(uid, id);
 
         // 해당 공간의 좋아요 개수 확인
         int favorites = placeService.getFavoriteCount(id);

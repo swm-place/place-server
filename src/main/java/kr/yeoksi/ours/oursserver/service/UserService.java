@@ -22,6 +22,7 @@ public class UserService {
     private final PlaceBookmarkRepository placeBookmarkRepository;
     private final PlaceFavoriteRepository placeFavoriteRepository;
     private final PlacesInBookmarkRepository placesInBookmarkRepository;
+    private final PlaceInBookmarkRepository placeInBookmarkRepository;
 
     /**
      * 회원 가입
@@ -186,5 +187,15 @@ public class UserService {
         if(!placeFavorite.isPresent()) throw new NotExistedPlaceFavoriteException(ErrorCode.NOT_EXISTED_PLACE_FAVORITE);
 
         placeFavoriteRepository.delete(placeFavorite.get());
+    }
+
+    /**
+     * 유저가 장소를 북마크했는지 여부를 확인하기.
+     */
+    public boolean checkBookmark(String userId, Long placeId) {
+
+        Optional<PlaceInBookmark> placeInBookmark = placeInBookmarkRepository.findByIds(userId, placeId);
+        if(!placeInBookmark.isPresent()) return false;
+        else return true;
     }
 }
