@@ -27,7 +27,8 @@ public class PlaceApiController {
     public ResponseEntity<Response<ReadPlaceResponse>> readPlace (
             @RequestHeader("X-User-Uid") String userId,
             @PathVariable("placeIndex") String placeId,
-            @RequestParam(value = "reviewCount") int reviewCount) throws Exception {
+            @RequestParam(value = "reviewCount") int reviewCount,
+            @RequestParam(value = "imgCount") int imgCount) throws Exception {
 
         // DB에서 장소 정보 조회하기.
         Place place = placeService.findByElasticId(placeId);
@@ -54,6 +55,7 @@ public class PlaceApiController {
         List<ReadPlaceReviewResponse> placeReviewResponseList = placeService.getPlaceReviewList(userId, place.getId(), reviewCount);
 
         // 사진 조회
+        List<String> imgUrlList = placeService.getImgUrlList(place.getId(), imgCount);
 
         return ResponseEntity.ok().body(
                 Response.success(
@@ -70,7 +72,8 @@ public class PlaceApiController {
                                 readPlaceFromElastic.getAddress(),
                                 isOpen,
                                 openCnt,
-                                placeReviewResponseList
+                                placeReviewResponseList,
+                                imgUrlList
                         )
                 )
         );
@@ -100,26 +103,6 @@ public class PlaceApiController {
         // 공간에 매핑된 이미지 조회
         List<String> placeImgUrlList = placeService.getImgUrlList(id);
 
-
-
-        // 공간에 매핑된 한줄평들 조회하기
-        List<PlaceReview> placeReviewList = placeService.getPlaceReviewList(id, reviewCount);
-        List<PlaceReviewResponse> placeReviewResponseList = new ArrayList<>();
-        if(!CollectionUtils.isEmpty(placeReviewList)) {
-            for(PlaceReview placeReview : placeReviewList) {
-                placeReviewResponseList.add(
-                        new PlaceReviewResponse(
-                                placeReview.getId(),
-                                placeReview.getUser().getId(),
-                                placeReview.getUser().getNickname(),
-                                placeReview.getUser().getImgUrl(),
-                                placeReview.getContents(),
-                                placeReview.getCratedAt(),
-                                placeService.checkReviewFavorite(
-                                        placeReview.getUser().getId(),
-                                        placeReview.getId())));
-            }
-        }
 
         return ResponseEntity.ok().body(
                 Response.success(

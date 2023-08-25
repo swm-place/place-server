@@ -39,6 +39,8 @@ public class PlaceServiceTest {
     PlaceReviewRepository placeReviewRepository;
     @Autowired PlaceReviewFavoriteRepository placeReviewFavoriteRepository;
     @Autowired PlaceReviewComplainRepository placeReviewComplainRepository;
+    @Autowired
+    PlaceImgRepository placeImgRepository;
 
     @Test
     public void 엘라스틱id로_DB_장소_정보_조회() {
@@ -265,28 +267,8 @@ public class PlaceServiceTest {
         assertEquals(true, placeReviewList.get(2).isComplain());
     }
 
-
-
-
-    /*
-
-
-    @Autowired
-    TermsOfServiceRepository termsOfServiceRepository;
-    @Autowired
-    PlaceImgRepository placeImgRepository;
-    @Autowired
-    HashtagRepository hashtagRepository;
-    @Autowired
-    HashtagAtPlaceRepository hashtagAtPlaceRepository;
-    @Autowired
-    PlaceReviewRepository placeReviewRepository;
-    @Autowired
-    PlaceReviewFavoriteRepository placeReviewFavoriteRepository;
-
-
     @Test
-    public void 공간에_매핑된_이미지_조회() {
+    public void 공간에_매핑된_이미지_주어진_개수만큼_조회() {
 
         // given
 
@@ -302,12 +284,8 @@ public class PlaceServiceTest {
 
         // 공간 정보 저장
         Place place = new Place();
-        place.setUser(user);
+        place.setElasticId("elasticId");
         place.setName("테스트네임");
-        place.setAddress("테스트주소");
-        place.setLongitude(127.0);
-        place.setLatitude(37.0);
-        place.setLocationCode(333);
         placeRepository.save(place);
 
 
@@ -315,16 +293,45 @@ public class PlaceServiceTest {
         PlaceImg placeImg1 = new PlaceImg();
         placeImg1.setPlace(place);
         placeImg1.setImgUrl("placeImg1.url");
+
+        PlaceImg placeImg2 = new PlaceImg();
+        placeImg2.setPlace(place);
+        placeImg2.setImgUrl("placeImg2.url");
+
+        PlaceImg placeImg3 = new PlaceImg();
+        placeImg3.setPlace(place);
+        placeImg3.setImgUrl("placeImg3.url");
         placeImgRepository.save(placeImg1);
+        placeImgRepository.save(placeImg2);
+        placeImgRepository.save(placeImg3);
 
 
         // when
-        List<String> imgUrls = placeService.getImgUrlList(place.getId());
+        List<String> imgUrls = placeService.getImgUrlList(place.getId(),2);
 
 
         // then
-        assertEquals(placeImg1.getImgUrl(), imgUrls.get(0));
+        assertEquals(2, imgUrls.size());
+        assertEquals(placeImg3.getImgUrl(), imgUrls.get(0));
+        assertEquals(placeImg2.getImgUrl(), imgUrls.get(1));
     }
+
+
+
+
+    /*
+
+
+    @Autowired
+    TermsOfServiceRepository termsOfServiceRepository;
+    @Autowired
+    HashtagRepository hashtagRepository;
+    @Autowired
+    HashtagAtPlaceRepository hashtagAtPlaceRepository;
+    @Autowired
+    PlaceReviewRepository placeReviewRepository;
+    @Autowired
+    PlaceReviewFavoriteRepository placeReviewFavoriteRepository;
 
     @Test
     public void 공간에_매핑된_해시태그_조회() {

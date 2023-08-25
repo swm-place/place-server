@@ -150,26 +150,14 @@ public class PlaceService {
         return readPlaceReviewResponseList;
     }
 
-
-
-
-
-
-
-
-
-
-
-    ///////////////////////////////////////////
-
     /**
-     * 공간에 매핑된 모든 이미지 url들을 조회하기
+     * 장소에 매핑된 모든 이미지 url들을 주어진 개수만큼 조회하기
      */
-    public List<String> getImgUrlList(Long id) {
+    public List<String> getImgUrlList(Long placeId, int imgCount) {
 
         List<String> imgUrlList = new ArrayList<>();
 
-        List<PlaceImg> placeImgList = placeImgRepository.findByPlaceId(id);
+        List<PlaceImg> placeImgList = placeImgRepository.findByPlaceId(placeId, imgCount);
         if(!CollectionUtils.isEmpty(placeImgList)) {
             for(PlaceImg placeImg : placeImgList) {
                 imgUrlList.add(placeImg.getImgUrl());
@@ -179,28 +167,18 @@ public class PlaceService {
     }
 
     /**
-     * 공간에 매핑된 모든 해시태그들을 조회하기.
+     * 장소에 매핑된 모든 이미지 url들을 조회하기
      */
-    public List<String> getHashtagList(Long id) {
+    public List<String> getAllImgUrlList(Long id) {
 
-        List<Hashtag> hashtagList = hashtagAtPlaceRepository.findAllHashtagsMapping(id);
+        List<String> imgUrlList = new ArrayList<>();
 
-        List<String> hashtagNameList = new ArrayList<>();
-        if(!CollectionUtils.isEmpty(hashtagList)) {
-            for(Hashtag hashtag : hashtagList) {
-                hashtagNameList.add(hashtag.getName());
+        List<PlaceImg> placeImgList = placeImgRepository.findAllByPlaceId(id);
+        if(!CollectionUtils.isEmpty(placeImgList)) {
+            for(PlaceImg placeImg : placeImgList) {
+                imgUrlList.add(placeImg.getImgUrl());
             }
         }
-
-        return hashtagNameList;
+        return imgUrlList;
     }
-
-    /**
-     * 해당 공간에 매핑된 한줄평들 조회하기.
-     */
-    public List<PlaceReview> getAllPlaceReviewList(Long id) {
-
-        return placeReviewRepository.findAllByPlaceId(id);
-    }
-
 }
