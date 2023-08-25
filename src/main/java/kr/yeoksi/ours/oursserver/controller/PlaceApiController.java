@@ -43,7 +43,8 @@ public class PlaceApiController {
         // 운영중 응답 여부 확인
         boolean isOpen = userService.checkOpen(userId, place.getId());
 
-        // 운영중 응답자 수 확인
+        // 운영중 응답자 수 조회
+        int openCnt = placeService.getOpenCount(place.getId());
 
         // 한줄평 조회
 
@@ -62,7 +63,8 @@ public class PlaceApiController {
                                 readPlaceFromElastic.getSummary(),
                                 readPlaceFromElastic.getRoadAddress(),
                                 readPlaceFromElastic.getAddress(),
-                                isOpen
+                                isOpen,
+                                openCnt
                         )
                 )
         );
@@ -93,10 +95,6 @@ public class PlaceApiController {
         List<String> placeImgUrlList = placeService.getImgUrlList(id);
 
 
-
-
-        // 현재 운영중이라고 응답한 유저의 수 조회
-        int open = placeService.getOpenCount(id);
 
         // 공간에 매핑된 한줄평들 조회하기
         List<PlaceReview> placeReviewList = placeService.getPlaceReviewList(id, reviewCount);
