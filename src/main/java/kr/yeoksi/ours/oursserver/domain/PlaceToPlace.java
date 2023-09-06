@@ -22,10 +22,6 @@ public class PlaceToPlace {
     @JoinColumn(referencedColumnName = "places_in_course_index", name = "places_in_course_index_right")
     private PlaceInCourse rightPlace;
 
-    @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "transportaion_index")
-    private Transportation transportation;
-
     @Column(name = "required_time")
     private Integer requiredTime;
 }
