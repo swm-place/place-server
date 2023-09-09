@@ -13,8 +13,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CourseMagazineServiceImpl implements CourseMagazineService {
 
-    private final CourseMagazineRepository courseMagazineRepository;
-    private final MagazineImageRepository magazineImageRepository;
+    private CourseMagazineRepository courseMagazineRepository;
+    private MagazineImageRepository magazineImageRepository;
 
     @Override
     public CourseMagazine publish(CourseMagazine courseMagazine) {
