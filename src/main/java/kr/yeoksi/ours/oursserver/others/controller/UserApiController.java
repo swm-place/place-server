@@ -3,7 +3,6 @@ package kr.yeoksi.ours.oursserver.others.controller;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import kr.yeoksi.ours.oursserver.domain.*;
 import kr.yeoksi.ours.oursserver.others.domain.*;
 import kr.yeoksi.ours.oursserver.others.service.PlaceService;
 import kr.yeoksi.ours.oursserver.others.service.TermService;

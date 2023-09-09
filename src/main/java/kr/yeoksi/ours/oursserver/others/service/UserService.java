@@ -1,11 +1,9 @@
 package kr.yeoksi.ours.oursserver.others.service;
 
 import kr.yeoksi.ours.oursserver.others.controller.UserApiController;
-import kr.yeoksi.ours.oursserver.domain.*;
 import kr.yeoksi.ours.oursserver.exception.*;
 import kr.yeoksi.ours.oursserver.others.domain.*;
 import kr.yeoksi.ours.oursserver.others.repository.*;
-import kr.yeoksi.ours.oursserver.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

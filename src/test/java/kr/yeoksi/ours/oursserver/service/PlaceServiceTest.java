@@ -1,12 +1,10 @@
 package kr.yeoksi.ours.oursserver.service;
 
-import kr.yeoksi.ours.oursserver.domain.*;
 import kr.yeoksi.ours.oursserver.others.domain.*;
 import kr.yeoksi.ours.oursserver.others.domain.dto.place.response.ReadPlaceReviewResponse;
 import kr.yeoksi.ours.oursserver.exception.NotExistedPlaceException;
 import kr.yeoksi.ours.oursserver.others.repository.*;
 import kr.yeoksi.ours.oursserver.others.service.PlaceService;
-import kr.yeoksi.ours.oursserver.repository.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
