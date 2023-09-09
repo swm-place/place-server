@@ -1,6 +1,6 @@
 package kr.yeoksi.ours.oursserver.exception;
 
-import kr.yeoksi.ours.oursserver.domain.Response;
+import kr.yeoksi.ours.oursserver.others.domain.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
