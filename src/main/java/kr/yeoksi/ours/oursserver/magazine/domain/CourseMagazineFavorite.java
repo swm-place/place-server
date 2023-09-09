@@ -1,6 +1,8 @@
-package kr.yeoksi.ours.oursserver.others.domain;
+package kr.yeoksi.ours.oursserver.magazine.domain;
 
 import jakarta.persistence.*;
+import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazine;
+import kr.yeoksi.ours.oursserver.others.domain.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

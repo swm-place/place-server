@@ -1,8 +1,9 @@
-package kr.yeoksi.ours.oursserver.others.domain;
+package kr.yeoksi.ours.oursserver.magazine.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import kr.yeoksi.ours.oursserver.others.domain.User;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
