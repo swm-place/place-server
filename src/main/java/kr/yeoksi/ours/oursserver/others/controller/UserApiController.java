@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import kr.yeoksi.ours.oursserver.others.domain.*;
+import kr.yeoksi.ours.oursserver.others.dto.UpdateUserInformationResponse;
 import kr.yeoksi.ours.oursserver.others.service.PlaceService;
 import kr.yeoksi.ours.oursserver.others.service.TermService;
 import kr.yeoksi.ours.oursserver.others.service.UserService;
@@ -105,12 +106,13 @@ public class UserApiController {
      * 유저 정보 수정
      */
     @PatchMapping("/user")
-    public ResponseEntity<Response<Void>> updateUserInformation(@RequestBody @Valid UpdateUserInformationRequest request) {
+    public ResponseEntity<Response<UpdateUserInformationResponse>> updateUserInformation(@RequestHeader("X-User-Uid") String uid,
+                                                                @RequestBody @Valid UpdateUserInformationRequest request) {
 
-        userService.updateUserInformation(request);
+        UpdateUserInformationResponse updatedUser = userService.updateUserInformation(uid, request);
 
         return ResponseEntity.ok()
-                .body(Response.success(null));
+                .body(Response.success(updatedUser));
     }
 
     /**

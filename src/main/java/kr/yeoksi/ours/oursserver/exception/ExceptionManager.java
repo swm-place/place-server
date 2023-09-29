@@ -92,4 +92,11 @@ public class ExceptionManager {
         return ResponseEntity.status(e.getErrorCode().getStatus())
                 .body(Response.error(e.getErrorCode().getMessage()));
     }
+
+    @ExceptionHandler(InsufficientPrivilegesException.class)
+    public ResponseEntity<?> insufficientPrivilegesException(InsufficientPrivilegesException e) {
+
+        return ResponseEntity.status(e.getErrorCode().getStatus())
+                .body(Response.error(e.getErrorCode().getMessage()));
+    }
 }
