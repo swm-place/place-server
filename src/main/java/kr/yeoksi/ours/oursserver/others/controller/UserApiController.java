@@ -240,28 +240,23 @@ public class UserApiController {
     /**
      * 공간 북마크 삭제하기.
      */
-    /*
-    @DeleteMapping("/user/{userIndex}/place-bookmark/{placeIndex}")
-    public ResponseEntity<Response<PlaceBookmarkResponse>> deletePlaceBookmark(
+    @DeleteMapping("/user/{userIndex}/place-bookmark/{placeBookmarkIndex}/place/{placeIndex}")
+    public ResponseEntity<Response<Void>> deletePlaceInBookmark(
+            @RequestHeader("X-User-Uid") String uid,
             @PathVariable("userIndex") @NotBlank String userId,
+            @PathVariable("placeBookmarkIndex") @NotNull Long placeBookmarkId,
             @PathVariable("placeIndex") @NotNull Long placeId) {
 
-        User user = userService.findById(userId);
-        Place place = placeService.findById(placeId);
-        userService.deletePlaceBookmark(user, place);
+        // 본인의 리소스에 대한 접근인지 인증
+        userService.authentication(uid, userId);
 
-        boolean isBookmark = placeService.checkBookmark(userId, placeId);
+        userService.deletePlaceInBookmark(placeId, placeBookmarkId);
+
 
         return ResponseEntity.ok().body(
-                Response.success(
-                        new PlaceBookmarkResponse(
-                                isBookmark
-                        )
-                )
+                Response.success(null)
         );
     }
-
-     */
 
     /**
      * 유저가 북마크한 공간 조회하기.

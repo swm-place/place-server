@@ -296,6 +296,47 @@ public class UserServiceTest {
     }
 
     @Test
+    public void 공간_북마크_삭제() {
+
+        // given
+
+        // 유저 정보 저장
+        User user = new User();
+        user.setId("sangjun");
+        user.setEmail("soma@gmail.com");
+        user.setNickname("testNickname");
+        user.setPhoneNumber("010-1234-5678");
+        user.setBirthday(LocalDateTime.now());
+        userRepository.save(user);
+
+        // 공간 정보 저장
+        Place place = new Place();
+        place.setElasticId("elasticId");
+        place.setName("테스트네임");
+        placeRepository.save(place);
+
+        // 북마크 정보 저장
+        PlaceBookmark placeBookmark = new PlaceBookmark();
+        placeBookmark.setUser(user);
+        placeBookmark.setTitle("타이틀1");
+        placeBookmarkRepository.save(placeBookmark);
+
+        PlaceInBookmark placeInBookmark = new PlaceInBookmark();
+        placeInBookmark.setPlace(place);
+        placeInBookmark.setPlaceBookmark(placeBookmark);
+        placeInBookmarkRepository.save(placeInBookmark);
+
+
+        // when
+        userService.deletePlaceInBookmark(place.getId(), placeBookmark.getId());
+        boolean isBookmark = userService.checkBookmark(user.getId(), place.getId());
+
+
+        // then
+        assertEquals(false, isBookmark);
+    }
+
+    @Test
     public void 유저_장소_좋아요_여부_확인() {
 
         // given

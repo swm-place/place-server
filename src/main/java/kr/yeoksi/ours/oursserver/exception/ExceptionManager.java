@@ -99,4 +99,11 @@ public class ExceptionManager {
         return ResponseEntity.status(e.getErrorCode().getStatus())
                 .body(Response.error(e.getErrorCode().getMessage()));
     }
+
+    @ExceptionHandler(NotExistedPlaceInBookmarkException.class)
+    public ResponseEntity<?> notExistedPlaceInBookmarkException(NotExistedPlaceInBookmarkException e) {
+
+        return ResponseEntity.status(e.getErrorCode().getStatus())
+                .body(Response.error(e.getErrorCode().getMessage()));
+    }
 }

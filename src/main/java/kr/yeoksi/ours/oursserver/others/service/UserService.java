@@ -22,7 +22,6 @@ public class UserService {
     private final TermsAgreementRepository termsAgreementRepository;
     private final PlaceBookmarkRepository placeBookmarkRepository;
     private final PlaceFavoriteRepository placeFavoriteRepository;
-    private final PlacesInBookmarkRepository placesInBookmarkRepository;
     private final PlaceInBookmarkRepository placeInBookmarkRepository;
     private final PlaceOpenRepository placeOpenRepository;
 
@@ -166,26 +165,26 @@ public class UserService {
     @Transactional
     public Long createPlaceInBookmark(PlaceInBookmark placeInBookmark) {
 
-        Optional<PlaceInBookmark> checkPlaceInBookmark = placesInBookmarkRepository.findByIds(placeInBookmark.getPlace().getId(), placeInBookmark.getPlaceBookmark().getId());
+        Optional<PlaceInBookmark> checkPlaceInBookmark = placeInBookmarkRepository.findByIds(placeInBookmark.getPlace().getId(), placeInBookmark.getPlaceBookmark().getId());
         if(checkPlaceInBookmark.isPresent()) throw new DuplicatedPlaceInBookmarkException(ErrorCode.DUPLICATED_PLACE_IN_BOOKMARK);
 
-        placesInBookmarkRepository.save(placeInBookmark);
+        placeInBookmarkRepository.save(placeInBookmark);
         return placeInBookmark.getId();
     }
 
     /**
      * 공간 북마크 삭제하기
      */
-    /*
     @Transactional
-    public void deletePlaceBookmark(User user, Place place) {
+    public void deletePlaceInBookmark(Long placeId, Long placeBookmarkId) {
 
-        Optional<PlaceBookmark> placeBookmark = placeBookmarkRepository.findByIds(user.getId(), place.getId());
-        if(!placeBookmark.isPresent()) throw new NotExistedPlaceBookmarkException(ErrorCode.NOT_EXISTED_PLACE_BOOKMARK);
+        Optional<PlaceInBookmark> placeInBookmark = placeInBookmarkRepository.findByIds(placeId, placeBookmarkId);
 
-        placeBookmarkRepository.delete(placeBookmark.get());
+        if (!placeInBookmark.isPresent())
+            throw new NotExistedPlaceInBookmarkException(ErrorCode.NOT_EXISTED_PLACE_IN_BOOKMARK);
+
+        placeInBookmarkRepository.delete(placeInBookmark.get());
     }
-     */
 
     /**
      * 유저가 북마크한 공간 리스트 조회하기
@@ -226,7 +225,7 @@ public class UserService {
      */
     public boolean checkBookmark(String userId, Long placeId) {
 
-        Optional<PlaceInBookmark> placeInBookmark = placeInBookmarkRepository.findByIds(userId, placeId);
+        Optional<PlaceInBookmark> placeInBookmark = placeInBookmarkRepository.checkBookmark(userId, placeId);
         if(!placeInBookmark.isPresent()) return false;
         else return true;
     }
