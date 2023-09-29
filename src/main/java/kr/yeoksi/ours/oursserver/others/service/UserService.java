@@ -115,6 +115,14 @@ public class UserService {
     }
 
     /**
+     * 본인의 리소스에 대한 접근인지 확인하기
+     */
+    public void authentication(String headerUid, String inputUid) {
+
+        if(!inputUid.equals(headerUid)) throw new InsufficientPrivilegesException(ErrorCode.INSUFFICIENT_PRIVILEGES);
+    }
+
+    /**
      * 이용약관 리스트 받기
      */
     public List<TermsOfService> readAllTerms() {
