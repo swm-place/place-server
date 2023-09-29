@@ -3,6 +3,7 @@ package kr.yeoksi.ours.oursserver.others.service;
 import kr.yeoksi.ours.oursserver.others.controller.UserApiController;
 import kr.yeoksi.ours.oursserver.exception.*;
 import kr.yeoksi.ours.oursserver.others.domain.*;
+import kr.yeoksi.ours.oursserver.others.dto.UpdateUserInformationResponse;
 import kr.yeoksi.ours.oursserver.others.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -81,14 +82,36 @@ public class UserService {
      * 유저 정보 수정
      */
     @Transactional
-    public void updateUserInformation(UserApiController.UpdateUserInformationRequest request) {
+    public UpdateUserInformationResponse updateUserInformation(String uid,
+                                                               UserApiController.UpdateUserInformationRequest request) {
 
-        User user = userRepository.findById(request.getUserIndex()).get();
+        Optional<User> findUser = userRepository.findById(request.getUserIndex());
+
+        // 존재하지 않는 유저에 대한 수정
+        if(!findUser.isPresent()) throw new NotExistedUserException(ErrorCode.NOT_EXISTED_USER);
+
+        User user = findUser.get();
+
+        // 다른 유저의 정보 수정 시도
+        if(!user.getId().equals(uid)) throw new InsufficientPrivilegesException(ErrorCode.INSUFFICIENT_PRIVILEGES);
+
 
         if(request.getNickname() != null) user.setNickname(request.getNickname());
         if(request.getPhoneNumber() != null) user.setPhoneNumber(request.getPhoneNumber());
         if(request.getGender() != null) user.setGender(request.getGender());
         if(request.getBirthday() != null) user.setBirthday(request.getBirthday());
+
+        // 프로필 이미지 업로드에 대한 작업 필요.
+
+        return new UpdateUserInformationResponse(
+                user.getId(),
+                user.getEmail(),
+                user.getNickname(),
+                user.getPhoneNumber(),
+                user.getGender(),
+                user.getBirthday(),
+                user.getImgUrl()
+        );
     }
 
     /**

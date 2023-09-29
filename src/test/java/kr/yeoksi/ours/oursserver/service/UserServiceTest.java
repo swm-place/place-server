@@ -191,6 +191,8 @@ public class UserServiceTest {
 
         // when
         userService.updateUserInformation(
+                "sangjun",
+
                 new UserApiController.UpdateUserInformationRequest(
                         savedUserId,
                         "changedNickname",
@@ -202,6 +204,40 @@ public class UserServiceTest {
         // then
         assertEquals(user.getNickname(), "changedNickname");
         assertEquals(user.getPhoneNumber(), "010-1111-1111");
+        assertEquals(0, user.getGender());
+    }
+
+    @Test(expected = InsufficientPrivilegesException.class)
+    public void 다른_유저_정보_수정() throws Exception {
+
+        // given
+        User user = new User();
+        user.setId("sangjun");
+        user.setEmail("soma@gmail.com");
+        user.setNickname("testNickname");
+        user.setPhoneNumber("010-1234-5678");
+        user.setGender(0);
+        user.setBirthday(LocalDateTime.now());
+
+        List<TermsOfService> agreedTerms = new ArrayList<>();
+
+        String savedUserId = userService.signUp(user, agreedTerms);
+
+
+        // when
+        userService.updateUserInformation(
+                "sangjun2",
+
+                new UserApiController.UpdateUserInformationRequest(
+                        savedUserId,
+                        "changedNickname",
+                        "010-1111-1111",
+                        0,
+                        LocalDateTime.now()));
+
+
+        // then
+        // expected = InsufficientPrivilegesException에 의한 다른 유저 정보 수정 오류 발생 검증.
     }
 
     @Test
