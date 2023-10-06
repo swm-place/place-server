@@ -24,6 +24,7 @@ public class UserService {
     private final PlaceFavoriteRepository placeFavoriteRepository;
     private final PlaceInBookmarkRepository placeInBookmarkRepository;
     private final PlaceOpenRepository placeOpenRepository;
+    private final PlaceRepository placeRepository;
 
     /**
      * 회원 가입
@@ -173,7 +174,7 @@ public class UserService {
     }
 
     /**
-     * 공간 북마크 삭제하기
+     * 장소 북마크 삭제하기
      */
     @Transactional
     public void deletePlaceInBookmark(Long placeId, Long placeBookmarkId) {
@@ -187,14 +188,13 @@ public class UserService {
     }
 
     /**
-     * 유저가 북마크한 공간 리스트 조회하기
+     * 유저의 장소 북마크 그룹 내의 장소들 조회하기.
      */
-    /*
-    public List<PlaceBookmark> readAllPlaceBookmark(User user) {
+    public List<Place> readAllPlaceInBookmark(User user, PlaceBookmark placeBookmark) {
 
-        return placeBookmarkRepository.findAllBookmarkedPlace(user.getId());
+        return placeRepository.readAllPlaceInPlaceBookmark(user.getId(), placeBookmark.getId());
     }
-     */
+
     /**
      * 공간에 좋아요 누르기
      */
