@@ -2,6 +2,7 @@ package kr.yeoksi.ours.oursserver.others.repository;
 
 import jakarta.persistence.EntityManager;
 import kr.yeoksi.ours.oursserver.others.domain.PlaceBookmark;
+import kr.yeoksi.ours.oursserver.others.domain.PlaceInBookmark;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

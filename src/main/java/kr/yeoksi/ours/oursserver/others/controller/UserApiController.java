@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import kr.yeoksi.ours.oursserver.others.domain.*;
 import kr.yeoksi.ours.oursserver.others.dto.UpdateUserInformationResponse;
+import kr.yeoksi.ours.oursserver.others.dto.place.response.ReadPlaceInBookmarkResponse;
 import kr.yeoksi.ours.oursserver.others.service.PlaceService;
 import kr.yeoksi.ours.oursserver.others.service.TermService;
 import kr.yeoksi.ours.oursserver.others.service.UserService;
@@ -240,49 +241,60 @@ public class UserApiController {
     /**
      * 공간 북마크 삭제하기.
      */
-    /*
-    @DeleteMapping("/user/{userIndex}/place-bookmark/{placeIndex}")
-    public ResponseEntity<Response<PlaceBookmarkResponse>> deletePlaceBookmark(
+    @DeleteMapping("/user/{userIndex}/place-bookmark/{placeBookmarkIndex}/place/{placeIndex}")
+    public ResponseEntity<Response<Void>> deletePlaceInBookmark(
+            @RequestHeader("X-User-Uid") String uid,
             @PathVariable("userIndex") @NotBlank String userId,
+            @PathVariable("placeBookmarkIndex") @NotNull Long placeBookmarkId,
             @PathVariable("placeIndex") @NotNull Long placeId) {
 
-        User user = userService.findById(userId);
-        Place place = placeService.findById(placeId);
-        userService.deletePlaceBookmark(user, place);
+        // 본인의 리소스에 대한 접근인지 인증
+        userService.authentication(uid, userId);
 
-        boolean isBookmark = placeService.checkBookmark(userId, placeId);
+        userService.deletePlaceInBookmark(placeId, placeBookmarkId);
+
 
         return ResponseEntity.ok().body(
-                Response.success(
-                        new PlaceBookmarkResponse(
-                                isBookmark
-                        )
-                )
+                Response.success(null)
         );
     }
 
-     */
-
     /**
-     * 유저가 북마크한 공간 조회하기.
+     * 유저의 장소 북마크 그룹 내의 장소들 조회하기
      */
     /*
-    @GetMapping("/user/{userIndex}/place-bookmark")
-    public ResponseEntity<Response<List<ReadPlaceBookmarkResponse>>> readPlaceBookmarks(
-            @PathVariable("userIndex") @NotBlank String userId) {
+    @GetMapping("/user/{userIndex}/place-bookmark/{placeBookmarkIndex}")
+    public ResponseEntity<Response<List<ReadPlaceInBookmarkResponse>>> readPlaceInBookmark(
+            @PathVariable("userIndex") @NotBlank String userId,
+            @PathVariable("placeBookmarkIndex") @NotNull Long placeBookmarkId) {
 
         User user = userService.findById(userId);
-        List<PlaceBookmark> bookmarkedPlaces = userService.readAllPlaceBookmark(user);
+        PlaceBookmark placeBookmark = userService.getPlaceBookmark(placeBookmarkId);
+
+        List<Place> placesInBookmark = userService.readAllPlaceInBookmark(user, placeBookmark);
+
+
+        // 현재 여기 작업중.
+        // 운영중 여부랑 해시태그 리스트를 조회해오려면 엘라스틱에 조회를 날려야하는데 이거 어떻게 하기로 했더라?
 
         return ResponseEntity.ok().body(
                 Response.success(
+                        placesInBookmark.stream().map(
+                                p -> new ReadPlaceInBookmarkResponse(
+                                        p
+                                )
+                        )
                         bookmarkedPlaces.stream().map(
                                 b -> new ReadPlaceBookmarkResponse(
                                         b.getPlace().getId(),
                                         b.getPlace().getName()))
                                 .collect(Collectors.toList())));
     }
-     */
+    */
+
+
+
+    //-------- 이 아래부터 점검
 
     /**
      * 공간 좋아요 누르기.

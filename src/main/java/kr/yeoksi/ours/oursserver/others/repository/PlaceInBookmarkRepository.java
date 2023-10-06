@@ -22,11 +22,24 @@ public class PlaceInBookmarkRepository {
         em.persist(placeInBookmark);
     }
 
+    public Optional<PlaceInBookmark> findByIds(Long placeId, Long placeBookmarkId) {
+
+        List<PlaceInBookmark> placeInBookmark = em.createQuery(
+                        "SELECT pib FROM PlaceInBookmark pib " +
+                                "WHERE pib.place.id =: placeId " +
+                                "AND pib.placeBookmark.id =: placeBookmarkId ", PlaceInBookmark.class)
+                .setParameter("placeId", placeId)
+                .setParameter("placeBookmarkId", placeBookmarkId)
+                .getResultList();
+
+        return placeInBookmark.stream().findAny();
+    }
+
 
     /**
      * 유저의 장소 북마크 여부 확인
      */
-    public Optional<PlaceInBookmark> findByIds(String userId, Long placeId) {
+    public Optional<PlaceInBookmark> checkBookmark(String userId, Long placeId) {
 
         List<PlaceInBookmark> placeInBookmark = em.createQuery(
                 "SELECT pib FROM PlaceInBookmark pib " +
@@ -37,5 +50,13 @@ public class PlaceInBookmarkRepository {
                 .getResultList();
 
         return placeInBookmark.stream().findAny();
+    }
+
+    /**
+     * 장소 북마크 취소하기.
+     */
+    public void delete(PlaceInBookmark placeInBookmark) {
+
+        em.remove(placeInBookmark);
     }
 }

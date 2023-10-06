@@ -2,9 +2,11 @@ package kr.yeoksi.ours.oursserver.others.repository;
 
 import jakarta.persistence.EntityManager;
 import kr.yeoksi.ours.oursserver.others.domain.Place;
+import kr.yeoksi.ours.oursserver.others.domain.PlaceInBookmark;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -42,5 +44,23 @@ public class PlaceRepository {
                 .setParameter("elasticId", elasticId)
                 .getResultList()
                 .stream().findAny();
+    }
+
+    /**
+     * 유저의 장소 북마크 그룹 내의 장소들 조회하기
+     */
+    public List<Place> readAllPlaceInPlaceBookmark(String userId, Long placeBookmarkId) {
+
+        List<Place> placesInBookmark = em.createQuery(
+                        "SELECT p FROM PlaceInBookmark pib " +
+                                "JOIN FETCH pib.place p " +
+                                "JOIN pib.placeBookmark pb " +
+                                "WHERE pb.user.id =: userId " +
+                                "AND pb.id =: placeBookmarkId ", Place.class)
+                .setParameter("userId", userId)
+                .setParameter("placeBookmarkId", placeBookmarkId)
+                .getResultList();
+
+        return placesInBookmark;
     }
 }

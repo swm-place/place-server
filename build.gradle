@@ -41,6 +41,11 @@ dependencies {
     // elasticsearch 통신을 위해 추가
     implementation 'co.elastic.clients:elasticsearch-java'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+
+    // RDB에 json 저장 및 파싱을 위해 추가
+    implementation 'io.hypersistence:hypersistence-utils-hibernate-60:3.3.1'
+    implementation 'com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations'
 }
 
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
