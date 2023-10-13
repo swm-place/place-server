@@ -97,7 +97,7 @@ public class PlaceService {
     /**
      * 공간의 좋아요 개수 조회하기.
      */
-    public int getFavoriteCount(Long id) {
+    public int getFavoriteCount(String id) {
 
         return placeFavoriteRepository.countFavorite(id);
     }
@@ -106,7 +106,7 @@ public class PlaceService {
     /**
      * 현재 운영중이라고 응답한 유저의 수 조회하기.
      */
-    public int getOpenCount(Long id) {
+    public int getOpenCount(String id) {
 
         return placeOpenRepository.countOpen(id);
     }

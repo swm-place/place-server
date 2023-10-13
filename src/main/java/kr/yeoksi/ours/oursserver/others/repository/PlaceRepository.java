@@ -27,7 +27,7 @@ public class PlaceRepository {
     /**
      * id로 공간 조회하기.
      */
-    public Optional<Place> findById(Long id) {
+    public Optional<Place> findById(String id) {
 
         Place place = em.find(Place.class, id);
         return Optional.ofNullable(place);

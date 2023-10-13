@@ -25,7 +25,7 @@ public class PlaceFavoriteRepository {
     /**
      * 공간의 좋아요 개수 조회하기.
      */
-    public int countFavorite(Long id) {
+    public int countFavorite(String id) {
 
         return em.createQuery(
                 "SELECT f FROM PlaceFavorite f " +
