@@ -84,14 +84,15 @@ public class PlaceService {
 
     /**
      * 엘라스틱 id로 장소 조회하기
+     * @deprecated ID로 장소 조회하는 서비스와 통합
      */
-    public Place findByElasticId(String elasticId) {
-
-        Optional<Place> place = placeRepository.findByElasticId(elasticId);
-        if(!place.isPresent()) throw new NotExistedPlaceException(ErrorCode.NOT_EXISTED_PLACE);
-
-        return place.get();
-    }
+//    public Place findByElasticId(String elasticId) {
+//
+//        Optional<Place> place = placeRepository.findByElasticId(elasticId);
+//        if(!place.isPresent()) throw new NotExistedPlaceException(ErrorCode.NOT_EXISTED_PLACE);
+//
+//        return place.get();
+//    }
 
     /**
      * 공간의 좋아요 개수 조회하기.
