@@ -18,7 +18,7 @@ public class PlaceRepository {
     /**
      * 공간 저장하기.
      */
-    public Long save(Place place) {
+    public String save(Place place) {
 
         em.persist(place);
         return place.getId();
