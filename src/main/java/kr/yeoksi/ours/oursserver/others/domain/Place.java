@@ -21,10 +21,6 @@ public class Place {
     private String id;
 
     @NotBlank
-    @Column(name = "elastic_id", length = 30)
-    private String elasticId;
-
-    @NotBlank
     @Column(length = 30)
     @Size(max = 30)
     private String name;
