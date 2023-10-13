@@ -16,9 +16,9 @@ import java.util.Map;
 @Getter @Setter
 public class Place {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     @Column(name = "place_index")
-    private Long id;
+    private String id;
 
     @NotBlank
     @Column(name = "elastic_id", length = 30)
