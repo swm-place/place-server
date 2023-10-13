@@ -74,7 +74,7 @@ public class PlaceService {
     /**
      * id로 장소 조회하기.
      */
-    public Place findById(Long id) {
+    public Place findById(String id) {
 
         Optional<Place> place = placeRepository.findById(id);
         if(!place.isPresent()) throw new NotExistedPlaceException(ErrorCode.NOT_EXISTED_PLACE);
@@ -113,7 +113,7 @@ public class PlaceService {
     /**
      * 해당 장소에 매핑된 한줄평을 주어진 개수만큼 조회하기
      */
-    public List<ReadPlaceReviewResponse> getPlaceReviewList(String uesrId, Long placeId, int reviewCount) {
+    public List<ReadPlaceReviewResponse> getPlaceReviewList(String uesrId, String placeId, int reviewCount) {
 
         // 장소에 매핑된 한줄평을 주어진 개수만큼 조회
         List<PlaceReview> placeReviewList = placeReviewRepository.findByPlaceId(placeId, reviewCount);
@@ -153,7 +153,7 @@ public class PlaceService {
     /**
      * 장소에 매핑된 모든 이미지 url들을 주어진 개수만큼 조회하기
      */
-    public List<String> getImgUrlList(Long placeId, int imgCount) {
+    public List<String> getImgUrlList(String placeId, int imgCount) {
 
         List<String> imgUrlList = new ArrayList<>();
 
@@ -169,7 +169,7 @@ public class PlaceService {
     /**
      * 장소에 매핑된 모든 이미지 url들을 조회하기
      */
-    public List<String> getAllImgUrlList(Long id) {
+    public List<String> getAllImgUrlList(String id) {
 
         List<String> imgUrlList = new ArrayList<>();
 

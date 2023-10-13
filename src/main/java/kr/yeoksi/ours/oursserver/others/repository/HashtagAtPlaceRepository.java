@@ -26,7 +26,7 @@ public class HashtagAtPlaceRepository {
     /**
      * 공간에 매핑된 모든 해시태그 조회하기.
      */
-    public List<Hashtag> findAllHashtagsMapping(Long placeId) {
+    public List<Hashtag> findAllHashtagsMapping(String placeId) {
 
         List<Hashtag> hashtagList = new ArrayList<>();
         List<HashtagAtPlace> hashtagAtPlaces =  em.createQuery(

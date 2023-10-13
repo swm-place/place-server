@@ -9,7 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ReadPlaceInBookmarkResponse {
 
-    private Long placeId;
+    private String placeId;
     private String elasticId;
     private String name;
     private String category;

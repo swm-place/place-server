@@ -38,7 +38,7 @@ public class PlaceFavoriteRepository {
     /**
      * 유저 아이디와 공간 아이디로 유저의 좋아요 여부 조회하기
      */
-    public Optional<PlaceFavorite> findByIds(String userId, Long placeId) {
+    public Optional<PlaceFavorite> findByIds(String userId, String placeId) {
 
         List<PlaceFavorite> placeFavorite = em.createQuery(
                 "SELECT f FROM PlaceFavorite f " +

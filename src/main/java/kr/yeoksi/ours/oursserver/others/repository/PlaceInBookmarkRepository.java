@@ -22,7 +22,7 @@ public class PlaceInBookmarkRepository {
         em.persist(placeInBookmark);
     }
 
-    public Optional<PlaceInBookmark> findByIds(Long placeId, Long placeBookmarkId) {
+    public Optional<PlaceInBookmark> findByIds(String placeId, Long placeBookmarkId) {
 
         List<PlaceInBookmark> placeInBookmark = em.createQuery(
                         "SELECT pib FROM PlaceInBookmark pib " +
@@ -39,7 +39,7 @@ public class PlaceInBookmarkRepository {
     /**
      * 유저의 장소 북마크 여부 확인
      */
-    public Optional<PlaceInBookmark> checkBookmark(String userId, Long placeId) {
+    public Optional<PlaceInBookmark> checkBookmark(String userId, String placeId) {
 
         List<PlaceInBookmark> placeInBookmark = em.createQuery(
                 "SELECT pib FROM PlaceInBookmark pib " +
