@@ -24,7 +24,7 @@ public class PlaceReviewRepository {
     /**
      * 공간에 매핑된 모든 한줄평 조회하기
      */
-    public List<PlaceReview> findAllByPlaceId(Long placeId) {
+    public List<PlaceReview> findAllByPlaceId(String placeId) {
 
         return em.createQuery(
                 "SELECT r FROM PlaceReview r " +
@@ -36,7 +36,7 @@ public class PlaceReviewRepository {
     /**
      * 장소에 매핑된 한줄평을 주어진 개수만큼 조회하기
      */
-    public List<PlaceReview> findByPlaceId(Long placeId, int reviewCount) {
+    public List<PlaceReview> findByPlaceId(String placeId, int reviewCount) {
 
         return em.createQuery(
                 "SELECT r FROM PlaceReview  r " +

@@ -264,7 +264,7 @@ public class UserServiceTest {
 
         // 공간 정보 저장
         Place place = new Place();
-        place.setElasticId("elasticId");
+        place.setId("placeId");
         place.setName("테스트네임");
         placeRepository.save(place);
 
@@ -311,7 +311,7 @@ public class UserServiceTest {
 
         // 공간 정보 저장
         Place place = new Place();
-        place.setElasticId("elasticId");
+        place.setId("placeId");
         place.setName("테스트네임");
         placeRepository.save(place);
 
@@ -360,7 +360,7 @@ public class UserServiceTest {
 
         // 공간 정보 저장
         Place place = new Place();
-        place.setElasticId("elasticId");
+        place.setId("placeId");
         place.setName("테스트네임");
         placeRepository.save(place);
 
@@ -405,7 +405,7 @@ public class UserServiceTest {
 
         // 공간 정보 저장
         Place place = new Place();
-        place.setElasticId("elasticId");
+        place.setId("placeId");
         place.setName("테스트네임");
         placeRepository.save(place);
 

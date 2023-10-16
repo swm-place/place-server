@@ -18,7 +18,7 @@ public class PlaceRepository {
     /**
      * 공간 저장하기.
      */
-    public Long save(Place place) {
+    public String save(Place place) {
 
         em.persist(place);
         return place.getId();
@@ -27,7 +27,7 @@ public class PlaceRepository {
     /**
      * id로 공간 조회하기.
      */
-    public Optional<Place> findById(Long id) {
+    public Optional<Place> findById(String id) {
 
         Place place = em.find(Place.class, id);
         return Optional.ofNullable(place);
@@ -35,16 +35,17 @@ public class PlaceRepository {
 
     /**
      * 엘라스틱 id로 공간 조회하기
+     * @deprecated Elastic ID가 곧 ID 이므로, findById()로 대체
      */
-    public Optional<Place> findByElasticId(String elasticId) {
-
-        return em.createQuery(
-                "SELECT p FROM Place p " +
-                        "WHERE p.elasticId =: elasticId ", Place.class)
-                .setParameter("elasticId", elasticId)
-                .getResultList()
-                .stream().findAny();
-    }
+//    public Optional<Place> findByElasticId(String elasticId) {
+//
+//        return em.createQuery(
+//                "SELECT p FROM Place p " +
+//                        "WHERE p.elasticId =: elasticId ", Place.class)
+//                .setParameter("elasticId", elasticId)
+//                .getResultList()
+//                .stream().findAny();
+//    }
 
     /**
      * 유저의 장소 북마크 그룹 내의 장소들 조회하기

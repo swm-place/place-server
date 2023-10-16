@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
+import org.hibernate.generator.EventType;
 
 import java.time.LocalDateTime;
 
@@ -26,7 +29,7 @@ public class PlaceImg {
     @Column(name = "img_url")
     private String imgUrl;
 
-    @CreationTimestamp
-    @Column(name = "created_at")
+    @Generated(event = EventType.INSERT)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 }

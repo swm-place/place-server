@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ReadPlaceResponse {
 
-    private Long id;
+    private String id;
     private String name;
     private String imgUrl;
     private List<String> hashtagList;

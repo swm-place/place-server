@@ -35,7 +35,7 @@ public class PlaceApiController {
             @RequestParam(value = "imgCount") int imgCount) throws Exception {
 
         // DB에서 장소 정보 조회하기.
-        Place place = placeService.findByElasticId(placeId);
+        Place place = placeService.findById(placeId);
 
         // 엘라스틱에서 장소 정보 조회하기.
         ReadPlaceFromElastic readPlaceFromElastic = placeService.readPlaceFromElastic(placeId);
@@ -90,8 +90,8 @@ public class PlaceApiController {
     public void uploadPlace(@RequestBody @Valid CreatePlaceRequest request) {
 
         Place place = new Place();
+        place.setId(request.getId());
         place.setName(request.getName());
-        place.setElasticId(request.getElasticId());
         place.setCategory(request.getCategory());
         place.setImgUrl(request.getImgUrl());
 
@@ -156,7 +156,7 @@ public class PlaceApiController {
     static class CreatePlaceRequest {
 
         @NotBlank
-        private String elasticId;
+        private String Id;
 
         @NotBlank
         private String name;

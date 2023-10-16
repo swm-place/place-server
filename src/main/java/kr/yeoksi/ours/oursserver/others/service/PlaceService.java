@@ -74,7 +74,7 @@ public class PlaceService {
     /**
      * id로 장소 조회하기.
      */
-    public Place findById(Long id) {
+    public Place findById(String id) {
 
         Optional<Place> place = placeRepository.findById(id);
         if(!place.isPresent()) throw new NotExistedPlaceException(ErrorCode.NOT_EXISTED_PLACE);
@@ -84,19 +84,20 @@ public class PlaceService {
 
     /**
      * 엘라스틱 id로 장소 조회하기
+     * @deprecated ID로 장소 조회하는 서비스와 통합
      */
-    public Place findByElasticId(String elasticId) {
-
-        Optional<Place> place = placeRepository.findByElasticId(elasticId);
-        if(!place.isPresent()) throw new NotExistedPlaceException(ErrorCode.NOT_EXISTED_PLACE);
-
-        return place.get();
-    }
+//    public Place findByElasticId(String elasticId) {
+//
+//        Optional<Place> place = placeRepository.findByElasticId(elasticId);
+//        if(!place.isPresent()) throw new NotExistedPlaceException(ErrorCode.NOT_EXISTED_PLACE);
+//
+//        return place.get();
+//    }
 
     /**
      * 공간의 좋아요 개수 조회하기.
      */
-    public int getFavoriteCount(Long id) {
+    public int getFavoriteCount(String id) {
 
         return placeFavoriteRepository.countFavorite(id);
     }
@@ -105,7 +106,7 @@ public class PlaceService {
     /**
      * 현재 운영중이라고 응답한 유저의 수 조회하기.
      */
-    public int getOpenCount(Long id) {
+    public int getOpenCount(String id) {
 
         return placeOpenRepository.countOpen(id);
     }
@@ -113,7 +114,7 @@ public class PlaceService {
     /**
      * 해당 장소에 매핑된 한줄평을 주어진 개수만큼 조회하기
      */
-    public List<ReadPlaceReviewResponse> getPlaceReviewList(String uesrId, Long placeId, int reviewCount) {
+    public List<ReadPlaceReviewResponse> getPlaceReviewList(String uesrId, String placeId, int reviewCount) {
 
         // 장소에 매핑된 한줄평을 주어진 개수만큼 조회
         List<PlaceReview> placeReviewList = placeReviewRepository.findByPlaceId(placeId, reviewCount);
@@ -153,7 +154,7 @@ public class PlaceService {
     /**
      * 장소에 매핑된 모든 이미지 url들을 주어진 개수만큼 조회하기
      */
-    public List<String> getImgUrlList(Long placeId, int imgCount) {
+    public List<String> getImgUrlList(String placeId, int imgCount) {
 
         List<String> imgUrlList = new ArrayList<>();
 
@@ -169,7 +170,7 @@ public class PlaceService {
     /**
      * 장소에 매핑된 모든 이미지 url들을 조회하기
      */
-    public List<String> getAllImgUrlList(Long id) {
+    public List<String> getAllImgUrlList(String id) {
 
         List<String> imgUrlList = new ArrayList<>();
 

@@ -25,7 +25,7 @@ public class PlaceOpenRepository {
     /**
      * 해당 공간이 현재 운영중이라고 응답한 유저의 수 조회하기.
      */
-    public int countOpen(Long id) {
+    public int countOpen(String id) {
 
         return em.createQuery(
                 "SELECT o FROM PlaceOpen o " +
@@ -38,7 +38,7 @@ public class PlaceOpenRepository {
     /**
      * 유저 아이디와 공간 아이디로 유저의 운영중 응답 여부 조회하기.
      */
-    public Optional<PlaceOpen> findByIds(String userId, Long placeId) {
+    public Optional<PlaceOpen> findByIds(String userId, String placeId) {
 
         List<PlaceOpen> placeOpen = em.createQuery(
                 "SELECT o FROM PlaceOpen o " +

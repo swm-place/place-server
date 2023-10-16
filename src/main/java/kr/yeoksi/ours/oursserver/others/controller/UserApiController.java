@@ -246,7 +246,7 @@ public class UserApiController {
             @RequestHeader("X-User-Uid") String uid,
             @PathVariable("userIndex") @NotBlank String userId,
             @PathVariable("placeBookmarkIndex") @NotNull Long placeBookmarkId,
-            @PathVariable("placeIndex") @NotNull Long placeId) {
+            @PathVariable("placeIndex") @NotNull String placeId) {
 
         // 본인의 리소스에 대한 접근인지 인증
         userService.authentication(uid, userId);
@@ -325,7 +325,7 @@ public class UserApiController {
     @DeleteMapping("/user/{userIndex}/place-favorite/{placeIndex}")
     public ResponseEntity<Response<PlaceFavoriteResponse>> deletePlaceFavorite(
             @PathVariable("userIndex") @NotBlank String userId,
-            @PathVariable("placeIndex") @NotNull Long placeId) {
+            @PathVariable("placeIndex") @NotNull String placeId) {
 
         User user = userService.findById(userId);
         Place place = placeService.findById(placeId);
@@ -448,7 +448,7 @@ public class UserApiController {
     static class CreatePlaceFavoriteRequest {
 
         @NotNull
-        private Long placeId;
+        private String placeId;
     }
 
     /**
@@ -468,7 +468,7 @@ public class UserApiController {
     static class CreatePlaceInBookmarkRequest {
 
         @NotNull
-        private Long placeId;
+        private String placeId;
     }
 
     /**

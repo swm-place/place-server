@@ -23,7 +23,7 @@ public class PlaceImgRepository {
     /**
      * placeId로 해당 공간에 매핑된 이미지 리스트 조회하기.
      */
-    public List<PlaceImg> findByPlaceId(Long placeId, int imgCount) {
+    public List<PlaceImg> findByPlaceId(String placeId, int imgCount) {
 
         return em.createQuery(
                 "SELECT i FROM PlaceImg  i " +
@@ -37,7 +37,7 @@ public class PlaceImgRepository {
     /**
      * placeId로 해당 공간에 매핑된 이미지 리스트 조회하기.
      */
-    public List<PlaceImg> findAllByPlaceId(Long placeId) {
+    public List<PlaceImg> findAllByPlaceId(String placeId) {
 
         return em.createQuery(
                         "SELECT i FROM PlaceImg  i " +

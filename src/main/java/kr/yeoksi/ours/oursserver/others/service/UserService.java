@@ -177,7 +177,7 @@ public class UserService {
      * 장소 북마크 삭제하기
      */
     @Transactional
-    public void deletePlaceInBookmark(Long placeId, Long placeBookmarkId) {
+    public void deletePlaceInBookmark(String placeId, Long placeBookmarkId) {
 
         Optional<PlaceInBookmark> placeInBookmark = placeInBookmarkRepository.findByIds(placeId, placeBookmarkId);
 
@@ -223,7 +223,7 @@ public class UserService {
     /**
      * 유저가 장소를 북마크했는지 여부를 확인하기.
      */
-    public boolean checkBookmark(String userId, Long placeId) {
+    public boolean checkBookmark(String userId, String placeId) {
 
         Optional<PlaceInBookmark> placeInBookmark = placeInBookmarkRepository.checkBookmark(userId, placeId);
         if(!placeInBookmark.isPresent()) return false;
@@ -233,7 +233,7 @@ public class UserService {
     /**
      * 해당 장소에 대한 유저의 좋아요 여부 확인하기.
      */
-    public boolean checkFavorite(String userId, Long placeId) {
+    public boolean checkFavorite(String userId, String placeId) {
 
         Optional<PlaceFavorite> placeFavorite = placeFavoriteRepository.findByIds(userId, placeId);
         if(!placeFavorite.isPresent()) return false;
@@ -243,7 +243,7 @@ public class UserService {
     /**
      * 해당 장소에 대한 유저의 운영중 응답 여부 확인하기.
      */
-    public boolean checkOpen(String userId, Long placeId) {
+    public boolean checkOpen(String userId, String placeId) {
 
         Optional<PlaceOpen> placeOpen = placeOpenRepository.findByIds(userId, placeId);
         if(!placeOpen.isPresent()) return false;
