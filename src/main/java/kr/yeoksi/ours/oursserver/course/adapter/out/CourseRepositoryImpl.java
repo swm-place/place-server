@@ -6,6 +6,7 @@ import kr.yeoksi.ours.oursserver.course.service.port.out.CourseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -24,5 +25,13 @@ public class CourseRepositoryImpl implements CourseRepository {
     public Optional<Course> findById(Long id) {
         Optional<CourseJpaEntity> courseJpaEntity = courseJPARepository.findById(id);
         return courseJpaEntity.map(CourseJpaEntity::toCourse);
+    }
+
+    @Override
+    public List<Course> findAllByUserId(String userId) {
+        List<CourseJpaEntity> courseJpaEntities = courseJPARepository.findAllByUserId(userId);
+        return courseJpaEntities.stream()
+                .map(CourseJpaEntity::toCourse)
+                .toList();
     }
 }
