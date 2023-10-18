@@ -34,4 +34,9 @@ public class CourseRepositoryImpl implements CourseRepository {
                 .map(CourseJpaEntity::toCourse)
                 .toList();
     }
+
+    @Override
+    public void deleteById(Long id) {
+        courseJPARepository.deleteById(id);
+    }
 }
