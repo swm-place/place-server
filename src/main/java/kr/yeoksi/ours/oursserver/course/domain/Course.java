@@ -15,7 +15,7 @@ public class Course {
 
     private String title;
     private String description;
-    private PlaceInCourse[] places;
+    private PlaceInCourse[] placesInCourse;
 
     private LocalDateTime startAt;
     private LocalDateTime endAt;
