@@ -1,6 +1,7 @@
 package kr.yeoksi.ours.oursserver.course.service;
 
 import kr.yeoksi.ours.oursserver.course.domain.Course;
+import kr.yeoksi.ours.oursserver.course.exception.DuplicatedCourseException;
 import kr.yeoksi.ours.oursserver.course.exception.NotExistedCourseException;
 import kr.yeoksi.ours.oursserver.course.service.port.in.CourseService;
 import kr.yeoksi.ours.oursserver.course.service.port.out.CourseRepository;
@@ -18,6 +19,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course create(Course course) {
+        validateDuplicated(course);
         return courseRepository.save(course);
     }
 
@@ -47,6 +49,12 @@ public class CourseServiceImpl implements CourseService {
     private void checkExisted(Course course) {
         if (course.getId() == null || courseRepository.findById(course.getId()).isEmpty()) {
             throw new NotExistedCourseException();
+        }
+    }
+
+    private void validateDuplicated(Course course) {
+        if (course.getId() != null && courseRepository.findById(course.getId()).isPresent()) {
+            throw new DuplicatedCourseException();
         }
     }
 
