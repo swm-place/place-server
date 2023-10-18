@@ -1,6 +1,7 @@
 package kr.yeoksi.ours.oursserver.course.service;
 
 import kr.yeoksi.ours.oursserver.course.domain.Course;
+import kr.yeoksi.ours.oursserver.course.exception.NotExistedCourseException;
 import kr.yeoksi.ours.oursserver.course.service.port.in.CourseService;
 import kr.yeoksi.ours.oursserver.course.service.port.out.CourseRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +33,10 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course update(Course course) {
-        return null;
+        if (course.getId() == null || courseRepository.findById(course.getId()).isEmpty()) {
+            throw new NotExistedCourseException();
+        }
+        return courseRepository.save(course);
     }
 
     @Override
