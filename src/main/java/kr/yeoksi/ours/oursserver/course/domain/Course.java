@@ -2,7 +2,9 @@ package kr.yeoksi.ours.oursserver.course.domain;
 
 import kr.yeoksi.ours.oursserver.others.domain.PlaceInCourse;
 import kr.yeoksi.ours.oursserver.others.domain.User;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -10,6 +12,8 @@ import java.util.List;
 
 
 @Getter @Setter
+@RequiredArgsConstructor
+@Builder
 public class Course {
     private Long id;
     private User user;
