@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Getter @Setter
@@ -15,7 +16,7 @@ public class Course {
 
     private String title;
     private String description;
-    private PlaceInCourse[] placesInCourse;
+    private List<PlaceInCourse> placesInCourse;
 
     private LocalDateTime startAt;
     private LocalDateTime endAt;
