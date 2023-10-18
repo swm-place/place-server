@@ -1,4 +1,4 @@
 package kr.yeoksi.ours.oursserver.course.exception;
 
-public class NotExistedCourseException {
+public class NotExistedCourseException extends RuntimeException {
 }
