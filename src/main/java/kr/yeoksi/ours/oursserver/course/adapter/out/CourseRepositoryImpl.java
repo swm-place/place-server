@@ -11,8 +11,4 @@ public class CourseRepositoryImpl implements CourseRepository {
 
     private final CourseJPARepository courseJPARepository;
 
-    @Override
-    public Course save(Course course) {
-        return null;
-    }
 }
