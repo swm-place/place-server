@@ -41,19 +41,18 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public void delete(Long id) {
-
     }
 
 
     /*** private methods ***/
-    private void validateIsExisted(Course course) {
-        if (course.getId() == null || courseRepository.findById(course.getId()).isEmpty()) {
+    private void validateIsExisted(Long courseId) {
+        if (courseId == null || courseRepository.findById(courseId).isEmpty()) {
             throw new NotExistedCourseException();
         }
     }
 
-    private void validateIsDuplicated(Course course) {
-        if (course.getId() != null && courseRepository.findById(course.getId()).isPresent()) {
+    private void validateIsDuplicated(Long courseId) {
+        if (courseId != null && courseRepository.findById(courseId).isPresent()) {
             throw new DuplicatedCourseException();
         }
     }
