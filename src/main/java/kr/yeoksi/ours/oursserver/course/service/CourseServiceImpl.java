@@ -33,7 +33,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course update(Course course) {
-        validateDuplicated(course);
+        checkExisted(course);
         return courseRepository.save(course);
     }
 
@@ -44,7 +44,7 @@ public class CourseServiceImpl implements CourseService {
 
 
     /*** private methods ***/
-    private void validateDuplicated(Course course) {
+    private void checkExisted(Course course) {
         if (course.getId() == null || courseRepository.findById(course.getId()).isEmpty()) {
             throw new NotExistedCourseException();
         }
