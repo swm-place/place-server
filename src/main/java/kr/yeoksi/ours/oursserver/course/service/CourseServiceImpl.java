@@ -33,9 +33,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course update(Course course) {
-        if (course.getId() == null || courseRepository.findById(course.getId()).isEmpty()) {
-            throw new NotExistedCourseException();
-        }
+        validateDuplicated(course);
         return courseRepository.save(course);
     }
 
@@ -43,4 +41,13 @@ public class CourseServiceImpl implements CourseService {
     public void delete(Long id) {
 
     }
+
+
+    /*** private methods ***/
+    private void validateDuplicated(Course course) {
+        if (course.getId() == null || courseRepository.findById(course.getId()).isEmpty()) {
+            throw new NotExistedCourseException();
+        }
+    }
+
 }
