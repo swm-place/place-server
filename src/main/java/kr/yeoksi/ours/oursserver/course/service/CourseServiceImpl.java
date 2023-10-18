@@ -22,7 +22,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Optional<Course> findById(Long id) {
-        return Optional.empty();
+        return courseRepository.findById(id);
     }
 
     @Override
