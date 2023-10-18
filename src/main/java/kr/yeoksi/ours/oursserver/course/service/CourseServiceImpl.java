@@ -41,7 +41,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public void delete(Long id) {
-        validateIsDuplicated(id);
+        validateIsExisted(id);
         courseRepository.deleteById(id);
     }
 
