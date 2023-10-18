@@ -16,7 +16,7 @@ import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Getter @Setter
-public class CourseJPAEntity {
+public class CourseJpaEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "course_index")

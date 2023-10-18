@@ -2,7 +2,6 @@ package kr.yeoksi.ours.oursserver.course.adapter.out.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import kr.yeoksi.ours.oursserver.others.domain.Course;
 import kr.yeoksi.ours.oursserver.others.domain.Place;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +13,7 @@ import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Getter @Setter
-public class PlaceInCourseJPAEntity {
+public class PlaceInCourseJpaEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "places_in_course_index")
@@ -22,7 +21,7 @@ public class PlaceInCourseJPAEntity {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "course_index")
-    private CourseJPAEntity course;
+    private CourseJpaEntity course;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "place_index")
