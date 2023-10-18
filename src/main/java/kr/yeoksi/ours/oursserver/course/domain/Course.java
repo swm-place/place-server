@@ -14,7 +14,7 @@ public class Course {
     private String title;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
-    private boolean inProgress;
-    private boolean isFinished;
+    private Boolean inProgress;
+    private Boolean isFinished;
     private LocalDateTime createdAt;
 }
