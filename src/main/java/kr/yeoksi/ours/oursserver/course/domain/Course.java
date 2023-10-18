@@ -14,8 +14,6 @@ public class Course {
     private User user;
 
     private String title;
-    private String photoUrl;
-
     private String description;
     private PlaceInCourse[] places;
 
