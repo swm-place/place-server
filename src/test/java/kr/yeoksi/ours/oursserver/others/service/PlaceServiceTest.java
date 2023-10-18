@@ -1,4 +1,4 @@
-package kr.yeoksi.ours.oursserver.service;
+package kr.yeoksi.ours.oursserver.others.service;
 
 import kr.yeoksi.ours.oursserver.others.domain.*;
 import kr.yeoksi.ours.oursserver.others.domain.dto.place.response.ReadPlaceReviewResponse;
