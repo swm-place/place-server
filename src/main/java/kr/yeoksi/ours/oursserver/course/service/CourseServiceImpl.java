@@ -48,15 +48,19 @@ public class CourseServiceImpl implements CourseService {
 
     /*** private methods ***/
     private void validateIsExisted(Long courseId) {
-        if (courseId == null || courseRepository.findById(courseId).isEmpty()) {
+        if (!isExisted(courseId)) {
             throw new NotExistedCourseException();
         }
     }
 
     private void validateIsDuplicated(Long courseId) {
-        if (courseId != null && courseRepository.findById(courseId).isPresent()) {
+        if (isExisted(courseId)) {
             throw new DuplicatedCourseException();
         }
+    }
+
+    private boolean isExisted(Long courseId) {
+        return courseId != null && courseRepository.findById(courseId).isPresent();
     }
 
 }
