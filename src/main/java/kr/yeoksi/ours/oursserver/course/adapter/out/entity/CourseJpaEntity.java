@@ -36,6 +36,9 @@ public class CourseJpaEntity {
     @Size(max = 50)
     private String title;
 
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
+
     @Column(name = "start_at")
     private LocalDateTime startAt;
 
