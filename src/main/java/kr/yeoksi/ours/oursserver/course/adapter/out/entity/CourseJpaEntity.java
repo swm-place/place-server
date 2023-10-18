@@ -14,6 +14,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;
 
@@ -38,6 +39,9 @@ public class CourseJpaEntity {
 
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<PlaceInCourseJpaEntity> placesInCourse;
 
     @Column(name = "start_at")
     private LocalDateTime startAt;
