@@ -6,8 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CourseRepository {
-    Course persist(Course course);
+    Course save(Course course);
     Optional<Course> findById(Long id);
     List<Course> findAllByUserId(Long userId);
-    Course update(Course course);
 }
