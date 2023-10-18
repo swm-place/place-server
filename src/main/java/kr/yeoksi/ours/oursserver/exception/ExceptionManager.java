@@ -1,12 +1,13 @@
 package kr.yeoksi.ours.oursserver.exception;
 
 import kr.yeoksi.ours.oursserver.others.domain.Response;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice
+@RestControllerAdvice @Order(2)
 public class ExceptionManager {
 
     @ExceptionHandler(RuntimeException.class)
