@@ -3,6 +3,7 @@ package kr.yeoksi.ours.oursserver.service;
 import kr.yeoksi.ours.oursserver.others.controller.UserApiController;
 import kr.yeoksi.ours.oursserver.exception.*;
 import kr.yeoksi.ours.oursserver.others.domain.*;
+import kr.yeoksi.ours.oursserver.others.exception.*;
 import kr.yeoksi.ours.oursserver.others.repository.*;
 import kr.yeoksi.ours.oursserver.others.service.PlaceService;
 import kr.yeoksi.ours.oursserver.others.service.UserService;

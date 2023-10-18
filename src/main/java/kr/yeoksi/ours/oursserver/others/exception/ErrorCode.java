@@ -1,4 +1,4 @@
-package kr.yeoksi.ours.oursserver.exception;
+package kr.yeoksi.ours.oursserver.others.exception;
 
 import com.google.api.Http;
 import lombok.AllArgsConstructor;

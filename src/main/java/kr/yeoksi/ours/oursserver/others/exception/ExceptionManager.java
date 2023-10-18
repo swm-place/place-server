@@ -1,4 +1,4 @@
-package kr.yeoksi.ours.oursserver.exception;
+package kr.yeoksi.ours.oursserver.others.exception;
 
 import kr.yeoksi.ours.oursserver.others.domain.Response;
 import org.springframework.core.annotation.Order;
