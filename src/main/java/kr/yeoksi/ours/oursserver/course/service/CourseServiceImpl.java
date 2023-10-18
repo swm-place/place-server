@@ -19,7 +19,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course create(Course course) {
-        validateIsDuplicated(course);
+        validateIsDuplicated(course.getId());
         return courseRepository.save(course);
     }
 
@@ -35,12 +35,14 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course update(Course course) {
-        validateIsExisted(course);
+        validateIsExisted(course.getId());
         return courseRepository.save(course);
     }
 
     @Override
     public void delete(Long id) {
+        validateIsDuplicated(id);
+        courseRepository.deleteById(id);
     }
 
 
