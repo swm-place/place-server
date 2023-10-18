@@ -29,7 +29,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Course> findAllByUserId(Long userId) {
+    public List<Course> findAllByUserId(String userId) {
         return courseRepository.findAllByUserId(userId);
     }
 
