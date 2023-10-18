@@ -1,6 +1,5 @@
 package kr.yeoksi.ours.oursserver.course.domain;
 
-import kr.yeoksi.ours.oursserver.others.domain.PlaceInCourse;
 import kr.yeoksi.ours.oursserver.others.domain.User;
 import lombok.Builder;
 import lombok.Getter;
