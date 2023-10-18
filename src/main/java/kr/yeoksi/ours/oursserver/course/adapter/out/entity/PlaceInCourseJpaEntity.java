@@ -3,7 +3,9 @@ package kr.yeoksi.ours.oursserver.course.adapter.out.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import kr.yeoksi.ours.oursserver.others.domain.Place;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -13,6 +15,8 @@ import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Getter @Setter
+@RequiredArgsConstructor
+@Builder
 public class PlaceInCourseJpaEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
