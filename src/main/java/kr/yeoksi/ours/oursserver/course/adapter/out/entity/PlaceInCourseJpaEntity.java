@@ -68,5 +68,17 @@ public class PlaceInCourseJpaEntity {
                 .build();
     }
 
+    public PlaceInCourse toPlaceInCourse() {
+        return PlaceInCourse.builder()
+                .id(this.id)
+                .place(this.place)
+                .order(this.visitOrder)
+                .startAt(this.startAt)
+                .timeRequired(this.timeRequired)
+                .day(this.day)
+                .transportationTime(this.transportationTime)
+                .createdAt(this.createdAt)
+                .build();
+    }
 
 }
