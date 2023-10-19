@@ -2,12 +2,15 @@ package kr.yeoksi.ours.oursserver.course.adapter.out.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import kr.yeoksi.ours.oursserver.course.domain.PlaceInCourse;
 import kr.yeoksi.ours.oursserver.others.domain.Place;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Generated;
+import org.hibernate.generator.EventType;
 
 import java.time.LocalDateTime;
 
@@ -47,8 +50,23 @@ public class PlaceInCourseJpaEntity {
     @Column(name = "transportation_time")
     private int transportationTime;
 
-    @CreationTimestamp
-    @Column(name = "created_at")
+    @Generated(event = EventType.INSERT)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+
+
+    public static PlaceInCourseJpaEntity from(PlaceInCourse placeInCourse) {
+        return PlaceInCourseJpaEntity.builder()
+                .id(placeInCourse.getId())
+                .place(placeInCourse.getPlace())
+                .visitOrder(placeInCourse.getOrder())
+                .startAt(placeInCourse.getStartAt())
+                .timeRequired(placeInCourse.getTimeRequired())
+                .day(placeInCourse.getDay())
+                .transportationTime(placeInCourse.getTransportationTime())
+                .createdAt(placeInCourse.getCreatedAt())
+                .build();
+    }
+
 
 }
