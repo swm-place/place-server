@@ -6,7 +6,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import kr.yeoksi.ours.oursserver.course.adapter.out.entity.CourseJpaEntity;
 import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazine;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
@@ -17,6 +19,8 @@ import java.util.List;
 @Entity
 @Getter @Setter
 @Table(name = "users")
+@RequiredArgsConstructor
+@Builder
 public class User {
 
     @Id
