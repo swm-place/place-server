@@ -7,6 +7,7 @@ import kr.yeoksi.ours.oursserver.course.service.port.in.CourseService;
 import kr.yeoksi.ours.oursserver.course.service.port.out.CourseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,7 @@ public class CourseServiceImpl implements CourseService {
     private final CourseRepository courseRepository;
 
     @Override
+    @Transactional
     public Course create(Course course) {
         validateIsDuplicated(course.getId());
         return courseRepository.save(course);
@@ -34,12 +36,14 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional
     public Course update(Course course) {
         validateIsExisted(course.getId());
         return courseRepository.save(course);
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         validateIsExisted(id);
         courseRepository.deleteById(id);
