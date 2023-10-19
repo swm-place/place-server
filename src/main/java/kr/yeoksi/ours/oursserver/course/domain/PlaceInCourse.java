@@ -1,13 +1,17 @@
 package kr.yeoksi.ours.oursserver.course.domain;
 
 import kr.yeoksi.ours.oursserver.others.domain.Place;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 
 @Getter @Setter
+@RequiredArgsConstructor
+@Builder
 public class PlaceInCourse {
     private Long id;
 
