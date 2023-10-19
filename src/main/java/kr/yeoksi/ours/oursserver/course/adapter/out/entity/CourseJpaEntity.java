@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Generated;
+import org.hibernate.generator.EventType;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -59,15 +61,20 @@ public class CourseJpaEntity {
     @Column(name = "is_finished", columnDefinition = "TINYINT(1)")
     private boolean isFinished;
 
-    @CreationTimestamp
-    @Column(name = "created_at")
+    @Generated(event = EventType.INSERT)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+
 
     public static CourseJpaEntity from(Course course) {
         return CourseJpaEntity.builder()
                 .id(course.getId())
                 .user(course.getUser())
                 .title(course.getTitle())
+                .description(course.getDescription())
+                .placesInCourse(course.getPlacesInCourse().stream()
+                        .map(PlaceInCourseJpaEntity::from)
+                        .toList())
                 .startAt(course.getStartAt())
                 .endAt(course.getEndAt())
                 .inProgress(course.isInProgress())
@@ -81,6 +88,10 @@ public class CourseJpaEntity {
                 .id(this.id)
                 .user(this.user)
                 .title(this.title)
+                .description(this.description)
+                .placesInCourse(this.placesInCourse.stream()
+                        .map(PlaceInCourseJpaEntity::toPlaceInCourse)
+                        .toList())
                 .startAt(this.startAt)
                 .endAt(this.endAt)
                 .inProgress(this.inProgress)
