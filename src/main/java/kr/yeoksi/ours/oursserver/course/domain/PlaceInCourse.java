@@ -19,4 +19,6 @@ public class PlaceInCourse {
     private LocalDateTime startAt;
     private int timeRequired;
     private int transportationTime;
+
+    private LocalDateTime createdAt;
 }
