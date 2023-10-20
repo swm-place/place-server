@@ -4,10 +4,7 @@ import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Type;
 
 import java.util.ArrayList;
@@ -17,6 +14,7 @@ import java.util.Map;
 @Entity
 @Getter @Setter
 @RequiredArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Place {
 
@@ -40,17 +38,22 @@ public class Place {
     private Map<String, Object> openTime;
 
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<PlaceImg> placeImgs = new ArrayList<>();
 
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<Menu> menus = new ArrayList<>();
 
     @OneToMany(mappedBy = "place")
+    @Builder.Default
     private List<PlaceFavorite> placeFavorites = new ArrayList<>();
 
     @OneToMany(mappedBy = "place")
+    @Builder.Default
     private List<PlaceOpen> placeOpens = new ArrayList<>();
 
     @OneToMany(mappedBy = "place")
+    @Builder.Default
     private List<PlaceReview> placeReviews = new ArrayList<>();
 }

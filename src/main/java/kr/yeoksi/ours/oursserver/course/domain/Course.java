@@ -1,10 +1,7 @@
 package kr.yeoksi.ours.oursserver.course.domain;
 
 import kr.yeoksi.ours.oursserver.others.domain.User;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,6 +9,7 @@ import java.util.List;
 
 @Getter @Setter
 @RequiredArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Course {
     private Long id;

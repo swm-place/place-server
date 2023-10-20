@@ -84,7 +84,7 @@ public class PlaceService {
 
     /**
      * 엘라스틱 id로 장소 조회하기
-     * @deprecated ID로 장소 조회하는 서비스와 통합
+     * ID로 장소 조회하는 서비스와 통합
      */
 //    public Place findByElasticId(String elasticId) {
 //
