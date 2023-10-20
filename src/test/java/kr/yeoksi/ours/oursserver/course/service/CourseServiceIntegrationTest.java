@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -93,6 +94,73 @@ public class CourseServiceIntegrationTest {
         assertThat(savedCourse.getTitle()).isEqualTo(course.getTitle());
         assertThat(savedCourse.getDescription()).isEqualTo(course.getDescription());
         assertThat(savedCourse.getPlacesInCourse().size()).isEqualTo(course.getPlacesInCourse().size());
+    }
+
+
+    @Test
+    public void 코스를_조회할_수_있다() {
+        // given
+        // configure user
+        User user = User.builder()
+                .id("test")
+                .email("test@yeoksi.com")
+                .nickname("test")
+                .build();
+        userRepository.save(user);
+
+        // configure places
+        Place place1 = Place.builder()
+                .id("test1")
+                .name("test1")
+                .category("test1")
+                .build();
+        Place place2 = Place.builder()
+                .id("test2")
+                .name("test2")
+                .category("test2")
+                .build();
+        place1.setId(placeRepository.save(place1));
+        place2.setId(placeRepository.save(place2));
+
+        // configure placesInCourse
+        List<PlaceInCourse> placesInCourse = new ArrayList<>();
+        placesInCourse.add(PlaceInCourse.builder()
+                .place(place1)
+                .day(1)
+                .order(1)
+                .startAt(null)
+                .timeRequired(0)
+                .transportationTime(0)
+                .build());
+        placesInCourse.add(PlaceInCourse.builder()
+                .place(place2)
+                .day(1)
+                .order(2)
+                .startAt(null)
+                .timeRequired(0)
+                .transportationTime(0)
+                .build());
+
+        // configure course
+        Course course = Course.builder()
+                .user(user)
+                .title("test")
+                .description("test")
+                .placesInCourse(placesInCourse)
+                .build();
+        course.setId(courseService.create(course).getId());
+
+        // when
+        Optional<Course> foundCourse = courseService.findById(course.getId());
+
+        // then
+        assertThat(foundCourse.isPresent()).isTrue();
+        assertThat(foundCourse.get().getId()).isEqualTo(course.getId());
+        assertThat(foundCourse.get().getUser().getId()).isEqualTo(user.getId());
+        assertThat(foundCourse.get().getTitle()).isEqualTo(course.getTitle());
+        assertThat(foundCourse.get().getDescription()).isEqualTo(course.getDescription());
+        assertThat(foundCourse.get().getPlacesInCourse().size()).isEqualTo(course.getPlacesInCourse().size());
+
     }
 
 }
