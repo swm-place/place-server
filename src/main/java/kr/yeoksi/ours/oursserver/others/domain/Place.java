@@ -4,7 +4,9 @@ import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
 
@@ -14,6 +16,8 @@ import java.util.Map;
 
 @Entity
 @Getter @Setter
+@RequiredArgsConstructor
+@Builder
 public class Place {
 
     @Id
