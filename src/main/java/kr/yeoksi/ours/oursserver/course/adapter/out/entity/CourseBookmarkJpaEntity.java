@@ -2,10 +2,7 @@ package kr.yeoksi.ours.oursserver.course.adapter.out.entity;
 
 import jakarta.persistence.*;
 import kr.yeoksi.ours.oursserver.others.domain.User;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -16,6 +13,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @Entity
 @Getter @Setter
 @RequiredArgsConstructor
+@AllArgsConstructor
 @Builder
 public class CourseBookmarkJpaEntity {
 
