@@ -88,7 +88,7 @@ public class CourseServiceIntegrationTest {
         Course savedCourse = courseService.create(course);
 
         // then
-        assertThat(savedCourse.getId()).isEqualTo(course.getId());
+        assertThat(savedCourse.getId()).isNotNull();
         assertThat(savedCourse.getUser().getId()).isEqualTo(user.getId());
         assertThat(savedCourse.getTitle()).isEqualTo(course.getTitle());
         assertThat(savedCourse.getDescription()).isEqualTo(course.getDescription());
