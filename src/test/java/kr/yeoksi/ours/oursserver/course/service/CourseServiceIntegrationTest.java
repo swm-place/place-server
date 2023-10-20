@@ -98,7 +98,7 @@ public class CourseServiceIntegrationTest {
 
 
     @Test
-    public void 코스를_조회할_수_있다() {
+    public void id로_코스를_조회할_수_있다() {
         // given
         // configure user
         User user = User.builder()
