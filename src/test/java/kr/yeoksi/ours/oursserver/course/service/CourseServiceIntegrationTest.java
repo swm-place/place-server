@@ -45,10 +45,12 @@ public class CourseServiceIntegrationTest {
 
         // configure places
         Place place1 = Place.builder()
+                .id("test1")
                 .name("test1")
                 .category("test1")
                 .build();
         Place place2 = Place.builder()
+                .id("test2")
                 .name("test2")
                 .category("test2")
                 .build();
