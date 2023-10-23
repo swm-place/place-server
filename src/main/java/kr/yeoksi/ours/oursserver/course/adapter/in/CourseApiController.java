@@ -26,5 +26,12 @@ public class CourseApiController {
         return ResponseEntity.ok(courseService.create(course, userId));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Course> getCourse(@RequestHeader("X-User-Uid") String userId,
+                                            @PathVariable Long id) {
+        return courseService.findById(id, userId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
 }
