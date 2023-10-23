@@ -20,13 +20,14 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional
-    public Course create(Course course) {
+    public Course create(Course course, String userId) {
         validateIsDuplicated(course.getId());
         return courseRepository.save(course);
     }
 
     @Override
-    public Optional<Course> findById(Long id) {
+    public Optional<Course> findById(Long id, String userId) {
+        // TODO: 권한 확인 로직 추가
         return courseRepository.findById(id);
     }
 
@@ -37,15 +38,17 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional
-    public Course update(Course course) {
+    public Course update(Course course, String userId) {
         validateIsExisted(course.getId());
+        // TODO: 권한 확인 로직 추가
         return courseRepository.save(course);
     }
 
     @Override
     @Transactional
-    public void delete(Long id) {
+    public void delete(Long id, String userId) {
         validateIsExisted(id);
+        // TODO: 권한 확인 로직 추가
         courseRepository.deleteById(id);
     }
 

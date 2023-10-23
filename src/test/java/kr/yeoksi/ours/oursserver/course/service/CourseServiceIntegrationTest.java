@@ -86,7 +86,7 @@ public class CourseServiceIntegrationTest {
                 .build();
 
         // when
-        Course savedCourse = courseService.create(course);
+        Course savedCourse = courseService.create(course, user.getId());
 
         // then
         assertThat(savedCourse.getId()).isNotNull();
@@ -148,10 +148,10 @@ public class CourseServiceIntegrationTest {
                 .description("test")
                 .placesInCourse(placesInCourse)
                 .build();
-        course.setId(courseService.create(course).getId());
+        course.setId(courseService.create(course, user.getId()).getId());
 
         // when
-        Optional<Course> foundCourse = courseService.findById(course.getId());
+        Optional<Course> foundCourse = courseService.findById(course.getId(), user.getId());
 
         // then
         assertThat(foundCourse.isPresent()).isTrue();
@@ -215,7 +215,7 @@ public class CourseServiceIntegrationTest {
                 .description("test")
                 .placesInCourse(placesInCourse)
                 .build();
-        course.setId(courseService.create(course).getId());
+        course.setId(courseService.create(course, user.getId()).getId());
 
         // update properties of course
         course.setTitle("test2");
@@ -227,8 +227,8 @@ public class CourseServiceIntegrationTest {
 
 
         // when
-        courseService.update(course);
-        Optional<Course> foundCourse = courseService.findById(course.getId());
+        courseService.update(course, user.getId());
+        Optional<Course> foundCourse = courseService.findById(course.getId(), user.getId());
 
         // then
         assertThat(foundCourse.isPresent()).isTrue();
@@ -292,12 +292,12 @@ public class CourseServiceIntegrationTest {
                 .description("test")
                 .placesInCourse(placesInCourse)
                 .build();
-        course.setId(courseService.create(course).getId());
+        course.setId(courseService.create(course, user.getId()).getId());
 
 
         // when
-        courseService.delete(course.getId());
-        Optional<Course> foundCourse = courseService.findById(course.getId());
+        courseService.delete(course.getId(), user.getId());
+        Optional<Course> foundCourse = courseService.findById(course.getId(), user.getId());
 
 
         // then
