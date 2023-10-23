@@ -39,4 +39,13 @@ public class CourseApiController {
         return ResponseEntity.ok(courseService.findAllByUserId(userId));
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<Course> updateCourse(@RequestHeader("X-User-Uid") String userId,
+                                               @PathVariable Long id,
+                                               @RequestBody @Valid Course course) {
+        return courseService.findById(course.getId(), userId)
+                .map(course1 -> ResponseEntity.ok(courseService.update(course, userId)))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
 }
