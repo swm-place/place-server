@@ -5,6 +5,8 @@ import kr.yeoksi.ours.oursserver.course.exception.DuplicatedCourseException;
 import kr.yeoksi.ours.oursserver.course.exception.NotExistedCourseException;
 import kr.yeoksi.ours.oursserver.course.service.port.in.CourseService;
 import kr.yeoksi.ours.oursserver.course.service.port.out.CourseRepository;
+import kr.yeoksi.ours.oursserver.others.service.PlaceService;
+import kr.yeoksi.ours.oursserver.others.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,10 +20,21 @@ public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
 
+    private final UserService userService;
+    private final PlaceService placeService;
+
     @Override
     @Transactional
     public Course create(Course course, String userId) {
         validateIsDuplicated(course.getId());
+
+        course.setPlacesInCourse(
+                course.getPlacesInCourse().stream()
+                        .peek(placeInCourse -> placeInCourse.setPlace(placeService.findById(placeInCourse.getPlace().getId())))
+                        .toList()
+        );
+
+        course.setUser(userService.findById(userId));
         return courseRepository.save(course);
     }
 
