@@ -34,4 +34,9 @@ public class CourseApiController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping
+    public ResponseEntity<List<Course>> getMyCourses(@RequestHeader("X-User-Uid") String userId) {
+        return ResponseEntity.ok(courseService.findAllByUserId(userId));
+    }
+
 }
