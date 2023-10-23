@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import kr.yeoksi.ours.oursserver.course.domain.Course;
+import kr.yeoksi.ours.oursserver.course.domain.PlaceInCourse;
 import kr.yeoksi.ours.oursserver.others.domain.User;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -13,6 +14,7 @@ import org.hibernate.annotations.Generated;
 import org.hibernate.generator.EventType;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;
@@ -40,8 +42,9 @@ public class CourseJpaEntity {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
+    @Builder.Default
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private List<PlaceInCourseJpaEntity> placesInCourse;
+    private List<PlaceInCourseJpaEntity> placesInCourse = new ArrayList<>();
 
     @Column(name = "start_at")
     private LocalDateTime startAt;
@@ -65,14 +68,17 @@ public class CourseJpaEntity {
 
 
     public static CourseJpaEntity from(Course course) {
+        List<PlaceInCourseJpaEntity> placesInCourse = new ArrayList<>(
+                course.getPlacesInCourse().stream()
+                        .map(PlaceInCourseJpaEntity::from)
+                        .toList());
+
         return CourseJpaEntity.builder()
                 .id(course.getId())
                 .user(course.getUser())
                 .title(course.getTitle())
                 .description(course.getDescription())
-                .placesInCourse(course.getPlacesInCourse().stream()
-                        .map(PlaceInCourseJpaEntity::from)
-                        .toList())
+                .placesInCourse(placesInCourse)
                 .startAt(course.getStartAt())
                 .endAt(course.getEndAt())
                 .inProgress(course.isInProgress())
@@ -82,14 +88,17 @@ public class CourseJpaEntity {
     }
 
     public Course toCourse() {
+        List<PlaceInCourse> placesInCourse = new ArrayList<>(
+                this.placesInCourse.stream()
+                        .map(PlaceInCourseJpaEntity::toPlaceInCourse)
+                        .toList());
+
         return Course.builder()
                 .id(this.id)
                 .user(this.user)
                 .title(this.title)
                 .description(this.description)
-                .placesInCourse(this.placesInCourse.stream()
-                        .map(PlaceInCourseJpaEntity::toPlaceInCourse)
-                        .toList())
+                .placesInCourse(placesInCourse)
                 .startAt(this.startAt)
                 .endAt(this.endAt)
                 .inProgress(this.inProgress)
