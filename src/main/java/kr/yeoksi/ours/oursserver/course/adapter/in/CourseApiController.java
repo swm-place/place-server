@@ -19,8 +19,11 @@ public class CourseApiController {
     private final CourseService courseService;
 
 
+    // TODO: Spring Security 이용해 유저 정보 연동
+
+
     @PostMapping
-    public ResponseEntity<Course> createCourse(@RequestHeader("X-User-Uid") String userId,  // TODO: Spring Security 이용해 유저 정보 연동
+    public ResponseEntity<Course> createCourse(@RequestHeader("X-User-Uid") String userId,
                                          @RequestBody @Valid CreateCourseRequest request) {
         Course course = request.toCourse();
         return ResponseEntity.ok(courseService.create(course, userId));
