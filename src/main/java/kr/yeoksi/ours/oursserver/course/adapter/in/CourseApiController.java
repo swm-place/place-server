@@ -48,4 +48,15 @@ public class CourseApiController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Course> deleteCourse(@RequestHeader("X-User-Uid") String userId,
+                                               @PathVariable Long id) {
+        return courseService.findById(id, userId)
+                .map(course -> {
+                    courseService.delete(id, userId);
+                    return ResponseEntity.ok(course);
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
 }
