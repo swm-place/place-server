@@ -63,7 +63,11 @@ public class CourseServiceImpl implements CourseService {
     @Transactional
     public Course update(Course course, String userId) {
         validateIsExisted(course.getId());
-        // TODO: 권한 확인 로직 추가
+
+        if (!course.getUser().getId().equals(userId)) {
+            throw new NotOwnerOfCourseException();
+        }
+
         return courseRepository.save(course);
     }
 
@@ -71,7 +75,12 @@ public class CourseServiceImpl implements CourseService {
     @Transactional
     public void delete(Long id, String userId) {
         validateIsExisted(id);
-        // TODO: 권한 확인 로직 추가
+        Optional<Course> course = courseRepository.findById(id);
+
+        if (!course.get().getUser().getId().equals(userId)) {
+            throw new NotOwnerOfCourseException();
+        }
+
         courseRepository.deleteById(id);
     }
 
