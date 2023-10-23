@@ -64,11 +64,14 @@ public class CourseServiceImpl implements CourseService {
     public Course update(Course course, String userId) {
         validateIsExisted(course.getId());
 
+        Course courseToUpdate = courseRepository.findById(course.getId()).get();
+        courseToUpdate.update(course);
+
         if (!course.getUser().getId().equals(userId)) {
             throw new NotOwnerOfCourseException();
         }
 
-        return courseRepository.save(course);
+        return courseRepository.save(courseToUpdate);
     }
 
     @Override
