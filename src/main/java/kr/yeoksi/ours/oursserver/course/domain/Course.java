@@ -4,6 +4,7 @@ import kr.yeoksi.ours.oursserver.others.domain.User;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -17,7 +18,9 @@ public class Course {
 
     private String title;
     private String description;
-    private List<PlaceInCourse> placesInCourse;
+
+    @Builder.Default
+    private List<PlaceInCourse> placesInCourse = new ArrayList<>();
 
     private LocalDateTime startAt;
     private LocalDateTime endAt;
