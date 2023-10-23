@@ -3,6 +3,7 @@ package kr.yeoksi.ours.oursserver.course.service;
 import kr.yeoksi.ours.oursserver.course.domain.Course;
 import kr.yeoksi.ours.oursserver.course.exception.DuplicatedCourseException;
 import kr.yeoksi.ours.oursserver.course.exception.NotExistedCourseException;
+import kr.yeoksi.ours.oursserver.course.exception.NotOwnerOfCourseException;
 import kr.yeoksi.ours.oursserver.course.service.port.in.CourseService;
 import kr.yeoksi.ours.oursserver.course.service.port.out.CourseRepository;
 import kr.yeoksi.ours.oursserver.others.service.PlaceService;
@@ -45,6 +46,9 @@ public class CourseServiceImpl implements CourseService {
         if (course.isPresent()) {
             if (course.get().getUser().getId().equals(userId)) {
                 return course;
+            }
+            else {
+                throw new NotOwnerOfCourseException();
             }
         }
         return Optional.empty();
