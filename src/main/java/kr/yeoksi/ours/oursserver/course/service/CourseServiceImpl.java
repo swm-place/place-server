@@ -40,8 +40,14 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Optional<Course> findById(Long id, String userId) {
-        // TODO: 권한 확인 로직 추가
-        return courseRepository.findById(id);
+        Optional<Course> course = courseRepository.findById(id);
+
+        if (course.isPresent()) {
+            if (course.get().getUser().getId().equals(userId)) {
+                return course;
+            }
+        }
+        return Optional.empty();
     }
 
     @Override
