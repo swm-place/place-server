@@ -1,14 +1,30 @@
 package kr.yeoksi.ours.oursserver.course.adapter.in;
 
+import jakarta.validation.Valid;
+import kr.yeoksi.ours.oursserver.course.adapter.in.request.CreateCourseRequest;
+import kr.yeoksi.ours.oursserver.course.domain.Course;
 import kr.yeoksi.ours.oursserver.course.service.port.in.CourseService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
-@Controller
+@RestController
+@RequestMapping("/courses")
 @RequiredArgsConstructor
 public class CourseApiController {
 
     private final CourseService courseService;
+
+
+    @PostMapping
+    public ResponseEntity<Course> createCourse(@RequestHeader("X-User-Uid") String userId,  // TODO: Spring Security 이용해 유저 정보 연동
+                                         @RequestBody @Valid CreateCourseRequest request) {
+        Course course = request.toCourse();
+        return ResponseEntity.ok(courseService.create(course, userId));
+    }
+
 
 }
