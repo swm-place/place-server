@@ -7,10 +7,10 @@ import java.util.Optional;
 
 
 public interface CourseService {
-    Course create(Course course);
-    Optional<Course> findById(Long id);
+    Course create(Course course, String userId);
+    Optional<Course> findById(Long id, String userId);
     List<Course> findAllByUserId(String userId);
-    Course update(Course course);
-    void delete(Long id);
+    Course update(Course course, String userId);
+    void delete(Long id, String userId);
 
 }
