@@ -46,9 +46,8 @@ public class CourseApiController {
     public ResponseEntity<Course> updateCourse(@RequestHeader("X-User-Uid") String userId,
                                                @PathVariable Long id,
                                                @RequestBody @Valid Course course) {
-        return courseService.findById(course.getId(), userId)
-                .map(course1 -> ResponseEntity.ok(courseService.update(course, userId)))
-                .orElse(ResponseEntity.notFound().build());
+        course.setId(id);
+        return ResponseEntity.ok(courseService.update(course, userId));
     }
 
     @DeleteMapping("/{id}")
