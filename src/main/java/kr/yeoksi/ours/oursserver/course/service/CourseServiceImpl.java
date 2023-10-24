@@ -30,13 +30,13 @@ public class CourseServiceImpl implements CourseService {
     public Course create(Course course, String userId) {
         validateIsDuplicated(course.getId());
 
+        // Place 및 User 연동
         course.setPlacesInCourse(
                 course.getPlacesInCourse().stream()
                         .peek(placeInCourse -> placeInCourse.setPlace(placeService.findById(placeInCourse.getPlace().getId())))
-                        .toList()
-        );
-
+                        .toList());
         course.setUser(userService.findById(userId));
+
         return courseRepository.save(course);
     }
 
@@ -66,12 +66,8 @@ public class CourseServiceImpl implements CourseService {
     @Override
     @Transactional
     public void delete(Long id, String userId) {
-        validateIsExisted(id);
-        Optional<Course> course = courseRepository.findById(id);
-
-        if (!course.get().getUser().getId().equals(userId)) {
-            throw new NotOwnerOfCourseException();
-        }
+        Course course = validateIsExistedAndGet(id);
+        validateOwnership(course, userId);
 
         courseRepository.deleteById(id);
     }
