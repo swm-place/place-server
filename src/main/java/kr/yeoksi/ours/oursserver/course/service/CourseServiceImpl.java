@@ -44,7 +44,7 @@ public class CourseServiceImpl implements CourseService {
     @Transactional
     public Optional<Course> findById(Long id, String userId) {
         Optional<Course> course = courseRepository.findById(id);
-        return course.map(validateOwnership(userId));
+        return course.map(getValidateOwnershipFunction(userId));
     }
 
     @Override
@@ -99,7 +99,7 @@ public class CourseServiceImpl implements CourseService {
         return courseId != null && courseRepository.findById(courseId).isPresent();
     }
 
-    private static Function<Course, Course> validateOwnership(String userId) {
+    private static Function<Course, Course> getValidateOwnershipFunction(String userId) {
         return course -> {
             if (!userId.equals(course.getUser().getId()))
                 throw new NotOwnerOfCourseException();
