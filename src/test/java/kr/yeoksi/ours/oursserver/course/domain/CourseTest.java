@@ -1,4 +1,4 @@
-package kr.yeoksi.ours.oursserver.course;
+package kr.yeoksi.ours.oursserver.course.domain;
 
 
 import kr.yeoksi.ours.oursserver.course.domain.Course;
