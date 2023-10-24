@@ -3,6 +3,7 @@ package kr.yeoksi.ours.oursserver.course.adapter.in;
 import jakarta.validation.Valid;
 import kr.yeoksi.ours.oursserver.course.adapter.in.request.CreateCourseRequest;
 import kr.yeoksi.ours.oursserver.course.adapter.in.request.UpdateCourseRequest;
+import kr.yeoksi.ours.oursserver.course.adapter.in.response.CourseResponse;
 import kr.yeoksi.ours.oursserver.course.domain.Course;
 import kr.yeoksi.ours.oursserver.course.service.port.in.CourseService;
 import lombok.RequiredArgsConstructor;
@@ -24,32 +25,41 @@ public class CourseApiController {
 
 
     @PostMapping
-    public ResponseEntity<Course> createCourse(@RequestHeader("X-User-Uid") String userId,
-                                         @RequestBody @Valid CreateCourseRequest request) {
+    public ResponseEntity<CourseResponse> createCourse(@RequestHeader("X-User-Uid") String userId,
+                                                       @RequestBody @Valid CreateCourseRequest request) {
         Course course = request.toCourse();
-        return ResponseEntity.ok(courseService.create(course, userId));
+        return ResponseEntity.ok(
+                CourseResponse.from(
+                        courseService.create(course, userId)));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Course> getCourse(@RequestHeader("X-User-Uid") String userId,
+    public ResponseEntity<CourseResponse> getCourse(@RequestHeader("X-User-Uid") String userId,
                                             @PathVariable Long id) {
         return courseService.findById(id, userId)
+                .map(CourseResponse::from)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping
-    public ResponseEntity<List<Course>> getMyCourses(@RequestHeader("X-User-Uid") String userId) {
-        return ResponseEntity.ok(courseService.findAllByUserId(userId));
+    public ResponseEntity<List<CourseResponse>> getMyCourses(@RequestHeader("X-User-Uid") String userId) {
+        return ResponseEntity.ok(
+                courseService.findAllByUserId(userId).stream()
+                        .map(CourseResponse::from)
+                        .toList()
+        );
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Course> updateCourse(@RequestHeader("X-User-Uid") String userId,
+    public ResponseEntity<CourseResponse> updateCourse(@RequestHeader("X-User-Uid") String userId,
                                                @PathVariable Long id,
                                                @RequestBody @Valid UpdateCourseRequest request) {
         Course course = request.toCourse();
         course.setId(id);
-        return ResponseEntity.ok(courseService.update(course, userId));
+        return ResponseEntity.ok(
+                CourseResponse.from(
+                        courseService.update(course, userId)));
     }
 
     @DeleteMapping("/{id}")
