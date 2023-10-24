@@ -2,6 +2,7 @@ package kr.yeoksi.ours.oursserver.course.adapter.in;
 
 import jakarta.validation.Valid;
 import kr.yeoksi.ours.oursserver.course.adapter.in.request.CreateCourseRequest;
+import kr.yeoksi.ours.oursserver.course.adapter.in.request.UpdateCourseRequest;
 import kr.yeoksi.ours.oursserver.course.domain.Course;
 import kr.yeoksi.ours.oursserver.course.service.port.in.CourseService;
 import lombok.RequiredArgsConstructor;
@@ -11,15 +12,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
+// TODO: Spring Security 이용해 유저 정보 연동
+
+
 @RestController
 @RequestMapping("/courses")
 @RequiredArgsConstructor
 public class CourseApiController {
 
     private final CourseService courseService;
-
-
-    // TODO: Spring Security 이용해 유저 정보 연동
 
 
     @PostMapping
@@ -45,7 +46,8 @@ public class CourseApiController {
     @PatchMapping("/{id}")
     public ResponseEntity<Course> updateCourse(@RequestHeader("X-User-Uid") String userId,
                                                @PathVariable Long id,
-                                               @RequestBody @Valid Course course) {
+                                               @RequestBody @Valid UpdateCourseRequest request) {
+        Course course = request.toCourse();
         course.setId(id);
         return ResponseEntity.ok(courseService.update(course, userId));
     }
