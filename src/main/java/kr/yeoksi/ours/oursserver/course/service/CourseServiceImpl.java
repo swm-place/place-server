@@ -99,14 +99,6 @@ public class CourseServiceImpl implements CourseService {
         return courseId != null && courseRepository.findById(courseId).isPresent();
     }
 
-    private static Function<Course, Course> getValidateOwnershipFunction(String userId) {
-        return course -> {
-            if (!userId.equals(course.getUser().getId()))
-                throw new NotOwnerOfCourseException();
-            return course;
-        };
-    }
-
     private void validateOwnership(Course course, String userId) {
         if (!userId.equals(course.getUser().getId()))
             throw new NotOwnerOfCourseException();
