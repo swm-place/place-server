@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
@@ -75,12 +74,6 @@ public class CourseServiceImpl implements CourseService {
 
 
     /*** private methods ***/
-    private void validateIsExisted(Long courseId) {
-        if (!isExisted(courseId)) {
-            throw new NotExistedCourseException();
-        }
-    }
-
     private Course validateIsExistedAndGet(Long courseId) {
         Optional<Course> course = courseRepository.findById(courseId);
         if (course.isEmpty()) {
