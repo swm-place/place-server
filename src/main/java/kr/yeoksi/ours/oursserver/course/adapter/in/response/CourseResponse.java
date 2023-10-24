@@ -1,6 +1,5 @@
 package kr.yeoksi.ours.oursserver.course.adapter.in.response;
 
-import kr.yeoksi.ours.oursserver.course.adapter.in.request.PlaceInCourseRequest;
 import kr.yeoksi.ours.oursserver.course.domain.Course;
 import kr.yeoksi.ours.oursserver.course.domain.PlaceInCourse;
 import lombok.Builder;
@@ -19,6 +18,7 @@ public class CourseResponse {
     private String title;
     private String description;
 
+    @Builder.Default
     private List<PlaceInCourse> placesInCourse = new ArrayList<>();
 
     private LocalDateTime startAt;
