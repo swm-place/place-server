@@ -56,15 +56,10 @@ public class CourseServiceImpl implements CourseService {
     @Override
     @Transactional
     public Course update(Course course, String userId) {
-        validateIsExisted(course.getId());
+        Course courseToUpdate = validateIsExistedAndGet(course.getId());
+        validateOwnership(courseToUpdate, userId);
 
-        Course courseToUpdate = courseRepository.findById(course.getId()).get();
         courseToUpdate.update(course);
-
-        if (!course.getUser().getId().equals(userId)) {
-            throw new NotOwnerOfCourseException();
-        }
-
         return courseRepository.save(courseToUpdate);
     }
 
@@ -113,6 +108,11 @@ public class CourseServiceImpl implements CourseService {
                 throw new NotOwnerOfCourseException();
             return course;
         };
+    }
+
+    private void validateOwnership(Course course, String userId) {
+        if (!userId.equals(course.getUser().getId()))
+            throw new NotOwnerOfCourseException();
     }
 
 }
