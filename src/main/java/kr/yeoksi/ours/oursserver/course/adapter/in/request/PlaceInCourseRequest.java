@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 
 @Data
-public class PlaceInCourseReference {
+public class PlaceInCourseRequest {
     private Long id;
 
     private PlaceReference place;

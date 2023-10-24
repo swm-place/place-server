@@ -1,6 +1,6 @@
 package kr.yeoksi.ours.oursserver.course.adapter.in.response;
 
-import kr.yeoksi.ours.oursserver.course.adapter.in.request.PlaceInCourseReference;
+import kr.yeoksi.ours.oursserver.course.adapter.in.request.PlaceInCourseRequest;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -15,7 +15,7 @@ public class CourseResponse {
     private String title;
     private String description;
 
-    private List<PlaceInCourseReference> placesInCourse = new ArrayList<>();
+    private List<PlaceInCourseRequest> placesInCourse = new ArrayList<>();
 
     private LocalDateTime startAt;
     private LocalDateTime endAt;

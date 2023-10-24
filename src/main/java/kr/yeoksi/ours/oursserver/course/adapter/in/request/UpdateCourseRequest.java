@@ -19,7 +19,7 @@ public class UpdateCourseRequest extends CreateCourseRequest {
     public Course toCourse() {
         List<PlaceInCourse> placesInCourse = new ArrayList<>(
                 this.getPlacesInCourse().stream()
-                        .map(PlaceInCourseReference::toPlaceInCourse)
+                        .map(PlaceInCourseRequest::toPlaceInCourse)
                         .toList()
         );
 

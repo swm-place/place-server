@@ -14,7 +14,7 @@ import java.util.List;
 public class CreateCourseRequest {
     private String title;
     private String description;
-    private List<PlaceInCourseReference> placesInCourse;
+    private List<PlaceInCourseRequest> placesInCourse;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
     private boolean inProgress = false;
@@ -23,7 +23,7 @@ public class CreateCourseRequest {
     public Course toCourse() {
         List<PlaceInCourse> placesInCourse = new ArrayList<>(
                 this.placesInCourse.stream()
-                        .map(PlaceInCourseReference::toPlaceInCourse)
+                        .map(PlaceInCourseRequest::toPlaceInCourse)
                         .toList()
         );
 
