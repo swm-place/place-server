@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 public class NotExistedCourseException extends ServiceException {
 
     public NotExistedCourseException() {
-        super(HttpStatus.BAD_REQUEST, "존재하지 않는 코스입니다.");
+        super(HttpStatus.NOT_FOUND, "존재하지 않는 코스입니다.");
     }
 
 }
