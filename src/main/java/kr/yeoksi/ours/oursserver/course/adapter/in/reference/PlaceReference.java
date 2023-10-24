@@ -1,4 +1,4 @@
-package kr.yeoksi.ours.oursserver.course.adapter.in.request;
+package kr.yeoksi.ours.oursserver.course.adapter.in.reference;
 
 
 import jakarta.validation.constraints.NotNull;

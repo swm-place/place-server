@@ -1,7 +1,7 @@
 package kr.yeoksi.ours.oursserver.course.adapter.in.request;
 
+import kr.yeoksi.ours.oursserver.course.adapter.in.reference.PlaceReference;
 import kr.yeoksi.ours.oursserver.course.domain.PlaceInCourse;
-import kr.yeoksi.ours.oursserver.others.domain.Place;
 import lombok.Data;
 
 import java.time.LocalDateTime;
