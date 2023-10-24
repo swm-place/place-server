@@ -1,7 +1,7 @@
 package kr.yeoksi.ours.oursserver.others.service;
 
 import kr.yeoksi.ours.oursserver.others.controller.UserApiController;
-import kr.yeoksi.ours.oursserver.exception.*;
+import kr.yeoksi.ours.oursserver.others.exception.*;
 import kr.yeoksi.ours.oursserver.others.domain.*;
 import kr.yeoksi.ours.oursserver.others.dto.UpdateUserInformationResponse;
 import kr.yeoksi.ours.oursserver.others.repository.*;

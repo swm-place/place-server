@@ -35,7 +35,7 @@ public class PlaceRepository {
 
     /**
      * 엘라스틱 id로 공간 조회하기
-     * @deprecated Elastic ID가 곧 ID 이므로, findById()로 대체
+     * Elastic ID가 곧 ID 이므로, findById()로 대체
      */
 //    public Optional<Place> findByElasticId(String elasticId) {
 //

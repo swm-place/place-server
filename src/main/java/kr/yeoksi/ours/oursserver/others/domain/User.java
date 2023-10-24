@@ -4,9 +4,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import kr.yeoksi.ours.oursserver.course.adapter.out.entity.CourseJpaEntity;
 import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazine;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -16,6 +16,9 @@ import java.util.List;
 @Entity
 @Getter @Setter
 @Table(name = "users")
+@RequiredArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User {
 
     @Id
@@ -57,7 +60,7 @@ public class User {
     private LocalDateTime lastLoginAt;
 
     @OneToMany(mappedBy = "user")
-    private List<Course> courses;
+    private List<CourseJpaEntity> courses;
 
     @OneToMany(mappedBy = "user")
     private List<PlaceFavorite> placeFavorites;

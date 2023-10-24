@@ -7,9 +7,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import kr.yeoksi.ours.oursserver.others.domain.*;
 import kr.yeoksi.ours.oursserver.others.domain.dto.place.request.ReadPlaceFromElastic;
 import kr.yeoksi.ours.oursserver.others.domain.dto.place.response.ReadPlaceReviewResponse;
-import kr.yeoksi.ours.oursserver.exception.ErrorCode;
-import kr.yeoksi.ours.oursserver.exception.NotExistedPlaceException;
-import kr.yeoksi.ours.oursserver.exception.NotFoundPlaceAtElasticSearchException;
+import kr.yeoksi.ours.oursserver.others.exception.ErrorCode;
+import kr.yeoksi.ours.oursserver.others.exception.NotExistedPlaceException;
+import kr.yeoksi.ours.oursserver.others.exception.NotFoundPlaceAtElasticSearchException;
 import kr.yeoksi.ours.oursserver.others.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -84,7 +84,7 @@ public class PlaceService {
 
     /**
      * 엘라스틱 id로 장소 조회하기
-     * @deprecated ID로 장소 조회하는 서비스와 통합
+     * ID로 장소 조회하는 서비스와 통합
      */
 //    public Place findByElasticId(String elasticId) {
 //
