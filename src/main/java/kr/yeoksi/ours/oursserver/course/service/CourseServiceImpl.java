@@ -44,7 +44,8 @@ public class CourseServiceImpl implements CourseService {
     @Transactional
     public Optional<Course> findById(Long id, String userId) {
         Optional<Course> course = courseRepository.findById(id);
-        return course.map(getValidateOwnershipFunction(userId));
+        course.ifPresent(courseToValidate -> validateOwnership(courseToValidate, userId));
+        return course;
     }
 
     @Override
