@@ -1,7 +1,7 @@
 package kr.yeoksi.ours.oursserver.course.adapter.in.request;
 
 
-import kr.yeoksi.ours.oursserver.course.adapter.in.reference.PlacesInCourseRequest;
+import kr.yeoksi.ours.oursserver.course.adapter.in.reference.PlaceInCourseReference;
 import kr.yeoksi.ours.oursserver.course.domain.Course;
 import kr.yeoksi.ours.oursserver.course.domain.PlaceInCourse;
 import lombok.Data;
@@ -15,7 +15,7 @@ import java.util.List;
 public class CreateCourseRequest {
     private String title;
     private String description;
-    private List<PlacesInCourseRequest> placesInCourse;
+    private List<PlaceInCourseReference> placesInCourse;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
     private boolean inProgress = false;
@@ -24,7 +24,7 @@ public class CreateCourseRequest {
     public Course toCourse() {
         List<PlaceInCourse> placesInCourse = new ArrayList<>(
                 this.placesInCourse.stream()
-                        .map(PlacesInCourseRequest::toPlaceInCourse)
+                        .map(PlaceInCourseReference::toPlaceInCourse)
                         .toList()
         );
 

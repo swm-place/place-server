@@ -1,6 +1,5 @@
 package kr.yeoksi.ours.oursserver.course.adapter.in.reference;
 
-import kr.yeoksi.ours.oursserver.course.adapter.in.reference.PlaceReference;
 import kr.yeoksi.ours.oursserver.course.domain.PlaceInCourse;
 import lombok.Data;
 
@@ -8,7 +7,7 @@ import java.time.LocalDateTime;
 
 
 @Data
-public class PlacesInCourseRequest {
+public class PlaceInCourseReference {
     private Long id;
 
     private PlaceReference place;
