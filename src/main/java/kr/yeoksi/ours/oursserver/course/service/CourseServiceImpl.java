@@ -40,6 +40,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional
     public Optional<Course> findById(Long id, String userId) {
         Optional<Course> course = courseRepository.findById(id);
 
@@ -55,6 +56,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional
     public List<Course> findAllByUserId(String userId) {
         return courseRepository.findAllByUserId(userId);
     }
