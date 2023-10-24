@@ -13,7 +13,7 @@ import java.util.List;
 
 @Data
 public class CreateCourseRequest {
-    @NotNull private String title;
+    private String title;
     private String description;
     private List<PlacesInCourseRequest> placesInCourse;
     private LocalDateTime startAt;
