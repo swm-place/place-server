@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
@@ -43,16 +44,7 @@ public class CourseServiceImpl implements CourseService {
     @Transactional
     public Optional<Course> findById(Long id, String userId) {
         Optional<Course> course = courseRepository.findById(id);
-
-        if (course.isPresent()) {
-            if (course.get().getUser().getId().equals(userId)) {
-                return course;
-            }
-            else {
-                throw new NotOwnerOfCourseException();
-            }
-        }
-        return Optional.empty();
+        return course.map(validateOwnership(userId));
     }
 
     @Override
@@ -105,6 +97,14 @@ public class CourseServiceImpl implements CourseService {
 
     private boolean isExisted(Long courseId) {
         return courseId != null && courseRepository.findById(courseId).isPresent();
+    }
+
+    private static Function<Course, Course> validateOwnership(String userId) {
+        return course -> {
+            if (!userId.equals(course.getUser().getId()))
+                throw new NotOwnerOfCourseException();
+            return course;
+        };
     }
 
 }
