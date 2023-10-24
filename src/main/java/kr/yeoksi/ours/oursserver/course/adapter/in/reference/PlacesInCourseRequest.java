@@ -1,4 +1,4 @@
-package kr.yeoksi.ours.oursserver.course.adapter.in.request;
+package kr.yeoksi.ours.oursserver.course.adapter.in.reference;
 
 import kr.yeoksi.ours.oursserver.course.adapter.in.reference.PlaceReference;
 import kr.yeoksi.ours.oursserver.course.domain.PlaceInCourse;
