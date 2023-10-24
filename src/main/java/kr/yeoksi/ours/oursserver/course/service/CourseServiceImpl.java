@@ -89,6 +89,14 @@ public class CourseServiceImpl implements CourseService {
         }
     }
 
+    private Course validateIsExistedAndGet(Long courseId) {
+        Optional<Course> course = courseRepository.findById(courseId);
+        if (course.isEmpty()) {
+            throw new NotExistedCourseException();
+        }
+        return course.get();
+    }
+
     private void validateIsDuplicated(Long courseId) {
         if (isExisted(courseId)) {
             throw new DuplicatedCourseException();
