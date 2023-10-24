@@ -1,7 +1,6 @@
 package kr.yeoksi.ours.oursserver.course.adapter.in.request;
 
 
-import kr.yeoksi.ours.oursserver.course.adapter.in.reference.PlaceInCourseReference;
 import kr.yeoksi.ours.oursserver.course.domain.Course;
 import kr.yeoksi.ours.oursserver.course.domain.PlaceInCourse;
 import lombok.Data;

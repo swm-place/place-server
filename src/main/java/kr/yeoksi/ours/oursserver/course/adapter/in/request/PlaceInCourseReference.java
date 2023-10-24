@@ -1,4 +1,4 @@
-package kr.yeoksi.ours.oursserver.course.adapter.in.reference;
+package kr.yeoksi.ours.oursserver.course.adapter.in.request;
 
 import kr.yeoksi.ours.oursserver.course.domain.PlaceInCourse;
 import lombok.Data;
