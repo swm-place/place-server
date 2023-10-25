@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import kr.yeoksi.ours.oursserver.course.adapter.out.entity.CourseJpaEntity;
+import kr.yeoksi.ours.oursserver.magazine.adapter.out.entity.CourseMagazineJpaEntity;
 import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazine;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -72,5 +73,5 @@ public class User {
     private List<PlaceOpen> placeOpens;
 
     @OneToMany(mappedBy = "user")
-    private List<CourseMagazine> courseMagazines;
+    private List<CourseMagazineJpaEntity> courseMagazines;
 }
