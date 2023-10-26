@@ -53,9 +53,10 @@ public class PlaceInCourseJpaEntity {
     private LocalDateTime createdAt;
 
 
-    public static PlaceInCourseJpaEntity from(PlaceInCourse placeInCourse) {
+    public static PlaceInCourseJpaEntity from(PlaceInCourse placeInCourse, CourseJpaEntity courseJpaEntity) {
         return PlaceInCourseJpaEntity.builder()
                 .id(placeInCourse.getId())
+                .course(courseJpaEntity)
                 .place(placeInCourse.getPlace())
                 .visitOrder(placeInCourse.getOrder())
                 .startAt(placeInCourse.getStartAt())
