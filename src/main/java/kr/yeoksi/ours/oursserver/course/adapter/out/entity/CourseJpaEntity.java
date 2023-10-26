@@ -68,23 +68,25 @@ public class CourseJpaEntity {
 
 
     public static CourseJpaEntity from(Course course) {
-        List<PlaceInCourseJpaEntity> placesInCourse = new ArrayList<>(
-                course.getPlacesInCourse().stream()
-                        .map(PlaceInCourseJpaEntity::from)
-                        .toList());
-
-        return CourseJpaEntity.builder()
+        CourseJpaEntity courseJpaEntity = CourseJpaEntity.builder()
                 .id(course.getId())
                 .user(course.getUser())
                 .title(course.getTitle())
                 .description(course.getDescription())
-                .placesInCourse(placesInCourse)
                 .startAt(course.getStartAt())
                 .endAt(course.getEndAt())
                 .inProgress(course.isInProgress())
                 .isFinished(course.isFinished())
                 .createdAt(course.getCreatedAt())
                 .build();
+
+        List<PlaceInCourseJpaEntity> placesInCourse = new ArrayList<>(
+                course.getPlacesInCourse().stream()
+                        .map(placeInCourse -> PlaceInCourseJpaEntity.from(placeInCourse, courseJpaEntity))
+                        .toList());
+
+        courseJpaEntity.setPlacesInCourse(placesInCourse);
+        return courseJpaEntity;
     }
 
     public Course toCourse() {
