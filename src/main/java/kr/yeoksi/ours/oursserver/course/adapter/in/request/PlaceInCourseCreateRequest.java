@@ -1,14 +1,14 @@
 package kr.yeoksi.ours.oursserver.course.adapter.in.request;
 
 import kr.yeoksi.ours.oursserver.course.domain.PlaceInCourse;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
-
 @Data
-public class PlaceInCourseRequest {
-    private Long id;
+@Builder
+public class PlaceInCourseCreateRequest {
 
     private PlaceReference place;
 
@@ -21,6 +21,7 @@ public class PlaceInCourseRequest {
 
     private LocalDateTime createdAt;
 
+
     public PlaceInCourse toPlaceInCourse() {
         return PlaceInCourse.builder()
                 .place(place.toPlace())
@@ -31,4 +32,5 @@ public class PlaceInCourseRequest {
                 .transportationTime(transportationTime)
                 .build();
     }
+
 }
