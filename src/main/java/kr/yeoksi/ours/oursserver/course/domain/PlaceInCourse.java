@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 public class PlaceInCourse {
     private Long id;
+    private Course course;
 
     private Place place;
 
