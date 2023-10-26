@@ -13,7 +13,7 @@ public interface PlaceInCourseService {
 
     void delete(PlaceInCourse placeInCourse);
 
-    Optional<PlaceInCourse> findById(Long id);
+    PlaceInCourse findById(Long id);
 
     List<PlaceInCourse> findByCourseId(Long courseId);
 
