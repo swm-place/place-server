@@ -1,5 +1,6 @@
 package kr.yeoksi.ours.oursserver.others.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -45,6 +46,8 @@ public class Place {
     @Builder.Default
     private List<Menu> menus = new ArrayList<>();
 
+    // TODO: @JsonIgnore 대신 응답용 DTO 사용
+    @JsonIgnore
     @OneToMany(mappedBy = "place")
     @Builder.Default
     private List<PlaceFavorite> placeFavorites = new ArrayList<>();

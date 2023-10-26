@@ -1,5 +1,6 @@
 package kr.yeoksi.ours.oursserver.others.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,10 +25,14 @@ public class PlaceOpen {
     @Column(name = "place_open_index")
     private Long id;
 
+    // TODO: @JsonIgnore 대신 응답용 DTO 사용
+    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "place_index")
     private Place place;
 
+    // TODO: @JsonIgnore 대신 응답용 DTO 사용
+    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_index")
     private User user;

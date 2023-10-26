@@ -1,5 +1,6 @@
 package kr.yeoksi.ours.oursserver.others.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,8 @@ public class PlaceFavorite {
     @JoinColumn(name = "place_index")
     private Place place;
 
+    // TODO: @JsonIgnore 대신 응답용 DTO 사용
+    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_index")
     private User user;
