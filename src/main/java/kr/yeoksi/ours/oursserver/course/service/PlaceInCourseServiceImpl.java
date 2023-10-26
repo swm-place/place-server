@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -54,7 +55,7 @@ public class PlaceInCourseServiceImpl implements PlaceInCourseService {
     }
 
     @Override
-    public PlaceInCourse findById(Long id, String userId) {
+    public Optional<PlaceInCourse> findById(Long id, String userId) {
         return null;
     }
 
