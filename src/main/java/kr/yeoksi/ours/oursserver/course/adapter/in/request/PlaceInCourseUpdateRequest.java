@@ -23,6 +23,7 @@ public class PlaceInCourseUpdateRequest {
 
     public PlaceInCourse toPlaceInCourse() {
         return PlaceInCourse.builder()
+                .id(id)
                 .place(place.toPlace())
                 .day(day)
                 .order(order)
