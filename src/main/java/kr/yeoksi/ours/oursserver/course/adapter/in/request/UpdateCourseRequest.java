@@ -16,7 +16,7 @@ public class UpdateCourseRequest {
     @NotNull private Long id;
     private String title;
     private String description;
-    private List<PlaceInCourseCreateRequest> placesInCourse;
+    private List<PlaceInCourseUpdateRequest> placesInCourse;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
     private boolean inProgress = false;
@@ -26,7 +26,7 @@ public class UpdateCourseRequest {
     public Course toCourse() {
         List<PlaceInCourse> placesInCourse = new ArrayList<>(
                 this.getPlacesInCourse().stream()
-                        .map(PlaceInCourseCreateRequest::toPlaceInCourse)
+                        .map(PlaceInCourseUpdateRequest::toPlaceInCourse)
                         .toList()
         );
 
