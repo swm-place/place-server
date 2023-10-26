@@ -19,7 +19,7 @@ public class CourseResponse {
     private String description;
 
     @Builder.Default
-    private List<PlaceInCourse> placesInCourse = new ArrayList<>();
+    private List<PlaceInCourseResponse> placesInCourse = new ArrayList<>();
 
     private LocalDateTime startAt;
     private LocalDateTime endAt;
@@ -35,7 +35,9 @@ public class CourseResponse {
                 .id(course.getId())
                 .title(course.getTitle())
                 .description(course.getDescription())
-                .placesInCourse(course.getPlacesInCourse())
+                .placesInCourse(course.getPlacesInCourse().stream()
+                        .map(PlaceInCourseResponse::from)
+                        .toList())
                 .startAt(course.getStartAt())
                 .endAt(course.getEndAt())
                 .inProgress(course.isInProgress())
