@@ -41,6 +41,7 @@ public class PlaceInCourseServiceImpl implements PlaceInCourseService {
             throw new PlaceWrongReferenceWithCourseException();
         }
 
+        placeInCourse.setId(null);
         return placeInCourseRepository.save(placeInCourse);
     }
 
