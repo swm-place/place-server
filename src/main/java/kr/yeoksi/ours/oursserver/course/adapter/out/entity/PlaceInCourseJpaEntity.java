@@ -70,6 +70,7 @@ public class PlaceInCourseJpaEntity {
     public PlaceInCourse toPlaceInCourse() {
         return PlaceInCourse.builder()
                 .id(this.id)
+                .courseId(this.course.getId())
                 .place(this.place)
                 .order(this.visitOrder)
                 .startAt(this.startAt)
