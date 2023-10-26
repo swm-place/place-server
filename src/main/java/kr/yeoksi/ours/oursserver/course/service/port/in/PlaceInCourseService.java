@@ -11,7 +11,7 @@ public interface PlaceInCourseService {
 
     PlaceInCourse update(PlaceInCourse placeInCourse);
 
-    void delete(PlaceInCourse placeInCourse);
+    void delete(Long id);
 
     PlaceInCourse findById(Long id);
 
