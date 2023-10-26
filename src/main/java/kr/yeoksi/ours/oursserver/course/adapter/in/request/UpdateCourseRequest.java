@@ -14,6 +14,7 @@ import java.util.List;
 public class UpdateCourseRequest extends CreateCourseRequest {
 
     @NotNull private Long id;
+    private List<PlaceInCourseUpdateRequest> placesInCourse;
 
     @Override
     public Course toCourse() {
