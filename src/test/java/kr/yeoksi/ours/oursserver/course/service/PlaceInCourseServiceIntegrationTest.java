@@ -65,7 +65,7 @@ public class PlaceInCourseServiceIntegrationTest {
         // configure placesInCourse
         PlaceInCourse placeInCourse = PlaceInCourse.builder()
                 .courseId(course.getId())
-                .place(place)
+                .place(Place.builder().id(place.getId()).build())
                 .day(1)
                 .order(1)
                 .startAt(null)
@@ -79,12 +79,15 @@ public class PlaceInCourseServiceIntegrationTest {
         // then
         assertThat(saved.getId()).isEqualTo(placeInCourse.getId());
         assertThat(saved.getCourseId()).isEqualTo(placeInCourse.getCourseId());
-        assertThat(saved.getPlace().getId()).isEqualTo(placeInCourse.getPlace().getId());
         assertThat(saved.getDay()).isEqualTo(placeInCourse.getDay());
         assertThat(saved.getOrder()).isEqualTo(placeInCourse.getOrder());
         assertThat(saved.getStartAt()).isEqualTo(placeInCourse.getStartAt());
         assertThat(saved.getTimeRequired()).isEqualTo(placeInCourse.getTimeRequired());
         assertThat(saved.getTransportationTime()).isEqualTo(placeInCourse.getTransportationTime());
+
+        assertThat(saved.getPlace().getId()).isEqualTo(place.getId());
+        assertThat(saved.getPlace().getName()).isEqualTo(place.getName());
+        assertThat(saved.getPlace().getCategory()).isEqualTo(place.getCategory());
 
     }
 
