@@ -147,16 +147,23 @@ public class PlaceInCourseServiceIntegrationTest {
         placeInCourse.setPlace(Place.builder().id(place2.getId()).build());
         placeInCourse.setTimeRequired(10);
         PlaceInCourse updated = placeInCourseService.update(placeInCourse, user.getId());
+        Optional<Course> updatedCourse = courseRepository.findById(course.getId());
 
         // then
         assertThat(updated.getId()).isEqualTo(placeInCourse.getId());
         assertThat(updated.getCourseId()).isEqualTo(placeInCourse.getCourseId());
         assertThat(updated.getDay()).isEqualTo(placeInCourse.getDay());
         assertThat(updated.getOrder()).isEqualTo(placeInCourse.getOrder());
+        assertThat(updated.getTimeRequired()).isEqualTo(10);
 
         assertThat(updated.getPlace().getId()).isEqualTo(place2.getId());
         assertThat(updated.getPlace().getName()).isEqualTo(place2.getName());
         assertThat(updated.getPlace().getCategory()).isEqualTo(place2.getCategory());
+
+        assertThat(updatedCourse.isPresent()).isTrue();
+        assertThat(updatedCourse.get().getPlacesInCourse().size()).isEqualTo(1);
+        assertThat(updatedCourse.get().getPlacesInCourse().get(0).getId()).isEqualTo(updated.getId());
+        assertThat(updatedCourse.get().getPlacesInCourse().get(0).getPlace().getId()).isEqualTo(place2.getId());
 
     }
 
