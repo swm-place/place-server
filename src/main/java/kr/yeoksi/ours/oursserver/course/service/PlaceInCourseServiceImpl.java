@@ -24,8 +24,6 @@ public class PlaceInCourseServiceImpl implements PlaceInCourseService {
 
     private final PlaceInCourseRepository placeInCourseRepository;
 
-    private final CourseRepository courseRepository;
-
     private final CourseService courseService;
     private final PlaceService placeService;
 
@@ -84,15 +82,6 @@ public class PlaceInCourseServiceImpl implements PlaceInCourseService {
         Course course = courseService.findById(placeInCourseToDelete.getCourseId(), userId)
                 .filter(c -> c.getId().equals(courseId))
                 .orElseThrow(NotExistedCourseException::new);
-
-        // `course`에서도 삭제 처리 필요
-        // TODO: 코드 정리 및 매핑관계 점검
-        course.setPlacesInCourse(
-                course.getPlacesInCourse().stream()
-                        .filter(placeInCourse -> !placeInCourse.getId().equals(id))
-                        .toList()
-        );
-        courseRepository.save(course);
 
         placeInCourseRepository.deleteById(id);
     }
