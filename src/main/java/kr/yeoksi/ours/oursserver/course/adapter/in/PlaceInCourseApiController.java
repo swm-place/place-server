@@ -2,6 +2,7 @@ package kr.yeoksi.ours.oursserver.course.adapter.in;
 
 import jakarta.validation.Valid;
 import kr.yeoksi.ours.oursserver.course.adapter.in.request.PlaceInCourseCreateRequest;
+import kr.yeoksi.ours.oursserver.course.adapter.in.request.PlaceInCourseUpdateRequest;
 import kr.yeoksi.ours.oursserver.course.adapter.in.response.PlaceInCourseResponse;
 import kr.yeoksi.ours.oursserver.course.domain.PlaceInCourse;
 import kr.yeoksi.ours.oursserver.course.service.port.in.PlaceInCourseService;
@@ -27,5 +28,16 @@ public class PlaceInCourseApiController {
         return ResponseEntity.ok(
                 PlaceInCourseResponse.from(
                         placeInCourseService.append(placeInCourse, userId)));
+    }
+
+    @PatchMapping("/{placeInCourseId}")
+    public ResponseEntity<PlaceInCourseResponse> updatePlaceInCourse(@RequestHeader("X-User-Uid") String userId,
+                                                                     @PathVariable String courseId,
+                                                                     @PathVariable String placeInCourseId,
+                                                                     @RequestBody @Valid PlaceInCourseUpdateRequest request) {
+        PlaceInCourse placeInCourse = request.toPlaceInCourse();
+        return ResponseEntity.ok(
+                PlaceInCourseResponse.from(
+                        placeInCourseService.update(placeInCourse, userId)));
     }
 }
