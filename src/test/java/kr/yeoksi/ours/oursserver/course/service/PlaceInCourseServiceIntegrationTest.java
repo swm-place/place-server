@@ -222,10 +222,63 @@ public class PlaceInCourseServiceIntegrationTest {
     @Test
     public void 코스의_id로_코스_내_모든_장소들을_조회할_수_있다() {
         // given
+        // configure user
+        User user = User.builder()
+                .id("test")
+                .email("test@yeoksi.com")
+                .nickname("test")
+                .build();
+        userRepository.save(user);
+
+        // configure places
+        Place place1 = Place.builder()
+                .id("test1")
+                .name("test1")
+                .category("test1")
+                .build();
+        Place place2 = Place.builder()
+                .id("test2")
+                .name("test2")
+                .category("test2")
+                .build();
+        place1.setId(placeRepository.save(place1));
+        place2.setId(placeRepository.save(place2));
+
+        // configure placesInCourse
+        List<PlaceInCourse> placesInCourse = new ArrayList<>();
+        placesInCourse.add(PlaceInCourse.builder()
+                .place(place1)
+                .day(1)
+                .order(1)
+                .startAt(null)
+                .timeRequired(0)
+                .transportationTime(0)
+                .build());
+        placesInCourse.add(PlaceInCourse.builder()
+                .place(place2)
+                .day(1)
+                .order(2)
+                .startAt(null)
+                .timeRequired(0)
+                .transportationTime(0)
+                .build());
+
+        // configure course
+        Course course = Course.builder()
+                .user(user)
+                .title("test")
+                .description("test")
+                .placesInCourse(placesInCourse)
+                .build();
+        course = courseRepository.save(course);
 
         // when
+        List<PlaceInCourse> placesInCourseFound = placeInCourseService.findByCourseId(course.getId(), user.getId());
 
         // then
+        assertThat(placesInCourseFound.size()).isEqualTo(2);
+        assertThat(placesInCourseFound.get(0).getPlace().getId()).isEqualTo(place1.getId());
+        assertThat(placesInCourseFound.get(1).getPlace().getId()).isEqualTo(place2.getId());
     }
 
     @Test
