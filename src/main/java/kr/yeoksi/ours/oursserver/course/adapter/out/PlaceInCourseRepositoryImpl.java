@@ -21,7 +21,11 @@ public class PlaceInCourseRepositoryImpl implements PlaceInCourseRepository {
 
     @Override
     public PlaceInCourse save(PlaceInCourse placeInCourse, Course course) {
-        return placeInCourseJpaRepository.save(PlaceInCourseJpaEntity.from(placeInCourse, CourseJpaEntity.from(course))).toPlaceInCourse();
+        return placeInCourseJpaRepository.save(
+                PlaceInCourseJpaEntity.from(
+                        placeInCourse,
+                        CourseJpaEntity.from(course)))
+                .toPlaceInCourse();
     }
 
     @Override
@@ -32,7 +36,10 @@ public class PlaceInCourseRepositoryImpl implements PlaceInCourseRepository {
 
     @Override
     public List<PlaceInCourse> findAllByCourseId(Long courseId) {
-        return null;
+        return placeInCourseJpaRepository.findAllByCourseId(courseId)
+                .stream()
+                .map(PlaceInCourseJpaEntity::toPlaceInCourse)
+                .toList();
     }
 
     @Override
