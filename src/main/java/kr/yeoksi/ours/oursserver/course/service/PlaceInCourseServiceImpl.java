@@ -42,7 +42,7 @@ public class PlaceInCourseServiceImpl implements PlaceInCourseService {
         }
 
         placeInCourse.setId(null);
-        return placeInCourseRepository.save(placeInCourse);
+        return placeInCourseRepository.save(placeInCourse, course);
     }
 
     @Override
