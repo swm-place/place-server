@@ -44,6 +44,6 @@ public class PlaceInCourseRepositoryImpl implements PlaceInCourseRepository {
 
     @Override
     public void deleteById(Long id) {
-
+        placeInCourseJpaRepository.deleteById(id);
     }
 }
