@@ -47,7 +47,24 @@ public class PlaceInCourseServiceImpl implements PlaceInCourseService {
 
     @Override
     public PlaceInCourse update(PlaceInCourse placeInCourse, String userId) {
-        return null;
+        // validate right course and owner
+        Course course = courseService.findById(placeInCourse.getCourseId(), userId)
+                .orElseThrow(NotExistedCourseException::new);
+
+        // validate existed placeInCourse
+        PlaceInCourse placeInCourseToUpdate = placeInCourseRepository.findById(placeInCourse.getId())
+                .orElseThrow(NotExistedCourseException::new);
+
+        // validate right place and sync
+        try {
+            placeInCourseToUpdate.setPlace(
+                    placeService.findById(placeInCourse.getPlace().getId()));
+        } catch (NotExistedPlaceException e) {
+            throw new PlaceWrongReferenceWithCourseException();
+        }
+
+        placeInCourseToUpdate.update(placeInCourse);
+        return placeInCourseRepository.save(placeInCourseToUpdate);
     }
 
     @Override
