@@ -83,8 +83,16 @@ public class PlaceInCourseServiceImpl implements PlaceInCourseService {
     }
 
     @Override
-    public Optional<PlaceInCourse> findById(Long id, String userId) {
-        return null;
+    public PlaceInCourse getById(Long id, String userId) {
+        // validate existed placeInCourse
+        PlaceInCourse placeInCourse = placeInCourseRepository.findById(id)
+                .orElseThrow(NotExistedPlaceInCourseException::new);
+
+        // validate right course and owner
+        Course course = courseService.findById(placeInCourse.getCourseId(), userId)
+                .orElseThrow(NotExistedCourseException::new);
+
+        return placeInCourse;
     }
 
     @Override
