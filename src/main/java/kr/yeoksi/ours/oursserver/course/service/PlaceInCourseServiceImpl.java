@@ -64,7 +64,7 @@ public class PlaceInCourseServiceImpl implements PlaceInCourseService {
         }
 
         placeInCourseToUpdate.update(placeInCourse);
-        return placeInCourseRepository.save(placeInCourseToUpdate);
+        return placeInCourseRepository.save(placeInCourseToUpdate, course);
     }
 
     @Override
