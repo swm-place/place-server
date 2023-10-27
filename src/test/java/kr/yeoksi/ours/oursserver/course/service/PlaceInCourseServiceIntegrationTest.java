@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -209,9 +210,12 @@ public class PlaceInCourseServiceIntegrationTest {
 
         // when
         placeInCourseService.delete(course.getPlacesInCourse().get(0).getId(), user.getId());
+        Optional<Course> updated = courseRepository.findById(course.getId());
 
         // then
-        assertThat(courseRepository.findById(course.getId()).get().getPlacesInCourse().size()).isEqualTo(1);
+        assertThat(updated.isPresent()).isTrue();
+        assertThat(updated.get().getPlacesInCourse().size()).isEqualTo(1);
+        assertThat(updated.get().getPlacesInCourse().get(0).getPlace().getId()).isEqualTo(place2.getId());
 
     }
 
