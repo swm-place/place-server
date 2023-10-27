@@ -1,5 +1,8 @@
 package kr.yeoksi.ours.oursserver.course.adapter.out;
 
+import kr.yeoksi.ours.oursserver.course.adapter.out.entity.CourseJpaEntity;
+import kr.yeoksi.ours.oursserver.course.adapter.out.entity.PlaceInCourseJpaEntity;
+import kr.yeoksi.ours.oursserver.course.domain.Course;
 import kr.yeoksi.ours.oursserver.course.domain.PlaceInCourse;
 import kr.yeoksi.ours.oursserver.course.service.port.out.PlaceInCourseRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +20,8 @@ public class PlaceInCourseRepositoryImpl implements PlaceInCourseRepository {
 
 
     @Override
-    public PlaceInCourse save(PlaceInCourse placeInCourse) {
-        return null;
+    public PlaceInCourse save(PlaceInCourse placeInCourse, Course course) {
+        return placeInCourseJpaRepository.save(PlaceInCourseJpaEntity.from(placeInCourse, CourseJpaEntity.from(course))).toPlaceInCourse();
     }
 
     @Override
