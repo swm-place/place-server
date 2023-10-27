@@ -52,4 +52,13 @@ public class PlaceInCourseApiController {
         placeInCourseService.delete(placeInCourseId, courseId, userId);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/{placeInCourseId}")
+    public ResponseEntity<PlaceInCourseResponse> getPlaceInCourse(@RequestHeader("X-User-Uid") String userId,
+                                                                  @PathVariable Long courseId,
+                                                                  @PathVariable Long placeInCourseId) {
+        return ResponseEntity.ok(
+                PlaceInCourseResponse.from(
+                        placeInCourseService.getById(placeInCourseId, courseId, userId)));
+    }
 }
