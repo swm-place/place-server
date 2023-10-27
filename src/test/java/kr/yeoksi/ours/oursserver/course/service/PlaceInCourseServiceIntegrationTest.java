@@ -207,7 +207,7 @@ public class PlaceInCourseServiceIntegrationTest {
         course = courseRepository.save(course);
 
         // when
-        placeInCourseService.delete(course.getPlacesInCourse().get(0).getId(), user.getId());
+        placeInCourseService.delete(course.getPlacesInCourse().get(0).getId(), course.getId(), user.getId());
         Optional<Course> updated = courseRepository.findById(course.getId());
 
         // then
