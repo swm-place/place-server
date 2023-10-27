@@ -95,9 +95,63 @@ public class PlaceInCourseServiceIntegrationTest {
     public void 코스_내_장소를_수정할_수_있다() {
         // given
 
+        // configure user
+        User user = User.builder()
+                .id("test")
+                .email("test@yeoksi.com")
+                .nickname("test")
+                .build();
+        userRepository.save(user);
+
+        // configure places
+        Place place1 = Place.builder()
+                .id("test1")
+                .name("test1")
+                .category("test1")
+                .build();
+        Place place2 = Place.builder()
+                .id("test2")
+                .name("test2")
+                .category("test2")
+                .build();
+        place1.setId(placeRepository.save(place1));
+        place2.setId(placeRepository.save(place2));
+
+        // configure course
+        Course course = Course.builder()
+                .user(user)
+                .title("test")
+                .description("test")
+                .build();
+        course = courseRepository.save(course);
+
+        // configure placesInCourse
+        PlaceInCourse placeInCourse = PlaceInCourse.builder()
+                .courseId(course.getId())
+                .place(Place.builder().id(place1.getId()).build())
+                .day(1)
+                .order(1)
+                .startAt(null)
+                .timeRequired(0)
+                .transportationTime(0)
+                .build();
+        placeInCourse = placeInCourseService.append(placeInCourse, user.getId());
+
         // when
+        placeInCourse.setPlace(Place.builder().id(place2.getId()).build());
+        placeInCourse.setTimeRequired(10);
+        PlaceInCourse updated = placeInCourseService.update(placeInCourse, user.getId());
 
         // then
+        assertThat(updated.getId()).isEqualTo(placeInCourse.getId());
+        assertThat(updated.getCourseId()).isEqualTo(placeInCourse.getCourseId());
+        assertThat(updated.getDay()).isEqualTo(placeInCourse.getDay());
+        assertThat(updated.getOrder()).isEqualTo(placeInCourse.getOrder());
+
+        assertThat(updated.getPlace().getId()).isEqualTo(place2.getId());
+        assertThat(updated.getPlace().getName()).isEqualTo(place2.getName());
+        assertThat(updated.getPlace().getCategory()).isEqualTo(place2.getCategory());
+
     }
 
     @Test
