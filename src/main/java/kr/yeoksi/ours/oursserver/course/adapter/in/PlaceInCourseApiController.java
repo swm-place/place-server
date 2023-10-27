@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -60,5 +62,15 @@ public class PlaceInCourseApiController {
         return ResponseEntity.ok(
                 PlaceInCourseResponse.from(
                         placeInCourseService.getById(placeInCourseId, courseId, userId)));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<PlaceInCourseResponse>> getPlacesInCourse(@RequestHeader("X-User-Uid") String userId,
+                                                                         @PathVariable Long courseId) {
+        return ResponseEntity.ok(
+                placeInCourseService.findByCourseId(courseId, userId).stream()
+                        .map(PlaceInCourseResponse::from)
+                        .toList()
+        );
     }
 }
