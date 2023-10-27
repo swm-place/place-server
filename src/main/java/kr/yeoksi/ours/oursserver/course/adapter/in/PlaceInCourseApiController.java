@@ -32,10 +32,13 @@ public class PlaceInCourseApiController {
 
     @PatchMapping("/{placeInCourseId}")
     public ResponseEntity<PlaceInCourseResponse> updatePlaceInCourse(@RequestHeader("X-User-Uid") String userId,
-                                                                     @PathVariable String courseId,
-                                                                     @PathVariable String placeInCourseId,
+                                                                     @PathVariable Long courseId,
+                                                                     @PathVariable Long placeInCourseId,
                                                                      @RequestBody @Valid PlaceInCourseUpdateRequest request) {
         PlaceInCourse placeInCourse = request.toPlaceInCourse();
+        placeInCourse.setId(placeInCourseId);
+        placeInCourse.setCourseId(courseId);
+
         return ResponseEntity.ok(
                 PlaceInCourseResponse.from(
                         placeInCourseService.update(placeInCourse, userId)));
