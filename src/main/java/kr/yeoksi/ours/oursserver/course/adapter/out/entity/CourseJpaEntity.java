@@ -19,7 +19,7 @@ import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;
 
-@Entity
+@Entity(name = "course")
 @Getter @Setter
 @RequiredArgsConstructor
 @AllArgsConstructor
