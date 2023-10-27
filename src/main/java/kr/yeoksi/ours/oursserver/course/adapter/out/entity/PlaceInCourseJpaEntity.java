@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 
 import static jakarta.persistence.FetchType.LAZY;
 
-@Entity
+@Entity(name = "place_in_course")
 @Getter @Setter
 @RequiredArgsConstructor
 @AllArgsConstructor
@@ -70,6 +70,7 @@ public class PlaceInCourseJpaEntity {
     public PlaceInCourse toPlaceInCourse() {
         return PlaceInCourse.builder()
                 .id(this.id)
+                .courseId(this.course.getId())
                 .place(this.place)
                 .order(this.visitOrder)
                 .startAt(this.startAt)

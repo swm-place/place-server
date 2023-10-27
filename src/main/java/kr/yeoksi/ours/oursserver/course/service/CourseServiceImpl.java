@@ -59,9 +59,15 @@ public class CourseServiceImpl implements CourseService {
         Course courseToUpdate = validateIsExistedAndGet(course.getId());
         validateOwnership(courseToUpdate, userId);
 
+        // TODO: PlaceInCourse의 소유권 validation
+
         courseToUpdate.update(course);
+
+        // TODO: placesInCourse의 일부 필드만 반환되는 문제 해결
         return courseRepository.save(courseToUpdate);
     }
+
+    // TODO: replace() 추가 (Course의 placesInCourse 전부 교체 지원)
 
     @Override
     @Transactional
