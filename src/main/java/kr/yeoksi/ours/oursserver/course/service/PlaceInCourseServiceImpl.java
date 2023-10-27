@@ -87,13 +87,14 @@ public class PlaceInCourseServiceImpl implements PlaceInCourseService {
 
     @Override
     @Transactional
-    public PlaceInCourse getById(Long id, String userId) {
+    public PlaceInCourse getById(Long id, Long courseId, String userId) {
         // validate existed placeInCourse
         PlaceInCourse placeInCourse = placeInCourseRepository.findById(id)
                 .orElseThrow(NotExistedPlaceInCourseException::new);
 
         // validate right course and owner
         Course course = courseService.findById(placeInCourse.getCourseId(), userId)
+                .filter(c -> c.getId().equals(courseId))
                 .orElseThrow(NotExistedCourseException::new);
 
         return placeInCourse;
