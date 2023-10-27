@@ -3,6 +3,7 @@ package kr.yeoksi.ours.oursserver.course.service;
 import kr.yeoksi.ours.oursserver.course.domain.Course;
 import kr.yeoksi.ours.oursserver.course.domain.PlaceInCourse;
 import kr.yeoksi.ours.oursserver.course.exception.NotExistedCourseException;
+import kr.yeoksi.ours.oursserver.course.exception.NotExistedPlaceInCourseException;
 import kr.yeoksi.ours.oursserver.course.exception.PlaceWrongReferenceWithCourseException;
 import kr.yeoksi.ours.oursserver.course.service.port.in.CourseService;
 import kr.yeoksi.ours.oursserver.course.service.port.in.PlaceInCourseService;
@@ -53,7 +54,7 @@ public class PlaceInCourseServiceImpl implements PlaceInCourseService {
 
         // validate existed placeInCourse
         PlaceInCourse placeInCourseToUpdate = placeInCourseRepository.findById(placeInCourse.getId())
-                .orElseThrow(NotExistedCourseException::new);
+                .orElseThrow(NotExistedPlaceInCourseException::new);
 
         // validate right place and sync
         try {
@@ -69,7 +70,15 @@ public class PlaceInCourseServiceImpl implements PlaceInCourseService {
 
     @Override
     public void delete(Long id, String userId) {
+        // validate right course and owner
+        Course course = courseService.findById(id, userId)
+                .orElseThrow(NotExistedCourseException::new);
 
+        // validate existed placeInCourse
+        PlaceInCourse placeInCourseToDelete = placeInCourseRepository.findById(id)
+                .orElseThrow(NotExistedPlaceInCourseException::new);
+
+        placeInCourseRepository.deleteById(id);
     }
 
     @Override
