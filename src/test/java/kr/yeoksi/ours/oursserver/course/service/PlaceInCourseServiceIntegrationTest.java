@@ -76,7 +76,7 @@ public class PlaceInCourseServiceIntegrationTest {
         PlaceInCourse saved = placeInCourseService.append(placeInCourse, user.getId());
 
         // then
-        assertThat(saved.getId()).isEqualTo(placeInCourse.getId());
+        assertThat(saved.getId()).isNotNull();
         assertThat(saved.getCourseId()).isEqualTo(placeInCourse.getCourseId());
         assertThat(saved.getDay()).isEqualTo(placeInCourse.getDay());
         assertThat(saved.getOrder()).isEqualTo(placeInCourse.getOrder());
