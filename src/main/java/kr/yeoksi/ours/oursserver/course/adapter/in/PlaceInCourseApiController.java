@@ -40,4 +40,12 @@ public class PlaceInCourseApiController {
                 PlaceInCourseResponse.from(
                         placeInCourseService.update(placeInCourse, userId)));
     }
+
+    @DeleteMapping("/{placeInCourseId}")
+    public ResponseEntity<?> deletePlaceInCourse(@RequestHeader("X-User-Uid") String userId,
+                                                                     @PathVariable Long courseId,
+                                                                     @PathVariable Long placeInCourseId) {
+        placeInCourseService.delete(placeInCourseId, courseId, userId);
+        return ResponseEntity.ok().build();
+    }
 }
