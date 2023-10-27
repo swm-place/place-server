@@ -1,5 +1,6 @@
 package kr.yeoksi.ours.oursserver.course.service.port.out;
 
+import kr.yeoksi.ours.oursserver.course.domain.Course;
 import kr.yeoksi.ours.oursserver.course.domain.PlaceInCourse;
 
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.Optional;
 
 public interface PlaceInCourseRepository {
 
-    PlaceInCourse save(PlaceInCourse placeInCourse);
+    PlaceInCourse save(PlaceInCourse placeInCourse, Course course);
 
     Optional<PlaceInCourse> findById(Long id);
 
