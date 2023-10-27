@@ -60,7 +60,7 @@ public class PlaceInCourseServiceIntegrationTest {
                 .title("test")
                 .description("test")
                 .build();
-        courseRepository.save(course);
+        course = courseRepository.save(course);
 
         // configure placesInCourse
         PlaceInCourse placeInCourse = PlaceInCourse.builder()
