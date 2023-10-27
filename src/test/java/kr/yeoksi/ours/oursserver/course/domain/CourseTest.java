@@ -25,6 +25,7 @@ public class CourseTest {
 
         Course course2 = Course.builder()
                 .description("description new")
+                .isFinished(true)
                 .build();
 
         // when
@@ -33,6 +34,7 @@ public class CourseTest {
         // then
         assertThat(course.getTitle()).isEqualTo("title origin");
         assertThat(course.getDescription()).isEqualTo("description new");
+        assertThat(course.isFinished()).isEqualTo(true);
 
     }
 }
