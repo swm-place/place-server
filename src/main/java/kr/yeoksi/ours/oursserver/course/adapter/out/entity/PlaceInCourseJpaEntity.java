@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 
 import static jakarta.persistence.FetchType.LAZY;
 
-@Entity
+@Entity(name = "place_in_course")
 @Getter @Setter
 @RequiredArgsConstructor
 @AllArgsConstructor
