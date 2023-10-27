@@ -11,7 +11,7 @@ public interface PlaceInCourseService {
 
     PlaceInCourse update(PlaceInCourse placeInCourse, String userId);
 
-    void delete(Long id, String userId);
+    void delete(Long id, Long courseId, String userId);
 
     PlaceInCourse getById(Long id, String userId);
 
