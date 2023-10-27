@@ -8,14 +8,12 @@ import kr.yeoksi.ours.oursserver.course.exception.PlaceWrongReferenceWithCourseE
 import kr.yeoksi.ours.oursserver.course.service.port.in.CourseService;
 import kr.yeoksi.ours.oursserver.course.service.port.in.PlaceInCourseService;
 import kr.yeoksi.ours.oursserver.course.service.port.out.PlaceInCourseRepository;
-import kr.yeoksi.ours.oursserver.others.domain.Place;
 import kr.yeoksi.ours.oursserver.others.exception.NotExistedPlaceException;
 import kr.yeoksi.ours.oursserver.others.service.PlaceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -97,6 +95,10 @@ public class PlaceInCourseServiceImpl implements PlaceInCourseService {
 
     @Override
     public List<PlaceInCourse> findByCourseId(Long courseId, String userId) {
-        return null;
+        // validate right course and owner
+        Course course = courseService.findById(courseId, userId)
+                .orElseThrow(NotExistedCourseException::new);
+
+        return placeInCourseRepository.findAllByCourseId(courseId);
     }
 }
