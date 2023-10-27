@@ -19,12 +19,13 @@ public class PlaceInCourseApiController {
     private final PlaceInCourseService placeInCourseService;
 
 
-    @PostMapping("/{placeInCourseId}")
+    @PostMapping
     public ResponseEntity<PlaceInCourseResponse> addPlaceToCourse(@RequestHeader("X-User-Uid") String userId,
-                                                                  @PathVariable String courseId,
-                                                                  @PathVariable String placeInCourseId,
+                                                                  @PathVariable Long courseId,
                                                                   @RequestBody @Valid PlaceInCourseCreateRequest request) {
         PlaceInCourse placeInCourse = request.toPlaceInCourse();
+        placeInCourse.setCourseId(courseId);
+
         return ResponseEntity.ok(
                 PlaceInCourseResponse.from(
                         placeInCourseService.append(placeInCourse, userId)));
