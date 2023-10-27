@@ -82,7 +82,6 @@ public class PlaceInCourseServiceImpl implements PlaceInCourseService {
                 .filter(c -> c.getId().equals(courseId))
                 .orElseThrow(NotExistedCourseException::new);
 
-
         placeInCourseRepository.deleteById(id);
     }
 
