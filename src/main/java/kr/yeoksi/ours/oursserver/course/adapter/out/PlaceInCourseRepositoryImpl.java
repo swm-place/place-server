@@ -17,14 +17,26 @@ import java.util.Optional;
 public class PlaceInCourseRepositoryImpl implements PlaceInCourseRepository {
 
     private final PlaceInCourseJpaRepository placeInCourseJpaRepository;
+    private final CourseJpaRepository courseJpaRepository;
 
 
     @Override
     public PlaceInCourse save(PlaceInCourse placeInCourse, Course course) {
+        // 양방향 연관관계 모두 저장 처리
+        // TODO: 코드 재점검
+        CourseJpaEntity courseToSave = courseJpaRepository.findById(course.getId())
+                .orElse(courseJpaRepository.save(CourseJpaEntity.from(course)));
+
+        courseToSave.setPlacesInCourse(
+                courseToSave.getPlacesInCourse().stream()
+                        .peek(placeInCourseJpaEntity -> placeInCourseJpaEntity.setCourse(courseToSave))
+                        .toList());
+        courseJpaRepository.save(courseToSave);
+
         return placeInCourseJpaRepository.save(
                 PlaceInCourseJpaEntity.from(
                         placeInCourse,
-                        CourseJpaEntity.from(course)))
+                        courseToSave))
                 .toPlaceInCourse();
     }
 
