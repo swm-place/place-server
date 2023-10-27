@@ -8,6 +8,7 @@ import kr.yeoksi.ours.oursserver.course.service.port.out.PlaceInCourseRepository
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,10 +28,17 @@ public class PlaceInCourseRepositoryImpl implements PlaceInCourseRepository {
         CourseJpaEntity courseToSave = courseJpaRepository.findById(course.getId())
                 .orElse(courseJpaRepository.save(CourseJpaEntity.from(course)));
 
-        courseToSave.setPlacesInCourse(
-                courseToSave.getPlacesInCourse().stream()
-                        .peek(placeInCourseJpaEntity -> placeInCourseJpaEntity.setCourse(courseToSave))
-                        .toList());
+        placeInCourse = placeInCourseJpaRepository.save(PlaceInCourseJpaEntity.from(placeInCourse, courseToSave))
+                .toPlaceInCourse();
+
+        List<PlaceInCourseJpaEntity> placesInCourse = new ArrayList<>(courseToSave.getPlacesInCourse());
+
+        PlaceInCourse finalPlaceInCourse = placeInCourse;
+        if (placesInCourse.stream().noneMatch(placeInCourseJpaEntity -> placeInCourseJpaEntity.getId().equals(finalPlaceInCourse.getId()))) {
+            placesInCourse.add(PlaceInCourseJpaEntity.from(placeInCourse, courseToSave));
+        }
+
+        courseToSave.setPlacesInCourse(placesInCourse);
         courseJpaRepository.save(courseToSave);
 
         return placeInCourseJpaRepository.save(
@@ -56,6 +64,23 @@ public class PlaceInCourseRepositoryImpl implements PlaceInCourseRepository {
 
     @Override
     public void deleteById(Long id) {
+        // 양방향 연관관계 모두 삭제 처리
+        // TODO: 코드 재점검
+        Optional<PlaceInCourseJpaEntity> placeInCourse = placeInCourseJpaRepository.findById(id);
+        if (placeInCourse.isEmpty()) return;
+
+        CourseJpaEntity courseToSave = courseJpaRepository.findById(placeInCourse.get().getCourse().getId())
+                .orElse(courseJpaRepository.save(placeInCourse.get().getCourse()));
+
+        List<PlaceInCourseJpaEntity> placesInCourse = new ArrayList<>(courseToSave.getPlacesInCourse());
+        placesInCourse.remove(placesInCourse.stream()
+                .filter(placeInCourseJpaEntity -> placeInCourseJpaEntity.getId().equals(id))
+                .findFirst()
+                .orElseThrow());
+
+        courseToSave.setPlacesInCourse(placesInCourse);
+        courseJpaRepository.save(courseToSave);
+
         placeInCourseJpaRepository.deleteById(id);
     }
 }
