@@ -1,6 +1,7 @@
 package kr.yeoksi.ours.oursserver.course.domain;
 
 import kr.yeoksi.ours.oursserver.others.domain.Place;
+import kr.yeoksi.ours.oursserver.utils.EntityUtils;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -24,4 +25,9 @@ public class PlaceInCourse {
     private int transportationTime;
 
     private LocalDateTime createdAt;
+
+
+    public void update(PlaceInCourse source) {
+        EntityUtils.updateNotNullProperties(this, source);
+    }
 }
