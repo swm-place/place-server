@@ -12,6 +12,7 @@ import kr.yeoksi.ours.oursserver.others.exception.NotExistedPlaceException;
 import kr.yeoksi.ours.oursserver.others.service.PlaceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class PlaceInCourseServiceImpl implements PlaceInCourseService {
 
 
     @Override
+    @Transactional
     public PlaceInCourse append(PlaceInCourse placeInCourse, String userId) {
         // validate right course and owner
         Course course = courseService.findById(placeInCourse.getCourseId(), userId)
@@ -46,6 +48,7 @@ public class PlaceInCourseServiceImpl implements PlaceInCourseService {
     }
 
     @Override
+    @Transactional
     public PlaceInCourse update(PlaceInCourse placeInCourse, String userId) {
         // validate right course and owner
         Course course = courseService.findById(placeInCourse.getCourseId(), userId)
@@ -68,6 +71,7 @@ public class PlaceInCourseServiceImpl implements PlaceInCourseService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id, String userId) {
         // validate existed placeInCourse
         PlaceInCourse placeInCourseToDelete = placeInCourseRepository.findById(id)
@@ -81,6 +85,7 @@ public class PlaceInCourseServiceImpl implements PlaceInCourseService {
     }
 
     @Override
+    @Transactional
     public PlaceInCourse getById(Long id, String userId) {
         // validate existed placeInCourse
         PlaceInCourse placeInCourse = placeInCourseRepository.findById(id)
@@ -94,6 +99,7 @@ public class PlaceInCourseServiceImpl implements PlaceInCourseService {
     }
 
     @Override
+    @Transactional
     public List<PlaceInCourse> findByCourseId(Long courseId, String userId) {
         // validate right course and owner
         Course course = courseService.findById(courseId, userId)
