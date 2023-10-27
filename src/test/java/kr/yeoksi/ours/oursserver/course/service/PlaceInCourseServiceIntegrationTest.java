@@ -2,6 +2,7 @@ package kr.yeoksi.ours.oursserver.course.service;
 
 import kr.yeoksi.ours.oursserver.course.domain.Course;
 import kr.yeoksi.ours.oursserver.course.domain.PlaceInCourse;
+import kr.yeoksi.ours.oursserver.course.exception.NotExistedPlaceInCourseException;
 import kr.yeoksi.ours.oursserver.course.service.port.in.PlaceInCourseService;
 import kr.yeoksi.ours.oursserver.course.service.port.out.CourseRepository;
 import kr.yeoksi.ours.oursserver.others.domain.Place;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
 @RunWith(SpringRunner.class)
@@ -208,12 +210,12 @@ public class PlaceInCourseServiceIntegrationTest {
 
         // when
         placeInCourseService.delete(course.getPlacesInCourse().get(0).getId(), course.getId(), user.getId());
-        Optional<Course> updated = courseRepository.findById(course.getId());
+        Optional<Course> updatedCourse = courseRepository.findById(course.getId());
 
         // then
-        assertThat(updated.isPresent()).isTrue();
-        assertThat(updated.get().getPlacesInCourse().size()).isEqualTo(1);
-        assertThat(updated.get().getPlacesInCourse().get(0).getPlace().getId()).isEqualTo(place2.getId());
+        assertThat(updatedCourse.isPresent()).isTrue();
+        assertThat(updatedCourse.get().getPlacesInCourse().size()).isEqualTo(1);
+        assertThat(updatedCourse.get().getPlacesInCourse().get(0).getPlace().getId()).isEqualTo(place2.getId());
 
     }
 
