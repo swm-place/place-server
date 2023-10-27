@@ -72,14 +72,16 @@ public class PlaceInCourseServiceImpl implements PlaceInCourseService {
 
     @Override
     @Transactional
-    public void delete(Long id, String userId) {
+    public void delete(Long id, Long courseId, String userId) {
         // validate existed placeInCourse
         PlaceInCourse placeInCourseToDelete = placeInCourseRepository.findById(id)
                 .orElseThrow(NotExistedPlaceInCourseException::new);
 
         // validate right course and owner
         Course course = courseService.findById(placeInCourseToDelete.getCourseId(), userId)
+                .filter(c -> c.getId().equals(courseId))
                 .orElseThrow(NotExistedCourseException::new);
+
 
         placeInCourseRepository.deleteById(id);
     }
