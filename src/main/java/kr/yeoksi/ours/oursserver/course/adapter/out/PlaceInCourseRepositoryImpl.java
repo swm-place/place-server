@@ -26,7 +26,8 @@ public class PlaceInCourseRepositoryImpl implements PlaceInCourseRepository {
 
     @Override
     public Optional<PlaceInCourse> findById(Long id) {
-        return Optional.empty();
+        return placeInCourseJpaRepository.findById(id)
+                .map(PlaceInCourseJpaEntity::toPlaceInCourse);
     }
 
     @Override
