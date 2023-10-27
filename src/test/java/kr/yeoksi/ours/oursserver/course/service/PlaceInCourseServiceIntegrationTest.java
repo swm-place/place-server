@@ -333,7 +333,7 @@ public class PlaceInCourseServiceIntegrationTest {
         course = courseRepository.save(course);
 
         // when
-        PlaceInCourse placeInCourseFound = placeInCourseService.getById(course.getPlacesInCourse().get(0).getId(), user.getId());
+        PlaceInCourse placeInCourseFound = placeInCourseService.getById(course.getPlacesInCourse().get(0).getId(), course.getId(), user.getId());
 
         // then
         assertThat(placeInCourseFound.getPlace().getId()).isEqualTo(place1.getId());
