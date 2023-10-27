@@ -76,6 +76,7 @@ public class PlaceInCourseServiceIntegrationTest {
 
         // when
         PlaceInCourse saved = placeInCourseService.append(placeInCourse, user.getId());
+        Optional<Course> updatedCourse = courseRepository.findById(course.getId());
 
         // then
         assertThat(saved.getId()).isNotNull();
@@ -89,6 +90,10 @@ public class PlaceInCourseServiceIntegrationTest {
         assertThat(saved.getPlace().getId()).isEqualTo(place.getId());
         assertThat(saved.getPlace().getName()).isEqualTo(place.getName());
         assertThat(saved.getPlace().getCategory()).isEqualTo(place.getCategory());
+
+        assertThat(updatedCourse.isPresent()).isTrue();
+        assertThat(updatedCourse.get().getPlacesInCourse().size()).isEqualTo(1);
+        assertThat(updatedCourse.get().getPlacesInCourse().get(0).getId()).isEqualTo(saved.getId());
 
     }
 
