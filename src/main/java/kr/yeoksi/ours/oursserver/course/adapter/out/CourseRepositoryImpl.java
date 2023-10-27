@@ -21,7 +21,16 @@ public class CourseRepositoryImpl implements CourseRepository {
     public Course save(Course course) {
         CourseJpaEntity courseJpaEntity = CourseJpaEntity.from(course);
 
-        placeInCourseJpaRepository.saveAll(courseJpaEntity.getPlacesInCourse());
+        // 양방향 연관관계 모두 삭제 처리
+        // TODO: 코드 재점검
+//        courseJpaEntity.setPlacesInCourse(
+//                courseJpaEntity.getPlacesInCourse().stream()
+//                        .peek(placeInCourseJpaEntity -> placeInCourseJpaEntity.setCourse(courseJpaEntity))
+//                        .peek(placeInCourseJpaEntity -> placeInCourseJpaEntity.setId(
+//                                placeInCourseJpaRepository.save(placeInCourseJpaEntity).getId()
+//                        ))
+//                        .toList());
+
         return courseJPARepository.save(courseJpaEntity).toCourse();
     }
 
@@ -41,7 +50,10 @@ public class CourseRepositoryImpl implements CourseRepository {
 
     @Override
     public void deleteById(Long id) {
-        placeInCourseJpaRepository.deleteAll(placeInCourseJpaRepository.findAllByCourseId(id));
+        // 양방향 연관관계 모두 삭제 처리
+        // TODO: 코드 재점검
+//        placeInCourseJpaRepository.deleteAll(placeInCourseJpaRepository.findAllByCourseId(id));
+
         courseJPARepository.deleteById(id);
     }
 }
