@@ -8,6 +8,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;
@@ -38,7 +39,7 @@ public class CourseMagazineJpaEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "courseMagazine", cascade = CascadeType.ALL)
-    private List<PlaceInCourseMagazineJpaEntity> placesInCourseMagazine;
+    private List<PlaceInCourseMagazineJpaEntity> placesInCourseMagazine = new ArrayList<>();
 
     @CreationTimestamp
     @Column(name = "created_at")
