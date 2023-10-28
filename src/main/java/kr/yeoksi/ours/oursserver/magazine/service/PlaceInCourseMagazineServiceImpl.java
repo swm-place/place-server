@@ -1,4 +1,33 @@
 package kr.yeoksi.ours.oursserver.magazine.service;
 
-public class PlaceInCourseMagazineServiceImpl {
+import kr.yeoksi.ours.oursserver.magazine.domain.PlaceInCourseMagazine;
+import kr.yeoksi.ours.oursserver.magazine.service.port.in.PlaceInCourseMagazineService;
+
+import java.util.List;
+
+public class PlaceInCourseMagazineServiceImpl implements PlaceInCourseMagazineService {
+    @Override
+    public PlaceInCourseMagazine append(PlaceInCourseMagazine placeInCourseMagazine, Long magazineId, String userId) {
+        return null;
+    }
+
+    @Override
+    public PlaceInCourseMagazine update(PlaceInCourseMagazine placeInCourseMagazine, Long magazineId, String userId) {
+        return null;
+    }
+
+    @Override
+    public void delete(Long id, Long magazineId, String userId) {
+
+    }
+
+    @Override
+    public PlaceInCourseMagazine getById(Long id) {
+        return null;
+    }
+
+    @Override
+    public List<PlaceInCourseMagazine> findByMagazineId(Long magazineId) {
+        return null;
+    }
 }
