@@ -27,7 +27,7 @@ public class CourseMagazineRepositoryImpl implements CourseMagazineRepository {
 
     @Override
     public Optional<CourseMagazine> findById(Long id) {
-        return Optional.empty();
+        return courseMagazineJpaRepository.findById(id).map(CourseMagazineJpaEntity::toCourseMagazine);
     }
 
     @Override
