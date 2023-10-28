@@ -9,7 +9,7 @@ import lombok.*;
 import static jakarta.persistence.FetchType.LAZY;
 
 
-@Entity
+@Entity(name = "course_magazine_favorite")
 @Getter @Setter
 @Builder @AllArgsConstructor
 @NoArgsConstructor
