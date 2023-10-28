@@ -2,6 +2,7 @@ package kr.yeoksi.ours.oursserver.magazine.service;
 
 import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazine;
 import kr.yeoksi.ours.oursserver.magazine.domain.PlaceInCourseMagazine;
+import kr.yeoksi.ours.oursserver.magazine.exception.NotExistedPlaceInCourseMagazineException;
 import kr.yeoksi.ours.oursserver.magazine.exception.PlaceWrongReferenceException;
 import kr.yeoksi.ours.oursserver.magazine.service.port.in.CourseMagazineService;
 import kr.yeoksi.ours.oursserver.magazine.service.port.in.PlaceInCourseMagazineService;
@@ -49,7 +50,25 @@ public class PlaceInCourseMagazineServiceImpl implements PlaceInCourseMagazineSe
     @Override
     @Transactional
     public PlaceInCourseMagazine update(PlaceInCourseMagazine placeInCourseMagazine, Long magazineId, String userId) {
-        return null;
+        // validate right magazine and owner
+        CourseMagazine magazine = courseMagazineService.getById(magazineId);
+
+        // validate existed
+        PlaceInCourseMagazine toUpdate = placeInCourseMagazineRepository.findById(placeInCourseMagazine.getId())
+                .orElseThrow(NotExistedPlaceInCourseMagazineException::new);
+
+        // validate right place and sync place info
+        try {
+            placeInCourseMagazine.setPlace(
+                    placeService.findById(placeInCourseMagazine.getPlace().getId()));
+        }
+        catch (NotExistedPlaceException e) {
+            throw new PlaceWrongReferenceException();
+        }
+
+        // update placeInCourseMagazine
+        toUpdate.update(placeInCourseMagazine);
+        return placeInCourseMagazineRepository.save(placeInCourseMagazine, magazine);
     }
 
     @Override
