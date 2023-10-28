@@ -3,7 +3,9 @@ package kr.yeoksi.ours.oursserver.magazine.adapter.out.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import kr.yeoksi.ours.oursserver.course.domain.PlaceInCourse;
 import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazine;
+import kr.yeoksi.ours.oursserver.magazine.domain.PlaceInCourseMagazine;
 import kr.yeoksi.ours.oursserver.others.domain.Place;
 import lombok.*;
 
@@ -36,5 +38,16 @@ public class PlaceInCourseMagazineJpaEntity {
     @NotNull
     @Column(name = "order")
     private int order;
+
+
+    public static PlaceInCourseMagazineJpaEntity from(PlaceInCourseMagazine placeInCourseMagazine) {
+        return PlaceInCourseMagazineJpaEntity.builder()
+                .id(placeInCourseMagazine.getId())
+                .courseMagazine(CourseMagazineJpaEntity.from(placeInCourseMagazine.getCourseMagazine()))
+                .place(placeInCourseMagazine.getPlace())
+                .contents(placeInCourseMagazine.getContents())
+                .order(placeInCourseMagazine.getOrder())
+                .build();
+    }
 
 }
