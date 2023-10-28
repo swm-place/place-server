@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazine;
+import kr.yeoksi.ours.oursserver.magazine.domain.PlaceInCourseMagazine;
 import kr.yeoksi.ours.oursserver.others.domain.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -63,6 +64,22 @@ public class CourseMagazineJpaEntity {
 
         jpaEntity.setPlacesInCourseMagazine(placesInCourseMagazine);
         return jpaEntity;
+    }
+
+    public CourseMagazine toCourseMagazine() {
+        List<PlaceInCourseMagazine> placesInCourseMagazine = new ArrayList<>(
+                this.placesInCourseMagazine.stream()
+                        .map(PlaceInCourseMagazineJpaEntity::toPlaceInCourse)
+                        .toList()
+        );
+
+        return CourseMagazine.builder()
+                .id(this.id)
+                .user(this.user)
+                .title(this.title)
+                .contents(this.contents)
+                .placesInCourseMagazine(placesInCourseMagazine)
+                .build();
     }
 
 }
