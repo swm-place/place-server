@@ -38,7 +38,10 @@ public class PlaceInCourseMagazineRepositoryImpl implements PlaceInCourseMagazin
 
     @Override
     public List<PlaceInCourseMagazine> findByMagazineId(Long magazineId) {
-        return null;
+        return placeInCourseMagazineJpaRepository.findByCourseMagazineId(magazineId)
+                .stream()
+                .map(PlaceInCourseMagazineJpaEntity::toPlaceInCourseMagazine)
+                .toList();
     }
 
     @Override
