@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazine;
 import kr.yeoksi.ours.oursserver.magazine.domain.PlaceInCourseMagazine;
 import kr.yeoksi.ours.oursserver.others.domain.User;
+import kr.yeoksi.ours.oursserver.utils.EntityUtils;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -80,6 +81,20 @@ public class CourseMagazineJpaEntity {
                 .contents(this.contents)
                 .placesInCourseMagazine(placesInCourseMagazine)
                 .build();
+    }
+
+    public void addOrUpdatePlaceInCourseMagazine(PlaceInCourseMagazineJpaEntity placeInCourseMagazine) {
+        if (placeInCourseMagazine.getId() == null) {
+            placesInCourseMagazine.add(placeInCourseMagazine);
+        }
+        else {
+            for (PlaceInCourseMagazineJpaEntity origin : placesInCourseMagazine) {
+                if (origin.getId().equals(placeInCourseMagazine.getId())) {
+                    EntityUtils.updateNotNullProperties(origin, placeInCourseMagazine);
+                    break;
+                }
+            }
+        }
     }
 
 }
