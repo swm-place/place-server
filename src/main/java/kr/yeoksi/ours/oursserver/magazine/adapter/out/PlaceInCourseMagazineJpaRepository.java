@@ -1,4 +1,7 @@
 package kr.yeoksi.ours.oursserver.magazine.adapter.out;
 
-public interface PlaceInCourseMagazineJpaRepository {
+import kr.yeoksi.ours.oursserver.magazine.adapter.out.entity.PlaceInCourseMagazineJpaEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PlaceInCourseMagazineJpaRepository extends JpaRepository<PlaceInCourseMagazineJpaEntity, Long> {
 }
