@@ -58,6 +58,7 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
 
     @Override
     public List<CourseMagazine> findLatestCourseMagazines(int count, int page) {
+        // TODO: 범위 초과된 경우 체크
         return courseMagazineRepository.findPageOrderByCreatedAtDesc(count, page);
     }
 
