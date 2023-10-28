@@ -74,7 +74,18 @@ public class PlaceInCourseMagazineServiceImpl implements PlaceInCourseMagazineSe
     @Override
     @Transactional
     public void delete(Long id, Long magazineId, String userId) {
+        // validate existed
+        PlaceInCourseMagazine toDelete = placeInCourseMagazineRepository.findById(id)
+                .orElseThrow(NotExistedPlaceInCourseMagazineException::new);
 
+        // validate right magazine and owner
+        CourseMagazine magazine = courseMagazineService.getById(magazineId);
+        if (!magazine.getId().equals(magazineId)) {
+            throw new NotExistedPlaceInCourseMagazineException();
+        }
+
+        // delete placeInCourseMagazine
+        placeInCourseMagazineRepository.delete(id);
     }
 
     @Override
