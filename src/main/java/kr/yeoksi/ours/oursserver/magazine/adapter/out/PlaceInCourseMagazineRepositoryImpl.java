@@ -46,6 +46,11 @@ public class PlaceInCourseMagazineRepositoryImpl implements PlaceInCourseMagazin
 
     @Override
     public void delete(Long id) {
+        Optional<PlaceInCourseMagazineJpaEntity> placeInCourseMagazine = placeInCourseMagazineJpaRepository.findById(id);
+        if (placeInCourseMagazine.isEmpty()) return;
 
+        placeInCourseMagazine.get().getCourseMagazine().removePlaceInCourseMagazine(placeInCourseMagazine.get());
+
+        placeInCourseMagazineJpaRepository.delete(placeInCourseMagazine.get());
     }
 }
