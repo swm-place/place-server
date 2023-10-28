@@ -50,7 +50,7 @@ public class PlaceInCourseMagazineJpaEntity {
                 .build();
     }
 
-    public PlaceInCourseMagazine toPlaceInCourse() {
+    public PlaceInCourseMagazine toPlaceInCourseMagazine() {
         return PlaceInCourseMagazine.builder()
                 .id(this.id)
                 .place(this.place)
