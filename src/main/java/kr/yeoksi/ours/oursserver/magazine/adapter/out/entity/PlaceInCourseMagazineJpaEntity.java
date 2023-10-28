@@ -40,10 +40,10 @@ public class PlaceInCourseMagazineJpaEntity {
     private int order;
 
 
-    public static PlaceInCourseMagazineJpaEntity from(PlaceInCourseMagazine placeInCourseMagazine) {
+    public static PlaceInCourseMagazineJpaEntity from(PlaceInCourseMagazine placeInCourseMagazine, CourseMagazineJpaEntity courseMagazineJpaEntity) {
         return PlaceInCourseMagazineJpaEntity.builder()
                 .id(placeInCourseMagazine.getId())
-                .courseMagazine(CourseMagazineJpaEntity.from(placeInCourseMagazine.getCourseMagazine()))
+                .courseMagazine(courseMagazineJpaEntity)
                 .place(placeInCourseMagazine.getPlace())
                 .contents(placeInCourseMagazine.getContents())
                 .order(placeInCourseMagazine.getOrder())
