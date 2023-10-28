@@ -2,6 +2,7 @@ package kr.yeoksi.ours.oursserver.magazine.service;
 
 import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazine;
 import kr.yeoksi.ours.oursserver.magazine.exception.DuplicatedCourseMagazineException;
+import kr.yeoksi.ours.oursserver.magazine.exception.NoPermissionOfCourseMagazineException;
 import kr.yeoksi.ours.oursserver.magazine.exception.NotExistedCourseMagazineException;
 import kr.yeoksi.ours.oursserver.magazine.service.port.in.CourseMagazineService;
 import kr.yeoksi.ours.oursserver.magazine.service.port.out.CourseMagazineRepository;
@@ -23,7 +24,7 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
 
 
     @Override
-    public CourseMagazine publish(CourseMagazine courseMagazine) {
+    public CourseMagazine publish(CourseMagazine courseMagazine, Long userId) {
         // validate duplicated
         Optional<CourseMagazine> found = courseMagazineRepository.findById(courseMagazine.getId());
         if (found.isPresent()) {
@@ -59,12 +60,12 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
     }
 
     @Override
-    public CourseMagazine update(CourseMagazine courseMagazine) {
+    public CourseMagazine update(CourseMagazine courseMagazine, Long userId) {
         return null;
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id, Long userId) {
 
     }
 }
