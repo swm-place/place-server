@@ -34,7 +34,7 @@ public class PlaceInCourseMagazineJpaEntity {
     private String contents;
 
     @NotNull
-    @Column(name = "visit_order")
-    private int visitOrder;
+    @Column(name = "order")
+    private int order;
 
 }
