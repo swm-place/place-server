@@ -31,8 +31,6 @@ public class CourseMagazineJpaEntity {
     @Size(max = 50)
     private String title;
 
-    private String imgUrl;
-
     @NotBlank
     @Column(columnDefinition = "TEXT")
     private String contents;
