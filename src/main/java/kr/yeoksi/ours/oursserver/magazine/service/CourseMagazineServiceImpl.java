@@ -57,9 +57,8 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
     }
 
     @Override
-    public List<CourseMagazine> findLatestCourseMagazines(int count) {
-        // TODO: implement
-        return null;
+    public List<CourseMagazine> findLatestCourseMagazines(int count, int page) {
+        return courseMagazineRepository.findPageOrderByCreatedAtDesc(count, page);
     }
 
     @Override
