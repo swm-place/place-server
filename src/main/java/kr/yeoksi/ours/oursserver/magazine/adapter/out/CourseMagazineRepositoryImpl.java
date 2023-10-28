@@ -21,7 +21,8 @@ public class CourseMagazineRepositoryImpl implements CourseMagazineRepository {
 
     @Override
     public CourseMagazine save(CourseMagazine courseMagazine) {
-        return null;
+        CourseMagazineJpaEntity jpaEntity = CourseMagazineJpaEntity.from(courseMagazine);
+        return courseMagazineJpaRepository.save(jpaEntity).toCourseMagazine();
     }
 
     @Override
