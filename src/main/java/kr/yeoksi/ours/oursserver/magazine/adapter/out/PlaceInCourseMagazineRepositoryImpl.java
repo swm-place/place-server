@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
@@ -30,8 +31,9 @@ public class PlaceInCourseMagazineRepositoryImpl implements PlaceInCourseMagazin
     }
 
     @Override
-    public PlaceInCourseMagazine findById(Long id) {
-        return null;
+    public Optional<PlaceInCourseMagazine> findById(Long id) {
+        return placeInCourseMagazineJpaRepository.findById(id)
+                .map(PlaceInCourseMagazineJpaEntity::toPlaceInCourseMagazine);
     }
 
     @Override
