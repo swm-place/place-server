@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import static jakarta.persistence.FetchType.LAZY;
 
 
-@Entity
+@Entity(name = "course_magazine")
 @Getter @Setter
 @Builder @AllArgsConstructor
 @NoArgsConstructor
