@@ -97,4 +97,8 @@ public class CourseMagazineJpaEntity {
         }
     }
 
+    public void removePlaceInCourseMagazine(PlaceInCourseMagazineJpaEntity placeInCourseMagazine) {
+        placesInCourseMagazine.remove(placeInCourseMagazine);
+    }
+
 }
