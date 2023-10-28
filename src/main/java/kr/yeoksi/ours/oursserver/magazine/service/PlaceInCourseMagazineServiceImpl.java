@@ -2,6 +2,7 @@ package kr.yeoksi.ours.oursserver.magazine.service;
 
 import kr.yeoksi.ours.oursserver.magazine.domain.PlaceInCourseMagazine;
 import kr.yeoksi.ours.oursserver.magazine.service.port.in.PlaceInCourseMagazineService;
+import kr.yeoksi.ours.oursserver.magazine.service.port.out.PlaceInCourseMagazineRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PlaceInCourseMagazineServiceImpl implements PlaceInCourseMagazineService {
 
-    private final PlaceInCourseMagazineService placeInCourseMagazineService;
+    private final PlaceInCourseMagazineRepository placeInCourseMagazineRepository;
 
 
     @Override
