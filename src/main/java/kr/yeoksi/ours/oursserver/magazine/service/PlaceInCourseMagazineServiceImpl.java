@@ -91,7 +91,9 @@ public class PlaceInCourseMagazineServiceImpl implements PlaceInCourseMagazineSe
     @Override
     @Transactional
     public PlaceInCourseMagazine getById(Long id) {
-        return null;
+        // validate existed and return
+        return placeInCourseMagazineRepository.findById(id)
+                .orElseThrow(NotExistedPlaceInCourseMagazineException::new);
     }
 
     @Override
