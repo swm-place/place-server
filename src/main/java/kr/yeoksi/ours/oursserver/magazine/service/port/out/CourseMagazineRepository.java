@@ -12,7 +12,7 @@ public interface CourseMagazineRepository {
 
     public Optional<CourseMagazine> findById(Long id);
 
-    public List<CourseMagazine> findLatestCourseMagazines(int count);
+    public List<CourseMagazine> findPageOrderByCreatedAtDesc(int count, int page);
 
     public void delete(Long id);
 }
