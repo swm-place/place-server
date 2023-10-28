@@ -1,4 +1,4 @@
-package kr.yeoksi.ours.oursserver.magazine.adapter.out.entity;
+package kr.yeoksi.ours.oursserver.magazine.adapter.out.jpa.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

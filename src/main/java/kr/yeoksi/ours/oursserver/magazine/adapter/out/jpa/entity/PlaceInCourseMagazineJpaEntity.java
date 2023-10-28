@@ -1,10 +1,8 @@
-package kr.yeoksi.ours.oursserver.magazine.adapter.out.entity;
+package kr.yeoksi.ours.oursserver.magazine.adapter.out.jpa.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import kr.yeoksi.ours.oursserver.course.domain.PlaceInCourse;
-import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazine;
 import kr.yeoksi.ours.oursserver.magazine.domain.PlaceInCourseMagazine;
 import kr.yeoksi.ours.oursserver.others.domain.Place;
 import lombok.*;

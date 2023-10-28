@@ -1,8 +1,7 @@
-package kr.yeoksi.ours.oursserver.magazine.adapter.out.entity;
+package kr.yeoksi.ours.oursserver.magazine.adapter.out.jpa.entity;
 
 
 import jakarta.persistence.*;
-import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazine;
 import kr.yeoksi.ours.oursserver.others.domain.User;
 import lombok.*;
 

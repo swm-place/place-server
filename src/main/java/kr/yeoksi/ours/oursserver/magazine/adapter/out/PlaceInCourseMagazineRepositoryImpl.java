@@ -1,7 +1,9 @@
 package kr.yeoksi.ours.oursserver.magazine.adapter.out;
 
-import kr.yeoksi.ours.oursserver.magazine.adapter.out.entity.CourseMagazineJpaEntity;
-import kr.yeoksi.ours.oursserver.magazine.adapter.out.entity.PlaceInCourseMagazineJpaEntity;
+import kr.yeoksi.ours.oursserver.magazine.adapter.out.jpa.entity.CourseMagazineJpaEntity;
+import kr.yeoksi.ours.oursserver.magazine.adapter.out.jpa.entity.PlaceInCourseMagazineJpaEntity;
+import kr.yeoksi.ours.oursserver.magazine.adapter.out.jpa.CourseMagazineJpaRepository;
+import kr.yeoksi.ours.oursserver.magazine.adapter.out.jpa.PlaceInCourseMagazineJpaRepository;
 import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazine;
 import kr.yeoksi.ours.oursserver.magazine.domain.PlaceInCourseMagazine;
 import kr.yeoksi.ours.oursserver.magazine.service.port.out.PlaceInCourseMagazineRepository;
