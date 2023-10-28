@@ -10,7 +10,6 @@ import lombok.Data;
 public class PlaceInCourseMagazine {
 
     private Long id;
-    private Long courseMagazineId;
 
     private Place place;
 
