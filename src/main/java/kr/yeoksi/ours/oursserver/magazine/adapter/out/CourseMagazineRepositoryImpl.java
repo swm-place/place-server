@@ -41,6 +41,6 @@ public class CourseMagazineRepositoryImpl implements CourseMagazineRepository {
 
     @Override
     public void delete(Long id) {
-
+        courseMagazineJpaRepository.deleteById(id);
     }
 }
