@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface CourseMagazineRepository {
 
-    public CourseMagazine persist(CourseMagazine courseMagazine);
+    public CourseMagazine save(CourseMagazine courseMagazine);
 
     public Optional<CourseMagazine> findById(Long id);
 
