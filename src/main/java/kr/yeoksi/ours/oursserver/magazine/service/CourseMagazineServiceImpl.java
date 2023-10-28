@@ -2,6 +2,7 @@ package kr.yeoksi.ours.oursserver.magazine.service;
 
 import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazine;
 import kr.yeoksi.ours.oursserver.magazine.exception.DuplicatedCourseMagazineException;
+import kr.yeoksi.ours.oursserver.magazine.exception.NotExistedCourseMagazineException;
 import kr.yeoksi.ours.oursserver.magazine.service.port.in.CourseMagazineService;
 import kr.yeoksi.ours.oursserver.magazine.service.port.out.CourseMagazineRepository;
 import kr.yeoksi.ours.oursserver.others.service.PlaceService;
@@ -43,8 +44,13 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
     }
 
     @Override
-    public CourseMagazine findById(Long id) {
-        return null;
+    public CourseMagazine getById(Long id) {
+        Optional<CourseMagazine> courseMagazine = courseMagazineRepository.findById(id);
+        if (courseMagazine.isEmpty()) {
+            throw new NotExistedCourseMagazineException();
+        }
+
+        return courseMagazine.get();
     }
 
     @Override
