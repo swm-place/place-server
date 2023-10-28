@@ -3,7 +3,6 @@ package kr.yeoksi.ours.oursserver.magazine.service;
 import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazine;
 import kr.yeoksi.ours.oursserver.magazine.service.port.in.CourseMagazineService;
 import kr.yeoksi.ours.oursserver.magazine.service.port.out.CourseMagazineRepository;
-import kr.yeoksi.ours.oursserver.magazine.service.port.out.MagazineImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +13,6 @@ import java.util.List;
 public class CourseMagazineServiceImpl implements CourseMagazineService {
 
     private CourseMagazineRepository courseMagazineRepository;
-    private MagazineImageRepository magazineImageRepository;
 
     @Override
     public CourseMagazine publish(CourseMagazine courseMagazine) {
