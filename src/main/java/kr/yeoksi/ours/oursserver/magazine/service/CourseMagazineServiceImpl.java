@@ -56,12 +56,29 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
 
     @Override
     public List<CourseMagazine> findLatestCourseMagazines(int count) {
+        // TODO: implement
         return null;
     }
 
     @Override
     public CourseMagazine update(CourseMagazine courseMagazine, Long userId) {
-        return null;
+        CourseMagazine toUpdate = getById(courseMagazine.getId());
+
+        // validate ownership
+        if (!toUpdate.getUser().getId().equals(courseMagazine.getUser().getId())) {
+            throw new NoPermissionOfCourseMagazineException();
+        }
+
+        // sync place
+        courseMagazine.setPlacesInCourseMagazine(
+                courseMagazine.getPlacesInCourseMagazine().stream()
+                        .peek(placeInCourseMagazine -> placeInCourseMagazine.setPlace(
+                                placeService.findById(placeInCourseMagazine.getPlace().getId())))
+                        .toList());
+
+        // TODO: validate ownership of places in course magazine and save
+
+        return courseMagazineRepository.save(courseMagazine);
     }
 
     @Override
