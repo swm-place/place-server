@@ -69,7 +69,7 @@ public class CourseMagazineJpaEntity {
     public CourseMagazine toCourseMagazine() {
         List<PlaceInCourseMagazine> placesInCourseMagazine = new ArrayList<>(
                 this.placesInCourseMagazine.stream()
-                        .map(PlaceInCourseMagazineJpaEntity::toPlaceInCourse)
+                        .map(PlaceInCourseMagazineJpaEntity::toPlaceInCourseMagazine)
                         .toList()
         );
 
