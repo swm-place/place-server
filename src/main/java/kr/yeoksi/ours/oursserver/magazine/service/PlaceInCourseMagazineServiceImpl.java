@@ -10,6 +10,7 @@ import kr.yeoksi.ours.oursserver.others.exception.NotExistedPlaceException;
 import kr.yeoksi.ours.oursserver.others.service.PlaceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class PlaceInCourseMagazineServiceImpl implements PlaceInCourseMagazineSe
 
 
     @Override
+    @Transactional
     public PlaceInCourseMagazine append(PlaceInCourseMagazine placeInCourseMagazine, Long magazineId, String userId) {
         // validate right magazine and owner
         CourseMagazine magazine = courseMagazineService.getById(magazineId);
@@ -45,21 +47,25 @@ public class PlaceInCourseMagazineServiceImpl implements PlaceInCourseMagazineSe
     }
 
     @Override
+    @Transactional
     public PlaceInCourseMagazine update(PlaceInCourseMagazine placeInCourseMagazine, Long magazineId, String userId) {
         return null;
     }
 
     @Override
+    @Transactional
     public void delete(Long id, Long magazineId, String userId) {
 
     }
 
     @Override
+    @Transactional
     public PlaceInCourseMagazine getById(Long id) {
         return null;
     }
 
     @Override
+    @Transactional
     public List<PlaceInCourseMagazine> findByMagazineId(Long magazineId) {
         return null;
     }
