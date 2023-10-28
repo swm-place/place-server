@@ -7,6 +7,7 @@ import kr.yeoksi.ours.oursserver.magazine.exception.NotExistedCourseMagazineExce
 import kr.yeoksi.ours.oursserver.magazine.service.port.in.CourseMagazineService;
 import kr.yeoksi.ours.oursserver.magazine.service.port.out.CourseMagazineRepository;
 import kr.yeoksi.ours.oursserver.others.service.PlaceService;
+import kr.yeoksi.ours.oursserver.others.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,7 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
     private CourseMagazineRepository courseMagazineRepository;
 
     private PlaceService placeService;
+    private UserService userService;
 
 
     @Override
@@ -38,7 +40,7 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
                                 placeService.findById(placeInCourseMagazine.getPlace().getId())))
                         .toList());
 
-        courseMagazine.setUser(courseMagazine.getUser());
+        courseMagazine.setUser(userService.findById(userId));
 
         // save
         return courseMagazineRepository.save(courseMagazine);
