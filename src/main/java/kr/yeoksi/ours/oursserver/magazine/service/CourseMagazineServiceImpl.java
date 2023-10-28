@@ -4,17 +4,21 @@ import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazine;
 import kr.yeoksi.ours.oursserver.magazine.exception.DuplicatedCourseMagazineException;
 import kr.yeoksi.ours.oursserver.magazine.service.port.in.CourseMagazineService;
 import kr.yeoksi.ours.oursserver.magazine.service.port.out.CourseMagazineRepository;
+import kr.yeoksi.ours.oursserver.others.service.PlaceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CourseMagazineServiceImpl implements CourseMagazineService {
 
     private CourseMagazineRepository courseMagazineRepository;
+
+    private PlaceService placeService;
 
 
     @Override
@@ -25,7 +29,14 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
             throw new DuplicatedCourseMagazineException();
         }
 
-        // place, user 연동
+        // sync place, user
+        courseMagazine.setPlacesInCourseMagazine(
+                courseMagazine.getPlacesInCourseMagazine().stream()
+                        .peek(placeInCourseMagazine -> placeInCourseMagazine.setPlace(
+                                placeService.findById(placeInCourseMagazine.getPlace().getId())))
+                        .toList());
+
+        courseMagazine.setUser(courseMagazine.getUser());
 
         // save
         return courseMagazineRepository.save(courseMagazine);
