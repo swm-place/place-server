@@ -48,20 +48,21 @@ public class CourseMagazineJpaEntity {
 
 
     public static CourseMagazineJpaEntity from(CourseMagazine courseMagazine) {
-        List<PlaceInCourseMagazineJpaEntity> placesInCourseMagazine = new ArrayList<>(
-                courseMagazine.getPlacesInCourseMagazine().stream()
-                        .map(PlaceInCourseMagazineJpaEntity::from)
-                        .toList()
-        );
-
-        return CourseMagazineJpaEntity.builder()
+        CourseMagazineJpaEntity jpaEntity = CourseMagazineJpaEntity.builder()
                 .id(courseMagazine.getId())
                 .user(courseMagazine.getUser())
                 .title(courseMagazine.getTitle())
                 .contents(courseMagazine.getContents())
-                .placesInCourseMagazine(placesInCourseMagazine)
-                .createdAt(courseMagazine.getCreatedAt())
                 .build();
+
+        List<PlaceInCourseMagazineJpaEntity> placesInCourseMagazine = new ArrayList<>(
+                courseMagazine.getPlacesInCourseMagazine().stream()
+                        .map(placeInCourseMagazine -> PlaceInCourseMagazineJpaEntity.from(placeInCourseMagazine, jpaEntity))
+                        .toList()
+        );
+
+        jpaEntity.setPlacesInCourseMagazine(placesInCourseMagazine);
+        return jpaEntity;
     }
 
 }
