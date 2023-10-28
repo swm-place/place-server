@@ -2,10 +2,19 @@ package kr.yeoksi.ours.oursserver.magazine.service;
 
 import kr.yeoksi.ours.oursserver.magazine.domain.PlaceInCourseMagazine;
 import kr.yeoksi.ours.oursserver.magazine.service.port.in.PlaceInCourseMagazineService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
+@Service
+@RequiredArgsConstructor
 public class PlaceInCourseMagazineServiceImpl implements PlaceInCourseMagazineService {
+
+    private final PlaceInCourseMagazineService placeInCourseMagazineService;
+
+
     @Override
     public PlaceInCourseMagazine append(PlaceInCourseMagazine placeInCourseMagazine, Long magazineId, String userId) {
         return null;
