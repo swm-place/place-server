@@ -9,7 +9,7 @@ public interface CourseMagazineService {
 
     public CourseMagazine publish(CourseMagazine courseMagazine);
 
-    public CourseMagazine findById(Long id);
+    public CourseMagazine getById(Long id);
 
     public List<CourseMagazine> findLatestCourseMagazines(int count);
 
