@@ -3,6 +3,7 @@ package kr.yeoksi.ours.oursserver.magazine.adapter.out.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazine;
 import kr.yeoksi.ours.oursserver.others.domain.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -44,5 +45,23 @@ public class CourseMagazineJpaEntity {
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+
+    public static CourseMagazineJpaEntity from(CourseMagazine courseMagazine) {
+        List<PlaceInCourseMagazineJpaEntity> placesInCourseMagazine = new ArrayList<>(
+                courseMagazine.getPlacesInCourseMagazine().stream()
+                        .map(PlaceInCourseMagazineJpaEntity::from)
+                        .toList()
+        );
+
+        return CourseMagazineJpaEntity.builder()
+                .id(courseMagazine.getId())
+                .user(courseMagazine.getUser())
+                .title(courseMagazine.getTitle())
+                .contents(courseMagazine.getContents())
+                .placesInCourseMagazine(placesInCourseMagazine)
+                .createdAt(courseMagazine.getCreatedAt())
+                .build();
+    }
 
 }
