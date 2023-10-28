@@ -50,4 +50,13 @@ public class PlaceInCourseMagazineJpaEntity {
                 .build();
     }
 
+    public PlaceInCourseMagazine toPlaceInCourse() {
+        return PlaceInCourseMagazine.builder()
+                .id(this.id)
+                .place(this.place)
+                .contents(this.contents)
+                .order(this.order)
+                .build();
+    }
+
 }
