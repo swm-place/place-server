@@ -67,7 +67,7 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
         CourseMagazine toUpdate = getById(courseMagazine.getId());
 
         // validate ownership
-        if (!toUpdate.getUser().getId().equals(courseMagazine.getUser().getId())) {
+        if (!toUpdate.getUser().getId().equals(userId)) {
             throw new NoPermissionOfCourseMagazineException();
         }
 
