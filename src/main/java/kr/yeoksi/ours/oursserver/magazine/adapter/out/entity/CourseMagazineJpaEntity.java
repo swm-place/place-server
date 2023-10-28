@@ -8,6 +8,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;
 
@@ -34,6 +35,10 @@ public class CourseMagazineJpaEntity {
     @NotBlank
     @Column(columnDefinition = "TEXT")
     private String contents;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "courseMagazine", cascade = CascadeType.ALL)
+    private List<PlaceInCourseMagazineJpaEntity> placesInCourseMagazine;
 
     @CreationTimestamp
     @Column(name = "created_at")
