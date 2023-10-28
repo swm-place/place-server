@@ -10,7 +10,7 @@ import lombok.*;
 import static jakarta.persistence.FetchType.LAZY;
 
 
-@Entity
+@Entity(name = "place_in_course_magazine")
 @Getter @Setter
 @Builder @AllArgsConstructor
 @NoArgsConstructor
