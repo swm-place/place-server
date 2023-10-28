@@ -24,7 +24,7 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
 
 
     @Override
-    public CourseMagazine publish(CourseMagazine courseMagazine, Long userId) {
+    public CourseMagazine publish(CourseMagazine courseMagazine, String userId) {
         // validate duplicated
         Optional<CourseMagazine> found = courseMagazineRepository.findById(courseMagazine.getId());
         if (found.isPresent()) {
@@ -61,7 +61,7 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
     }
 
     @Override
-    public CourseMagazine update(CourseMagazine courseMagazine, Long userId) {
+    public CourseMagazine update(CourseMagazine courseMagazine, String userId) {
         CourseMagazine toUpdate = getById(courseMagazine.getId());
 
         // validate ownership
@@ -82,7 +82,7 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
     }
 
     @Override
-    public void delete(Long id, Long userId) {
+    public void delete(Long id, String userId) {
 
     }
 }
