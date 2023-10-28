@@ -99,6 +99,6 @@ public class PlaceInCourseMagazineServiceImpl implements PlaceInCourseMagazineSe
     @Override
     @Transactional
     public List<PlaceInCourseMagazine> findByMagazineId(Long magazineId) {
-        return null;
+        return placeInCourseMagazineRepository.findByMagazineId(magazineId);
     }
 }
