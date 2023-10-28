@@ -83,6 +83,15 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
 
     @Override
     public void delete(Long id, String userId) {
+        CourseMagazine toDelete = getById(id);
 
+        // validate ownership
+        if (!toDelete.getUser().getId().equals(userId)) {
+            throw new NoPermissionOfCourseMagazineException();
+        }
+
+        // TODO: placeInCourseMagazine도 같이 제거되는 지 확인
+
+        courseMagazineRepository.delete(id);
     }
 }
