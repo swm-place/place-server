@@ -14,7 +14,5 @@ public interface CourseMagazineRepository {
 
     public List<CourseMagazine> findLatestCourseMagazines(int count);
 
-    public CourseMagazine update(CourseMagazine courseMagazine);
-
     public void delete(Long id);
 }
