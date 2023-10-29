@@ -12,4 +12,13 @@ public class UserInCourseMagazineResponse {
     private String nickname;
     private String imgUrl;
 
+
+    public static UserInCourseMagazineResponse from(User user) {
+        return UserInCourseMagazineResponse.builder()
+                .id(user.getId())
+                .nickname(user.getNickname())
+                .imgUrl(user.getImgUrl())
+                .build();
+    }
+
 }
