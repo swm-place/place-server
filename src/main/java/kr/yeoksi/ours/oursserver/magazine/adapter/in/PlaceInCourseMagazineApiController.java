@@ -1,14 +1,13 @@
 package kr.yeoksi.ours.oursserver.magazine.adapter.in;
 
 
+import kr.yeoksi.ours.oursserver.magazine.adapter.in.request.PlaceInCourseMagazineRequest;
 import kr.yeoksi.ours.oursserver.magazine.adapter.in.response.PlaceInCourseMagazineResponse;
+import kr.yeoksi.ours.oursserver.magazine.domain.PlaceInCourseMagazine;
 import kr.yeoksi.ours.oursserver.magazine.service.port.in.PlaceInCourseMagazineService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/magazine/courses/{courseId}/places")
@@ -23,5 +22,25 @@ public class PlaceInCourseMagazineApiController {
                                                                                   @PathVariable Long placeId) {
         return ResponseEntity.ok(PlaceInCourseMagazineResponse.from(
                 placeInCourseMagazineService.getById(placeId)));
+    }
+
+    @PostMapping
+    public ResponseEntity<PlaceInCourseMagazineResponse> appendPlaceInCourseMagazine(@RequestHeader("X-User-Uid") String userId,
+                                                                                     @PathVariable Long courseId,
+                                                                                     @RequestBody PlaceInCourseMagazineRequest request) {
+        return ResponseEntity.ok(PlaceInCourseMagazineResponse.from(
+                placeInCourseMagazineService.append(request.toPlaceInCourseMagazine(), courseId, userId)));
+    }
+
+    @PatchMapping("/{placeId}")
+    public ResponseEntity<PlaceInCourseMagazineResponse> updatePlaceInCourseMagazine(@RequestHeader("X-User-Uid") String userId,
+                                                                                     @PathVariable Long courseId,
+                                                                                     @RequestBody PlaceInCourseMagazineRequest request,
+                                                                                     @PathVariable Long placeId) {
+        PlaceInCourseMagazine placeInCourseMagazine = request.toPlaceInCourseMagazine();
+        placeInCourseMagazine.setId(placeId);
+
+        return ResponseEntity.ok(PlaceInCourseMagazineResponse.from(
+                placeInCourseMagazineService.update(placeInCourseMagazine, courseId, userId)));
     }
 }
