@@ -101,4 +101,65 @@ public class PlaceInCourseMagazineServiceIntegrationTest {
         assertThat(found.getPlacesInCourseMagazine().get(1).getOrder()).isEqualTo(2);
 
     }
+
+    @Test
+    public void 코스_매거진_내_장소를_수정할_수_있다() {
+        // given
+        // configure user
+        User user = User.builder()
+                .id("been")
+                .email("been@yeoksi.com")
+                .nickname("been")
+                .build();
+        userRepository.save(user);
+
+        // configure places
+        Place place1 = Place.builder()
+                .id("test1")
+                .name("test1")
+                .category("test1")
+                .build();
+        Place place2 = Place.builder()
+                .id("test2")
+                .name("test2")
+                .category("test2")
+                .build();
+        place1.setId(placeRepository.save(place1));
+        place2.setId(placeRepository.save(place2));
+
+        // configure placesInCourseMagazine
+        PlaceInCourseMagazine placeInCourseMagazine = PlaceInCourseMagazine.builder()
+                .place(place1)
+                .contents("test1")
+                .order(1)
+                .build();
+        List<PlaceInCourseMagazine> placesInCourseMagazine = new ArrayList<>(
+                List.of(placeInCourseMagazine)
+        );
+
+        // configure courseMagazine
+        CourseMagazine courseMagazine = CourseMagazine.builder()
+                .user(user)
+                .title("test")
+                .contents("test")
+                .placesInCourseMagazine(placesInCourseMagazine)
+                .build();
+        courseMagazineService.publish(courseMagazine, user.getId());
+
+
+        // when
+        placeInCourseMagazine.setPlace(place2);
+        placeInCourseMagazine.setContents("test2");
+
+        placeInCourseMagazineService.update(placeInCourseMagazine, courseMagazine.getId(), user.getId());
+
+
+        // then
+        CourseMagazine found = courseMagazineService.getById(courseMagazine.getId());
+
+        assertThat(found.getPlacesInCourseMagazine().get(0).getPlace().getId()).isEqualTo(place2.getId());
+        assertThat(found.getPlacesInCourseMagazine().get(0).getContents()).isEqualTo("test2");
+        assertThat(found.getPlacesInCourseMagazine().get(0).getOrder()).isEqualTo(1);
+
+    }
 }
