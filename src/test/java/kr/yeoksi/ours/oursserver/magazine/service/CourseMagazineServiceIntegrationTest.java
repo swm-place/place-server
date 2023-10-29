@@ -232,6 +232,7 @@ public class CourseMagazineServiceIntegrationTest {
         CourseMagazine found = courseMagazineService.getById(courseMagazine.getId());
     }
 
+    @Test
     public void id로_코스_매거진을_조회할_수_있다() {
         // given
         // configure user
