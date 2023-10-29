@@ -19,10 +19,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CourseMagazineServiceImpl implements CourseMagazineService {
 
-    private CourseMagazineRepository courseMagazineRepository;
+    private final CourseMagazineRepository courseMagazineRepository;
 
-    private PlaceService placeService;
-    private UserService userService;
+    private final PlaceService placeService;
+    private final UserService userService;
 
 
     @Override
