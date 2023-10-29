@@ -1,5 +1,6 @@
 package kr.yeoksi.ours.oursserver.magazine.adapter.in.request;
 
+import kr.yeoksi.ours.oursserver.magazine.domain.PlaceInCourseMagazine;
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,5 +13,14 @@ public class PlaceInCourseMagazineCreateRequest {
     private String contents;
 
     private int order;
+
+
+    public PlaceInCourseMagazine toPlaceInCourseMagazine() {
+        return PlaceInCourseMagazine.builder()
+                .place(place.toPlace())
+                .contents(contents)
+                .order(order)
+                .build();
+    }
 
 }
