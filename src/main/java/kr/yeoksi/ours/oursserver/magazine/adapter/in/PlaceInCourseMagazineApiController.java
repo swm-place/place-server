@@ -26,10 +26,10 @@ public class PlaceInCourseMagazineApiController {
 
     @PostMapping
     public ResponseEntity<PlaceInCourseMagazineResponse> appendPlaceInCourseMagazine(@RequestHeader("X-User-Uid") String userId,
-                                                                                     @PathVariable Long courseId,
+                                                                                     @PathVariable Long magazineId,
                                                                                      @RequestBody PlaceInCourseMagazineRequest request) {
         return ResponseEntity.ok(PlaceInCourseMagazineResponse.from(
-                placeInCourseMagazineService.append(request.toPlaceInCourseMagazine(), courseId, userId)));
+                placeInCourseMagazineService.append(request.toPlaceInCourseMagazine(), magazineId, userId)));
     }
 
     @PatchMapping("/{placeId}")
