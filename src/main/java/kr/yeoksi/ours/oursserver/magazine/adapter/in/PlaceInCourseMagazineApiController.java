@@ -18,7 +18,7 @@ public class PlaceInCourseMagazineApiController {
 
 
     @GetMapping("/{placeId}")
-    public ResponseEntity<PlaceInCourseMagazineResponse> getPlaceInCourseMagazine(@PathVariable Long courseId,
+    public ResponseEntity<PlaceInCourseMagazineResponse> getPlaceInCourseMagazine(@PathVariable Long magazineId,
                                                                                   @PathVariable Long placeId) {
         return ResponseEntity.ok(PlaceInCourseMagazineResponse.from(
                 placeInCourseMagazineService.getById(placeId)));
