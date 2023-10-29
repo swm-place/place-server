@@ -34,14 +34,14 @@ public class PlaceInCourseMagazineApiController {
 
     @PatchMapping("/{placeId}")
     public ResponseEntity<PlaceInCourseMagazineResponse> updatePlaceInCourseMagazine(@RequestHeader("X-User-Uid") String userId,
-                                                                                     @PathVariable Long courseId,
+                                                                                     @PathVariable Long magazineId,
                                                                                      @RequestBody PlaceInCourseMagazineRequest request,
                                                                                      @PathVariable Long placeId) {
         PlaceInCourseMagazine placeInCourseMagazine = request.toPlaceInCourseMagazine();
         placeInCourseMagazine.setId(placeId);
 
         return ResponseEntity.ok(PlaceInCourseMagazineResponse.from(
-                placeInCourseMagazineService.update(placeInCourseMagazine, courseId, userId)));
+                placeInCourseMagazineService.update(placeInCourseMagazine, magazineId, userId)));
     }
 
     @DeleteMapping("/{placeId}")
