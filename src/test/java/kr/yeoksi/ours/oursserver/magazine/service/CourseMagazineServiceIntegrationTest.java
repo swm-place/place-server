@@ -84,10 +84,10 @@ public class CourseMagazineServiceIntegrationTest {
 
 
         // when
-        courseMagazineService.publish(courseMagazine, user.getId());
+        CourseMagazine published = courseMagazineService.publish(courseMagazine, user.getId());
 
         // then
-        CourseMagazine found = courseMagazineService.getById(courseMagazine.getId());
+        CourseMagazine found = courseMagazineService.getById(published.getId());
         assertThat(found.getTitle()).isEqualTo(courseMagazine.getTitle());
         assertThat(found.getContents()).isEqualTo(courseMagazine.getContents());
         assertThat(found.getPlacesInCourseMagazine().size()).isEqualTo(courseMagazine.getPlacesInCourseMagazine().size());
