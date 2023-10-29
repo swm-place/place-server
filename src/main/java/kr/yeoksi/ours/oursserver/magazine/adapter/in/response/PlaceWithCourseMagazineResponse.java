@@ -11,20 +11,20 @@ import java.util.Map;
 @Builder
 public class PlaceWithCourseMagazineResponse {
 
-        private String id;
+    private String id;
 
-        private String name;
-        private String category;
-        private Map<String, Object> openTime;
+    private String name;
+    private String category;
+    private Map<String, Object> openTime;
 
 
-        public static PlaceWithCourseMagazineResponse from(Place place) {
-                return PlaceWithCourseMagazineResponse.builder()
-                        .id(place.getId())
-                        .name(place.getName())
-                        .category(place.getCategory())
-                        .openTime(place.getOpenTime())
-                        .build();
-        }
+    public static PlaceWithCourseMagazineResponse from(Place place) {
+        return PlaceWithCourseMagazineResponse.builder()
+                .id(place.getId())
+                .name(place.getName())
+                .category(place.getCategory())
+                .openTime(place.getOpenTime())
+                .build();
+    }
 
 }
