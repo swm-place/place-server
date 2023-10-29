@@ -148,6 +148,7 @@ public class PlaceInCourseMagazineServiceIntegrationTest {
 
 
         // when
+        placeInCourseMagazine.setId(courseMagazine.getPlacesInCourseMagazine().get(0).getId());
         placeInCourseMagazine.setPlace(place2);
         placeInCourseMagazine.setContents("test2");
 
