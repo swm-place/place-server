@@ -2,6 +2,7 @@ package kr.yeoksi.ours.oursserver.magazine.service;
 
 import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazine;
 import kr.yeoksi.ours.oursserver.magazine.domain.PlaceInCourseMagazine;
+import kr.yeoksi.ours.oursserver.magazine.exception.NotExistedCourseMagazineException;
 import kr.yeoksi.ours.oursserver.magazine.service.port.in.CourseMagazineService;
 import kr.yeoksi.ours.oursserver.others.domain.Place;
 import kr.yeoksi.ours.oursserver.others.domain.User;
@@ -182,4 +183,51 @@ public class CourseMagazineServiceIntegrationTest {
         assertThat(found.getPlacesInCourseMagazine().get(1).getContents()).isEqualTo(courseMagazine.getPlacesInCourseMagazine().get(1).getContents());
 
     }
+
+    @Test(expected = NotExistedCourseMagazineException.class)
+    public void 코스_매거진을_삭제할_수_있다() {
+        // given
+        // configure user
+        User user = User.builder()
+                .id("been")
+                .email("been@yeoksi.com")
+                .nickname("been")
+                .build();
+        userRepository.save(user);
+
+        // configure places
+        Place place1 = Place.builder()
+                .id("test1")
+                .name("test1")
+                .category("test1")
+                .build();
+        place1.setId(placeRepository.save(place1));
+
+        // configure placesInCourseMagazine
+        List<PlaceInCourseMagazine> placesInCourseMagazine = new ArrayList<>(
+                List.of(
+                        PlaceInCourseMagazine.builder()
+                                .place(place1)
+                                .contents("test1")
+                                .order(1)
+                                .build()
+                )
+        );
+
+        // configure courseMagazine
+        CourseMagazine courseMagazine = CourseMagazine.builder()
+                .user(user)
+                .title("test")
+                .contents("test")
+                .placesInCourseMagazine(placesInCourseMagazine)
+                .build();
+        courseMagazineService.publish(courseMagazine, user.getId());
+
+        // when
+        courseMagazineService.delete(courseMagazine.getId(), user.getId());
+
+        // then
+        // should throw NotExistedCourseMagazineException
+        // TODO: Junit5 assertThrows 사용
+        CourseMagazine found = courseMagazineService.getById(courseMagazine.getId());
 }
