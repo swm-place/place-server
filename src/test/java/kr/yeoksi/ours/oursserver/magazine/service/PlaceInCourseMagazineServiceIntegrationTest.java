@@ -275,7 +275,7 @@ public class PlaceInCourseMagazineServiceIntegrationTest {
                 .contents("test")
                 .placesInCourseMagazine(placesInCourseMagazine)
                 .build();
-        courseMagazineService.publish(courseMagazine, user.getId());
+        courseMagazine = courseMagazineService.publish(courseMagazine, user.getId());
 
         // set id of placeInCourseMagazine
         placeInCourseMagazine1.setId(courseMagazine.getPlacesInCourseMagazine().get(0).getId());
