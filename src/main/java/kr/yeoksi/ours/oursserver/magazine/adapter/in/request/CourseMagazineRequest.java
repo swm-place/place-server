@@ -11,18 +11,18 @@ import java.util.List;
 
 @Data
 @Builder
-public class CourseMagazineCreateRequest {
+public class CourseMagazineRequest {
 
     private String title;
     private String contents;
 
-    private List<PlaceInCourseMagazineCreateRequest> placesInCourseMagazine = new ArrayList<>();
+    private List<PlaceInCourseMagazineRequest> placesInCourseMagazine = new ArrayList<>();
 
 
     public CourseMagazine toCourseMagazine() {
         List<PlaceInCourseMagazine> placesInCourseMagazine = new ArrayList<>(
             this.placesInCourseMagazine.stream()
-                .map(PlaceInCourseMagazineCreateRequest::toPlaceInCourseMagazine)
+                .map(PlaceInCourseMagazineRequest::toPlaceInCourseMagazine)
                 .toList()
         );
 
