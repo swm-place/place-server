@@ -17,10 +17,17 @@ public class CourseMagazineApiController {
     @GetMapping
     public ResponseEntity<List<CourseMagazineResponse>> getLatestMagazines(@RequestParam(defaultValue = "0") int page,
                                                                            @RequestParam(defaultValue = "10") int count) {
+        // TODO: 리스트에 맞는 필드만 제공하도록 수정
+        // TODO: 타이틀 사진 혹은 플레이스 사진 연동 (또는 연동을 위한 가이드/레퍼런스 제공)
         return ResponseEntity.ok(
                 courseMagazineService.findLatestCourseMagazines(count, page)
                         .stream().map(CourseMagazineResponse::from)
                         .toList());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CourseMagazineResponse> getMagazine(@PathVariable Long id) {
+        return ResponseEntity.ok(CourseMagazineResponse.from(courseMagazineService.getById(id)));
     }
 
 }
