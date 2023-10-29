@@ -1,5 +1,6 @@
 package kr.yeoksi.ours.oursserver.magazine.adapter.in;
 
+import kr.yeoksi.ours.oursserver.magazine.adapter.in.request.CourseMagazineCreateRequest;
 import kr.yeoksi.ours.oursserver.magazine.adapter.in.response.CourseMagazineResponse;
 import kr.yeoksi.ours.oursserver.magazine.service.port.in.CourseMagazineService;
 import lombok.RequiredArgsConstructor;
@@ -30,4 +31,10 @@ public class CourseMagazineApiController {
         return ResponseEntity.ok(CourseMagazineResponse.from(courseMagazineService.getById(id)));
     }
 
+    @PostMapping
+    public ResponseEntity<CourseMagazineResponse> publishMagazine(@RequestHeader("X-User-Uid") String userId,
+                                                                  @RequestBody CourseMagazineCreateRequest request) {
+        return ResponseEntity.ok(CourseMagazineResponse.from(
+                courseMagazineService.publish(request.toCourseMagazine(), userId)));
+    }
 }
