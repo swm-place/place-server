@@ -223,10 +223,10 @@ public class CourseMagazineServiceIntegrationTest {
                 .contents("test")
                 .placesInCourseMagazine(placesInCourseMagazine)
                 .build();
-        courseMagazineService.publish(courseMagazine, user.getId());
+        CourseMagazine published = courseMagazineService.publish(courseMagazine, user.getId());
 
         // when
-        courseMagazineService.delete(courseMagazine.getId(), user.getId());
+        courseMagazineService.delete(published.getId(), user.getId());
 
         // then
         // should throw NotExistedCourseMagazineException
