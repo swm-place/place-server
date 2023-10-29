@@ -25,4 +25,20 @@ public class CourseMagazineResponse {
     private LocalDateTime createdAt;
 
 
+    public static CourseMagazineResponse from(CourseMagazine courseMagazine) {
+        List<PlaceInCourseMagazineResponse> placesInCourseMagazine = new ArrayList<>(
+                courseMagazine.getPlacesInCourseMagazine()
+                        .stream().map(PlaceInCourseMagazineResponse::from)
+                        .toList()
+        );
+
+        return CourseMagazineResponse.builder()
+                .id(courseMagazine.getId())
+                .user(UserInCourseMagazineResponse.from(courseMagazine.getUser()))
+                .title(courseMagazine.getTitle())
+                .contents(courseMagazine.getContents())
+                .placesInCourseMagazine(placesInCourseMagazine)
+                .createdAt(courseMagazine.getCreatedAt())
+                .build();
+    }
 }
