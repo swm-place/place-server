@@ -44,4 +44,11 @@ public class PlaceInCourseMagazineApiController {
                 placeInCourseMagazineService.update(placeInCourseMagazine, courseId, userId)));
     }
 
+    @DeleteMapping("/{placeId}")
+    public ResponseEntity<Void> deletePlaceInCourseMagazine(@RequestHeader("X-User-Uid") String userId,
+                                                            @PathVariable Long magazineId,
+                                                            @PathVariable Long placeId) {
+        placeInCourseMagazineService.delete(placeId, magazineId, userId);
+        return ResponseEntity.ok().build();
+    }
 }
