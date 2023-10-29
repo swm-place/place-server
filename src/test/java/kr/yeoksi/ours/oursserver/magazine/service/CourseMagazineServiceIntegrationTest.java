@@ -338,9 +338,9 @@ public class CourseMagazineServiceIntegrationTest {
                 .placesInCourseMagazine(placesInCourseMagazine)
                 .build();
 
-        courseMagazineService.publish(courseMagazine1, user.getId());
-        courseMagazineService.publish(courseMagazine2, user.getId());
-        courseMagazineService.publish(courseMagazine3, user.getId());
+        courseMagazine1 = courseMagazineService.publish(courseMagazine1, user.getId());
+        courseMagazine2 = courseMagazineService.publish(courseMagazine2, user.getId());
+        courseMagazine3 = courseMagazineService.publish(courseMagazine3, user.getId());
 
         // when
         List<CourseMagazine> found = courseMagazineService.findLatestCourseMagazines(2, 1);
