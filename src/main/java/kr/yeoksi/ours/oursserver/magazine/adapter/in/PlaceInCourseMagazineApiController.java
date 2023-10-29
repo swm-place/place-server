@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/course-magazines/{magazineId}/places")
 @RequiredArgsConstructor
@@ -16,6 +18,14 @@ public class PlaceInCourseMagazineApiController {
 
     private final PlaceInCourseMagazineService placeInCourseMagazineService;
 
+
+    @GetMapping
+    public ResponseEntity<List<PlaceInCourseMagazineResponse>> getPlacesInCourseMagazine(@PathVariable Long magazineId) {
+        return ResponseEntity.ok(
+                placeInCourseMagazineService.findByMagazineId(magazineId)
+                        .stream().map(PlaceInCourseMagazineResponse::from)
+                        .toList());
+    }
 
     @GetMapping("/{placeId}")
     public ResponseEntity<PlaceInCourseMagazineResponse> getPlaceInCourseMagazine(@PathVariable Long magazineId,
