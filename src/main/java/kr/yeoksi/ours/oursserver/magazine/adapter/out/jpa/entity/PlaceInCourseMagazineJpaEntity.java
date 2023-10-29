@@ -44,7 +44,7 @@ public class PlaceInCourseMagazineJpaEntity {
                 .courseMagazine(courseMagazineJpaEntity)
                 .place(placeInCourseMagazine.getPlace())
                 .contents(placeInCourseMagazine.getContents())
-                .order(placeInCourseMagazine.getOrder())
+                .visitOrder(placeInCourseMagazine.getOrder())
                 .build();
     }
 
@@ -53,7 +53,7 @@ public class PlaceInCourseMagazineJpaEntity {
                 .id(this.id)
                 .place(this.place)
                 .contents(this.contents)
-                .order(this.order)
+                .order(this.visitOrder)
                 .build();
     }
 
