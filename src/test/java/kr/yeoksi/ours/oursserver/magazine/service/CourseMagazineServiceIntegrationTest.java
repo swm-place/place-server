@@ -143,9 +143,10 @@ public class CourseMagazineServiceIntegrationTest {
                 .contents("test")
                 .placesInCourseMagazine(placesInCourseMagazine)
                 .build();
-        courseMagazineService.publish(courseMagazine, user.getId());
+        CourseMagazine published = courseMagazineService.publish(courseMagazine, user.getId());
 
         // when
+        courseMagazine.setId(published.getId());
         courseMagazine.setTitle("updated title");
         courseMagazine.setContents("updated contents");
 
