@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -281,6 +282,76 @@ public class CourseMagazineServiceIntegrationTest {
 
         assertThat(found.getPlacesInCourseMagazine().get(0).getPlace().getId()).isEqualTo(place1.getId());
         assertThat(found.getPlacesInCourseMagazine().get(0).getContents()).isEqualTo(courseMagazine.getPlacesInCourseMagazine().get(0).getContents());
+
+    }
+
+    @Test
+    public void 최신_코스_매거진을_조회할_수_있다() {
+        // given
+        // configure user
+        User user = User.builder()
+                .id("been")
+                .email("been@yeoksi.com")
+                .nickname("been")
+                .build();
+        userRepository.save(user);
+
+        // configure places
+        Place place1 = Place.builder()
+                .id("test1")
+                .name("test1")
+                .category("test1")
+                .build();
+        place1.setId(placeRepository.save(place1));
+
+        // configure placesInCourseMagazine
+        List<PlaceInCourseMagazine> placesInCourseMagazine = new ArrayList<>(
+                List.of(
+                        PlaceInCourseMagazine.builder()
+                                .place(place1)
+                                .contents("test1")
+                                .order(1)
+                                .build()
+                )
+        );
+
+        // configure courseMagazine
+        CourseMagazine courseMagazine1 = CourseMagazine.builder()
+                .user(user)
+                .title("test1")
+                .contents("test1")
+                .placesInCourseMagazine(placesInCourseMagazine)
+                .build();
+
+        CourseMagazine courseMagazine2 = CourseMagazine.builder()
+                .user(user)
+                .title("test2")
+                .contents("test2")
+                .placesInCourseMagazine(placesInCourseMagazine)
+                .build();
+
+        CourseMagazine courseMagazine3 = CourseMagazine.builder()
+                .user(user)
+                .title("test3")
+                .contents("test3")
+                .placesInCourseMagazine(placesInCourseMagazine)
+                .build();
+
+        courseMagazineService.publish(courseMagazine1, user.getId());
+        courseMagazineService.publish(courseMagazine2, user.getId());
+        courseMagazineService.publish(courseMagazine3, user.getId());
+
+        // when
+        List<CourseMagazine> found = courseMagazineService.findLatestCourseMagazines(2, 1);
+
+        // then
+        assertThat(found.size()).isEqualTo(2);
+
+        assertThat(found.get(0).getTitle()).isEqualTo(courseMagazine2.getTitle());
+        assertThat(found.get(0).getContents()).isEqualTo(courseMagazine2.getContents());
+
+        assertThat(found.get(1).getTitle()).isEqualTo(courseMagazine1.getTitle());
+        assertThat(found.get(1).getContents()).isEqualTo(courseMagazine1.getContents());
 
     }
 }
