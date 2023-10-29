@@ -13,7 +13,9 @@ import java.util.List;
 @RequestMapping("/magazine/courses")
 @RequiredArgsConstructor
 public class CourseMagazineApiController {
-    CourseMagazineService courseMagazineService;
+
+    private final CourseMagazineService courseMagazineService;
+
 
     @GetMapping
     public ResponseEntity<List<CourseMagazineResponse>> getLatestMagazines(@RequestParam(defaultValue = "0") int page,
