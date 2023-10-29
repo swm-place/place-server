@@ -81,7 +81,7 @@ public class PlaceInCourseMagazineServiceIntegrationTest {
                 .contents("test")
                 .placesInCourseMagazine(placesInCourseMagazine)
                 .build();
-        courseMagazineService.publish(courseMagazine, user.getId());
+        courseMagazine = courseMagazineService.publish(courseMagazine, user.getId());
 
 
         // when
