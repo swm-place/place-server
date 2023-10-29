@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/magazine/courses/{courseId}/places")
+@RequestMapping("/course-magazines/{magazineId}/places")
 @RequiredArgsConstructor
 public class PlaceInCourseMagazineApiController {
 
@@ -43,4 +43,5 @@ public class PlaceInCourseMagazineApiController {
         return ResponseEntity.ok(PlaceInCourseMagazineResponse.from(
                 placeInCourseMagazineService.update(placeInCourseMagazine, courseId, userId)));
     }
+
 }
