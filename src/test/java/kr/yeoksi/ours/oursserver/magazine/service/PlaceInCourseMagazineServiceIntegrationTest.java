@@ -287,4 +287,70 @@ public class PlaceInCourseMagazineServiceIntegrationTest {
         assertThat(found.getOrder()).isEqualTo(1);
 
     }
+
+    @Test
+    public void 코스_매거진_id로_코스_매거진_내_장소들을_조회할_수_있다() {
+        // given
+        // configure user
+        User user = User.builder()
+                .id("been")
+                .email("been@yeoksi.com")
+                .nickname("been")
+                .build();
+        userRepository.save(user);
+
+        // configure places
+        Place place1 = Place.builder()
+                .id("test1")
+                .name("test1")
+                .category("test1")
+                .build();
+        Place place2 = Place.builder()
+                .id("test2")
+                .name("test2")
+                .category("test2")
+                .build();
+        place1.setId(placeRepository.save(place1));
+        place2.setId(placeRepository.save(place2));
+
+        // configure placesInCourseMagazine
+        PlaceInCourseMagazine placeInCourseMagazine1 = PlaceInCourseMagazine.builder()
+                .place(place1)
+                .contents("test1")
+                .order(1)
+                .build();
+        PlaceInCourseMagazine placeInCourseMagazine2 = PlaceInCourseMagazine.builder()
+                .place(place2)
+                .contents("test2")
+                .order(2)
+                .build();
+        List<PlaceInCourseMagazine> placesInCourseMagazine = new ArrayList<>(
+                List.of(placeInCourseMagazine1, placeInCourseMagazine2)
+        );
+
+        // configure courseMagazine
+        CourseMagazine courseMagazine = CourseMagazine.builder()
+                .user(user)
+                .title("test")
+                .contents("test")
+                .placesInCourseMagazine(placesInCourseMagazine)
+                .build();
+        courseMagazineService.publish(courseMagazine, user.getId());
+
+
+        // when
+        List<PlaceInCourseMagazine> found = placeInCourseMagazineService.findByMagazineId(courseMagazine.getId());
+
+
+        // then
+        assertThat(found.size()).isEqualTo(2);
+
+        assertThat(found.get(0).getPlace().getId()).isEqualTo(place1.getId());
+        assertThat(found.get(0).getContents()).isEqualTo("test1");
+        assertThat(found.get(0).getOrder()).isEqualTo(1);
+
+        assertThat(found.get(1).getPlace().getId()).isEqualTo(place2.getId());
+        assertThat(found.get(1).getContents()).isEqualTo("test2");
+        assertThat(found.get(1).getOrder()).isEqualTo(2);
+    }
 }
