@@ -230,4 +230,5 @@ public class CourseMagazineServiceIntegrationTest {
         // should throw NotExistedCourseMagazineException
         // TODO: Junit5 assertThrows 사용
         CourseMagazine found = courseMagazineService.getById(courseMagazine.getId());
+    }
 }
