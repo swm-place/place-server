@@ -18,8 +18,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PlaceInCourseMagazineRepositoryImpl implements PlaceInCourseMagazineRepository {
 
-    private PlaceInCourseMagazineJpaRepository placeInCourseMagazineJpaRepository;
-    private CourseMagazineJpaRepository courseMagazineJpaRepository;
+    private final PlaceInCourseMagazineJpaRepository placeInCourseMagazineJpaRepository;
+    private final CourseMagazineJpaRepository courseMagazineJpaRepository;
 
 
     @Override
