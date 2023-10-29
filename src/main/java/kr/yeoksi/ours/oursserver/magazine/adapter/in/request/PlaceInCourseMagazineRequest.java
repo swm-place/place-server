@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class PlaceInCourseMagazineCreateRequest {
+public class PlaceInCourseMagazineRequest {
 
     private PlaceReference place;
     private String contents;
