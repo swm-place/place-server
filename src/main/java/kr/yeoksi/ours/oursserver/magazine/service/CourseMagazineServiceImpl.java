@@ -28,8 +28,7 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
     @Override
     public CourseMagazine publish(CourseMagazine courseMagazine, String userId) {
         // validate duplicated
-        Optional<CourseMagazine> found = courseMagazineRepository.findById(courseMagazine.getId());
-        if (found.isPresent()) {
+        if (courseMagazine.getId() != null && courseMagazineRepository.findById(courseMagazine.getId()).isPresent()) {
             throw new DuplicatedCourseMagazineException();
         }
 
