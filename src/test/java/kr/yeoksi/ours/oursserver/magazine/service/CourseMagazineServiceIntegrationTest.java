@@ -343,16 +343,16 @@ public class CourseMagazineServiceIntegrationTest {
         courseMagazine3 = courseMagazineService.publish(courseMagazine3, user.getId());
 
         // when
-        List<CourseMagazine> found = courseMagazineService.findLatestCourseMagazines(2, 1);
+        List<CourseMagazine> found = courseMagazineService.findLatestCourseMagazines(2, 0);
 
         // then
         assertThat(found.size()).isEqualTo(2);
 
-        assertThat(found.get(0).getTitle()).isEqualTo(courseMagazine2.getTitle());
-        assertThat(found.get(0).getContents()).isEqualTo(courseMagazine2.getContents());
+        assertThat(found.get(0).getTitle()).isEqualTo(courseMagazine3.getTitle());
+        assertThat(found.get(0).getContents()).isEqualTo(courseMagazine3.getContents());
 
-        assertThat(found.get(1).getTitle()).isEqualTo(courseMagazine1.getTitle());
-        assertThat(found.get(1).getContents()).isEqualTo(courseMagazine1.getContents());
+        assertThat(found.get(1).getTitle()).isEqualTo(courseMagazine2.getTitle());
+        assertThat(found.get(1).getContents()).isEqualTo(courseMagazine2.getContents());
 
     }
 }
