@@ -34,8 +34,8 @@ public class PlaceInCourseMagazineJpaEntity {
     private String contents;
 
     @NotNull
-    @Column(name = "order")
-    private int order;
+    @Column(name = "visit_order")
+    private int visitOrder;
 
 
     public static PlaceInCourseMagazineJpaEntity from(PlaceInCourseMagazine placeInCourseMagazine, CourseMagazineJpaEntity courseMagazineJpaEntity) {
