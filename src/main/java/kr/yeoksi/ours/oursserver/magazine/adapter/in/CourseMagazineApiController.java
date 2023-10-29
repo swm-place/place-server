@@ -46,4 +46,11 @@ public class CourseMagazineApiController {
                 courseMagazineService.update(request.toCourseMagazine(), userId)));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMagazine(@RequestHeader("X-User-Uid") String userId,
+                                               @PathVariable Long id) {
+        courseMagazineService.delete(id, userId);
+        return ResponseEntity.ok().build();
+    }
+
 }
