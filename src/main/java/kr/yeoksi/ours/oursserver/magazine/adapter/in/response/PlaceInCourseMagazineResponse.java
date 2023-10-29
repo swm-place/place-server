@@ -16,4 +16,13 @@ public class PlaceInCourseMagazineResponse {
 
     private int order;
 
+
+    public static PlaceInCourseMagazineResponse from(PlaceInCourseMagazine placeInCourseMagazine) {
+        return PlaceInCourseMagazineResponse.builder()
+                .id(placeInCourseMagazine.getId())
+                .place(PlaceWithCourseMagazineResponse.from(placeInCourseMagazine.getPlace()))
+                .contents(placeInCourseMagazine.getContents())
+                .order(placeInCourseMagazine.getOrder())
+                .build();
+    }
 }
