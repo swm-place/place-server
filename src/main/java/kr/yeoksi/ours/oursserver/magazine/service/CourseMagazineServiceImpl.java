@@ -47,6 +47,8 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
 
     @Override
     public CourseMagazine getById(Long id) {
+        if (id == null) throw new NotExistedCourseMagazineException();
+
         Optional<CourseMagazine> courseMagazine = courseMagazineRepository.findById(id);
         if (courseMagazine.isEmpty()) {
             throw new NotExistedCourseMagazineException();
