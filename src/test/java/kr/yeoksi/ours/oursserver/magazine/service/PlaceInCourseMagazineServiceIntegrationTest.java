@@ -277,6 +277,10 @@ public class PlaceInCourseMagazineServiceIntegrationTest {
                 .build();
         courseMagazineService.publish(courseMagazine, user.getId());
 
+        // set id of placeInCourseMagazine
+        placeInCourseMagazine1.setId(courseMagazine.getPlacesInCourseMagazine().get(0).getId());
+        placeInCourseMagazine2.setId(courseMagazine.getPlacesInCourseMagazine().get(1).getId());
+
 
         // when
         PlaceInCourseMagazine found = placeInCourseMagazineService.getById(placeInCourseMagazine1.getId());
