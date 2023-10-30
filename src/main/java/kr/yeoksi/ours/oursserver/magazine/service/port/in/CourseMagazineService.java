@@ -3,18 +3,19 @@ package kr.yeoksi.ours.oursserver.magazine.service.port.in;
 import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazine;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface CourseMagazineService {
 
-    public CourseMagazine publish(CourseMagazine courseMagazine);
+    public CourseMagazine publish(CourseMagazine courseMagazine, String userId);
 
-    public CourseMagazine findById(Long id);
+    public CourseMagazine getById(Long id);
 
-    public List<CourseMagazine> findLatestCourseMagazines(int count);
+    public List<CourseMagazine> findLatestCourseMagazines(int count, int page);
 
-    public CourseMagazine update(CourseMagazine courseMagazine);
+    public CourseMagazine update(CourseMagazine courseMagazine, String userId);
 
-    public void delete(Long id);
+    public void delete(Long id, String userId);
 
 }
