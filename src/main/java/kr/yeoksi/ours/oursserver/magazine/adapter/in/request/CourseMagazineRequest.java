@@ -16,6 +16,7 @@ public class CourseMagazineRequest {
     private String title;
     private String contents;
 
+    @Builder.Default
     private List<PlaceInCourseMagazineRequest> placesInCourseMagazine = new ArrayList<>();
 
 
