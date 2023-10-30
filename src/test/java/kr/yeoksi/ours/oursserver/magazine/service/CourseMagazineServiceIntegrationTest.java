@@ -150,21 +150,18 @@ public class CourseMagazineServiceIntegrationTest {
         courseMagazine.setTitle("updated title");
         courseMagazine.setContents("updated contents");
 
-        courseMagazine.getPlacesInCourseMagazine().get(0).setContents("updated contents1");
-        courseMagazine.getPlacesInCourseMagazine().get(0).setOrder(2);
-
         courseMagazine.setPlacesInCourseMagazine(new ArrayList<>(
                 List.of(
                         PlaceInCourseMagazine.builder()
-                                .id(courseMagazine.getPlacesInCourseMagazine().get(0).getId())
+                                .id(published.getPlacesInCourseMagazine().get(0).getId())
                                 .place(place1)
                                 .contents("test1 updated")
-                                .order(1)
+                                .order(2)
                                 .build(),
                         PlaceInCourseMagazine.builder()
                                 .place(place2)
                                 .contents("test2")
-                                .order(2)
+                                .order(1)
                                 .build()
                 ))
         );
