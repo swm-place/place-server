@@ -6,10 +6,13 @@ import kr.yeoksi.ours.oursserver.magazine.adapter.out.jpa.CourseMagazineJpaRepos
 import kr.yeoksi.ours.oursserver.magazine.adapter.out.jpa.PlaceInCourseMagazineJpaRepository;
 import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazine;
 import kr.yeoksi.ours.oursserver.magazine.domain.PlaceInCourseMagazine;
+import kr.yeoksi.ours.oursserver.magazine.exception.NotExistedCourseMagazineException;
+import kr.yeoksi.ours.oursserver.magazine.exception.NotExistedPlaceInCourseMagazineException;
 import kr.yeoksi.ours.oursserver.magazine.service.port.out.PlaceInCourseMagazineRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,11 +51,15 @@ public class PlaceInCourseMagazineRepositoryImpl implements PlaceInCourseMagazin
 
     @Override
     public void delete(Long id) {
-        Optional<PlaceInCourseMagazineJpaEntity> placeInCourseMagazine = placeInCourseMagazineJpaRepository.findById(id);
-        if (placeInCourseMagazine.isEmpty()) return;
+        Optional<PlaceInCourseMagazineJpaEntity> found = placeInCourseMagazineJpaRepository.findById(id);
+        if (found.isEmpty()) return;
 
-        placeInCourseMagazine.get().getCourseMagazine().removePlaceInCourseMagazine(placeInCourseMagazine.get());
+        CourseMagazineJpaEntity courseMagazineToSave = courseMagazineJpaRepository.findById(found.get().getCourseMagazine().getId())
+                        .orElse(courseMagazineJpaRepository.save(found.get().getCourseMagazine()));
 
-        placeInCourseMagazineJpaRepository.delete(placeInCourseMagazine.get());
+        courseMagazineToSave.removePlaceInCourseMagazine(found.get().getId());
+        courseMagazineJpaRepository.save(courseMagazineToSave);
+
+        placeInCourseMagazineJpaRepository.deleteById(id);
     }
 }
