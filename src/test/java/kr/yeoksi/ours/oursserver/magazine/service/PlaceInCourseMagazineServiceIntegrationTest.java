@@ -228,7 +228,7 @@ public class PlaceInCourseMagazineServiceIntegrationTest {
         assertThat(found.getPlacesInCourseMagazine().size()).isEqualTo(1);
         assertThat(found.getPlacesInCourseMagazine().get(0).getPlace().getId()).isEqualTo(place2.getId());
         assertThat(found.getPlacesInCourseMagazine().get(0).getContents()).isEqualTo("test2");
-        assertThat(found.getPlacesInCourseMagazine().get(0).getOrder()).isEqualTo(1);
+        assertThat(found.getPlacesInCourseMagazine().get(0).getOrder()).isEqualTo(2);
 
     }
 
