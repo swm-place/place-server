@@ -5,6 +5,7 @@ import kr.yeoksi.ours.oursserver.magazine.adapter.out.jpa.entity.CourseMagazineJ
 import kr.yeoksi.ours.oursserver.magazine.adapter.out.jpa.CourseMagazineJpaRepository;
 import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazine;
 import kr.yeoksi.ours.oursserver.magazine.service.port.out.CourseMagazineRepository;
+import kr.yeoksi.ours.oursserver.magazine.service.port.out.PlaceInCourseMagazineRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -18,6 +19,7 @@ import java.util.Optional;
 public class CourseMagazineRepositoryImpl implements CourseMagazineRepository {
 
     private final CourseMagazineJpaRepository courseMagazineJpaRepository;
+    private final PlaceInCourseMagazineRepository placeInCourseMagazineRepository;
 
 
     @Override
@@ -28,7 +30,13 @@ public class CourseMagazineRepositoryImpl implements CourseMagazineRepository {
 
     @Override
     public Optional<CourseMagazine> findById(Long id) {
-        return courseMagazineJpaRepository.findById(id).map(CourseMagazineJpaEntity::toCourseMagazine);
+        return courseMagazineJpaRepository.findById(id)
+                .map(CourseMagazineJpaEntity::toCourseMagazine)
+                .map(courseMagazine -> {
+                    courseMagazine.setPlacesInCourseMagazine(
+                            placeInCourseMagazineRepository.findByMagazineId(courseMagazine.getId()));
+                    return courseMagazine;
+                });
     }
 
     @Override
@@ -38,6 +46,8 @@ public class CourseMagazineRepositoryImpl implements CourseMagazineRepository {
         return courseMagazineJpaRepository.findAll(pageRequest)
                 .toList().stream()
                 .map(CourseMagazineJpaEntity::toCourseMagazine)
+                .peek(courseMagazine -> courseMagazine.setPlacesInCourseMagazine(
+                        placeInCourseMagazineRepository.findByMagazineId(courseMagazine.getId())))
                 .toList();
     }
 
