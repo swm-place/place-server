@@ -97,8 +97,13 @@ public class CourseMagazineJpaEntity {
         }
     }
 
-    public void removePlaceInCourseMagazine(PlaceInCourseMagazineJpaEntity placeInCourseMagazine) {
-        placesInCourseMagazine.remove(placeInCourseMagazine);
+    public void removePlaceInCourseMagazine(Long id) {
+        this.placesInCourseMagazine.remove(
+                placesInCourseMagazine.stream()
+                        .filter(placeInCourseMagazine -> placeInCourseMagazine.getId().equals(id))
+                        .findFirst()
+                        .orElseThrow()
+        );
     }
 
 }
