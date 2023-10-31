@@ -14,13 +14,8 @@ public class PlaceWithCourseResponse {
     private String id;
     private String name;
     private String category;
-    private String imgUrl;
-    private Map<String, Object> openTime;
-    private List<PlaceImg> placeImgs;
-    private List<Menu> menus;
-    private List<PlaceFavorite> placeFavorites;
-    private List<PlaceOpen> placeOpens;
-    private List<PlaceReview> placeReviews;
+    // TODO: 운영시간 반영 (구글 연동 + DB)
+//    private Map<String, Object> openTime;
 
 
     public static PlaceWithCourseResponse from(Place place) {
@@ -28,13 +23,7 @@ public class PlaceWithCourseResponse {
                 .id(place.getId())
                 .name(place.getName())
                 .category(place.getCategory())
-                .imgUrl(place.getImgUrl())
-                .openTime(place.getOpenTime())
-                .placeImgs(place.getPlaceImgs())
-                .menus(place.getMenus())
-                .placeFavorites(place.getPlaceFavorites())
-                .placeOpens(place.getPlaceOpens())
-                .placeReviews(place.getPlaceReviews())
+//                .openTime(place.getOpenTime())
                 .build();
     }
 }

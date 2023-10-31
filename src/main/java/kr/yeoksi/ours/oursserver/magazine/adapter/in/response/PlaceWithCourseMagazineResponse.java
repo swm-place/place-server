@@ -15,7 +15,9 @@ public class PlaceWithCourseMagazineResponse {
 
     private String name;
     private String category;
-    private Map<String, Object> openTime;
+
+    // TODO: 운영시간 반영 (구글 연동 + DB)
+//    private Map<String, Object> openTime;
 
 
     public static PlaceWithCourseMagazineResponse from(Place place) {
@@ -23,7 +25,7 @@ public class PlaceWithCourseMagazineResponse {
                 .id(place.getId())
                 .name(place.getName())
                 .category(place.getCategory())
-                .openTime(place.getOpenTime())
+//                .openTime(place.getOpenTime())
                 .build();
     }
 
