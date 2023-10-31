@@ -48,6 +48,9 @@ pipeline {
                 sh 'mkdir ./project'
                 sh 'docker run \
                     --name ${DOCKER_IMAGE_NAME}-build \
+                    -e APP_DDL_AUTO=create \
+                    -e APP_SHOW_SQL=true \
+                    -e APP_SQL_LOGGING_LEVEL=DEBUG \
                     -e MARIADB_HOST=$MARIADB_TEST_HOST \
                     -e MARIADB_PORT=$MARIADB_TEST_PORT \
                     -e MARIADB_USERNAME=$MARIADB_TEST_USER \
