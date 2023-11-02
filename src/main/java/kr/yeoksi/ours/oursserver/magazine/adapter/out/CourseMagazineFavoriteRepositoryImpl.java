@@ -2,11 +2,13 @@ package kr.yeoksi.ours.oursserver.magazine.adapter.out;
 
 import kr.yeoksi.ours.oursserver.magazine.adapter.out.jpa.CourseMagazineFavoriteJpaRepository;
 import kr.yeoksi.ours.oursserver.magazine.adapter.out.jpa.entity.CourseMagazineFavoriteJpaEntity;
+import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazine;
 import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazineFavorite;
 import kr.yeoksi.ours.oursserver.magazine.service.port.out.CourseMagazineFavoriteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -39,5 +41,10 @@ public class CourseMagazineFavoriteRepositoryImpl implements CourseMagazineFavor
     @Override
     public boolean existsByUserIdAndCourseMagazineId(String userId, Long courseMagazineId) {
         return findByUserIdAndCourseMagazineId(userId, courseMagazineId).isPresent();
+    }
+
+    @Override
+    public List<CourseMagazine> findCourseMagazinesByUserId(String userId) {
+        return null;
     }
 }
