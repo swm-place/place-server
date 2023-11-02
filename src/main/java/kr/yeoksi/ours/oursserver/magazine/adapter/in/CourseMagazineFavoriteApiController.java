@@ -33,4 +33,13 @@ public class CourseMagazineFavoriteApiController {
 
         courseMagazineFavoriteService.deleteFavorite(userId, courseMagazineId);
     }
+
+    @GetMapping("/favorites/{userId}/magazines")
+    public void getFavoriteMagazines(@RequestHeader("X-User-Uid") String requestedUserId,
+                                     @PathVariable String userId) {
+        if (!requestedUserId.equals(userId))
+            throw new NoPermissionOfFavoriteException();
+
+        courseMagazineFavoriteService.getFavoriteMagazines(userId);
+    }
 }
