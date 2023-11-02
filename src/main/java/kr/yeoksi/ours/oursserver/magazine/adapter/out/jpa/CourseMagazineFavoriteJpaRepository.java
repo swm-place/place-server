@@ -9,4 +9,6 @@ import java.util.Optional;
 public interface CourseMagazineFavoriteJpaRepository extends JpaRepository<CourseMagazineFavoriteJpaEntity, Long> {
 
     List<CourseMagazineFavoriteJpaEntity> findByUserId(String userId);
+
+    List<CourseMagazineFavoriteJpaEntity> findByCourseMagazineId(Long courseMagazineId);
 }
