@@ -17,7 +17,7 @@ public class CourseMagazineFavoriteServiceImpl implements CourseMagazineFavorite
 
     @Override
     public void addFavorite(Long userId, Long courseMagazineId) {
-        if (courseMagazineFavoriteRepository.existsByUserIdAndCourseMagazineId(userId, courseMagazineId)) {
+        if (isFavorite(userId, courseMagazineId)) {
             throw new DuplicatedFavoriteException("이미 좋아하는 매거진입니다.");
         }
 
