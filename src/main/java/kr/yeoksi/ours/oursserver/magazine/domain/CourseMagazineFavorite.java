@@ -16,6 +16,8 @@ public class CourseMagazineFavorite {
     private String userId;
     private Long courseMagazineId;
 
+    private CourseMagazine courseMagazine;
+
     private LocalDateTime createdAt;
 
 }
