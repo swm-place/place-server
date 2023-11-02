@@ -1,9 +1,13 @@
 package kr.yeoksi.ours.oursserver.magazine.adapter.in;
 
+import kr.yeoksi.ours.oursserver.magazine.adapter.in.response.FavoriteCourseMagazineResponse;
 import kr.yeoksi.ours.oursserver.magazine.exception.NoPermissionOfFavoriteException;
 import kr.yeoksi.ours.oursserver.magazine.service.port.in.CourseMagazineFavoriteService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -35,11 +39,14 @@ public class CourseMagazineFavoriteApiController {
     }
 
     @GetMapping("/favorites/{userId}/magazines")
-    public void getFavoriteMagazines(@RequestHeader("X-User-Uid") String requestedUserId,
-                                     @PathVariable String userId) {
+    public ResponseEntity<List<FavoriteCourseMagazineResponse>> getFavoriteMagazines(@RequestHeader("X-User-Uid") String requestedUserId,
+                                                                                     @PathVariable String userId) {
         if (!requestedUserId.equals(userId))
             throw new NoPermissionOfFavoriteException();
 
-        courseMagazineFavoriteService.getFavoriteMagazines(userId);
+        return ResponseEntity.ok(courseMagazineFavoriteService.getFavoriteMagazines(userId)
+                .stream()
+                .map(FavoriteCourseMagazineResponse::from)
+                .toList());
     }
 }
