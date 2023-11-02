@@ -2,6 +2,7 @@ package kr.yeoksi.ours.oursserver.magazine.adapter.out.jpa.entity;
 
 
 import jakarta.persistence.*;
+import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazineFavorite;
 import kr.yeoksi.ours.oursserver.others.domain.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -44,6 +45,12 @@ public class CourseMagazineFavoriteJpaEntity {
     public CourseMagazineFavoriteJpaEntity(User user, CourseMagazineJpaEntity courseMagazine) {
         this.user = user;
         this.courseMagazine = courseMagazine;
+    }
+    public static CourseMagazineFavoriteJpaEntity from(CourseMagazineFavorite courseMagazineFavorite) {
+        return CourseMagazineFavoriteJpaEntity.builder()
+                .user(User.builder().id(courseMagazineFavorite.getUserId()).build())
+                .courseMagazine(CourseMagazineJpaEntity.builder().id(courseMagazineFavorite.getCourseMagazineId()).build())
+                .build();
     }
 
 }
