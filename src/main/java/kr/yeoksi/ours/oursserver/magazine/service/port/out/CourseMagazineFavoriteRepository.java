@@ -8,7 +8,7 @@ public interface CourseMagazineFavoriteRepository {
 
     CourseMagazineFavorite save(CourseMagazineFavorite courseMagazineFavorite);
 
-    Optional<CourseMagazineFavorite> findByUserIdAndCourseMagazineId(Long userId, Long courseMagazineId);
+    Optional<CourseMagazineFavorite> findByUserIdAndCourseMagazineId(String userId, Long courseMagazineId);
 
     void delete(CourseMagazineFavorite courseMagazineFavorite);
 
