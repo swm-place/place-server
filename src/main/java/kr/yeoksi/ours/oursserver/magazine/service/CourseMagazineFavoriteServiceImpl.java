@@ -31,7 +31,10 @@ public class CourseMagazineFavoriteServiceImpl implements CourseMagazineFavorite
 
     @Override
     public void deleteFavorite(Long userId, Long courseMagazineId) {
+        CourseMagazineFavorite courseMagazineFavorite = courseMagazineFavoriteRepository.findByUserIdAndCourseMagazineId(userId, courseMagazineId)
+                .orElseThrow(() -> new DuplicatedFavoriteException("좋아요를 표시하지 않은 매거진입니다."));
 
+        courseMagazineFavoriteRepository.delete(courseMagazineFavorite);
     }
 
     @Override
