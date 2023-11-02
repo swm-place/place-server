@@ -13,7 +13,7 @@ public class CourseMagazineFavorite {
 
     private Long id;
 
-    private Long userId;
+    private String userId;
     private Long courseMagazineId;
 
     private LocalDateTime createdAt;
