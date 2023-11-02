@@ -52,6 +52,7 @@ public class CourseMagazineFavoriteJpaEntity {
                 .id(id)
                 .userId(user.getId())
                 .courseMagazineId(courseMagazine.getId())
+                .courseMagazine(courseMagazine.toCourseMagazine())
                 .createdAt(createdAt)
                 .build();
     }
