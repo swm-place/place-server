@@ -6,6 +6,7 @@ import kr.yeoksi.ours.oursserver.others.domain.PlaceInBookmark;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -75,4 +76,32 @@ public class PlaceBookmarkRepository {
     }
 
      */
+
+    /**
+     * 유저의 공간 북마크 그룹 리스트 조회하기
+     */
+    public List<PlaceBookmark> findByUserId(String userId, int atAPage) {
+        return em.createQuery(
+                "SELECT pb FROM PlaceBookmark pb " +
+                        "JOIN FETCH pb.user u " +
+                        "LEFT JOIN FETCH pb.placeInBookmarks pib " +
+                        "WHERE u.id =: userId " +
+                        "ORDER BY pb.id DESC", PlaceBookmark.class)
+                .setParameter("userId", userId)
+                .setMaxResults(atAPage)
+                .getResultList();
+    }
+
+    public List<PlaceBookmark> findByUserIdPaging(String userId, Long cursor, int atAPage) {
+        return em.createQuery(
+                "SELECT pb FROM PlaceBookmark pb " +
+                        "JOIN FETCH pb.user u " +
+                        "LEFT JOIN FETCH pb.placeInBookmarks pib " +
+                        "WHERE u.id =: userId AND pb.id < : cursor " +
+                        "ORDER BY pb.id DESC", PlaceBookmark.class)
+                .setParameter("userId", userId)
+                .setParameter("cursor", cursor)
+                .setMaxResults(atAPage)
+                .getResultList();
+    }
 }

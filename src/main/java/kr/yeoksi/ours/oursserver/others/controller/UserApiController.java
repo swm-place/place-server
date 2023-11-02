@@ -175,11 +175,14 @@ public class UserApiController {
      */
     @GetMapping("/user/{userIndex}/place-bookmark")
     public ResponseEntity<Response<List<ReadPlaceBookmarkResponse>>> readPlaceBookmark(
-            @PathVariable("userIndex") @NotBlank String userId) {
+            @PathVariable("userIndex") @NotBlank String userId,
+            @RequestParam(required = false) Long cursor,
+            @RequestParam(defaultValue = "10", required = false) int atAPage) {
 
         User user = userService.findById(userId);
 
-        List<PlaceBookmark> placeBookmarkList = user.getPlaceBookmarks();
+        Boolean hasNext = true;
+        List<PlaceBookmark> placeBookmarkList = userService.readAllMyPlaceBookmark(userId, cursor, atAPage);
         List<ReadPlaceBookmarkResponse> readPlaceBookmarkResponse
                 = placeBookmarkList.stream()
                 .map(

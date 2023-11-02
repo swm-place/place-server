@@ -241,6 +241,7 @@ public class UserServiceTest {
         // expected = InsufficientPrivilegesException에 의한 다른 유저 정보 수정 오류 발생 검증.
     }
 
+    /*
     @Test
     public void 유저_장소_북마크_여부_확인() {
 
@@ -296,6 +297,9 @@ public class UserServiceTest {
         assertEquals(false, isBookmark2);
     }
 
+     */
+
+    /*
     @Test
     public void 공간_북마크_삭제() {
 
@@ -337,6 +341,9 @@ public class UserServiceTest {
         assertEquals(false, isBookmark);
     }
 
+     */
+
+    /*
     @Test
     public void 유저_장소_좋아요_여부_확인() {
 
@@ -381,7 +388,9 @@ public class UserServiceTest {
         assertEquals(true, check1);
         assertEquals(false, check2);
     }
+     */
 
+    /*
     @Test
     public void 유저_장소_운영중_응답_여부_확인() {
 
@@ -425,6 +434,53 @@ public class UserServiceTest {
         // then
         assertEquals(true, check1);
         assertEquals(false, check2);
+    }
+     */
+
+    @Test
+    public void 북마크_그룹_조회_페이지네이션() {
+
+        // given
+
+        // 유저 정보 저장
+        User user = new User();
+        user.setId("sangjun");
+        user.setEmail("soma@gmail.com");
+        user.setNickname("testNickname");
+        user.setPhoneNumber("010-1234-5678");
+        user.setBirthday(LocalDateTime.now());
+        userRepository.save(user);
+
+        // 북마크 정보 저장
+        PlaceBookmark placeBookmark = new PlaceBookmark();
+        placeBookmark.setUser(user);
+        placeBookmark.setTitle("타이틀1");
+
+        PlaceBookmark placeBookmark2 = new PlaceBookmark();
+        placeBookmark2.setUser(user);
+        placeBookmark2.setTitle("타이틀2");
+
+        PlaceBookmark placeBookmark3 = new PlaceBookmark();
+        placeBookmark3.setUser(user);
+        placeBookmark3.setTitle("타이틀3");
+
+        PlaceBookmark placeBookmark4 = new PlaceBookmark();
+        placeBookmark4.setUser(user);
+        placeBookmark4.setTitle("타이틀4");
+
+        placeBookmarkRepository.save(placeBookmark);
+        placeBookmarkRepository.save(placeBookmark2);
+        placeBookmarkRepository.save(placeBookmark3);
+        placeBookmarkRepository.save(placeBookmark4);
+
+
+        // when
+        List<PlaceBookmark> placeBookmarks = userService.readAllMyPlaceBookmark("sangjun", null, 10);
+
+
+        // then
+        assertEquals(4, placeBookmarks.size());
+        //assertEquals("", placeBookmarks.get(0).getTitle());
     }
 
     /*

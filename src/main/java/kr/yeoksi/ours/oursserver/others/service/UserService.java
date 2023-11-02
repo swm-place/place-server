@@ -249,4 +249,12 @@ public class UserService {
         if(!placeOpen.isPresent()) return false;
         else return true;
     }
+
+    /**
+     * 유저의 공간 북마크 그룹 리스트 조회하기.
+     */
+    public List<PlaceBookmark> readAllMyPlaceBookmark(String userId, Long cursor, int atAPage) {
+        if(cursor == null) return placeBookmarkRepository.findByUserId(userId, atAPage);
+        return placeBookmarkRepository.findByUserIdPaging(userId, cursor, atAPage);
+    }
 }
