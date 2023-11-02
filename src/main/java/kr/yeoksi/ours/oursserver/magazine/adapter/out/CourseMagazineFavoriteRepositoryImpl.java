@@ -4,7 +4,6 @@ import kr.yeoksi.ours.oursserver.magazine.adapter.out.jpa.CourseMagazineFavorite
 import kr.yeoksi.ours.oursserver.magazine.adapter.out.jpa.entity.CourseMagazineFavoriteJpaEntity;
 import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazineFavorite;
 import kr.yeoksi.ours.oursserver.magazine.service.port.out.CourseMagazineFavoriteRepository;
-import kr.yeoksi.ours.oursserver.others.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
