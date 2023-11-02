@@ -26,7 +26,7 @@ public class CourseMagazineFavoriteRepositoryImpl implements CourseMagazineFavor
     }
 
     @Override
-    public Optional<CourseMagazineFavorite> findByUserIdAndCourseMagazineId(Long userId, Long courseMagazineId) {
+    public Optional<CourseMagazineFavorite> findByUserIdAndCourseMagazineId(String userId, Long courseMagazineId) {
         return Optional.empty();
     }
 
@@ -36,7 +36,7 @@ public class CourseMagazineFavoriteRepositoryImpl implements CourseMagazineFavor
     }
 
     @Override
-    public boolean existsByUserIdAndCourseMagazineId(Long userId, Long courseMagazineId) {
+    public boolean existsByUserIdAndCourseMagazineId(String userId, Long courseMagazineId) {
         return false;
     }
 }
