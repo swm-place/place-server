@@ -4,6 +4,9 @@ package kr.yeoksi.ours.oursserver.magazine.adapter.out.jpa.entity;
 import jakarta.persistence.*;
 import kr.yeoksi.ours.oursserver.others.domain.User;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 import static jakarta.persistence.FetchType.LAZY;
 
@@ -33,6 +36,10 @@ public class CourseMagazineFavoriteJpaEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "course_magazine_index")
     private CourseMagazineJpaEntity courseMagazine;
+
+    @CreationTimestamp
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
     public CourseMagazineFavoriteJpaEntity(User user, CourseMagazineJpaEntity courseMagazine) {
         this.user = user;
