@@ -1,8 +1,10 @@
 package kr.yeoksi.ours.oursserver.magazine.adapter.out;
 
 import kr.yeoksi.ours.oursserver.magazine.adapter.out.jpa.CourseMagazineFavoriteJpaRepository;
+import kr.yeoksi.ours.oursserver.magazine.adapter.out.jpa.entity.CourseMagazineFavoriteJpaEntity;
 import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazineFavorite;
 import kr.yeoksi.ours.oursserver.magazine.service.port.out.CourseMagazineFavoriteRepository;
+import kr.yeoksi.ours.oursserver.others.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +20,9 @@ public class CourseMagazineFavoriteRepositoryImpl implements CourseMagazineFavor
 
     @Override
     public CourseMagazineFavorite save(CourseMagazineFavorite courseMagazineFavorite) {
-        return null;
+        CourseMagazineFavoriteJpaEntity toSave = CourseMagazineFavoriteJpaEntity.from(courseMagazineFavorite);
+        return courseMagazineFavoriteJpaRepository.save(toSave)
+                .toFavorite();
     }
 
     @Override
