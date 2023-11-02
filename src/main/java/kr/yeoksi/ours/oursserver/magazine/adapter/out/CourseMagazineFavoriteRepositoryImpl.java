@@ -44,7 +44,7 @@ public class CourseMagazineFavoriteRepositoryImpl implements CourseMagazineFavor
     }
 
     @Override
-    public List<CourseMagazine> findCourseMagazinesByUserId(String userId) {
+    public List<CourseMagazineFavorite> findByUserId(String userId) {
         return null;
     }
 }
