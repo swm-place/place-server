@@ -45,6 +45,9 @@ public class CourseMagazineFavoriteRepositoryImpl implements CourseMagazineFavor
 
     @Override
     public List<CourseMagazineFavorite> findByUserId(String userId) {
-        return null;
+        return courseMagazineFavoriteJpaRepository.findByUserId(userId)
+                .stream()
+                .map(CourseMagazineFavoriteJpaEntity::toFavorite)
+                .toList();
     }
 }
