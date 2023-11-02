@@ -17,6 +17,7 @@ public class CourseMagazineFavoriteApiController {
     public void addFavorite(@RequestHeader("X-User-Uid") String requestedUserId,
                             @PathVariable String userId,
                             @PathVariable Long courseMagazineId) {
+        // TODO: 권한 검증 로직 분리
         if (!requestedUserId.equals(userId))
             throw new NoPermissionOfFavoriteException();
 
