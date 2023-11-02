@@ -33,7 +33,8 @@ public class CourseMagazineFavoriteRepositoryImpl implements CourseMagazineFavor
 
     @Override
     public void delete(CourseMagazineFavorite courseMagazineFavorite) {
-
+        CourseMagazineFavoriteJpaEntity toDelete = CourseMagazineFavoriteJpaEntity.from(courseMagazineFavorite);
+        courseMagazineFavoriteJpaRepository.delete(toDelete);
     }
 
     @Override
