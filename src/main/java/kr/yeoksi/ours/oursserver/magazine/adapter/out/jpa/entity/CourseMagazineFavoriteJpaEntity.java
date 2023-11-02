@@ -46,6 +46,16 @@ public class CourseMagazineFavoriteJpaEntity {
         this.user = user;
         this.courseMagazine = courseMagazine;
     }
+
+    public CourseMagazineFavorite toFavorite() {
+        return CourseMagazineFavorite.builder()
+                .id(id)
+                .userId(user.getId())
+                .courseMagazineId(courseMagazine.getId())
+                .createdAt(createdAt)
+                .build();
+    }
+
     public static CourseMagazineFavoriteJpaEntity from(CourseMagazineFavorite courseMagazineFavorite) {
         return CourseMagazineFavoriteJpaEntity.builder()
                 .user(User.builder().id(courseMagazineFavorite.getUserId()).build())
