@@ -39,6 +39,6 @@ public class CourseMagazineFavoriteServiceImpl implements CourseMagazineFavorite
 
     @Override
     public boolean isFavorite(Long userId, Long courseMagazineId) {
-        return false;
+        return courseMagazineFavoriteRepository.existsByUserIdAndCourseMagazineId(userId, courseMagazineId);
     }
 }
