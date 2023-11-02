@@ -2,7 +2,6 @@ package kr.yeoksi.ours.oursserver.magazine.adapter.out;
 
 import kr.yeoksi.ours.oursserver.magazine.adapter.out.jpa.CourseMagazineFavoriteJpaRepository;
 import kr.yeoksi.ours.oursserver.magazine.adapter.out.jpa.entity.CourseMagazineFavoriteJpaEntity;
-import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazine;
 import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazineFavorite;
 import kr.yeoksi.ours.oursserver.magazine.service.port.out.CourseMagazineFavoriteRepository;
 import lombok.RequiredArgsConstructor;
