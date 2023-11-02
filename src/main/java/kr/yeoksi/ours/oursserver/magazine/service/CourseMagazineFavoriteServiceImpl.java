@@ -6,6 +6,7 @@ import kr.yeoksi.ours.oursserver.magazine.service.port.in.CourseMagazineFavorite
 import kr.yeoksi.ours.oursserver.magazine.service.port.out.CourseMagazineFavoriteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -16,6 +17,7 @@ public class CourseMagazineFavoriteServiceImpl implements CourseMagazineFavorite
 
 
     @Override
+    @Transactional
     public void addFavorite(Long userId, Long courseMagazineId) {
         if (isFavorite(userId, courseMagazineId)) {
             throw new DuplicatedFavoriteException("이미 좋아하는 매거진입니다.");
@@ -30,6 +32,7 @@ public class CourseMagazineFavoriteServiceImpl implements CourseMagazineFavorite
     }
 
     @Override
+    @Transactional
     public void deleteFavorite(Long userId, Long courseMagazineId) {
         CourseMagazineFavorite courseMagazineFavorite = courseMagazineFavoriteRepository.findByUserIdAndCourseMagazineId(userId, courseMagazineId)
                 .orElseThrow(() -> new DuplicatedFavoriteException("좋아요를 표시하지 않은 매거진입니다."));
@@ -38,6 +41,7 @@ public class CourseMagazineFavoriteServiceImpl implements CourseMagazineFavorite
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean isFavorite(Long userId, Long courseMagazineId) {
         return courseMagazineFavoriteRepository.existsByUserIdAndCourseMagazineId(userId, courseMagazineId);
     }
