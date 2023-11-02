@@ -12,5 +12,5 @@ public interface CourseMagazineFavoriteJpaRepository extends JpaRepository<Cours
 
     List<CourseMagazineFavoriteJpaEntity> findByCourseMagazineId(Long courseMagazineId);
 
-    Optional<CourseMagazineFavoriteJpaEntity> findByUserIdAndCourseMagazineId(String userId, Long courseMagazineId);
+    Optional<CourseMagazineFavoriteJpaEntity> findDistinctFirstByUserIdAndCourseMagazineId(String userId, Long courseMagazineId);
 }
