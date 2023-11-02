@@ -2,8 +2,12 @@ package kr.yeoksi.ours.oursserver.magazine.adapter.out.jpa.entity;
 
 
 import jakarta.persistence.*;
+import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazineFavorite;
 import kr.yeoksi.ours.oursserver.others.domain.User;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 import static jakarta.persistence.FetchType.LAZY;
 
@@ -34,9 +38,30 @@ public class CourseMagazineFavoriteJpaEntity {
     @JoinColumn(name = "course_magazine_index")
     private CourseMagazineJpaEntity courseMagazine;
 
+    @CreationTimestamp
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
     public CourseMagazineFavoriteJpaEntity(User user, CourseMagazineJpaEntity courseMagazine) {
         this.user = user;
         this.courseMagazine = courseMagazine;
+    }
+
+    public CourseMagazineFavorite toFavorite() {
+        return CourseMagazineFavorite.builder()
+                .id(id)
+                .userId(user.getId())
+                .courseMagazineId(courseMagazine.getId())
+                .courseMagazine(courseMagazine.toCourseMagazine())
+                .createdAt(createdAt)
+                .build();
+    }
+
+    public static CourseMagazineFavoriteJpaEntity from(CourseMagazineFavorite courseMagazineFavorite) {
+        return CourseMagazineFavoriteJpaEntity.builder()
+                .user(User.builder().id(courseMagazineFavorite.getUserId()).build())
+                .courseMagazine(CourseMagazineJpaEntity.builder().id(courseMagazineFavorite.getCourseMagazineId()).build())
+                .build();
     }
 
 }
