@@ -39,6 +39,6 @@ public class CourseMagazineFavoriteRepositoryImpl implements CourseMagazineFavor
 
     @Override
     public boolean existsByUserIdAndCourseMagazineId(String userId, Long courseMagazineId) {
-        return false;
+        return findByUserIdAndCourseMagazineId(userId, courseMagazineId).isPresent();
     }
 }
