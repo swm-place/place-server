@@ -1,6 +1,5 @@
 package kr.yeoksi.ours.oursserver.magazine.service.port.out;
 
-import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazine;
 import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazineFavorite;
 
 import java.util.List;
@@ -16,6 +15,6 @@ public interface CourseMagazineFavoriteRepository {
 
     boolean existsByUserIdAndCourseMagazineId(String userId, Long courseMagazineId);
 
-    List<CourseMagazine> findCourseMagazinesByUserId(String userId);
+    List<CourseMagazineFavorite> findByUserId(String userId);
 
 }
