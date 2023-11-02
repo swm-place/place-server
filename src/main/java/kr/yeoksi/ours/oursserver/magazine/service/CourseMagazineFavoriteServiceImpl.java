@@ -1,5 +1,6 @@
 package kr.yeoksi.ours.oursserver.magazine.service;
 
+import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazine;
 import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazineFavorite;
 import kr.yeoksi.ours.oursserver.magazine.exception.DuplicatedFavoriteException;
 import kr.yeoksi.ours.oursserver.magazine.service.port.in.CourseMagazineFavoriteService;
@@ -7,6 +8,8 @@ import kr.yeoksi.ours.oursserver.magazine.service.port.out.CourseMagazineFavorit
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 @Service
@@ -44,5 +47,10 @@ public class CourseMagazineFavoriteServiceImpl implements CourseMagazineFavorite
     @Transactional(readOnly = true)
     public boolean isFavorite(String userId, Long courseMagazineId) {
         return courseMagazineFavoriteRepository.existsByUserIdAndCourseMagazineId(userId, courseMagazineId);
+    }
+
+    @Override
+    public List<CourseMagazine> getFavoriteMagazines(String userId) {
+        return null;
     }
 }
