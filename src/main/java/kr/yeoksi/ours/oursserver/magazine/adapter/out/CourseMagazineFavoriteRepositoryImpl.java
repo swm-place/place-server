@@ -27,7 +27,8 @@ public class CourseMagazineFavoriteRepositoryImpl implements CourseMagazineFavor
 
     @Override
     public Optional<CourseMagazineFavorite> findByUserIdAndCourseMagazineId(String userId, Long courseMagazineId) {
-        return Optional.empty();
+        return courseMagazineFavoriteJpaRepository.findByUserIdAndCourseMagazineId(userId, courseMagazineId)
+                .map(CourseMagazineFavoriteJpaEntity::toFavorite);
     }
 
     @Override
