@@ -11,7 +11,7 @@ public interface CourseMagazineFavoriteRepository {
 
     Optional<CourseMagazineFavorite> findByUserIdAndCourseMagazineId(String userId, Long courseMagazineId);
 
-    void delete(CourseMagazineFavorite courseMagazineFavorite);
+    void deleteById(Long id);
 
     boolean existsByUserIdAndCourseMagazineId(String userId, Long courseMagazineId);
 
