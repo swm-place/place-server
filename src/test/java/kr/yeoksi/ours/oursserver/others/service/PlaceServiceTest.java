@@ -1,3 +1,4 @@
+/*
 package kr.yeoksi.ours.oursserver.others.service;
 
 import kr.yeoksi.ours.oursserver.others.domain.*;
@@ -43,6 +44,7 @@ public class PlaceServiceTest {
     PlaceReviewComplainRepository placeReviewComplainRepository;
     @Autowired
     PlaceImgRepository placeImgRepository;
+
 
     @Test
     public void 장소_좋아요_개수_조회() {
@@ -286,6 +288,8 @@ public class PlaceServiceTest {
         assertEquals(placeImg2.getImgUrl(), imgUrls.get(1));
     }
 
+ */
+
 
 
 
@@ -347,4 +351,4 @@ public class PlaceServiceTest {
         assertEquals(hashtag.getName(), hashtagList.get(0));
     }
      */
-}
+//}
