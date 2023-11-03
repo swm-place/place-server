@@ -51,6 +51,8 @@ public class CourseInBookmarkRepositoryImpl implements CourseInBookmarkRepositor
 
     @Override
     public List<CourseInBookmark> findByCourseId(Long courseId) {
-        return null;
+        return courseInBookmarkJpaRepository.findByCourseId(courseId).stream()
+                .map(CourseInBookmarkJpaEntity::toCourseInBookmark)
+                .toList();
     }
 }
