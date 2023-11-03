@@ -1,5 +1,8 @@
 package kr.yeoksi.ours.oursserver.course.service.port;
 
+import kr.yeoksi.ours.oursserver.course.domain.Course;
+import kr.yeoksi.ours.oursserver.course.domain.CourseBookmark;
+import kr.yeoksi.ours.oursserver.course.domain.CourseInBookmark;
 import kr.yeoksi.ours.oursserver.course.service.port.in.CourseBookmarkService;
 import kr.yeoksi.ours.oursserver.course.service.port.in.CourseInBookmarkService;
 import kr.yeoksi.ours.oursserver.course.service.port.out.CourseInBookmarkRepository;
@@ -18,7 +21,14 @@ public class CourseInBookmarkServiceImpl implements CourseInBookmarkService {
 
     @Override
     public void addCourseToBookmark(Long courseBookmarkId, Long courseId, String userId) {
+        CourseBookmark courseBookmark = courseBookmarkService.getCourseBookmark(courseBookmarkId, userId);
 
+        CourseInBookmark courseInBookmark = CourseInBookmark.builder()
+                .courseBookmark(courseBookmark)
+                .course(Course.builder().id(courseId).build())
+                .build();
+
+        courseInBookmarkRepository.save(courseInBookmark);
     }
 
     @Override
