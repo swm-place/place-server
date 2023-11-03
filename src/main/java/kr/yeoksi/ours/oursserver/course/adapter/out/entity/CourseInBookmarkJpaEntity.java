@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
+
 
 @Entity(name = "course_in_bookmark")
 @Getter
@@ -27,5 +29,6 @@ public class CourseInBookmarkJpaEntity {
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
-    private String createdAt;
+    private LocalDateTime createdAt;
+
 }
