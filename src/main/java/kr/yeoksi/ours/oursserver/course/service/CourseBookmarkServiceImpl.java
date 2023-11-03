@@ -41,7 +41,7 @@ public class CourseBookmarkServiceImpl implements CourseBookmarkService {
 
     @Override
     public List<CourseBookmark> getMyCourseBookmarks(String userId, int page, int size) {
-        return null;
+        return courseBookmarkRepository.findByUserId(userId, page, size);
     }
 
     @Override
