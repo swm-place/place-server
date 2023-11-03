@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -29,6 +31,22 @@ public class CourseBookmarkApiController {
         return ResponseEntity.ok(
                 CourseBookmarkResponse.from(
                         courseBookmarkService.createCourseBookmark(request.toCourseBookmark(), userId)));
+    }
+
+    @GetMapping("/bookmarks/{userId}/course-bookmarks")
+    public ResponseEntity<List<CourseBookmarkResponse>> getMyCourseBookmarks(@RequestHeader("X-User-Uid") String requestedUserId,
+                                                                             @PathVariable String userId,
+                                                                             @RequestParam(defaultValue = "0") int page,
+                                                                             @RequestParam(defaultValue = "10") int size) {
+        if (!requestedUserId.equals(userId)) {
+            throw new NoPermissionOfBookmarkException();
+        }
+
+        return ResponseEntity.ok(
+                courseBookmarkService.getMyCourseBookmarks(userId, page, size).stream()
+                        .map(CourseBookmarkResponse::from)
+                        .toList()
+        );
     }
 
 }
