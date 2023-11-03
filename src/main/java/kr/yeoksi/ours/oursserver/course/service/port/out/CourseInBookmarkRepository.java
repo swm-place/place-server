@@ -10,7 +10,7 @@ public interface CourseInBookmarkRepository {
 
     Optional<CourseInBookmark> findById(Long courseInBookmarkId);
 
-    CourseInBookmark findByCourseBookmarkIdAndCourseId(Long courseBookmarkId, Long courseId);
+    Optional<CourseInBookmark> findByCourseBookmarkIdAndCourseId(Long courseBookmarkId, Long courseId);
 
     void deleteById(Long courseInBookmarkId);
 
