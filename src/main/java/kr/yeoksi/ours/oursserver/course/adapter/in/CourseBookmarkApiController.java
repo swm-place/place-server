@@ -80,4 +80,16 @@ public class CourseBookmarkApiController {
                         courseBookmarkService.updateCourseBookmark(courseBookmark, userId)));
     }
 
+    @DeleteMapping("/bookmarks/{userId}/course-bookmarks/{courseBookmarkId}")
+    public ResponseEntity<?> deleteCourseBookmark(@RequestHeader("X-User-Uid") String requestedUserId,
+                                                  @PathVariable String userId,
+                                                  @PathVariable Long courseBookmarkId) {
+        if (!requestedUserId.equals(userId)) {
+            throw new NoPermissionOfBookmarkException();
+        }
+
+        courseBookmarkService.deleteCourseBookmark(courseBookmarkId, userId);
+        return ResponseEntity.ok().build();
+    }
+
 }
