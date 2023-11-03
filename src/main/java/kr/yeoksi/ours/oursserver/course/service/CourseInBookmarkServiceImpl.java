@@ -43,13 +43,9 @@ public class CourseInBookmarkServiceImpl implements CourseInBookmarkService {
         // validate permission
         CourseBookmark courseBookmark = courseBookmarkService.getCourseBookmark(courseBookmarkId, userId);
 
-        if (!courseInBookmarkRepository.existsByCourseBookmarkIdAndCourseId(courseBookmark.getId(), courseId)) {
-            throw new NotExistedCourseInBookmarkException();
-        }
-
         CourseInBookmark courseInBookmark = courseInBookmarkRepository
                 .findByCourseBookmarkIdAndCourseId(courseBookmark.getId(), courseId)
-                .orElseThrow();
+                .orElseThrow(NotExistedCourseInBookmarkException::new);
 
         courseInBookmarkRepository.deleteById(courseInBookmark.getId());
     }
