@@ -48,4 +48,13 @@ public class CourseBookmarkJpaEntity {
                 .createdAt(createdAt)
                 .build();
     }
+
+    static public CourseBookmarkJpaEntity from(CourseBookmark courseBookmark) {
+        return CourseBookmarkJpaEntity.builder()
+                .id(courseBookmark.getId())
+                .user(courseBookmark.getUser())
+                .title(courseBookmark.getTitle())
+                .createdAt(courseBookmark.getCreatedAt())
+                .build();
+    }
 }
