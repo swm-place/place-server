@@ -2,6 +2,7 @@ package kr.yeoksi.ours.oursserver.course.adapter.in;
 
 import jakarta.validation.Valid;
 import kr.yeoksi.ours.oursserver.course.adapter.in.request.CourseBookmarkCreateRequest;
+import kr.yeoksi.ours.oursserver.course.adapter.in.request.CourseBookmarkUpdateRequest;
 import kr.yeoksi.ours.oursserver.course.adapter.in.response.CourseBookmarkResponse;
 import kr.yeoksi.ours.oursserver.course.domain.CourseBookmark;
 import kr.yeoksi.ours.oursserver.course.exception.NoPermissionOfBookmarkException;
@@ -60,6 +61,23 @@ public class CourseBookmarkApiController {
         return ResponseEntity.ok(
                 CourseBookmarkResponse.from(
                         courseBookmarkService.getCourseBookmark(courseBookmarkId, userId)));
+    }
+
+    @PatchMapping("/bookmarks/{userId}/course-bookmarks/{courseBookmarkId}")
+    public ResponseEntity<CourseBookmarkResponse> updateCourseBookmark(@RequestHeader("X-User-Uid") String requestedUserId,
+                                                                        @PathVariable String userId,
+                                                                        @PathVariable Long courseBookmarkId,
+                                                                        @RequestBody @Valid CourseBookmarkUpdateRequest request) {
+        if (!requestedUserId.equals(userId)) {
+            throw new NoPermissionOfBookmarkException();
+        }
+
+        CourseBookmark courseBookmark = request.toCourseBookmark();
+        courseBookmark.setId(courseBookmarkId);
+
+        return ResponseEntity.ok(
+                CourseBookmarkResponse.from(
+                        courseBookmarkService.updateCourseBookmark(courseBookmark, userId)));
     }
 
 }
