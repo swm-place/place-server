@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.StringTokenizer;
 
 import static jakarta.persistence.FetchType.LAZY;
 
@@ -25,6 +26,9 @@ public class CourseBookmarkJpaEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_index")
     private User user;
+
+    @Column(name = "title")
+    private String title;
 
     @CreationTimestamp
     @Column(name = "created_at")
