@@ -1,6 +1,7 @@
 package kr.yeoksi.ours.oursserver.course.adapter.out;
 
 import kr.yeoksi.ours.oursserver.course.adapter.out.jpa.CourseBookmarkJpaRepository;
+import kr.yeoksi.ours.oursserver.course.adapter.out.jpa.entity.CourseBookmarkJpaEntity;
 import kr.yeoksi.ours.oursserver.course.domain.CourseBookmark;
 import kr.yeoksi.ours.oursserver.course.service.port.out.CourseBookmarkRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,8 @@ public class CourseBookmarkRepositoryImpl implements CourseBookmarkRepository {
 
     @Override
     public CourseBookmark save(CourseBookmark courseBookmark) {
-        return null;
+        CourseBookmarkJpaEntity courseBookmarkJpaEntity = CourseBookmarkJpaEntity.from(courseBookmark);
+        return courseBookmarkJpaRepository.save(courseBookmarkJpaEntity).toBookmark();
     }
 
     @Override
