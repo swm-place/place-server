@@ -4,9 +4,11 @@ import kr.yeoksi.ours.oursserver.course.domain.Course;
 import kr.yeoksi.ours.oursserver.course.domain.CourseBookmark;
 import kr.yeoksi.ours.oursserver.course.domain.CourseInBookmark;
 import kr.yeoksi.ours.oursserver.course.exception.DuplicatedBookmarkException;
+import kr.yeoksi.ours.oursserver.course.exception.NotExistedCourseException;
 import kr.yeoksi.ours.oursserver.course.exception.NotExistedCourseInBookmarkException;
 import kr.yeoksi.ours.oursserver.course.service.port.in.CourseBookmarkService;
 import kr.yeoksi.ours.oursserver.course.service.port.in.CourseInBookmarkService;
+import kr.yeoksi.ours.oursserver.course.service.port.in.CourseService;
 import kr.yeoksi.ours.oursserver.course.service.port.out.CourseInBookmarkRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,12 +23,17 @@ public class CourseInBookmarkServiceImpl implements CourseInBookmarkService {
     private final CourseInBookmarkRepository courseInBookmarkRepository;
 
     private final CourseBookmarkService courseBookmarkService;
+    private final CourseService courseService;
 
 
     @Override
     public void addCourseToBookmark(Long courseBookmarkId, Long courseId, String userId) {
         // validate permission
         CourseBookmark courseBookmark = courseBookmarkService.getCourseBookmark(courseBookmarkId, userId);
+
+        if (courseService.findById(courseId, userId).isEmpty()) {
+            throw new NotExistedCourseException();
+        }
 
         if (courseInBookmarkRepository.existsByCourseBookmarkIdAndCourseId(courseBookmark.getId(), courseId)) {
             throw new DuplicatedBookmarkException();
