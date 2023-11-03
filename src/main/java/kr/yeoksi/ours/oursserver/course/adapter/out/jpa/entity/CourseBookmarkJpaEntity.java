@@ -1,4 +1,4 @@
-package kr.yeoksi.ours.oursserver.course.adapter.out.entity;
+package kr.yeoksi.ours.oursserver.course.adapter.out.jpa.entity;
 
 import jakarta.persistence.*;
 import kr.yeoksi.ours.oursserver.others.domain.User;
@@ -8,7 +8,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import static jakarta.persistence.FetchType.LAZY;
 

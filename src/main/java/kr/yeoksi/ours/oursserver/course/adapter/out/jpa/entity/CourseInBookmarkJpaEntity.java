@@ -1,4 +1,4 @@
-package kr.yeoksi.ours.oursserver.course.adapter.out.entity;
+package kr.yeoksi.ours.oursserver.course.adapter.out.jpa.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

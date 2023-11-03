@@ -1,4 +1,4 @@
-package kr.yeoksi.ours.oursserver.course.adapter.out.entity;
+package kr.yeoksi.ours.oursserver.course.adapter.out.jpa.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -10,8 +10,6 @@ import kr.yeoksi.ours.oursserver.others.domain.User;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Generated;
-import org.hibernate.generator.EventType;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

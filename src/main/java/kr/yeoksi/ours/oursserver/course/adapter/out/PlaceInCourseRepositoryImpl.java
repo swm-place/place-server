@@ -1,7 +1,9 @@
 package kr.yeoksi.ours.oursserver.course.adapter.out;
 
-import kr.yeoksi.ours.oursserver.course.adapter.out.entity.CourseJpaEntity;
-import kr.yeoksi.ours.oursserver.course.adapter.out.entity.PlaceInCourseJpaEntity;
+import kr.yeoksi.ours.oursserver.course.adapter.out.jpa.entity.CourseJpaEntity;
+import kr.yeoksi.ours.oursserver.course.adapter.out.jpa.entity.PlaceInCourseJpaEntity;
+import kr.yeoksi.ours.oursserver.course.adapter.out.jpa.CourseJpaRepository;
+import kr.yeoksi.ours.oursserver.course.adapter.out.jpa.PlaceInCourseJpaRepository;
 import kr.yeoksi.ours.oursserver.course.domain.Course;
 import kr.yeoksi.ours.oursserver.course.domain.PlaceInCourse;
 import kr.yeoksi.ours.oursserver.course.service.port.out.PlaceInCourseRepository;
