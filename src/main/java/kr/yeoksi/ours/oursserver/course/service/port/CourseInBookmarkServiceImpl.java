@@ -21,6 +21,7 @@ public class CourseInBookmarkServiceImpl implements CourseInBookmarkService {
 
     @Override
     public void addCourseToBookmark(Long courseBookmarkId, Long courseId, String userId) {
+        // validate permission
         CourseBookmark courseBookmark = courseBookmarkService.getCourseBookmark(courseBookmarkId, userId);
 
         CourseInBookmark courseInBookmark = CourseInBookmark.builder()
@@ -33,6 +34,13 @@ public class CourseInBookmarkServiceImpl implements CourseInBookmarkService {
 
     @Override
     public void deleteCourseInBookmark(Long courseBookmarkId, Long courseId, String userId) {
+        // validate permission
+        CourseBookmark courseBookmark = courseBookmarkService.getCourseBookmark(courseBookmarkId, userId);
 
+        CourseInBookmark courseInBookmark = courseInBookmarkRepository
+                .findByCourseBookmarkIdAndCourseId(courseBookmark.getId(), courseId)
+                .orElseThrow();
+
+        courseInBookmarkRepository.deleteById(courseInBookmark.getId());
     }
 }
