@@ -28,12 +28,8 @@ public class CourseInBookmarkServiceImpl implements CourseInBookmarkService {
 
     @Override
     public void addCourseToBookmark(Long courseBookmarkId, Long courseId, String userId) {
-        // validate permission
         CourseBookmark courseBookmark = courseBookmarkService.getCourseBookmark(courseBookmarkId, userId);
-
-        if (courseService.findById(courseId, userId).isEmpty()) {
-            throw new NotExistedCourseException();
-        }
+        validateExistenceAndPermissionOfCourse(courseId, userId);
 
         if (courseInBookmarkRepository.existsByCourseBookmarkIdAndCourseId(courseBookmark.getId(), courseId)) {
             throw new DuplicatedBookmarkException();
@@ -49,7 +45,6 @@ public class CourseInBookmarkServiceImpl implements CourseInBookmarkService {
 
     @Override
     public void deleteCourseInBookmark(Long courseBookmarkId, Long courseId, String userId) {
-        // validate permission
         CourseBookmark courseBookmark = courseBookmarkService.getCourseBookmark(courseBookmarkId, userId);
 
         CourseInBookmark courseInBookmark = courseInBookmarkRepository
@@ -69,4 +64,11 @@ public class CourseInBookmarkServiceImpl implements CourseInBookmarkService {
 
         return courseInBookmarks;
     }
+
+    private void validateExistenceAndPermissionOfCourse(Long courseId, String userId) {
+        if (courseService.findById(courseId, userId).isEmpty()) {
+            throw new NotExistedCourseException();
+        }
+    }
+
 }
