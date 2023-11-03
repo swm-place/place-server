@@ -5,6 +5,7 @@ import kr.yeoksi.ours.oursserver.course.adapter.out.jpa.entity.CourseBookmarkJpa
 import kr.yeoksi.ours.oursserver.course.domain.CourseBookmark;
 import kr.yeoksi.ours.oursserver.course.service.port.out.CourseBookmarkRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -32,7 +33,11 @@ public class CourseBookmarkRepositoryImpl implements CourseBookmarkRepository {
 
     @Override
     public List<CourseBookmark> findByUserId(String userId, int page, int size) {
-        return null;
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        return courseBookmarkJpaRepository.findByUserId(userId, pageRequest).stream()
+                .map(CourseBookmarkJpaEntity::toBookmark)
+                .toList();
     }
 
     @Override
