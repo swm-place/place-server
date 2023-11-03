@@ -9,4 +9,6 @@ public interface CourseInBookmarkJpaRepository extends JpaRepository<CourseInBoo
 
     List<CourseInBookmarkJpaEntity> findByCourseBookmarkIdAndCourseId(Long courseBookmarkId, Long courseId);
 
+    boolean existsByCourseBookmarkIdAndCourseId(Long courseBookmarkId, Long courseId);
+
 }
