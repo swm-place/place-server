@@ -6,6 +6,8 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import static jakarta.persistence.FetchType.LAZY;
@@ -31,7 +33,10 @@ public class CourseBookmarkJpaEntity {
     private String title;
 
     @CreationTimestamp
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "courseBookmark", cascade = CascadeType.ALL)
+    private List<CourseInBookmarkJpaEntity> coursesInBookmark = new ArrayList<>();
 
 }
