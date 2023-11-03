@@ -1,6 +1,8 @@
 package kr.yeoksi.ours.oursserver.course.service;
 
 import kr.yeoksi.ours.oursserver.course.domain.CourseBookmark;
+import kr.yeoksi.ours.oursserver.course.exception.NotExistedCourseBookmarkException;
+import kr.yeoksi.ours.oursserver.course.exception.NotOwnerOfCourseBookmarkException;
 import kr.yeoksi.ours.oursserver.course.service.port.in.CourseBookmarkService;
 import kr.yeoksi.ours.oursserver.course.service.port.out.CourseBookmarkRepository;
 import kr.yeoksi.ours.oursserver.others.domain.User;
@@ -27,7 +29,14 @@ public class CourseBookmarkServiceImpl implements CourseBookmarkService {
 
     @Override
     public CourseBookmark getCourseBookmark(Long courseBookmarkId, String userId) {
-        return null;
+        CourseBookmark courseBookmark = courseBookmarkRepository.findById(courseBookmarkId)
+                .orElseThrow(NotExistedCourseBookmarkException::new);
+
+        if (!userId.equals(courseBookmark.getUser().getId())) {
+            throw new NotOwnerOfCourseBookmarkException();
+        }
+
+        return courseBookmark;
     }
 
     @Override
