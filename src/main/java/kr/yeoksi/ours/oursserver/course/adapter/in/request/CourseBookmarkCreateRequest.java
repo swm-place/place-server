@@ -9,13 +9,11 @@ import lombok.Data;
 @Builder
 public class CourseBookmarkCreateRequest {
 
-    private Long id;
     private String title;
 
 
     public CourseBookmark toCourseBookmark() {
         return CourseBookmark.builder()
-                .id(id)
                 .title(title)
                 .build();
     }
