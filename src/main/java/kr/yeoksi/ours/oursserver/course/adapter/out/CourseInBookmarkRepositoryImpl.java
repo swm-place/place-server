@@ -1,7 +1,9 @@
 package kr.yeoksi.ours.oursserver.course.adapter.out;
 
+import kr.yeoksi.ours.oursserver.course.adapter.out.jpa.CourseInBookmarkJpaRepository;
 import kr.yeoksi.ours.oursserver.course.domain.CourseInBookmark;
 import kr.yeoksi.ours.oursserver.course.service.port.out.CourseInBookmarkRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,7 +11,12 @@ import java.util.Optional;
 
 
 @Repository
+@RequiredArgsConstructor
 public class CourseInBookmarkRepositoryImpl implements CourseInBookmarkRepository {
+
+    private final CourseInBookmarkJpaRepository courseInBookmarkJpaRepository;
+
+
     @Override
     public CourseInBookmark save(CourseInBookmark courseInBookmark) {
         return null;
