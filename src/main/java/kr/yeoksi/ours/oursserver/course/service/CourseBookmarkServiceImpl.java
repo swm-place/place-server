@@ -46,7 +46,17 @@ public class CourseBookmarkServiceImpl implements CourseBookmarkService {
 
     @Override
     public CourseBookmark updateCourseBookmark(CourseBookmark courseBookmark, String userId) {
-        return null;
+        CourseBookmark toUpdate = courseBookmarkRepository.findById(courseBookmark.getId())
+                .orElseThrow(NotExistedCourseBookmarkException::new);
+
+        if (!userId.equals(toUpdate.getUser().getId())) {
+            throw new NotOwnerOfCourseBookmarkException();
+        }
+
+        // TODO: 도메인 객체로 업데이트 로직 분리
+        toUpdate.setTitle(courseBookmark.getTitle());
+
+        return courseBookmarkRepository.save(toUpdate);
     }
 
     @Override
