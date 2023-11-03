@@ -42,4 +42,13 @@ public class CourseInBookmarkJpaEntity {
                 .build();
     }
 
+    public static CourseInBookmarkJpaEntity from(CourseInBookmark courseInBookmark) {
+        return CourseInBookmarkJpaEntity.builder()
+                .id(courseInBookmark.getId())
+                .courseBookmark(CourseBookmarkJpaEntity.from(courseInBookmark.getCourseBookmark()))
+                .course(CourseJpaEntity.from(courseInBookmark.getCourse()))
+                .createdAt(courseInBookmark.getCreatedAt())
+                .build();
+    }
+
 }
