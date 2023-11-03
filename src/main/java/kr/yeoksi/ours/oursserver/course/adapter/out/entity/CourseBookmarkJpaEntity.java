@@ -23,10 +23,6 @@ public class CourseBookmarkJpaEntity {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "course_index")
-    private CourseJpaEntity course;
-
-    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_index")
     private User user;
 
