@@ -1,4 +1,4 @@
-package kr.yeoksi.ours.oursserver.course.service.port;
+package kr.yeoksi.ours.oursserver.course.service;
 
 import kr.yeoksi.ours.oursserver.course.domain.Course;
 import kr.yeoksi.ours.oursserver.course.domain.CourseBookmark;
