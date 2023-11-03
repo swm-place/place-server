@@ -62,7 +62,7 @@ public class CourseJpaEntity {
     @Column(name = "is_finished", columnDefinition = "TINYINT(1)")
     private boolean isFinished;
 
-    @Generated(event = EventType.INSERT)
+    @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
