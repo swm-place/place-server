@@ -2,13 +2,20 @@ package kr.yeoksi.ours.oursserver.course.service;
 
 import kr.yeoksi.ours.oursserver.course.domain.CourseBookmark;
 import kr.yeoksi.ours.oursserver.course.service.port.in.CourseBookmarkService;
+import kr.yeoksi.ours.oursserver.course.service.port.out.CourseBookmarkRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
 @Service
+@RequiredArgsConstructor
 public class CourseBookmarkServiceImpl implements CourseBookmarkService {
+
+    private final CourseBookmarkRepository courseBookmarkRepository;
+
+
     @Override
     public CourseBookmark createCourseBookmark(CourseBookmark courseBookmark, String userId) {
         return null;
