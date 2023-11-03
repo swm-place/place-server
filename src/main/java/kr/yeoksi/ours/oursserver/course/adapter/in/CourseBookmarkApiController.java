@@ -49,4 +49,17 @@ public class CourseBookmarkApiController {
         );
     }
 
+    @GetMapping("/bookmarks/{userId}/course-bookmarks/{courseBookmarkId}")
+    public ResponseEntity<CourseBookmarkResponse> getCourseBookmark(@RequestHeader("X-User-Uid") String requestedUserId,
+                                                                     @PathVariable String userId,
+                                                                     @PathVariable Long courseBookmarkId) {
+        if (!requestedUserId.equals(userId)) {
+            throw new NoPermissionOfBookmarkException();
+        }
+
+        return ResponseEntity.ok(
+                CourseBookmarkResponse.from(
+                        courseBookmarkService.getCourseBookmark(courseBookmarkId, userId)));
+    }
+
 }
