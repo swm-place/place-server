@@ -61,6 +61,13 @@ public class CourseBookmarkServiceImpl implements CourseBookmarkService {
 
     @Override
     public void deleteCourseBookmark(Long courseBookmarkId, String userId) {
+        CourseBookmark toDelete = courseBookmarkRepository.findById(courseBookmarkId)
+                .orElseThrow(NotExistedCourseBookmarkException::new);
 
+        if (!userId.equals(toDelete.getUser().getId())) {
+            throw new NotOwnerOfCourseBookmarkException();
+        }
+
+        courseBookmarkRepository.deleteById(courseBookmarkId);
     }
 }
