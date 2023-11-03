@@ -33,7 +33,10 @@ public class CourseInBookmarkRepositoryImpl implements CourseInBookmarkRepositor
 
     @Override
     public Optional<CourseInBookmark> findByCourseBookmarkIdAndCourseId(Long courseBookmarkId, Long courseId) {
-        return Optional.empty();
+        return courseInBookmarkJpaRepository.findByCourseBookmarkIdAndCourseId(courseBookmarkId, courseId)
+                .stream()
+                .findFirst()
+                .map(CourseInBookmarkJpaEntity::toCourseInBookmark);
     }
 
     @Override
