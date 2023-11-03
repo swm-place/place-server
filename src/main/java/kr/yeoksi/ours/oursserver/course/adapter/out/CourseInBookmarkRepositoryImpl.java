@@ -46,7 +46,7 @@ public class CourseInBookmarkRepositoryImpl implements CourseInBookmarkRepositor
 
     @Override
     public void deleteById(Long courseInBookmarkId) {
-
+        courseInBookmarkJpaRepository.deleteById(courseInBookmarkId);
     }
 
     @Override
