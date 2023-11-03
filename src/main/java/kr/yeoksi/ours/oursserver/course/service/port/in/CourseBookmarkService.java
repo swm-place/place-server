@@ -6,14 +6,14 @@ import java.util.List;
 
 public interface CourseBookmarkService {
 
-    CourseBookmark createCourseBookmark(CourseBookmark courseBookmark);
+    CourseBookmark createCourseBookmark(CourseBookmark courseBookmark, String userId);
 
-    CourseBookmark getCourseBookmark(Long courseBookmarkId);
+    CourseBookmark getCourseBookmark(Long courseBookmarkId, String userId);
 
-    List<CourseBookmark> getMyCourseBookmarks(Long userId, int page, int size);
+    List<CourseBookmark> getMyCourseBookmarks(String userId, int page, int size);
 
-    CourseBookmark updateCourseBookmark(CourseBookmark courseBookmark);
+    CourseBookmark updateCourseBookmark(CourseBookmark courseBookmark, String userId);
 
-    void deleteCourseBookmark(Long courseBookmarkId);
+    void deleteCourseBookmark(Long courseBookmarkId, String userId);
 
 }
