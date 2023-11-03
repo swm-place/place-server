@@ -1,6 +1,7 @@
 package kr.yeoksi.ours.oursserver.course.adapter.out.jpa.entity;
 
 import jakarta.persistence.*;
+import kr.yeoksi.ours.oursserver.course.domain.CourseBookmark;
 import kr.yeoksi.ours.oursserver.others.domain.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -38,4 +39,13 @@ public class CourseBookmarkJpaEntity {
     @OneToMany(mappedBy = "courseBookmark", cascade = CascadeType.ALL)
     private List<CourseInBookmarkJpaEntity> coursesInBookmark = new ArrayList<>();
 
+
+    public CourseBookmark toBookmark() {
+        return CourseBookmark.builder()
+                .id(id)
+                .user(user)
+                .title(title)
+                .createdAt(createdAt)
+                .build();
+    }
 }
