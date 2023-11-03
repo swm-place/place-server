@@ -42,6 +42,10 @@ public class CourseInBookmarkServiceImpl implements CourseInBookmarkService {
         // validate permission
         CourseBookmark courseBookmark = courseBookmarkService.getCourseBookmark(courseBookmarkId, userId);
 
+        if (!courseInBookmarkRepository.existsByCourseBookmarkIdAndCourseId(courseBookmark.getId(), courseId)) {
+            throw new DuplicatedBookmarkException("해당 북마크에 추가되지 않은 코스입니다.");
+        }
+
         CourseInBookmark courseInBookmark = courseInBookmarkRepository
                 .findByCourseBookmarkIdAndCourseId(courseBookmark.getId(), courseId)
                 .orElseThrow();
