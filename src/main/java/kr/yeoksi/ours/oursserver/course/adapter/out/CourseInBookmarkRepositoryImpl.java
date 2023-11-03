@@ -41,7 +41,7 @@ public class CourseInBookmarkRepositoryImpl implements CourseInBookmarkRepositor
 
     @Override
     public boolean existsByCourseBookmarkIdAndCourseId(Long courseBookmarkId, Long courseId) {
-        return false;
+        return courseInBookmarkJpaRepository.existsByCourseBookmarkIdAndCourseId(courseBookmarkId, courseId);
     }
 
     @Override
