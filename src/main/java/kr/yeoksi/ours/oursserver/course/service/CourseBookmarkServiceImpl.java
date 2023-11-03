@@ -54,7 +54,8 @@ public class CourseBookmarkServiceImpl implements CourseBookmarkService {
         }
 
         // TODO: 도메인 객체로 업데이트 로직 분리
-        toUpdate.setTitle(courseBookmark.getTitle());
+        if (courseBookmark.getTitle() != null)
+            toUpdate.setTitle(courseBookmark.getTitle());
 
         return courseBookmarkRepository.save(toUpdate);
     }
