@@ -11,6 +11,8 @@ import kr.yeoksi.ours.oursserver.course.service.port.out.CourseInBookmarkReposit
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -48,5 +50,16 @@ public class CourseInBookmarkServiceImpl implements CourseInBookmarkService {
                 .orElseThrow(NotExistedCourseInBookmarkException::new);
 
         courseInBookmarkRepository.deleteById(courseInBookmark.getId());
+    }
+
+    @Override
+    public List<CourseInBookmark> findByCourseId(Long courseId, String userId) {
+        List<CourseInBookmark> courseInBookmarks = courseInBookmarkRepository.findByCourseId(courseId);
+
+        courseInBookmarks = courseInBookmarks.stream()
+                .filter(courseInBookmark -> userId.equals(courseInBookmark.getCourseBookmark().getUser().getId()))
+                .toList();
+
+        return courseInBookmarks;
     }
 }
