@@ -26,7 +26,8 @@ public class CourseBookmarkRepositoryImpl implements CourseBookmarkRepository {
 
     @Override
     public Optional<CourseBookmark> findById(Long courseBookmarkId) {
-        return Optional.empty();
+        return courseBookmarkJpaRepository.findById(courseBookmarkId)
+                .map(CourseBookmarkJpaEntity::toBookmark);
     }
 
     @Override
