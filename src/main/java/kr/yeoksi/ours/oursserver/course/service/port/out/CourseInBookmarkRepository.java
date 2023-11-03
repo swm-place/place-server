@@ -12,6 +12,8 @@ public interface CourseInBookmarkRepository {
 
     Optional<CourseInBookmark> findByCourseBookmarkIdAndCourseId(Long courseBookmarkId, Long courseId);
 
+    boolean existsByCourseBookmarkIdAndCourseId(Long courseBookmarkId, Long courseId);
+
     void deleteById(Long courseInBookmarkId);
 
 }
