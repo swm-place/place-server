@@ -2,10 +2,13 @@ package kr.yeoksi.ours.oursserver.course.adapter.out;
 
 import kr.yeoksi.ours.oursserver.course.domain.CourseInBookmark;
 import kr.yeoksi.ours.oursserver.course.service.port.out.CourseInBookmarkRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+
+@Repository
 public class CourseInBookmarkRepositoryImpl implements CourseInBookmarkRepository {
     @Override
     public CourseInBookmark save(CourseInBookmark courseInBookmark) {
