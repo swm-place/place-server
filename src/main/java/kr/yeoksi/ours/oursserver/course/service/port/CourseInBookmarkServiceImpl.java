@@ -1,5 +1,6 @@
 package kr.yeoksi.ours.oursserver.course.service.port;
 
+import kr.yeoksi.ours.oursserver.course.service.port.in.CourseBookmarkService;
 import kr.yeoksi.ours.oursserver.course.service.port.in.CourseInBookmarkService;
 import kr.yeoksi.ours.oursserver.course.service.port.out.CourseInBookmarkRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 public class CourseInBookmarkServiceImpl implements CourseInBookmarkService {
 
     private final CourseInBookmarkRepository courseInBookmarkRepository;
+
+    private final CourseBookmarkService courseBookmarkService;
 
 
     @Override
