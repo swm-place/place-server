@@ -21,13 +21,14 @@ public class CourseInBookmarkRepositoryImpl implements CourseInBookmarkRepositor
     @Override
     public CourseInBookmark save(CourseInBookmark courseInBookmark) {
         CourseInBookmarkJpaEntity courseInBookmarkJpaEntity = CourseInBookmarkJpaEntity.from(courseInBookmark);
-        return this.courseInBookmarkJpaRepository.save(courseInBookmarkJpaEntity)
+        return courseInBookmarkJpaRepository.save(courseInBookmarkJpaEntity)
                 .toCourseInBookmark();
     }
 
     @Override
     public Optional<CourseInBookmark> findById(Long courseInBookmarkId) {
-        return Optional.empty();
+        return courseInBookmarkJpaRepository.findById(courseInBookmarkId)
+                .map(CourseInBookmarkJpaEntity::toCourseInBookmark);
     }
 
     @Override
