@@ -4,6 +4,7 @@ import kr.yeoksi.ours.oursserver.course.domain.Course;
 import kr.yeoksi.ours.oursserver.course.domain.CourseBookmark;
 import kr.yeoksi.ours.oursserver.course.domain.CourseInBookmark;
 import kr.yeoksi.ours.oursserver.course.exception.DuplicatedBookmarkException;
+import kr.yeoksi.ours.oursserver.course.exception.NotExistedCourseInBookmarkException;
 import kr.yeoksi.ours.oursserver.course.service.port.in.CourseBookmarkService;
 import kr.yeoksi.ours.oursserver.course.service.port.in.CourseInBookmarkService;
 import kr.yeoksi.ours.oursserver.course.service.port.out.CourseInBookmarkRepository;
@@ -43,7 +44,7 @@ public class CourseInBookmarkServiceImpl implements CourseInBookmarkService {
         CourseBookmark courseBookmark = courseBookmarkService.getCourseBookmark(courseBookmarkId, userId);
 
         if (!courseInBookmarkRepository.existsByCourseBookmarkIdAndCourseId(courseBookmark.getId(), courseId)) {
-            throw new DuplicatedBookmarkException("해당 북마크에 추가되지 않은 코스입니다.");
+            throw new NotExistedCourseInBookmarkException();
         }
 
         CourseInBookmark courseInBookmark = courseInBookmarkRepository
