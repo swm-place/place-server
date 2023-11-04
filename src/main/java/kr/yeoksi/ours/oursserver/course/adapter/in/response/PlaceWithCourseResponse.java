@@ -11,11 +11,12 @@ import java.util.Map;
 @Data
 @Builder
 public class PlaceWithCourseResponse {
+
     private String id;
+
     private String name;
     private String category;
-    // TODO: 운영시간 반영 (구글 연동 + DB)
-//    private Map<String, Object> openTime;
+    private String imgUrl;
 
 
     public static PlaceWithCourseResponse from(Place place) {
@@ -23,7 +24,7 @@ public class PlaceWithCourseResponse {
                 .id(place.getId())
                 .name(place.getName())
                 .category(place.getCategory())
-//                .openTime(place.getOpenTime())
+                .imgUrl(place.getImgUrl())
                 .build();
     }
 }
