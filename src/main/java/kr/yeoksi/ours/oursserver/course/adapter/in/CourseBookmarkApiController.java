@@ -3,6 +3,7 @@ package kr.yeoksi.ours.oursserver.course.adapter.in;
 import jakarta.validation.Valid;
 import kr.yeoksi.ours.oursserver.course.adapter.in.request.CourseBookmarkCreateRequest;
 import kr.yeoksi.ours.oursserver.course.adapter.in.request.CourseBookmarkUpdateRequest;
+import kr.yeoksi.ours.oursserver.course.adapter.in.response.CourseBookmarkListItemResponse;
 import kr.yeoksi.ours.oursserver.course.adapter.in.response.CourseBookmarkResponse;
 import kr.yeoksi.ours.oursserver.course.domain.CourseBookmark;
 import kr.yeoksi.ours.oursserver.course.exception.NoPermissionOfBookmarkException;
@@ -35,17 +36,17 @@ public class CourseBookmarkApiController {
     }
 
     @GetMapping("/bookmarks/{userId}/course-bookmarks")
-    public ResponseEntity<List<CourseBookmarkResponse>> getMyCourseBookmarks(@RequestHeader("X-User-Uid") String requestedUserId,
-                                                                             @PathVariable String userId,
-                                                                             @RequestParam(defaultValue = "0") int page,
-                                                                             @RequestParam(defaultValue = "10") int size) {
+    public ResponseEntity<List<CourseBookmarkListItemResponse>> getMyCourseBookmarks(@RequestHeader("X-User-Uid") String requestedUserId,
+                                                                                              @PathVariable String userId,
+                                                                                              @RequestParam(defaultValue = "0") int page,
+                                                                                              @RequestParam(defaultValue = "10") int size) {
         if (!requestedUserId.equals(userId)) {
             throw new NoPermissionOfBookmarkException();
         }
 
         return ResponseEntity.ok(
                 courseBookmarkService.getMyCourseBookmarks(userId, page, size).stream()
-                        .map(CourseBookmarkResponse::from)
+                        .map(CourseBookmarkListItemResponse::from)
                         .toList()
         );
     }
