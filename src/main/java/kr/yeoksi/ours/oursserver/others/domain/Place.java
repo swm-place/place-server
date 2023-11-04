@@ -63,4 +63,11 @@ public class Place {
     @OneToMany(mappedBy = "place")
     @Builder.Default
     private List<PlaceReview> placeReviews = new ArrayList<>();
+
+
+    // TODO: 이미지 URI는 서비스에서 환경변수 이용해 주입
+    // 현재 장소 사진은 다른 서버에 의존하고 있어, 해당 서버로의 요청 URI를 포함
+    public String getImgUrl() {
+        return "/api-recommender/place-photo/place/" + id;
+    }
 }
