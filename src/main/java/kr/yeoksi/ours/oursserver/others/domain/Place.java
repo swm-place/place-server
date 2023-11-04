@@ -38,10 +38,12 @@ public class Place {
     @Column(name = "open_time", columnDefinition = "longtext")
     private Map<String, Object> openTime;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<PlaceImg> placeImgs = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Menu> menus = new ArrayList<>();
@@ -52,10 +54,12 @@ public class Place {
     @Builder.Default
     private List<PlaceFavorite> placeFavorites = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "place")
     @Builder.Default
     private List<PlaceOpen> placeOpens = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "place")
     @Builder.Default
     private List<PlaceReview> placeReviews = new ArrayList<>();

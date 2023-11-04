@@ -1,6 +1,6 @@
-package kr.yeoksi.ours.oursserver.course.adapter.out;
+package kr.yeoksi.ours.oursserver.course.adapter.out.jpa;
 
-import kr.yeoksi.ours.oursserver.course.adapter.out.entity.CourseJpaEntity;
+import kr.yeoksi.ours.oursserver.course.adapter.out.jpa.entity.CourseJpaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

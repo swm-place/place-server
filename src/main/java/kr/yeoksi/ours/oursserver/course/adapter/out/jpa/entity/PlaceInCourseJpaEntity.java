@@ -1,11 +1,10 @@
-package kr.yeoksi.ours.oursserver.course.adapter.out.entity;
+package kr.yeoksi.ours.oursserver.course.adapter.out.jpa.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import kr.yeoksi.ours.oursserver.course.domain.PlaceInCourse;
 import kr.yeoksi.ours.oursserver.others.domain.Place;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Generated;
 import org.hibernate.generator.EventType;
 

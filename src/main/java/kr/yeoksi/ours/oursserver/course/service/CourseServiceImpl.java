@@ -1,9 +1,11 @@
 package kr.yeoksi.ours.oursserver.course.service;
 
 import kr.yeoksi.ours.oursserver.course.domain.Course;
+import kr.yeoksi.ours.oursserver.course.domain.CourseInBookmark;
 import kr.yeoksi.ours.oursserver.course.exception.DuplicatedCourseException;
 import kr.yeoksi.ours.oursserver.course.exception.NotExistedCourseException;
 import kr.yeoksi.ours.oursserver.course.exception.NotOwnerOfCourseException;
+import kr.yeoksi.ours.oursserver.course.service.port.in.CourseInBookmarkReadService;
 import kr.yeoksi.ours.oursserver.course.service.port.in.CourseService;
 import kr.yeoksi.ours.oursserver.course.service.port.out.CourseRepository;
 import kr.yeoksi.ours.oursserver.others.service.PlaceService;
@@ -23,6 +25,7 @@ public class CourseServiceImpl implements CourseService {
 
     private final UserService userService;
     private final PlaceService placeService;
+    private final CourseInBookmarkReadService courseInBookmarkReadService;
 
     @Override
     @Transactional
@@ -44,6 +47,13 @@ public class CourseServiceImpl implements CourseService {
     public Optional<Course> findById(Long id, String userId) {
         Optional<Course> course = courseRepository.findById(id);
         course.ifPresent(courseToValidate -> validateOwnership(courseToValidate, userId));
+
+        // ID로 하나씩 조회할 때에만 `bookmarks` 제공
+        course.ifPresent(c -> c.setBookmarks(
+                courseInBookmarkReadService.findByCourseId(c.getId(), userId).stream()
+                        .map(CourseInBookmark::getCourseBookmark)
+                        .toList()));
+
         return course;
     }
 
