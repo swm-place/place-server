@@ -39,5 +39,18 @@ public class PlaceInCourseResponse {
                 .build();
     }
 
+    public static PlaceInCourseResponse from(PlaceInCourse placeInCourse, String imgRequestBaseUrl) {
+        return PlaceInCourseResponse.builder()
+                .id(placeInCourse.getId())
+                .place(PlaceWithCourseResponse.from(placeInCourse.getPlace(), imgRequestBaseUrl))
+                .day(placeInCourse.getDay())
+                .order(placeInCourse.getOrder())
+                .startAt(placeInCourse.getStartAt())
+                .timeRequired(placeInCourse.getTimeRequired())
+                .transportationTime(placeInCourse.getTransportationTime())
+                .createdAt(placeInCourse.getCreatedAt())
+                .build();
+    }
+
 
 }
