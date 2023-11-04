@@ -10,6 +10,4 @@ public interface CourseInBookmarkService {
 
     void deleteCourseInBookmark(Long courseBookmarkId, Long courseId, String userId);
 
-    List<CourseInBookmark> findByCourseId(Long courseId, String userId);
-
 }
