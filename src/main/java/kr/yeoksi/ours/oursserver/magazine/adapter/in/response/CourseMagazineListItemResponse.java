@@ -1,5 +1,6 @@
 package kr.yeoksi.ours.oursserver.magazine.adapter.in.response;
 
+import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazine;
 import lombok.Builder;
 import lombok.Data;
 
@@ -20,16 +21,16 @@ public class CourseMagazineListItemResponse {
     private LocalDateTime createdAt;
 
 
-    public static CourseMagazineListItemResponse from(CourseMagazineResponse courseMagazineResponse) {
+    public static CourseMagazineListItemResponse from(CourseMagazine courseMagazine) {
         CourseMagazineListItemResponse response = CourseMagazineListItemResponse.builder()
-                .id(courseMagazineResponse.getId())
-                .title(courseMagazineResponse.getTitle())
-                .contents(courseMagazineResponse.getContents())
-                .createdAt(courseMagazineResponse.getCreatedAt())
+                .id(courseMagazine.getId())
+                .title(courseMagazine.getTitle())
+                .contents(courseMagazine.getContents())
+                .createdAt(courseMagazine.getCreatedAt())
                 .build();
 
-        if (!courseMagazineResponse.getPlacesInCourseMagazine().isEmpty()) {
-            response.setImgUrl(courseMagazineResponse.getPlacesInCourseMagazine().get(0).getPlace().getImgUrl());
+        if (!courseMagazine.getPlacesInCourseMagazine().isEmpty()) {
+            response.setImgUrl(courseMagazine.getPlacesInCourseMagazine().get(0).getPlace().getImgUrl());
         }
 
         return response;
