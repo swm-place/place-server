@@ -54,17 +54,6 @@ public class CourseInBookmarkServiceImpl implements CourseInBookmarkService {
         courseInBookmarkRepository.deleteById(courseInBookmark.getId());
     }
 
-    @Override
-    public List<CourseInBookmark> findByCourseId(Long courseId, String userId) {
-        List<CourseInBookmark> courseInBookmarks = courseInBookmarkRepository.findByCourseId(courseId);
-
-        courseInBookmarks = courseInBookmarks.stream()
-                .filter(courseInBookmark -> userId.equals(courseInBookmark.getCourseBookmark().getUser().getId()))
-                .toList();
-
-        return courseInBookmarks;
-    }
-
     private void validateExistenceAndPermissionOfCourse(Long courseId, String userId) {
         if (courseService.findById(courseId, userId).isEmpty()) {
             throw new NotExistedCourseException();
