@@ -18,6 +18,8 @@ public class CourseBookmark {
     private User user;
     private String title;
     private LocalDateTime createdAt;
+
+    @Builder.Default
     private List<CourseInBookmark> coursesInBookmark = new ArrayList<>();
 
 }
