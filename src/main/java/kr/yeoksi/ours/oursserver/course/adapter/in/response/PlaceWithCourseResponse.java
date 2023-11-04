@@ -26,11 +26,4 @@ public class PlaceWithCourseResponse {
                 .category(place.getCategory())
                 .build();
     }
-
-    public static PlaceWithCourseResponse from(Place place, String imgRequestBaseUrl) {
-        PlaceWithCourseResponse placeWithCourseResponse = from(place);
-
-        placeWithCourseResponse.setImgUrl(imgRequestBaseUrl + "/" + place.getId());
-        return placeWithCourseResponse;
-    }
 }
