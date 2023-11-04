@@ -40,16 +40,10 @@ public class PlaceInCourseResponse {
     }
 
     public static PlaceInCourseResponse from(PlaceInCourse placeInCourse, String imgRequestBaseUrl) {
-        return PlaceInCourseResponse.builder()
-                .id(placeInCourse.getId())
-                .place(PlaceWithCourseResponse.from(placeInCourse.getPlace(), imgRequestBaseUrl))
-                .day(placeInCourse.getDay())
-                .order(placeInCourse.getOrder())
-                .startAt(placeInCourse.getStartAt())
-                .timeRequired(placeInCourse.getTimeRequired())
-                .transportationTime(placeInCourse.getTransportationTime())
-                .createdAt(placeInCourse.getCreatedAt())
-                .build();
+        PlaceInCourseResponse placeInCourseResponse = from(placeInCourse);
+
+        placeInCourseResponse.getPlace().setImgUrl(imgRequestBaseUrl + "/" + placeInCourse.getPlace().getId());
+        return placeInCourseResponse;
     }
 
 
