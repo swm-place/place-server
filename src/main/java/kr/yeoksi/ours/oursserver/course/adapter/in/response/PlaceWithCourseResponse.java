@@ -24,6 +24,7 @@ public class PlaceWithCourseResponse {
                 .id(place.getId())
                 .name(place.getName())
                 .category(place.getCategory())
+                .imgUrl(place.getImgUrl())
                 .build();
     }
 }
