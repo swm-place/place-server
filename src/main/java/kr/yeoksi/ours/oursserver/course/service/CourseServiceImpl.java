@@ -5,7 +5,7 @@ import kr.yeoksi.ours.oursserver.course.domain.CourseInBookmark;
 import kr.yeoksi.ours.oursserver.course.exception.DuplicatedCourseException;
 import kr.yeoksi.ours.oursserver.course.exception.NotExistedCourseException;
 import kr.yeoksi.ours.oursserver.course.exception.NotOwnerOfCourseException;
-import kr.yeoksi.ours.oursserver.course.service.port.in.CourseInBookmarkService;
+import kr.yeoksi.ours.oursserver.course.service.port.in.CourseInBookmarkReadService;
 import kr.yeoksi.ours.oursserver.course.service.port.in.CourseService;
 import kr.yeoksi.ours.oursserver.course.service.port.out.CourseRepository;
 import kr.yeoksi.ours.oursserver.others.service.PlaceService;
@@ -25,7 +25,7 @@ public class CourseServiceImpl implements CourseService {
 
     private final UserService userService;
     private final PlaceService placeService;
-    private final CourseInBookmarkService courseInBookmarkService;
+    private final CourseInBookmarkReadService courseInBookmarkReadService;
 
     @Override
     @Transactional
@@ -50,7 +50,7 @@ public class CourseServiceImpl implements CourseService {
 
         // ID로 하나씩 조회할 때에만 `bookmarks` 제공
         course.ifPresent(c -> c.setBookmarks(
-                courseInBookmarkService.findByCourseId(c.getId(), userId).stream()
+                courseInBookmarkReadService.findByCourseId(c.getId(), userId).stream()
                         .map(CourseInBookmark::getCourseBookmark)
                         .toList()));
 
