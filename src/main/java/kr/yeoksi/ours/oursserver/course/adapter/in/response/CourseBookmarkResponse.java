@@ -31,4 +31,14 @@ public class CourseBookmarkResponse {
                 .build();
     }
 
+    public static CourseBookmarkResponse from(CourseBookmark courseBookmark, String imgRequestBaseUrl) {
+        CourseBookmarkResponse courseBookmarkResponse = from(courseBookmark);
+
+        courseBookmarkResponse.getCourses().forEach(courseResponse ->
+                courseResponse.getPlacesInCourse().forEach(placeInCourseResponse ->
+                        placeInCourseResponse.getPlace().setImgUrl(imgRequestBaseUrl + "/" + placeInCourseResponse.getPlace().getId())));
+
+        return courseBookmarkResponse;
+    }
+
 }
