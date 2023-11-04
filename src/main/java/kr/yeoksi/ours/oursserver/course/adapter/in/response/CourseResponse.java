@@ -1,6 +1,7 @@
 package kr.yeoksi.ours.oursserver.course.adapter.in.response;
 
 import kr.yeoksi.ours.oursserver.course.domain.Course;
+import kr.yeoksi.ours.oursserver.course.domain.CourseBookmark;
 import kr.yeoksi.ours.oursserver.course.domain.PlaceInCourse;
 import lombok.Builder;
 import lombok.Data;
@@ -29,6 +30,9 @@ public class CourseResponse {
 
     private LocalDateTime createdAt;
 
+    @Builder.Default
+    private List<CourseBookmark> bookmarks = new ArrayList<>();
+
 
     public static CourseResponse from(Course course) {
         return CourseResponse.builder()
@@ -43,6 +47,7 @@ public class CourseResponse {
                 .inProgress(course.isInProgress())
                 .isFinished(course.isFinished())
                 .createdAt(course.getCreatedAt())
+                .bookmarks(course.getBookmarks())
                 .build();
     }
 }
