@@ -31,6 +31,9 @@ public class Course {
 
     private LocalDateTime createdAt;
 
+    @Builder.Default
+    private List<CourseBookmark> bookmarks = new ArrayList<>();
+
 
     public void update(Course source) {
         EntityUtils.updateNotNullProperties(this, source);
