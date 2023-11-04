@@ -31,7 +31,7 @@ public class CourseResponse {
     private LocalDateTime createdAt;
 
     @Builder.Default
-    private List<CourseBookmark> bookmarks = new ArrayList<>();
+    private List<CourseBookmarkReferenceResponse> bookmarks = new ArrayList<>();
 
 
     public static CourseResponse from(Course course) {
@@ -47,7 +47,9 @@ public class CourseResponse {
                 .inProgress(course.isInProgress())
                 .isFinished(course.isFinished())
                 .createdAt(course.getCreatedAt())
-                .bookmarks(course.getBookmarks())
+                .bookmarks(course.getBookmarks().stream()
+                        .map(CourseBookmarkReferenceResponse::from)
+                        .toList())
                 .build();
     }
 }
