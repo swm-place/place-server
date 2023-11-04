@@ -52,4 +52,13 @@ public class CourseResponse {
                         .toList())
                 .build();
     }
+
+    public static CourseResponse from(Course course, String imgRequestBaseUrl) {
+        CourseResponse courseResponse = from(course);
+
+        courseResponse.getPlacesInCourse().forEach(placeInCourseResponse ->
+                placeInCourseResponse.getPlace().setImgUrl(imgRequestBaseUrl + "/" + placeInCourseResponse.getPlace().getId()));
+
+        return courseResponse;
+    }
 }
