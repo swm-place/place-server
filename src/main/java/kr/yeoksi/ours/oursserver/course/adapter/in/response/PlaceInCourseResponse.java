@@ -39,12 +39,5 @@ public class PlaceInCourseResponse {
                 .build();
     }
 
-    public static PlaceInCourseResponse from(PlaceInCourse placeInCourse, String imgRequestBaseUrl) {
-        PlaceInCourseResponse placeInCourseResponse = from(placeInCourse);
-
-        placeInCourseResponse.getPlace().setImgUrl(imgRequestBaseUrl + "/" + placeInCourse.getPlace().getId());
-        return placeInCourseResponse;
-    }
-
 
 }
