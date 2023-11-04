@@ -5,6 +5,7 @@ import kr.yeoksi.ours.oursserver.course.exception.NotExistedCourseBookmarkExcept
 import kr.yeoksi.ours.oursserver.course.exception.NotOwnerOfCourseBookmarkException;
 import kr.yeoksi.ours.oursserver.course.service.port.in.CourseBookmarkService;
 import kr.yeoksi.ours.oursserver.course.service.port.out.CourseBookmarkRepository;
+import kr.yeoksi.ours.oursserver.course.service.port.out.CourseInBookmarkRepository;
 import kr.yeoksi.ours.oursserver.others.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,8 @@ import java.util.List;
 public class CourseBookmarkServiceImpl implements CourseBookmarkService {
 
     private final CourseBookmarkRepository courseBookmarkRepository;
+
+    private final CourseInBookmarkRepository courseInBookmarkRepository;
 
 
     @Override
@@ -36,12 +39,19 @@ public class CourseBookmarkServiceImpl implements CourseBookmarkService {
             throw new NotOwnerOfCourseBookmarkException();
         }
 
+        courseBookmark.setCoursesInBookmark(
+                courseInBookmarkRepository.findByCourseBookmarkId(courseBookmarkId));
+
         return courseBookmark;
     }
 
     @Override
     public List<CourseBookmark> getMyCourseBookmarks(String userId, int page, int size) {
-        return courseBookmarkRepository.findByUserId(userId, page, size);
+        // TODO: 쿼리 여러 번 나가지 않고 한 번에 가져올 수 있도록 연관관계 동기화 문제 재점검
+        return courseBookmarkRepository.findByUserId(userId, page, size).stream()
+                .peek(courseBookmark -> courseBookmark.setCoursesInBookmark(
+                        courseInBookmarkRepository.findByCourseBookmarkId(courseBookmark.getId())))
+                .toList();
     }
 
     @Override
