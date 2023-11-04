@@ -36,6 +36,7 @@ public class CourseBookmarkJpaEntity {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @Builder.Default
     @OneToMany(mappedBy = "courseBookmark", cascade = CascadeType.ALL)
     private List<CourseInBookmarkJpaEntity> coursesInBookmark = new ArrayList<>();
 
