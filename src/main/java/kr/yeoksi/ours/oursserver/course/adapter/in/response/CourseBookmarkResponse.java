@@ -17,7 +17,6 @@ public class CourseBookmarkResponse {
     private String title;
     private LocalDateTime createdAt;
     private List<CourseResponse> courses;
-    private String imgUrl;
 
 
     public static CourseBookmarkResponse from(CourseBookmark courseBookmark) {
@@ -30,16 +29,6 @@ public class CourseBookmarkResponse {
                         .map(CourseResponse::from)
                         .toList())
                 .build();
-    }
-
-    public static CourseBookmarkResponse from(CourseBookmark courseBookmark, String imgRequestBaseUrl) {
-        CourseBookmarkResponse courseBookmarkResponse = from(courseBookmark);
-
-        if (!courseBookmark.getCoursesInBookmark().isEmpty())
-            courseBookmarkResponse.setImgUrl(
-                    imgRequestBaseUrl + "/" + courseBookmark.getCoursesInBookmark().get(0).getCourse().getPlacesInCourse().get(0).getPlace().getId());
-
-        return courseBookmarkResponse;
     }
 
 }
