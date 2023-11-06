@@ -1,6 +1,7 @@
 package kr.yeoksi.ours.oursserver.others.service;
 
 import kr.yeoksi.ours.oursserver.others.controller.UserApiController;
+import kr.yeoksi.ours.oursserver.others.domain.dto.place.response.ThumbnailInfoResponse;
 import kr.yeoksi.ours.oursserver.others.exception.*;
 import kr.yeoksi.ours.oursserver.others.domain.*;
 import kr.yeoksi.ours.oursserver.others.dto.UpdateUserInformationResponse;
@@ -8,7 +9,9 @@ import kr.yeoksi.ours.oursserver.others.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -253,8 +256,30 @@ public class UserService {
     /**
      * 유저의 공간 북마크 그룹 리스트 조회하기.
      */
-    public List<PlaceBookmark> readAllMyPlaceBookmark(String userId, Long cursor, int atAPage) {
-        if(cursor == null) return placeBookmarkRepository.findByUserId(userId, atAPage);
-        return placeBookmarkRepository.findByUserIdPaging(userId, cursor, atAPage);
+    public List<PlaceBookmark> readAllMyPlaceBookmark(String userId, int page, int size) {
+
+        return placeBookmarkRepository.findByUserId(userId, page, size);
+    }
+
+    /**
+     * 북마크 그룹의 썸네일 이미지, 장소 이름 조회
+     */
+    public List<ThumbnailInfoResponse> getThumbnailInfo(Long placeBookmarkId) {
+
+        List<ThumbnailInfoResponse> thumbnailInfoResponseList = new ArrayList<>();
+
+        List<PlaceInBookmark> placeList = placeBookmarkRepository.getThumbnailInfo(placeBookmarkId);
+        if(!CollectionUtils.isEmpty(placeList)) {
+            for(PlaceInBookmark place : placeList) {
+                thumbnailInfoResponseList.add(
+                        new ThumbnailInfoResponse(
+                                place.getPlace().getName(),
+                                place.getPlace().getImgUrl()
+                        )
+                );
+            }
+        }
+
+        return thumbnailInfoResponseList;
     }
 }
