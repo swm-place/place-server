@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import kr.yeoksi.ours.oursserver.others.domain.*;
+import kr.yeoksi.ours.oursserver.others.domain.dto.place.response.ThumbnailInfoResponse;
 import kr.yeoksi.ours.oursserver.others.dto.UpdateUserInformationResponse;
 import kr.yeoksi.ours.oursserver.others.dto.place.response.ReadPlaceInBookmarkResponse;
 import kr.yeoksi.ours.oursserver.others.service.PlaceService;
@@ -176,27 +177,25 @@ public class UserApiController {
     @GetMapping("/user/{userIndex}/place-bookmark")
     public ResponseEntity<Response<List<ReadPlaceBookmarkResponse>>> readPlaceBookmark(
             @PathVariable("userIndex") @NotBlank String userId,
-            @RequestParam(required = false) Long cursor,
-            @RequestParam(defaultValue = "10", required = false) int atAPage) {
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
 
-        User user = userService.findById(userId);
-
-        Boolean hasNext = true;
-        List<PlaceBookmark> placeBookmarkList = userService.readAllMyPlaceBookmark(userId, cursor, atAPage);
-        List<ReadPlaceBookmarkResponse> readPlaceBookmarkResponse
-                = placeBookmarkList.stream()
+        List<PlaceBookmark> placeBookmarkList = userService.readAllMyPlaceBookmark(userId, page, size);
+        List<ReadPlaceBookmarkResponse> readPlaceBookmarkResponseList = placeBookmarkList.stream()
                 .map(
-                        b -> new ReadPlaceBookmarkResponse(
-                                b.getId(),
-                                b.getTitle()))
+                        pb -> new ReadPlaceBookmarkResponse(
+                                pb.getId(),
+                                pb.getTitle(),
+                                userService.getThumbnailInfo(pb.getId())))
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok().body(
                 Response.success(
-                        readPlaceBookmarkResponse
+                        readPlaceBookmarkResponseList
                 )
         );
     }
+
 
     /**
      * 공간 북마크 그룹 삭제하기
@@ -432,6 +431,7 @@ public class UserApiController {
 
         private Long placeBookmarkId;
         private String title;
+        private List<ThumbnailInfoResponse> thumbnailInfoList;
     }
 
     /**
@@ -482,5 +482,12 @@ public class UserApiController {
     static class CreatePlaceInBookmarkResponse {
 
         private Long placeInBookmarkId;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class AllMyPlaceBookmarkResponse {
+        private Boolean hasNext;
+        private List<ReadPlaceBookmarkResponse> placeBookmarks;
     }
 }

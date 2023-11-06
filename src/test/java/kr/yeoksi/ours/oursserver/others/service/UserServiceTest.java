@@ -3,6 +3,7 @@ package kr.yeoksi.ours.oursserver.others.service;
 import kr.yeoksi.ours.oursserver.others.controller.UserApiController;
 import kr.yeoksi.ours.oursserver.exception.*;
 import kr.yeoksi.ours.oursserver.others.domain.*;
+import kr.yeoksi.ours.oursserver.others.domain.dto.place.response.ThumbnailInfoResponse;
 import kr.yeoksi.ours.oursserver.others.exception.*;
 import kr.yeoksi.ours.oursserver.others.repository.*;
 import kr.yeoksi.ours.oursserver.others.service.PlaceService;
@@ -437,6 +438,109 @@ public class UserServiceTest {
     }
      */
 
+
+    @Test
+    public void 북마크_그룹_썸네일_조회() {
+
+        // given
+
+        // 유저 정보 저장
+        User user = new User();
+        user.setId("sangjun");
+        user.setEmail("soma@gmail.com");
+        user.setNickname("testNickname");
+        user.setPhoneNumber("010-1234-5678");
+        user.setBirthday(LocalDateTime.now());
+        userRepository.save(user);
+
+        // 북마크 정보 저장
+        PlaceBookmark placeBookmark = new PlaceBookmark();
+        placeBookmark.setUser(user);
+        placeBookmark.setTitle("타이틀1");
+
+        placeBookmarkRepository.save(placeBookmark);
+
+        // 장소 정보 저장
+        Place place1 = Place.builder()
+                .id("test1")
+                .name("test1")
+                .category("test1")
+                .build();
+        Place place2 = Place.builder()
+                .id("test2")
+                .name("test2")
+                .category("test2")
+                .build();
+        Place place3 = Place.builder()
+                .id("test3")
+                .name("test3")
+                .category("test3")
+                .build();
+        Place place4 = Place.builder()
+                .id("test4")
+                .name("test4")
+                .category("test4")
+                .build();
+        Place place5 = Place.builder()
+                .id("test5")
+                .name("test5")
+                .category("test5")
+                .build();
+        Place place6 = Place.builder()
+                .id("test6")
+                .name("test6")
+                .category("test6")
+                .build();
+        place1.setId(placeRepository.save(place1));
+        place2.setId(placeRepository.save(place2));
+        place3.setId(placeRepository.save(place3));
+        place4.setId(placeRepository.save(place4));
+        place5.setId(placeRepository.save(place5));
+        place6.setId(placeRepository.save(place6));
+
+        // placeInBookmark 저장
+        PlaceInBookmark placeInBookmark1 = new PlaceInBookmark();
+        placeInBookmark1.setPlace(place1);
+        placeInBookmark1.setPlaceBookmark(placeBookmark);
+
+        PlaceInBookmark placeInBookmark2 = new PlaceInBookmark();
+        placeInBookmark2.setPlace(place2);
+        placeInBookmark2.setPlaceBookmark(placeBookmark);
+
+        PlaceInBookmark placeInBookmark3 = new PlaceInBookmark();
+        placeInBookmark3.setPlace(place3);
+        placeInBookmark3.setPlaceBookmark(placeBookmark);
+
+        PlaceInBookmark placeInBookmark4 = new PlaceInBookmark();
+        placeInBookmark4.setPlace(place4);
+        placeInBookmark4.setPlaceBookmark(placeBookmark);
+
+        PlaceInBookmark placeInBookmark5 = new PlaceInBookmark();
+        placeInBookmark5.setPlace(place5);
+        placeInBookmark5.setPlaceBookmark(placeBookmark);
+
+        PlaceInBookmark placeInBookmark6 = new PlaceInBookmark();
+        placeInBookmark6.setPlace(place6);
+        placeInBookmark6.setPlaceBookmark(placeBookmark);
+
+        placeInBookmarkRepository.save(placeInBookmark1);
+        placeInBookmarkRepository.save(placeInBookmark2);
+        placeInBookmarkRepository.save(placeInBookmark3);
+        placeInBookmarkRepository.save(placeInBookmark4);
+        placeInBookmarkRepository.save(placeInBookmark5);
+        placeInBookmarkRepository.save(placeInBookmark6);
+
+        // when
+        List<ThumbnailInfoResponse> thumbnailInfo = userService.getThumbnailInfo(placeBookmark.getId());
+
+        // then
+        assertEquals(4, thumbnailInfo.size());
+        assertEquals("test6", thumbnailInfo.get(0).getPlaceName());
+        assertEquals("test5", thumbnailInfo.get(1).getPlaceName());
+        assertEquals("test4", thumbnailInfo.get(2).getPlaceName());
+        assertEquals("test3", thumbnailInfo.get(3).getPlaceName());
+    }
+
     @Test
     public void 북마크_그룹_조회_페이지네이션() {
 
@@ -468,19 +572,58 @@ public class UserServiceTest {
         placeBookmark4.setUser(user);
         placeBookmark4.setTitle("타이틀4");
 
+        PlaceBookmark placeBookmark5 = new PlaceBookmark();
+        placeBookmark5.setUser(user);
+        placeBookmark5.setTitle("타이틀5");
+
+        PlaceBookmark placeBookmark6 = new PlaceBookmark();
+        placeBookmark6.setUser(user);
+        placeBookmark6.setTitle("타이틀6");
+
+        PlaceBookmark placeBookmark7 = new PlaceBookmark();
+        placeBookmark7.setUser(user);
+        placeBookmark7.setTitle("타이틀7");
+
+        PlaceBookmark placeBookmark8 = new PlaceBookmark();
+        placeBookmark8.setUser(user);
+        placeBookmark8.setTitle("타이틀8");
+
+        PlaceBookmark placeBookmark9 = new PlaceBookmark();
+        placeBookmark9.setUser(user);
+        placeBookmark9.setTitle("타이틀9");
+
+        PlaceBookmark placeBookmark10 = new PlaceBookmark();
+        placeBookmark10.setUser(user);
+        placeBookmark10.setTitle("타이틀10");
+
+        PlaceBookmark placeBookmark11 = new PlaceBookmark();
+        placeBookmark11.setUser(user);
+        placeBookmark11.setTitle("타이틀11");
+
         placeBookmarkRepository.save(placeBookmark);
         placeBookmarkRepository.save(placeBookmark2);
         placeBookmarkRepository.save(placeBookmark3);
         placeBookmarkRepository.save(placeBookmark4);
+        placeBookmarkRepository.save(placeBookmark5);
+        placeBookmarkRepository.save(placeBookmark6);
+        placeBookmarkRepository.save(placeBookmark7);
+        placeBookmarkRepository.save(placeBookmark8);
+        placeBookmarkRepository.save(placeBookmark9);
+        placeBookmarkRepository.save(placeBookmark10);
+        placeBookmarkRepository.save(placeBookmark11);
 
 
         // when
-        List<PlaceBookmark> placeBookmarks = userService.readAllMyPlaceBookmark("sangjun", null, 10);
-
+        List<PlaceBookmark> placeBookmarks1 = userService.readAllMyPlaceBookmark("sangjun", 0, 10);
+        List<PlaceBookmark> placeBookmarks2 = userService.readAllMyPlaceBookmark("sangjun", 1, 10);
+        List<PlaceBookmark> placeBookmarks3 = userService.readAllMyPlaceBookmark("sangjun", 0, 6);
+        List<PlaceBookmark> placeBookmarks4 = userService.readAllMyPlaceBookmark("sangjun", 1, 6);
 
         // then
-        assertEquals(4, placeBookmarks.size());
-        //assertEquals("", placeBookmarks.get(0).getTitle());
+        assertEquals(10, placeBookmarks1.size());
+        assertEquals(1, placeBookmarks2.size());
+        assertEquals(6, placeBookmarks3.size());
+        assertEquals(5, placeBookmarks4.size());
     }
 
     /*

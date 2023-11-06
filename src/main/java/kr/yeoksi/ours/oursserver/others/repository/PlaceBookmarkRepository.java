@@ -1,9 +1,13 @@
 package kr.yeoksi.ours.oursserver.others.repository;
 
 import jakarta.persistence.EntityManager;
+import kr.yeoksi.ours.oursserver.others.domain.Place;
 import kr.yeoksi.ours.oursserver.others.domain.PlaceBookmark;
 import kr.yeoksi.ours.oursserver.others.domain.PlaceInBookmark;
+import kr.yeoksi.ours.oursserver.others.domain.dto.place.response.ThumbnailInfoResponse;
+import kr.yeoksi.ours.oursserver.others.jpa.repository.PlaceBookmarkJpaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,6 +18,7 @@ import java.util.Optional;
 public class PlaceBookmarkRepository {
 
     private final EntityManager em;
+    private final PlaceBookmarkJpaRepository placeBookmarkJpaRepository;
 
     /**
      * 유저의 북마크 그룹 생성하기.
@@ -80,6 +85,37 @@ public class PlaceBookmarkRepository {
     /**
      * 유저의 공간 북마크 그룹 리스트 조회하기
      */
+    public List<PlaceBookmark> findByUserId(String userId, int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        return placeBookmarkJpaRepository.findByUserId(userId, pageRequest).stream()
+                .toList();
+    }
+
+    public List<PlaceInBookmark> getThumbnailInfo(Long placeBookmarkId) {
+        return em.createQuery(
+                "SELECT pib FROM PlaceInBookmark pib " +
+                        "WHERE pib.placeBookmark.id =: placeBookmarkId " +
+                        "ORDER BY pib.id DESC", PlaceInBookmark.class)
+                .setParameter("placeBookmarkId", placeBookmarkId)
+                .setMaxResults(4)
+                .getResultList();
+
+
+        /*
+        return em.createQuery(
+                        "SELECT pib FROM PlaceBookmark pb " +
+                                "JOIN FETCH pb.placeInBookmarks pib " +
+                                "WHERE pb.id =: placeBookmarkId " +
+                                "ORDER BY pib.id DESC", PlaceInBookmark.class)
+                .setParameter("placeBookmarkId", placeBookmarkId)
+                .setMaxResults(4)
+                .getResultList();
+
+         */
+    }
+
+    /*
     public List<PlaceBookmark> findByUserId(String userId, int atAPage) {
         return em.createQuery(
                 "SELECT pb FROM PlaceBookmark pb " +
@@ -104,4 +140,5 @@ public class PlaceBookmarkRepository {
                 .setMaxResults(atAPage)
                 .getResultList();
     }
+     */
 }
