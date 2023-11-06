@@ -178,7 +178,8 @@ public class UserApiController {
     public ResponseEntity<Response<List<ReadPlaceBookmarkResponse>>> readPlaceBookmark(
             @PathVariable("userIndex") @NotBlank String userId,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "") String placeId) {
 
         List<PlaceBookmark> placeBookmarkList = userService.readAllMyPlaceBookmark(userId, page, size);
         List<ReadPlaceBookmarkResponse> readPlaceBookmarkResponseList = placeBookmarkList.stream()
@@ -186,7 +187,8 @@ public class UserApiController {
                         pb -> new ReadPlaceBookmarkResponse(
                                 pb.getId(),
                                 pb.getTitle(),
-                                userService.getThumbnailInfo(pb.getId())))
+                                userService.getThumbnailInfo(pb.getId()),
+                                userService.checkBookmarkAtGroup(pb.getId(), placeId)))
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok().body(
@@ -432,6 +434,7 @@ public class UserApiController {
         private Long placeBookmarkId;
         private String title;
         private List<ThumbnailInfoResponse> thumbnailInfoList;
+        private boolean isBookmark;
     }
 
     /**

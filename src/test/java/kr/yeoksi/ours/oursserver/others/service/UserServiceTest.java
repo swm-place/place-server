@@ -626,6 +626,59 @@ public class UserServiceTest {
         assertEquals(5, placeBookmarks4.size());
     }
 
+    @Test
+    public void 장소의_북마크_그룹_포함여부_확인() throws Exception {
+
+        // given
+
+        // 유저 정보 저장
+        User user = new User();
+        user.setId("sangjun");
+        user.setEmail("soma@gmail.com");
+        user.setNickname("testNickname");
+        user.setPhoneNumber("010-1234-5678");
+        user.setBirthday(LocalDateTime.now());
+        userRepository.save(user);
+
+        // 북마크 정보 저장
+        PlaceBookmark placeBookmark = new PlaceBookmark();
+        placeBookmark.setUser(user);
+        placeBookmark.setTitle("타이틀1");
+
+        placeBookmarkRepository.save(placeBookmark);
+
+        // 장소 정보 저장
+        Place place1 = Place.builder()
+                .id("test1")
+                .name("test1")
+                .category("test1")
+                .build();
+        Place place2 = Place.builder()
+                .id("test2")
+                .name("test2")
+                .category("test2")
+                .build();
+        place1.setId(placeRepository.save(place1));
+        place2.setId(placeRepository.save(place2));
+
+        // placeInBookmark 저장
+        PlaceInBookmark placeInBookmark1 = new PlaceInBookmark();
+        placeInBookmark1.setPlace(place1);
+        placeInBookmark1.setPlaceBookmark(placeBookmark);
+        placeInBookmarkRepository.save(placeInBookmark1);
+
+
+        // when
+        boolean check1 = userService.checkBookmarkAtGroup(placeBookmark.getId(), place1.getId());
+        boolean check2 = userService.checkBookmarkAtGroup(placeBookmark.getId(), place2.getId());
+        boolean check3 = userService.checkBookmarkAtGroup(placeBookmark.getId(), "");
+
+        // then
+        assertEquals(true, check1);
+        assertEquals(false, check2);
+        assertEquals(false, check3);
+    }
+
     /*
     @Test
     public void 공간_좋아요_누르기() throws Exception {

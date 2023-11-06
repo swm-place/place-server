@@ -233,6 +233,14 @@ public class UserService {
         else return true;
     }
 
+    public boolean checkBookmarkAtGroup(Long placeBookmarkId, String placeId) {
+        if(placeId.equals("")) return false;
+
+        Optional<PlaceBookmark> placeBookmark = placeBookmarkRepository.checkBookmark(placeBookmarkId, placeId);
+        if(!placeBookmark.isPresent()) return false;
+        else return true;
+    }
+
     /**
      * 해당 장소에 대한 유저의 좋아요 여부 확인하기.
      */

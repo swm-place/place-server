@@ -100,19 +100,22 @@ public class PlaceBookmarkRepository {
                 .setParameter("placeBookmarkId", placeBookmarkId)
                 .setMaxResults(4)
                 .getResultList();
+    }
 
+    /**
+     * 장소가 북마크 그룹에 포함되어 있는지 여부 확인
+     */
+    public Optional<PlaceBookmark> checkBookmark(Long placeBookmarkId, String placeId) {
 
-        /*
-        return em.createQuery(
-                        "SELECT pib FROM PlaceBookmark pb " +
-                                "JOIN FETCH pb.placeInBookmarks pib " +
-                                "WHERE pb.id =: placeBookmarkId " +
-                                "ORDER BY pib.id DESC", PlaceInBookmark.class)
+        List<PlaceBookmark> placeBookmarkList = em.createQuery(
+                "SELECT pb FROM PlaceBookmark pb " +
+                        "JOIN pb.placeInBookmarks pib " +
+                        "WHERE pb.id =: placeBookmarkId AND pib.place.id =: placeId", PlaceBookmark.class)
                 .setParameter("placeBookmarkId", placeBookmarkId)
-                .setMaxResults(4)
+                .setParameter("placeId", placeId)
                 .getResultList();
 
-         */
+        return placeBookmarkList.stream().findAny();
     }
 
     /*
