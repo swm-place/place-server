@@ -59,8 +59,8 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional
-    public List<Course> findAllByUserId(String userId) {
-        return courseRepository.findAllByUserId(userId);
+    public List<Course> findAllByUserId(String userId, int page, int size) {
+        return courseRepository.findAllByUserId(userId, page, size);
     }
 
     @Override

@@ -6,6 +6,7 @@ import kr.yeoksi.ours.oursserver.course.adapter.out.jpa.PlaceInCourseJpaReposito
 import kr.yeoksi.ours.oursserver.course.domain.Course;
 import kr.yeoksi.ours.oursserver.course.service.port.out.CourseRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -42,8 +43,10 @@ public class CourseRepositoryImpl implements CourseRepository {
     }
 
     @Override
-    public List<Course> findAllByUserId(String userId) {
-        List<CourseJpaEntity> courseJpaEntities = courseJPARepository.findAllByUserId(userId);
+    public List<Course> findAllByUserId(String userId, int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        List<CourseJpaEntity> courseJpaEntities = courseJPARepository.findAllByUserId(userId, pageRequest);
         return courseJpaEntities.stream()
                 .map(CourseJpaEntity::toCourse)
                 .toList();

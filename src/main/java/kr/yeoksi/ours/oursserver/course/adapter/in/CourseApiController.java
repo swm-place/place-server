@@ -43,9 +43,11 @@ public class CourseApiController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CourseResponse>> getMyCourses(@RequestHeader("X-User-Uid") String userId) {
+    public ResponseEntity<List<CourseResponse>> getMyCourses(@RequestHeader("X-User-Uid") String userId,
+                                                             @RequestParam(defaultValue = "0") int page,
+                                                             @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.ok(
-                courseService.findAllByUserId(userId).stream()
+                courseService.findAllByUserId(userId, page, size).stream()
                         .map(CourseResponse::from)
                         .toList()
         );

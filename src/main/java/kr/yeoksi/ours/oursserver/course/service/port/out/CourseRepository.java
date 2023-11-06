@@ -8,6 +8,6 @@ import java.util.Optional;
 public interface CourseRepository {
     Course save(Course course);
     Optional<Course> findById(Long id);
-    List<Course> findAllByUserId(String userId);
+    List<Course> findAllByUserId(String userId, int page, int size);
     void deleteById(Long id);
 }
