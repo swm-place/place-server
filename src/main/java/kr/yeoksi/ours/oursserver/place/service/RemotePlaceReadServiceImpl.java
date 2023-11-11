@@ -16,6 +16,7 @@ public class RemotePlaceReadServiceImpl implements RemotePlaceReadService {
 
     @Override
     public Place findById(String id) {
-        return null;
+        // TODO: apply cache
+        return remotePlaceManager.findById(id);
     }
 }
