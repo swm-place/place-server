@@ -77,8 +77,6 @@ public class CourseServiceImpl implements CourseService {
         return courseRepository.save(courseToUpdate);
     }
 
-    // TODO: replace() 추가 (Course의 placesInCourse 전부 교체 지원)
-
     @Override
     @Transactional
     public void delete(Long id, String userId) {
