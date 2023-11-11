@@ -1,18 +1,23 @@
 package kr.yeoksi.ours.oursserver.place.adapter.out.object;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import kr.yeoksi.ours.oursserver.common.domain.Location;
 import kr.yeoksi.ours.oursserver.place.domain.Place;
 import kr.yeoksi.ours.oursserver.place.domain.PlaceOpeningHour;
 import kr.yeoksi.ours.oursserver.place.domain.PlacePhotoRef;
 import kr.yeoksi.ours.oursserver.place.domain.PlaceReview;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class RemotePlace {
 
     private String id;
