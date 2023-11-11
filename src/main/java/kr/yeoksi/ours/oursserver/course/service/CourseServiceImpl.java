@@ -10,6 +10,7 @@ import kr.yeoksi.ours.oursserver.course.service.port.in.CourseService;
 import kr.yeoksi.ours.oursserver.course.service.port.out.CourseRepository;
 import kr.yeoksi.ours.oursserver.others.service.PlaceService;
 import kr.yeoksi.ours.oursserver.others.service.UserService;
+import kr.yeoksi.ours.oursserver.place.service.port.in.RemotePlaceReadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +26,7 @@ public class CourseServiceImpl implements CourseService {
 
     private final UserService userService;
     private final PlaceService placeService;
+    private final RemotePlaceReadService remotePlaceReadService;
     private final CourseInBookmarkReadService courseInBookmarkReadService;
 
     @Override
