@@ -29,8 +29,6 @@ public class PlaceWithCourseResponse {
     private List<String> openingHoursText;
     private Boolean openNow;
 
-    private List<PlacePhotoRef> photos;
-
 
     public static PlaceWithCourseResponse from(Place place) {
         return PlaceWithCourseResponse.builder()
@@ -51,7 +49,6 @@ public class PlaceWithCourseResponse {
                 .openingHours(place.getOpeningHours())
                 .openingHoursText(place.getOpeningHoursText())
                 .openNow(place.getOpenNow())
-                .photos(place.getPhotos())
                 .build();
     }
 }
