@@ -39,11 +39,15 @@ public class PlaceWithCourseResponse {
     }
 
     public static PlaceWithCourseResponse from(kr.yeoksi.ours.oursserver.place.domain.Place place) {
+        String imgUrl = null;
+        if (place.getPhotos() != null && !place.getPhotos().isEmpty())
+            imgUrl = place.getPhotos().get(0).getUrl();
+
         return PlaceWithCourseResponse.builder()
                 .id(place.getId())
                 .name(place.getName())
                 .category(place.getCategory())
-                .imgUrl(place.getPhotos().get(0).getUrl())
+                .imgUrl(imgUrl)
                 .location(place.getLocation())
                 .openingHours(place.getOpeningHours())
                 .openingHoursText(place.getOpeningHoursText())
