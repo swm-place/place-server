@@ -30,7 +30,6 @@ public class PlaceWithCourseResponse {
     private Boolean openNow;
 
     private List<PlacePhotoRef> photos;
-    private List<kr.yeoksi.ours.oursserver.place.domain.PlaceReview> reviews;
 
 
     public static PlaceWithCourseResponse from(Place place) {
@@ -53,7 +52,6 @@ public class PlaceWithCourseResponse {
                 .openingHoursText(place.getOpeningHoursText())
                 .openNow(place.getOpenNow())
                 .photos(place.getPhotos())
-                .reviews(place.getReviews())
                 .build();
     }
 }
