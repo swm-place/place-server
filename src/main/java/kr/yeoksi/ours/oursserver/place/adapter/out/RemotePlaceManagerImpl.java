@@ -26,7 +26,7 @@ public class RemotePlaceManagerImpl implements RemotePlaceManager {
 
         try {
             remotePlace = Optional.ofNullable(restTemplate.getForObject(
-                    String.format("http://%s/places/%s", this.recommenderUrl, id),
+                    String.format("%s/places/%s", this.recommenderUrl, id),
                     RemotePlace.class));
         } catch (HttpStatusCodeException e) {
             return Optional.empty();
