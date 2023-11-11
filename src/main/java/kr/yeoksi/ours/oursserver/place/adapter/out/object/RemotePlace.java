@@ -39,7 +39,7 @@ public class RemotePlace {
     private Boolean isFavorite;
 
 
-    private Place toPlace() {
+    public Place toPlace() {
         return Place.builder()
                 .id(id)
                 .name(name)
