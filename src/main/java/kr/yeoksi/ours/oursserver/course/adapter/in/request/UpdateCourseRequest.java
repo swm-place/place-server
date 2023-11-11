@@ -17,6 +17,7 @@ public class UpdateCourseRequest {
     private String title;
     private String description;
     private List<PlaceInCourseUpdateRequest> placesInCourse;
+    private String routesJson;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
     private boolean inProgress = false;
@@ -35,6 +36,7 @@ public class UpdateCourseRequest {
                 .title(this.getTitle())
                 .description(this.getDescription())
                 .placesInCourse(placesInCourse)
+                .routesJson(getRoutesJson())
                 .startAt(getStartAt())
                 .endAt(getEndAt())
                 .build();
