@@ -24,8 +24,8 @@ public class Place {
     private String id;
 
     @NotBlank
-    @Column(length = 30)
-    @Size(max = 30)
+    @Column(length = 255)
+    @Size(max = 255)
     private String name;
 
     @Column(length = 20)
