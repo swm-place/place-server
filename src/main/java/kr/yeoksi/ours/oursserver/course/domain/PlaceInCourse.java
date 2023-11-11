@@ -16,6 +16,7 @@ public class PlaceInCourse {
     private Long courseId;
 
     private Place place;
+    private kr.yeoksi.ours.oursserver.place.domain.Place remotePlace;
 
     private int day;
     private int order;
