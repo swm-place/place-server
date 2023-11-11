@@ -56,6 +56,10 @@ public class CourseServiceImpl implements CourseService {
                         .map(CourseInBookmark::getCourseBookmark)
                         .toList()));
 
+        course.ifPresent(c -> c.getPlacesInCourse().forEach(placeInCourse -> {
+            placeInCourse.setRemotePlace(remotePlaceReadService.findById(placeInCourse.getPlace().getId()).orElse(null));
+        }));
+
         return course;
     }
 
