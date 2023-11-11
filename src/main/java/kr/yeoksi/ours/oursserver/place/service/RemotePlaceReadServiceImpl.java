@@ -6,6 +6,8 @@ import kr.yeoksi.ours.oursserver.place.service.port.out.RemotePlaceManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -15,7 +17,7 @@ public class RemotePlaceReadServiceImpl implements RemotePlaceReadService {
 
 
     @Override
-    public Place findById(String id) {
+    public Optional<Place> findById(String id) {
         // TODO: apply cache
         return remotePlaceManager.findById(id);
     }
