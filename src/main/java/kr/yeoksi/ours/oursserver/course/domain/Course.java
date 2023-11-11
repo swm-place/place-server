@@ -34,7 +34,7 @@ public class Course {
     @Builder.Default
     private List<CourseBookmark> bookmarks = new ArrayList<>();
 
-    private String routes_json;
+    private String routesJson;
 
 
     public void update(Course source) {
