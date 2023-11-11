@@ -66,7 +66,15 @@ public class CourseServiceImpl implements CourseService {
     @Override
     @Transactional
     public List<Course> findAllByUserId(String userId, int page, int size) {
-        return courseRepository.findAllByUserId(userId, page, size);
+        List<Course> courses = courseRepository.findAllByUserId(userId, page, size);
+
+        courses.forEach(course -> {
+            course.getPlacesInCourse().forEach(placeInCourse -> {
+                placeInCourse.setRemotePlace(remotePlaceReadService.findById(placeInCourse.getPlace().getId()).orElse(null));
+            });
+        });
+
+        return courses;
     }
 
     @Override
