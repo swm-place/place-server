@@ -17,7 +17,8 @@ import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;
 
-@Entity(name = "course")
+@Entity
+@Table(name = "course")
 @Getter @Setter
 @RequiredArgsConstructor
 @AllArgsConstructor
