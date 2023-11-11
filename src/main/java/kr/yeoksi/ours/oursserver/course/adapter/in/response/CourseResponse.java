@@ -22,6 +22,8 @@ public class CourseResponse {
     @Builder.Default
     private List<PlaceInCourseResponse> placesInCourse = new ArrayList<>();
 
+    private String routesJson;
+
     private LocalDateTime startAt;
     private LocalDateTime endAt;
 
@@ -42,6 +44,7 @@ public class CourseResponse {
                 .placesInCourse(course.getPlacesInCourse().stream()
                         .map(PlaceInCourseResponse::from)
                         .toList())
+                .routesJson(course.getRoutesJson())
                 .startAt(course.getStartAt())
                 .endAt(course.getEndAt())
                 .inProgress(course.isInProgress())
