@@ -16,7 +16,7 @@ public class RemotePlaceManagerImpl implements RemotePlaceManager {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    @Value("{internal.server.recommender.url}")
+    @Value("${internal.server.recommender.url}")
     private String recommenderUrl;
 
 
