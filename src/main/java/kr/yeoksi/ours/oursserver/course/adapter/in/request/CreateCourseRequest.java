@@ -15,6 +15,7 @@ public class CreateCourseRequest {
     private String title;
     private String description;
     private List<PlaceInCourseCreateRequest> placesInCourse;
+    private String routesJson;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
     private boolean inProgress = false;
@@ -31,6 +32,7 @@ public class CreateCourseRequest {
                 .title(title)
                 .description(description)
                 .placesInCourse(placesInCourse)
+                .routesJson(routesJson)
                 .startAt(startAt)
                 .endAt(endAt)
                 .build();

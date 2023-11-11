@@ -10,6 +10,7 @@ import kr.yeoksi.ours.oursserver.course.service.port.in.CourseService;
 import kr.yeoksi.ours.oursserver.course.service.port.out.CourseRepository;
 import kr.yeoksi.ours.oursserver.others.service.PlaceService;
 import kr.yeoksi.ours.oursserver.others.service.UserService;
+import kr.yeoksi.ours.oursserver.place.service.port.in.RemotePlaceReadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +26,7 @@ public class CourseServiceImpl implements CourseService {
 
     private final UserService userService;
     private final PlaceService placeService;
+    private final RemotePlaceReadService remotePlaceReadService;
     private final CourseInBookmarkReadService courseInBookmarkReadService;
 
     @Override
@@ -54,13 +56,25 @@ public class CourseServiceImpl implements CourseService {
                         .map(CourseInBookmark::getCourseBookmark)
                         .toList()));
 
+        course.ifPresent(c -> c.getPlacesInCourse().forEach(placeInCourse -> {
+            placeInCourse.setRemotePlace(remotePlaceReadService.findById(placeInCourse.getPlace().getId()).orElse(null));
+        }));
+
         return course;
     }
 
     @Override
     @Transactional
     public List<Course> findAllByUserId(String userId, int page, int size) {
-        return courseRepository.findAllByUserId(userId, page, size);
+        List<Course> courses = courseRepository.findAllByUserId(userId, page, size);
+
+        courses.forEach(course -> {
+            course.getPlacesInCourse().forEach(placeInCourse -> {
+                placeInCourse.setRemotePlace(remotePlaceReadService.findById(placeInCourse.getPlace().getId()).orElse(null));
+            });
+        });
+
+        return courses;
     }
 
     @Override
@@ -76,8 +90,6 @@ public class CourseServiceImpl implements CourseService {
         // TODO: placesInCourse의 일부 필드만 반환되는 문제 해결
         return courseRepository.save(courseToUpdate);
     }
-
-    // TODO: replace() 추가 (Course의 placesInCourse 전부 교체 지원)
 
     @Override
     @Transactional

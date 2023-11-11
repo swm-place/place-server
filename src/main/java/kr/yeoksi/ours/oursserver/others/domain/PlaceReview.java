@@ -31,8 +31,8 @@ public class PlaceReview {
     private User user;
 
     @NotBlank
-    @Column(length = 150)
-    @Size(max = 150)
+    @Column(length = 255)
+    @Size(max = 255)
     private String contents;
 
     @CreationTimestamp

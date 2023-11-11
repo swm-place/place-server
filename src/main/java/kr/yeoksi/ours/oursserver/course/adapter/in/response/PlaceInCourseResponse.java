@@ -27,9 +27,15 @@ public class PlaceInCourseResponse {
 
 
     public static PlaceInCourseResponse from(PlaceInCourse placeInCourse) {
+        PlaceWithCourseResponse placeWithCourseResponse = null;
+        if (placeInCourse.getRemotePlace() != null)
+            placeWithCourseResponse = PlaceWithCourseResponse.from(placeInCourse.getRemotePlace());
+        else
+            placeWithCourseResponse = PlaceWithCourseResponse.from(placeInCourse.getPlace());
+
         return PlaceInCourseResponse.builder()
                 .id(placeInCourse.getId())
-                .place(PlaceWithCourseResponse.from(placeInCourse.getPlace()))
+                .place(placeWithCourseResponse)
                 .day(placeInCourse.getDay())
                 .order(placeInCourse.getOrder())
                 .startAt(placeInCourse.getStartAt())

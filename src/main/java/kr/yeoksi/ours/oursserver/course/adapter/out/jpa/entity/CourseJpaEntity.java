@@ -17,7 +17,8 @@ import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;
 
-@Entity(name = "course")
+@Entity
+@Table(name = "course")
 @Getter @Setter
 @RequiredArgsConstructor
 @AllArgsConstructor
@@ -43,6 +44,9 @@ public class CourseJpaEntity {
     @Builder.Default
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<PlaceInCourseJpaEntity> placesInCourse = new ArrayList<>();
+
+    @Column(name = "routes_json", columnDefinition = "TEXT")
+    private String routesJson;
 
     @Column(name = "start_at")
     private LocalDateTime startAt;
@@ -71,6 +75,7 @@ public class CourseJpaEntity {
                 .user(course.getUser())
                 .title(course.getTitle())
                 .description(course.getDescription())
+                .routesJson(course.getRoutesJson())
                 .startAt(course.getStartAt())
                 .endAt(course.getEndAt())
                 .inProgress(course.isInProgress())
@@ -99,6 +104,7 @@ public class CourseJpaEntity {
                 .title(this.title)
                 .description(this.description)
                 .placesInCourse(placesInCourse)
+                .routesJson(this.routesJson)
                 .startAt(this.startAt)
                 .endAt(this.endAt)
                 .inProgress(this.inProgress)
