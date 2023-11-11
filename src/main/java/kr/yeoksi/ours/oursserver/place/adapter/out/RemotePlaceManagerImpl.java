@@ -6,6 +6,7 @@ import kr.yeoksi.ours.oursserver.place.service.port.out.RemotePlaceManager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
@@ -28,7 +29,7 @@ public class RemotePlaceManagerImpl implements RemotePlaceManager {
             remotePlace = Optional.ofNullable(restTemplate.getForObject(
                     String.format("%s/places/%s", this.recommenderUrl, id),
                     RemotePlace.class));
-        } catch (HttpStatusCodeException e) {
+        } catch (HttpStatusCodeException | ResourceAccessException e) {
             return Optional.empty();
         }
 
