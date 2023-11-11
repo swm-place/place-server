@@ -1,4 +1,4 @@
-package kr.yeoksi.ours.oursserver.place_full.domain;
+package kr.yeoksi.ours.oursserver.place.domain;
 
 import lombok.Builder;
 import lombok.Data;
