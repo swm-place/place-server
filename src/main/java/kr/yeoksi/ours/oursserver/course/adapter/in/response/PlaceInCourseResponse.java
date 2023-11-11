@@ -29,7 +29,7 @@ public class PlaceInCourseResponse {
     public static PlaceInCourseResponse from(PlaceInCourse placeInCourse) {
         return PlaceInCourseResponse.builder()
                 .id(placeInCourse.getId())
-                .place(PlaceWithCourseResponse.from(placeInCourse.getPlace()))
+                .place(PlaceWithCourseResponse.from(placeInCourse.getRemotePlace()))
                 .day(placeInCourse.getDay())
                 .order(placeInCourse.getOrder())
                 .startAt(placeInCourse.getStartAt())
