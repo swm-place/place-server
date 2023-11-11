@@ -44,6 +44,9 @@ public class CourseJpaEntity {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<PlaceInCourseJpaEntity> placesInCourse = new ArrayList<>();
 
+    @Column(name = "routes_json", columnDefinition = "TEXT")
+    private String routesJson;
+
     @Column(name = "start_at")
     private LocalDateTime startAt;
 
