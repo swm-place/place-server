@@ -38,4 +38,25 @@ public class RemotePlace {
 
     private Boolean isFavorite;
 
+
+    private Place toPlace() {
+        return Place.builder()
+                .id(id)
+                .name(name)
+                .category(category)
+                .summary(summary)
+                .address(address)
+                .roadAddress(roadAddress)
+                .phoneNumber(phoneNumber)
+                .location(location)
+                .hashtags(hashtags)
+                .openingHours(openingHours)
+                .openingHoursText(openingHoursText)
+                .openNow(openNow)
+                .photos(photos)
+                .reviews(reviews)
+                .isFavorite(isFavorite)
+                .build();
+    }
+
 }
