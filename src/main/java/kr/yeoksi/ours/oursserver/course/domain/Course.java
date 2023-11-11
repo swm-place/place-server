@@ -34,6 +34,8 @@ public class Course {
     @Builder.Default
     private List<CourseBookmark> bookmarks = new ArrayList<>();
 
+    private String routes_json;
+
 
     public void update(Course source) {
         EntityUtils.updateNotNullProperties(this, source);
