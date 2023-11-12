@@ -25,4 +25,6 @@ public class CourseMagazine {
 
     private LocalDateTime createdAt;
 
+    private Boolean isFavorite;
+
 }
