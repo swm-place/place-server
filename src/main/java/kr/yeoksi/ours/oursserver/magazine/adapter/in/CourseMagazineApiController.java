@@ -28,8 +28,9 @@ public class CourseMagazineApiController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CourseMagazineResponse> getMagazine(@PathVariable Long id) {
-        return ResponseEntity.ok(CourseMagazineResponse.from(courseMagazineService.getById(id)));
+    public ResponseEntity<CourseMagazineResponse> getMagazine(@RequestHeader("X-User-Uid") String userId,
+                                                              @PathVariable Long id) {
+        return ResponseEntity.ok(CourseMagazineResponse.from(courseMagazineService.getById(id, userId)));
     }
 
     @PostMapping

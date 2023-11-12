@@ -87,7 +87,7 @@ public class CourseMagazineServiceIntegrationTest {
         CourseMagazine published = courseMagazineService.publish(courseMagazine, user.getId());
 
         // then
-        CourseMagazine found = courseMagazineService.getById(published.getId());
+        CourseMagazine found = courseMagazineService.getById(published.getId(), user.getId());
         assertThat(found.getTitle()).isEqualTo(courseMagazine.getTitle());
         assertThat(found.getContents()).isEqualTo(courseMagazine.getContents());
         assertThat(found.getPlacesInCourseMagazine().size()).isEqualTo(courseMagazine.getPlacesInCourseMagazine().size());
@@ -169,7 +169,7 @@ public class CourseMagazineServiceIntegrationTest {
         courseMagazineService.update(courseMagazine, user.getId());
 
         // then
-        CourseMagazine found = courseMagazineService.getById(courseMagazine.getId());
+        CourseMagazine found = courseMagazineService.getById(courseMagazine.getId(), user.getId());
 
         assertThat(found.getTitle()).isEqualTo(courseMagazine.getTitle());
         assertThat(found.getContents()).isEqualTo(courseMagazine.getContents());
@@ -228,7 +228,7 @@ public class CourseMagazineServiceIntegrationTest {
         // then
         // should throw NotExistedCourseMagazineException
         // TODO: Junit5 assertThrows 사용
-        CourseMagazine found = courseMagazineService.getById(published.getId());
+        CourseMagazine found = courseMagazineService.getById(published.getId(), user.getId());
     }
 
     @Test
@@ -271,7 +271,7 @@ public class CourseMagazineServiceIntegrationTest {
         CourseMagazine published = courseMagazineService.publish(courseMagazine, user.getId());
 
         // when
-        CourseMagazine found = courseMagazineService.getById(published.getId());
+        CourseMagazine found = courseMagazineService.getById(published.getId(), user.getId());
 
         // then
         assertThat(found.getTitle()).isEqualTo(courseMagazine.getTitle());

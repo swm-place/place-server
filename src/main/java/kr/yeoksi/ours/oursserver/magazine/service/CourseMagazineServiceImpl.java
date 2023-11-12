@@ -4,16 +4,17 @@ import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazine;
 import kr.yeoksi.ours.oursserver.magazine.exception.DuplicatedCourseMagazineException;
 import kr.yeoksi.ours.oursserver.magazine.exception.NoPermissionOfCourseMagazineException;
 import kr.yeoksi.ours.oursserver.magazine.exception.NotExistedCourseMagazineException;
+import kr.yeoksi.ours.oursserver.magazine.service.port.in.CourseMagazineFavoriteService;
 import kr.yeoksi.ours.oursserver.magazine.service.port.in.CourseMagazineService;
 import kr.yeoksi.ours.oursserver.magazine.service.port.out.CourseMagazineRepository;
 import kr.yeoksi.ours.oursserver.others.service.PlaceService;
 import kr.yeoksi.ours.oursserver.others.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,11 +22,13 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
 
     private final CourseMagazineRepository courseMagazineRepository;
 
+    private final CourseMagazineFavoriteService courseMagazineFavoriteService;
     private final PlaceService placeService;
     private final UserService userService;
 
 
     @Override
+    @Transactional
     public CourseMagazine publish(CourseMagazine courseMagazine, String userId) {
         // validate duplicated
         if (courseMagazine.getId() != null && courseMagazineRepository.findById(courseMagazine.getId()).isPresent()) {
@@ -46,26 +49,31 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
     }
 
     @Override
-    public CourseMagazine getById(Long id) {
+    @Transactional(readOnly = true)
+    public CourseMagazine getById(Long id, String userId) {
         if (id == null) throw new NotExistedCourseMagazineException();
 
-        Optional<CourseMagazine> courseMagazine = courseMagazineRepository.findById(id);
-        if (courseMagazine.isEmpty()) {
-            throw new NotExistedCourseMagazineException();
+        CourseMagazine courseMagazine = courseMagazineRepository.findById(id)
+                .orElseThrow(NotExistedCourseMagazineException::new);
+
+        if (userId != null && !userId.isBlank()) {
+            courseMagazine.setIsFavorite(courseMagazineFavoriteService.isFavorite(userId, id));
         }
 
-        return courseMagazine.get();
+        return courseMagazine;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<CourseMagazine> findLatestCourseMagazines(int count, int page) {
         // TODO: 범위 초과된 경우 체크
         return courseMagazineRepository.findPageOrderByCreatedAtDesc(count, page);
     }
 
     @Override
+    @Transactional
     public CourseMagazine update(CourseMagazine courseMagazine, String userId) {
-        CourseMagazine toUpdate = getById(courseMagazine.getId());
+        CourseMagazine toUpdate = getById(courseMagazine.getId(), userId);
 
         // validate ownership
         if (!toUpdate.getUser().getId().equals(userId)) {
@@ -85,8 +93,9 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id, String userId) {
-        CourseMagazine toDelete = getById(id);
+        CourseMagazine toDelete = getById(id, userId);
 
         // validate ownership
         if (!toDelete.getUser().getId().equals(userId)) {
