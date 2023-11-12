@@ -24,6 +24,8 @@ public class CourseMagazineResponse {
 
     private LocalDateTime createdAt;
 
+    private Boolean isFavorite;
+
 
     public static CourseMagazineResponse from(CourseMagazine courseMagazine) {
         List<PlaceInCourseMagazineResponse> placesInCourseMagazine = new ArrayList<>(
@@ -39,6 +41,7 @@ public class CourseMagazineResponse {
                 .contents(courseMagazine.getContents())
                 .placesInCourseMagazine(placesInCourseMagazine)
                 .createdAt(courseMagazine.getCreatedAt())
+                .isFavorite(courseMagazine.getIsFavorite())
                 .build();
     }
 }
