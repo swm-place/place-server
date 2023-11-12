@@ -29,8 +29,8 @@ public class PlaceInCourseMagazineServiceImpl implements PlaceInCourseMagazineSe
     @Override
     @Transactional
     public PlaceInCourseMagazine append(PlaceInCourseMagazine placeInCourseMagazine, Long magazineId, String userId) {
-        // validate right magazine and owner
-        CourseMagazine magazine = courseMagazineService.getById(magazineId);
+        // validate right magazine
+        CourseMagazine magazine = courseMagazineService.getById(magazineId, userId);
 
         // validate right place and sync place info
         try {
@@ -51,7 +51,7 @@ public class PlaceInCourseMagazineServiceImpl implements PlaceInCourseMagazineSe
     @Transactional
     public PlaceInCourseMagazine update(PlaceInCourseMagazine placeInCourseMagazine, Long magazineId, String userId) {
         // validate right magazine and owner
-        CourseMagazine magazine = courseMagazineService.getById(magazineId);
+        CourseMagazine magazine = courseMagazineService.getById(magazineId, userId);
 
         // validate existed
         PlaceInCourseMagazine toUpdate = placeInCourseMagazineRepository.findById(placeInCourseMagazine.getId())
@@ -79,7 +79,7 @@ public class PlaceInCourseMagazineServiceImpl implements PlaceInCourseMagazineSe
                 .orElseThrow(NotExistedPlaceInCourseMagazineException::new);
 
         // validate right magazine and owner
-        CourseMagazine magazine = courseMagazineService.getById(magazineId);
+        CourseMagazine magazine = courseMagazineService.getById(magazineId, userId);
         if (!magazine.getId().equals(magazineId)) {
             throw new NotExistedPlaceInCourseMagazineException();
         }
