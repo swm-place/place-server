@@ -10,6 +10,7 @@ import kr.yeoksi.ours.oursserver.others.service.PlaceService;
 import kr.yeoksi.ours.oursserver.others.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +27,7 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
 
 
     @Override
+    @Transactional
     public CourseMagazine publish(CourseMagazine courseMagazine, String userId) {
         // validate duplicated
         if (courseMagazine.getId() != null && courseMagazineRepository.findById(courseMagazine.getId()).isPresent()) {
@@ -46,6 +48,7 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public CourseMagazine getById(Long id) {
         if (id == null) throw new NotExistedCourseMagazineException();
 
@@ -58,12 +61,14 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<CourseMagazine> findLatestCourseMagazines(int count, int page) {
         // TODO: 범위 초과된 경우 체크
         return courseMagazineRepository.findPageOrderByCreatedAtDesc(count, page);
     }
 
     @Override
+    @Transactional
     public CourseMagazine update(CourseMagazine courseMagazine, String userId) {
         CourseMagazine toUpdate = getById(courseMagazine.getId());
 
@@ -85,6 +90,7 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id, String userId) {
         CourseMagazine toDelete = getById(id);
 
