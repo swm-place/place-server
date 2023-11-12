@@ -10,7 +10,7 @@ public interface CourseMagazineService {
 
     public CourseMagazine publish(CourseMagazine courseMagazine, String userId);
 
-    public CourseMagazine getById(Long id);
+    public CourseMagazine getById(Long id, String userId);
 
     public List<CourseMagazine> findLatestCourseMagazines(int count, int page);
 
