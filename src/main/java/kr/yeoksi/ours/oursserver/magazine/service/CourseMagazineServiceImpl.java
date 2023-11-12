@@ -4,6 +4,7 @@ import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazine;
 import kr.yeoksi.ours.oursserver.magazine.exception.DuplicatedCourseMagazineException;
 import kr.yeoksi.ours.oursserver.magazine.exception.NoPermissionOfCourseMagazineException;
 import kr.yeoksi.ours.oursserver.magazine.exception.NotExistedCourseMagazineException;
+import kr.yeoksi.ours.oursserver.magazine.service.port.in.CourseMagazineFavoriteService;
 import kr.yeoksi.ours.oursserver.magazine.service.port.in.CourseMagazineService;
 import kr.yeoksi.ours.oursserver.magazine.service.port.out.CourseMagazineRepository;
 import kr.yeoksi.ours.oursserver.others.service.PlaceService;
@@ -14,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +22,7 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
 
     private final CourseMagazineRepository courseMagazineRepository;
 
+    private final CourseMagazineFavoriteService courseMagazineFavoriteService;
     private final PlaceService placeService;
     private final UserService userService;
 
