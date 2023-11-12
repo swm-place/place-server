@@ -89,7 +89,7 @@ public class PlaceInCourseMagazineServiceIntegrationTest {
 
 
         // then
-        CourseMagazine found = courseMagazineService.getById(courseMagazine.getId());
+        CourseMagazine found = courseMagazineService.getById(courseMagazine.getId(), user.getId());
         assertThat(found.getPlacesInCourseMagazine().size()).isEqualTo(2);
 
         assertThat(found.getPlacesInCourseMagazine().get(0).getPlace().getId()).isEqualTo(place1.getId());
@@ -156,7 +156,7 @@ public class PlaceInCourseMagazineServiceIntegrationTest {
 
 
         // then
-        CourseMagazine found = courseMagazineService.getById(courseMagazine.getId());
+        CourseMagazine found = courseMagazineService.getById(courseMagazine.getId(), user.getId());
 
         assertThat(found.getPlacesInCourseMagazine().get(0).getPlace().getId()).isEqualTo(place2.getId());
         assertThat(found.getPlacesInCourseMagazine().get(0).getContents()).isEqualTo("test2");
@@ -223,7 +223,7 @@ public class PlaceInCourseMagazineServiceIntegrationTest {
 
 
         // then
-        CourseMagazine found = courseMagazineService.getById(courseMagazine.getId());
+        CourseMagazine found = courseMagazineService.getById(courseMagazine.getId(), user.getId());
 
         assertThat(found.getPlacesInCourseMagazine().size()).isEqualTo(1);
         assertThat(found.getPlacesInCourseMagazine().get(0).getPlace().getId()).isEqualTo(place2.getId());
