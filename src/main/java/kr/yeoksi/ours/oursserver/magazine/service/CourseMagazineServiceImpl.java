@@ -50,15 +50,17 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
 
     @Override
     @Transactional(readOnly = true)
-    public CourseMagazine getById(Long id) {
+    public CourseMagazine getById(Long id, String userId) {
         if (id == null) throw new NotExistedCourseMagazineException();
 
-        Optional<CourseMagazine> courseMagazine = courseMagazineRepository.findById(id);
-        if (courseMagazine.isEmpty()) {
-            throw new NotExistedCourseMagazineException();
+        CourseMagazine courseMagazine = courseMagazineRepository.findById(id)
+                .orElseThrow(NotExistedCourseMagazineException::new);
+
+        if (userId != null && !userId.isBlank()) {
+            courseMagazine.setIsFavorite(courseMagazineFavoriteService.isFavorite(userId, id));
         }
 
-        return courseMagazine.get();
+        return courseMagazine;
     }
 
     @Override
@@ -71,7 +73,7 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
     @Override
     @Transactional
     public CourseMagazine update(CourseMagazine courseMagazine, String userId) {
-        CourseMagazine toUpdate = getById(courseMagazine.getId());
+        CourseMagazine toUpdate = getById(courseMagazine.getId(), userId);
 
         // validate ownership
         if (!toUpdate.getUser().getId().equals(userId)) {
@@ -93,7 +95,7 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
     @Override
     @Transactional
     public void delete(Long id, String userId) {
-        CourseMagazine toDelete = getById(id);
+        CourseMagazine toDelete = getById(id, userId);
 
         // validate ownership
         if (!toDelete.getUser().getId().equals(userId)) {
