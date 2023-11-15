@@ -32,7 +32,8 @@ public class RemotePlaceManagerImpl implements RemotePlaceManager {
                     String.format("%s/places/%s", this.recommenderUrl, id),
                     RemotePlace.class));
         } catch (HttpStatusCodeException | ResourceAccessException e) {
-            log.error("Failed to get place from recommender server. id: {}", id, e);
+            log.error("Failed to get place from recommender server. id: {}", id);
+            log.error(e.getMessage());
             return Optional.empty();
         }
 
