@@ -89,7 +89,7 @@ public class CourseServiceImpl implements CourseService {
         courseToUpdate.update(course);
 
         // TODO: placesInCourse의 일부 필드만 반환되는 문제 해결
-        courseRepository.save(courseToUpdate);
+        course = courseRepository.save(courseToUpdate);
         return findById(course.getId(), userId).orElse(null);
     }
 
