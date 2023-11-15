@@ -41,7 +41,8 @@ public class CourseServiceImpl implements CourseService {
                         .toList());
         course.setUser(userService.findById(userId));
 
-        return courseRepository.save(course);
+        courseRepository.save(course);
+        return findById(course.getId(), userId).orElse(null);
     }
 
     @Override
