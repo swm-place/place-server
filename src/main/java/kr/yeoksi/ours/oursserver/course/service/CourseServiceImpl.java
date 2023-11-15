@@ -41,7 +41,8 @@ public class CourseServiceImpl implements CourseService {
                         .toList());
         course.setUser(userService.findById(userId));
 
-        return courseRepository.save(course);
+        course = courseRepository.save(course);
+        return findById(course.getId(), userId).orElse(null);
     }
 
     @Override
@@ -88,7 +89,8 @@ public class CourseServiceImpl implements CourseService {
         courseToUpdate.update(course);
 
         // TODO: placesInCourse의 일부 필드만 반환되는 문제 해결
-        return courseRepository.save(courseToUpdate);
+        course = courseRepository.save(courseToUpdate);
+        return findById(course.getId(), userId).orElse(null);
     }
 
     @Override
