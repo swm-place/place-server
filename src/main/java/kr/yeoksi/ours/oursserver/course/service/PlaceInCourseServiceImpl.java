@@ -83,6 +83,12 @@ public class PlaceInCourseServiceImpl implements PlaceInCourseService {
                 .filter(c -> c.getId().equals(courseId))
                 .orElseThrow(NotExistedCourseException::new);
 
+        // realign order
+        course.getPlacesInCourse().stream()
+                .filter(placeInCourse -> placeInCourse.getOrder() > placeInCourseToDelete.getOrder())
+                .forEach(placeInCourse -> placeInCourse.setOrder(placeInCourse.getOrder() - 1));
+        courseService.update(course, userId);
+
         placeInCourseRepository.deleteById(id);
     }
 
