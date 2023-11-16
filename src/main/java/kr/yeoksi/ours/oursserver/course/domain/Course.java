@@ -44,7 +44,7 @@ public class Course {
             boolean updated = false;
 
             for (PlaceInCourse placeInCourse : placesInCourse) {
-                if (placeInCourse.getId().equals(sourcePlaceInCourse.getId())) {
+                if (placeInCourse.getId() != null && placeInCourse.getId().equals(sourcePlaceInCourse.getId())) {
                     placeInCourse.update(sourcePlaceInCourse);
                     updated = true;
                     break;
