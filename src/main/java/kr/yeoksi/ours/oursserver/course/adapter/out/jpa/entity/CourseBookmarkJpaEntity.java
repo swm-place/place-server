@@ -55,7 +55,6 @@ public class CourseBookmarkJpaEntity {
                 .id(courseBookmark.getId())
                 .user(courseBookmark.getUser())
                 .title(courseBookmark.getTitle())
-                .createdAt(courseBookmark.getCreatedAt())
                 .build();
     }
 }
