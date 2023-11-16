@@ -83,6 +83,13 @@ public class CourseServiceImpl implements CourseService {
             });
         });
 
+        courses.forEach(
+                course -> course.setPlacesInCourse(
+                        course.getPlacesInCourse().stream()
+                                .sorted(Comparator.comparingInt(PlaceInCourse::getOrder))
+                                .toList())
+        );
+
         return courses;
     }
 
