@@ -84,6 +84,12 @@ public class PlaceInCourseMagazineServiceImpl implements PlaceInCourseMagazineSe
             throw new NotExistedPlaceInCourseMagazineException();
         }
 
+        // realign order
+        magazine.getPlacesInCourseMagazine().stream()
+                .filter(placeInMag -> placeInMag.getOrder() > toDelete.getOrder())
+                .forEach(placeInMag -> placeInMag.setOrder(placeInMag.getOrder() - 1));
+        courseMagazineService.update(magazine, userId);
+
         // delete placeInCourseMagazine
         placeInCourseMagazineRepository.delete(id);
     }
