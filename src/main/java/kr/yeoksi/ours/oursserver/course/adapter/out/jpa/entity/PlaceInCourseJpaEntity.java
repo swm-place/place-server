@@ -62,7 +62,6 @@ public class PlaceInCourseJpaEntity {
                 .timeRequired(placeInCourse.getTimeRequired())
                 .day(placeInCourse.getDay())
                 .transportationTime(placeInCourse.getTransportationTime())
-                .createdAt(placeInCourse.getCreatedAt())
                 .build();
     }
 
