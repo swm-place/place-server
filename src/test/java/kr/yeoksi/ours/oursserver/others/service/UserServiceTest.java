@@ -679,6 +679,34 @@ public class UserServiceTest {
         assertEquals(false, check3);
     }
 
+    @Test
+    public void 북마크_타이틀을_수정할_수_있다() {
+        // given
+
+        // 유저 정보 저장
+        User user = new User();
+        user.setId("sangjun");
+        user.setEmail("soma@gmail.com");
+        user.setNickname("testNickname");
+        user.setPhoneNumber("010-1234-5678");
+        user.setBirthday(LocalDateTime.now());
+        userRepository.save(user);
+
+        // 북마크 정보 저장
+        PlaceBookmark placeBookmark = new PlaceBookmark();
+        placeBookmark.setUser(user);
+        placeBookmark.setTitle("타이틀1");
+        placeBookmarkRepository.save(placeBookmark);
+
+
+        // when
+        userService.updatePlaceBookmark(placeBookmark, "변경된_타이틀");
+
+
+        // then
+        assertEquals("변경된_타이틀", placeBookmark.getTitle());
+    }
+
     /*
     @Test
     public void 공간_좋아요_누르기() throws Exception {
