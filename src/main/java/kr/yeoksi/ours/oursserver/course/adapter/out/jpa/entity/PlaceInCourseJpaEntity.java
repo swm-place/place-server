@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import kr.yeoksi.ours.oursserver.course.domain.PlaceInCourse;
 import kr.yeoksi.ours.oursserver.others.domain.Place;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Generated;
 import org.hibernate.generator.EventType;
 
@@ -47,8 +48,8 @@ public class PlaceInCourseJpaEntity {
     @Column(name = "transportation_time")
     private int transportationTime;
 
-    @Generated(event = EventType.INSERT)
-    @Column(name = "created_at", updatable = false)
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
 
@@ -62,7 +63,6 @@ public class PlaceInCourseJpaEntity {
                 .timeRequired(placeInCourse.getTimeRequired())
                 .day(placeInCourse.getDay())
                 .transportationTime(placeInCourse.getTransportationTime())
-                .createdAt(placeInCourse.getCreatedAt())
                 .build();
     }
 

@@ -38,6 +38,25 @@ public class Course {
 
 
     public void update(Course source) {
+        List<PlaceInCourse> placesInCourse = this.getPlacesInCourse();
+
+        for (PlaceInCourse sourcePlaceInCourse : source.getPlacesInCourse()) {
+            boolean updated = false;
+
+            for (PlaceInCourse placeInCourse : placesInCourse) {
+                if (placeInCourse.getId() != null && placeInCourse.getId().equals(sourcePlaceInCourse.getId())) {
+                    placeInCourse.update(sourcePlaceInCourse);
+                    updated = true;
+                    break;
+                }
+            }
+
+            if (!updated) {
+                placesInCourse.add(sourcePlaceInCourse);
+            }
+        }
+
         EntityUtils.updateNotNullProperties(this, source);
+        this.placesInCourse = placesInCourse;
     }
 }
