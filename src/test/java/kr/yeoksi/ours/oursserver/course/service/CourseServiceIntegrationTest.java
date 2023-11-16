@@ -216,6 +216,7 @@ public class CourseServiceIntegrationTest {
                 .placesInCourse(placesInCourse)
                 .build();
         course.setId(courseService.create(course, user.getId()).getId());
+        course = courseService.findById(course.getId(), user.getId()).orElseThrow();
 
         // update properties of course
         course.setTitle("test2");
