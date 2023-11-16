@@ -3,6 +3,7 @@ package kr.yeoksi.ours.oursserver.others.controller;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import kr.yeoksi.ours.oursserver.course.exception.NoPermissionOfBookmarkException;
 import kr.yeoksi.ours.oursserver.others.domain.*;
 import kr.yeoksi.ours.oursserver.others.domain.dto.place.response.ThumbnailInfoResponse;
 import kr.yeoksi.ours.oursserver.others.dto.UpdateUserInformationResponse;
@@ -263,6 +264,26 @@ public class UserApiController {
         );
     }
 
+    @PatchMapping("/user/{userIndex}/place-bookmark/{placeBookmarkIndex}")
+    public ResponseEntity<UpdatePlaceBookmarkResponse> updatePlaceBookmark(
+            @RequestHeader("X-User-Uid") String requestedUserId,
+            @PathVariable("userIndex") String userId,
+            @PathVariable("placeBookmarkIndex") Long placeBookmarkId,
+            @RequestBody @Valid UpdatePlaceBookmarkRequest request) {
+        if(!requestedUserId.equals(userId)) {
+            throw new NoPermissionOfBookmarkException();
+        }
+
+        PlaceBookmark placeBookmark = userService.getPlaceBookmark(placeBookmarkId);
+        userService.updatePlaceBookmark(placeBookmark, request.getTitle());
+        return ResponseEntity.ok().body(
+                new UpdatePlaceBookmarkResponse(
+                        placeBookmark.getId(),
+                        placeBookmark.getTitle(),
+                        userService.getThumbnailInfo(placeBookmark.getId()))
+        );
+    }
+
     /**
      * 유저의 장소 북마크 그룹 내의 장소들 조회하기
      */
@@ -437,6 +458,15 @@ public class UserApiController {
         private boolean isBookmark;
     }
 
+    @Data
+    @AllArgsConstructor
+    static class UpdatePlaceBookmarkResponse {
+
+        private Long placeBookmarkId;
+        private String title;
+        private List<ThumbnailInfoResponse> thumbnailInfoList;
+    }
+
     /**
      * 공간 좋아요 누르기/삭제하기의 응답을 위한 DTO
      */
@@ -492,5 +522,11 @@ public class UserApiController {
     static class AllMyPlaceBookmarkResponse {
         private Boolean hasNext;
         private List<ReadPlaceBookmarkResponse> placeBookmarks;
+    }
+
+    @Data
+    static class UpdatePlaceBookmarkRequest {
+        @NotBlank
+        String title;
     }
 }

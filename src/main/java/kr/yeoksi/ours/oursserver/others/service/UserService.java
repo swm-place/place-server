@@ -290,4 +290,9 @@ public class UserService {
 
         return thumbnailInfoResponseList;
     }
+
+    public PlaceBookmark updatePlaceBookmark(PlaceBookmark placeBookmark, String newTitle) {
+        placeBookmark.setTitle(newTitle);
+        return placeBookmark;
+    }
 }
