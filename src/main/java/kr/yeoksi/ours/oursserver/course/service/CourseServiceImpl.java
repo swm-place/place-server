@@ -2,6 +2,7 @@ package kr.yeoksi.ours.oursserver.course.service;
 
 import kr.yeoksi.ours.oursserver.course.domain.Course;
 import kr.yeoksi.ours.oursserver.course.domain.CourseInBookmark;
+import kr.yeoksi.ours.oursserver.course.domain.PlaceInCourse;
 import kr.yeoksi.ours.oursserver.course.exception.DuplicatedCourseException;
 import kr.yeoksi.ours.oursserver.course.exception.NotExistedCourseException;
 import kr.yeoksi.ours.oursserver.course.exception.NotOwnerOfCourseException;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,6 +62,12 @@ public class CourseServiceImpl implements CourseService {
         course.ifPresent(c -> c.getPlacesInCourse().forEach(placeInCourse -> {
             placeInCourse.setRemotePlace(remotePlaceReadService.findById(placeInCourse.getPlace().getId()).orElse(null));
         }));
+
+        course.ifPresent(c -> c.setPlacesInCourse(
+                c.getPlacesInCourse().stream()
+                        .sorted(Comparator.comparingInt(PlaceInCourse::getOrder))
+                        .toList())
+        );
 
         return course;
     }

@@ -9,4 +9,6 @@ public interface PlaceInCourseJpaRepository extends JpaRepository<PlaceInCourseJ
 
     List<PlaceInCourseJpaEntity> findAllByCourseId(Long courseId);
 
+    List<PlaceInCourseJpaEntity> findAllByCourseIdOrderByVisitOrderAsc(Long courseId);
+
 }

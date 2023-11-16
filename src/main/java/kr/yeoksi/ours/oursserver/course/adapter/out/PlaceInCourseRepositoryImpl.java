@@ -58,7 +58,7 @@ public class PlaceInCourseRepositoryImpl implements PlaceInCourseRepository {
 
     @Override
     public List<PlaceInCourse> findAllByCourseId(Long courseId) {
-        return placeInCourseJpaRepository.findAllByCourseId(courseId)
+        return placeInCourseJpaRepository.findAllByCourseIdOrderByVisitOrderAsc(courseId)
                 .stream()
                 .map(PlaceInCourseJpaEntity::toPlaceInCourse)
                 .toList();
