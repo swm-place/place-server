@@ -80,7 +80,6 @@ public class CourseJpaEntity {
                 .endAt(course.getEndAt())
                 .inProgress(course.isInProgress())
                 .isFinished(course.isFinished())
-                .createdAt(course.getCreatedAt())
                 .build();
 
         List<PlaceInCourseJpaEntity> placesInCourse = new ArrayList<>(
