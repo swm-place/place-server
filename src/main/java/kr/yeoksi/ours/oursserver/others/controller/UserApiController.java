@@ -287,39 +287,22 @@ public class UserApiController {
     /**
      * 유저의 장소 북마크 그룹 내의 장소들 조회하기
      */
-    /*
     @GetMapping("/user/{userIndex}/place-bookmark/{placeBookmarkIndex}")
-    public ResponseEntity<Response<List<ReadPlaceInBookmarkResponse>>> readPlaceInBookmark(
+    public ResponseEntity<List<ReadPlaceInBookmarkResponse>> readPlaceInBookmark(
             @PathVariable("userIndex") @NotBlank String userId,
-            @PathVariable("placeBookmarkIndex") @NotNull Long placeBookmarkId) {
+            @PathVariable("placeBookmarkIndex") @NotNull Long placeBookmarkId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
 
         User user = userService.findById(userId);
         PlaceBookmark placeBookmark = userService.getPlaceBookmark(placeBookmarkId);
 
-        List<Place> placesInBookmark = userService.readAllPlaceInBookmark(user, placeBookmark);
-
-
-        // 현재 여기 작업중.
-        // 운영중 여부랑 해시태그 리스트를 조회해오려면 엘라스틱에 조회를 날려야하는데 이거 어떻게 하기로 했더라?
-
+        List<ReadPlaceInBookmarkResponse> readPlaceInBookmarkResponses = userService.readAllPlaceInBookmark(placeBookmark.getId(), page, size);
         return ResponseEntity.ok().body(
-                Response.success(
-                        placesInBookmark.stream().map(
-                                p -> new ReadPlaceInBookmarkResponse(
-                                        p
-                                )
-                        )
-                        bookmarkedPlaces.stream().map(
-                                b -> new ReadPlaceBookmarkResponse(
-                                        b.getPlace().getId(),
-                                        b.getPlace().getName()))
-                                .collect(Collectors.toList())));
+                readPlaceInBookmarkResponses
+        );
     }
-    */
 
-
-
-    //-------- 이 아래부터 점검
 
     /**
      * 공간 좋아요 누르기.

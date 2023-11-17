@@ -4,6 +4,7 @@ import kr.yeoksi.ours.oursserver.others.controller.UserApiController;
 import kr.yeoksi.ours.oursserver.exception.*;
 import kr.yeoksi.ours.oursserver.others.domain.*;
 import kr.yeoksi.ours.oursserver.others.domain.dto.place.response.ThumbnailInfoResponse;
+import kr.yeoksi.ours.oursserver.others.dto.place.response.ReadPlaceInBookmarkResponse;
 import kr.yeoksi.ours.oursserver.others.exception.*;
 import kr.yeoksi.ours.oursserver.others.repository.*;
 import kr.yeoksi.ours.oursserver.others.service.PlaceService;
@@ -677,6 +678,64 @@ public class UserServiceTest {
         assertEquals(true, check1);
         assertEquals(false, check2);
         assertEquals(false, check3);
+    }
+
+    @Test
+    public void 북마크_그룹_내의_장소_조회() throws Exception {
+
+        // given
+
+        // 유저 정보 저장
+        User user = new User();
+        user.setId("sangjun");
+        user.setEmail("soma@gmail.com");
+        user.setNickname("testNickname");
+        user.setPhoneNumber("010-1234-5678");
+        user.setBirthday(LocalDateTime.now());
+        userRepository.save(user);
+
+        // 북마크 정보 저장
+        PlaceBookmark placeBookmark = new PlaceBookmark();
+        placeBookmark.setUser(user);
+        placeBookmark.setTitle("타이틀1");
+
+        placeBookmarkRepository.save(placeBookmark);
+
+        // 장소 정보 저장
+        Place place1 = Place.builder()
+                .id("test1")
+                .name("test1")
+                .category("test1")
+                .build();
+        Place place2 = Place.builder()
+                .id("test2")
+                .name("test2")
+                .category("test2")
+                .build();
+        place1.setId(placeRepository.save(place1));
+        place2.setId(placeRepository.save(place2));
+
+        // placeInBookmark 저장
+        PlaceInBookmark placeInBookmark1 = new PlaceInBookmark();
+        placeInBookmark1.setPlace(place1);
+        placeInBookmark1.setPlaceBookmark(placeBookmark);
+
+        PlaceInBookmark placeInBookmark2 = new PlaceInBookmark();
+        placeInBookmark2.setPlace(place2);
+        placeInBookmark2.setPlaceBookmark(placeBookmark);
+
+        placeInBookmarkRepository.save(placeInBookmark1);
+        placeInBookmarkRepository.save(placeInBookmark2);
+
+
+        // when
+        List<ReadPlaceInBookmarkResponse> placeList = userService.readAllPlaceInBookmark(placeBookmark.getId(), 0, 10);
+
+
+        // then
+        assertEquals(2, placeList.size());
+        assertEquals("test1", placeList.get(0).getName());
+        assertEquals("test2", placeList.get(1).getName());
     }
 
     @Test

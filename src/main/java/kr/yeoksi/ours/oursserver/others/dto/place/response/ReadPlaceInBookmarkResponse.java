@@ -9,11 +9,8 @@ import java.util.List;
 @AllArgsConstructor
 public class ReadPlaceInBookmarkResponse {
 
-    private String placeId;
-    private String elasticId;
+    private String id;
     private String name;
     private String category;
     private String imgUrl;
-    private List<String> hashtagList;
-    private boolean isOpen;
 }
