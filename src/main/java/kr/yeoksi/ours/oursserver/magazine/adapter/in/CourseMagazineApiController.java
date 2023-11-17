@@ -20,7 +20,7 @@ public class CourseMagazineApiController {
 
     @GetMapping
     public ResponseEntity<List<CourseMagazineListItemResponse>> getLatestMagazines(@RequestParam(defaultValue = "0") int page,
-                                                                                            @RequestParam(defaultValue = "10") int count) {
+                                                                                   @RequestParam(defaultValue = "10") int count) {
         return ResponseEntity.ok(
                 courseMagazineService.findLatestCourseMagazines(count, page)
                         .stream().map(CourseMagazineListItemResponse::from)
