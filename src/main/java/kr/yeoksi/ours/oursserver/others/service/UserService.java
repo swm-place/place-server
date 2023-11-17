@@ -2,11 +2,13 @@ package kr.yeoksi.ours.oursserver.others.service;
 
 import kr.yeoksi.ours.oursserver.others.controller.UserApiController;
 import kr.yeoksi.ours.oursserver.others.domain.dto.place.response.ThumbnailInfoResponse;
+import kr.yeoksi.ours.oursserver.others.dto.place.response.ReadPlaceInBookmarkResponse;
 import kr.yeoksi.ours.oursserver.others.exception.*;
 import kr.yeoksi.ours.oursserver.others.domain.*;
 import kr.yeoksi.ours.oursserver.others.dto.UpdateUserInformationResponse;
 import kr.yeoksi.ours.oursserver.others.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -294,5 +296,25 @@ public class UserService {
     public PlaceBookmark updatePlaceBookmark(PlaceBookmark placeBookmark, String newTitle) {
         placeBookmark.setTitle(newTitle);
         return placeBookmark;
+    }
+
+    public List<ReadPlaceInBookmarkResponse> readAllPlaceInBookmark(Long placeBookmarkId, int page, int size) {
+        List<ReadPlaceInBookmarkResponse> placeInfoList = new ArrayList<>();
+
+        List<PlaceInBookmark> allPlaceInBookmark = placeInBookmarkRepository.findAllByPlaceBookmarkId(placeBookmarkId, page, size);
+        if(!CollectionUtils.isEmpty(allPlaceInBookmark)) {
+            for(PlaceInBookmark place : allPlaceInBookmark) {
+                placeInfoList.add(
+                        new ReadPlaceInBookmarkResponse(
+                                place.getPlace().getId(),
+                                place.getPlace().getName(),
+                                place.getPlace().getCategory(),
+                                place.getPlace().getImgUrl()
+                        )
+                );
+            }
+        }
+
+        return placeInfoList;
     }
 }

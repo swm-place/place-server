@@ -2,7 +2,9 @@ package kr.yeoksi.ours.oursserver.others.repository;
 
 import jakarta.persistence.EntityManager;
 import kr.yeoksi.ours.oursserver.others.domain.PlaceInBookmark;
+import kr.yeoksi.ours.oursserver.others.jpa.repository.PlaceInBookmarkJpaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.Optional;
 public class PlaceInBookmarkRepository {
 
     private final EntityManager em;
+    private final PlaceInBookmarkJpaRepository placeInBookmarkJpaRepository;
 
     /**
      * 장소 북마크 리스트에 장소 북마크 저장
@@ -50,6 +53,13 @@ public class PlaceInBookmarkRepository {
                 .getResultList();
 
         return placeInBookmark.stream().findAny();
+    }
+
+    public List<PlaceInBookmark> findAllByPlaceBookmarkId(Long placeBookmarkId, int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        return placeInBookmarkJpaRepository.findAllByPlaceBookmark_Id(placeBookmarkId, pageRequest).stream()
+                .toList();
     }
 
     /**

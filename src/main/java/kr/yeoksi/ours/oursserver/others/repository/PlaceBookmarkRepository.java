@@ -118,30 +118,5 @@ public class PlaceBookmarkRepository {
         return placeBookmarkList.stream().findAny();
     }
 
-    /*
-    public List<PlaceBookmark> findByUserId(String userId, int atAPage) {
-        return em.createQuery(
-                "SELECT pb FROM PlaceBookmark pb " +
-                        "JOIN FETCH pb.user u " +
-                        "LEFT JOIN FETCH pb.placeInBookmarks pib " +
-                        "WHERE u.id =: userId " +
-                        "ORDER BY pb.id DESC", PlaceBookmark.class)
-                .setParameter("userId", userId)
-                .setMaxResults(atAPage)
-                .getResultList();
-    }
 
-    public List<PlaceBookmark> findByUserIdPaging(String userId, Long cursor, int atAPage) {
-        return em.createQuery(
-                "SELECT pb FROM PlaceBookmark pb " +
-                        "JOIN FETCH pb.user u " +
-                        "LEFT JOIN FETCH pb.placeInBookmarks pib " +
-                        "WHERE u.id =: userId AND pb.id < : cursor " +
-                        "ORDER BY pb.id DESC", PlaceBookmark.class)
-                .setParameter("userId", userId)
-                .setParameter("cursor", cursor)
-                .setMaxResults(atAPage)
-                .getResultList();
-    }
-     */
 }
