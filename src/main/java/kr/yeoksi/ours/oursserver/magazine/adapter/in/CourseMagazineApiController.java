@@ -20,7 +20,7 @@ public class CourseMagazineApiController {
 
     @GetMapping
     public ResponseEntity<List<CourseMagazineListItemResponse>> getLatestMagazines(@RequestParam(defaultValue = "0") int page,
-                                                                                            @RequestParam(defaultValue = "10") int count) {
+                                                                                   @RequestParam(defaultValue = "10") int count) {
         return ResponseEntity.ok(
                 courseMagazineService.findLatestCourseMagazines(count, page)
                         .stream().map(CourseMagazineListItemResponse::from)
@@ -28,7 +28,7 @@ public class CourseMagazineApiController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CourseMagazineResponse> getMagazine(@RequestHeader("X-User-Uid") String userId,
+    public ResponseEntity<CourseMagazineResponse> getMagazine(@RequestHeader(value = "X-User-Uid", required = false) String userId,
                                                               @PathVariable Long id) {
         return ResponseEntity.ok(CourseMagazineResponse.from(courseMagazineService.getById(id, userId)));
     }
