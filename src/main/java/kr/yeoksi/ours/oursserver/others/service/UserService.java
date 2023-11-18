@@ -2,6 +2,7 @@ package kr.yeoksi.ours.oursserver.others.service;
 
 import kr.yeoksi.ours.oursserver.others.controller.UserApiController;
 import kr.yeoksi.ours.oursserver.others.domain.dto.place.response.ThumbnailInfoResponse;
+import kr.yeoksi.ours.oursserver.others.dto.place.response.ReadPlaceFavoriteResponse;
 import kr.yeoksi.ours.oursserver.others.dto.place.response.ReadPlaceInBookmarkResponse;
 import kr.yeoksi.ours.oursserver.others.exception.*;
 import kr.yeoksi.ours.oursserver.others.domain.*;
@@ -311,6 +312,26 @@ public class UserService {
                                 place.getPlace().getName(),
                                 place.getPlace().getCategory(),
                                 place.getPlace().getImgUrl()
+                        )
+                );
+            }
+        }
+
+        return placeInfoList;
+    }
+
+    public List<ReadPlaceFavoriteResponse> readAllPlaceFavorite(String userId, int page, int size) {
+        List<ReadPlaceFavoriteResponse> placeInfoList = new ArrayList<>();
+
+        List<PlaceFavorite> allPlaceFavorite = placeFavoriteRepository.findAllByUserId(userId, page, size);
+        if(!CollectionUtils.isEmpty(allPlaceFavorite)) {
+            for(PlaceFavorite placeFavorite : allPlaceFavorite) {
+                placeInfoList.add(
+                        new ReadPlaceFavoriteResponse(
+                                placeFavorite.getPlace().getId(),
+                                placeFavorite.getPlace().getName(),
+                                placeFavorite.getPlace().getCategory(),
+                                placeFavorite.getPlace().getImgUrl()
                         )
                 );
             }

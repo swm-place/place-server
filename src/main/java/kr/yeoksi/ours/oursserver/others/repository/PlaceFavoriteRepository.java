@@ -2,7 +2,9 @@ package kr.yeoksi.ours.oursserver.others.repository;
 
 import jakarta.persistence.EntityManager;
 import kr.yeoksi.ours.oursserver.others.domain.PlaceFavorite;
+import kr.yeoksi.ours.oursserver.others.jpa.repository.PlaceFavoriteJpaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.Optional;
 public class PlaceFavoriteRepository {
 
     private final EntityManager em;
+    private final PlaceFavoriteJpaRepository placeFavoriteJpaRepository;
 
     /**
      * 좋아요 정보 저장하기.
@@ -50,6 +53,14 @@ public class PlaceFavoriteRepository {
 
         return placeFavorite.stream().findAny();
     }
+
+    public List<PlaceFavorite> findAllByUserId(String userId, int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        return placeFavoriteJpaRepository.findAllByUser_Id(userId, pageRequest).stream()
+                .toList();
+    }
+
 
     /**
      * 좋아요 삭제하기
