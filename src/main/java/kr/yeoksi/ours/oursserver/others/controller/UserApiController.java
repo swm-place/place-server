@@ -7,6 +7,7 @@ import kr.yeoksi.ours.oursserver.course.exception.NoPermissionOfBookmarkExceptio
 import kr.yeoksi.ours.oursserver.others.domain.*;
 import kr.yeoksi.ours.oursserver.others.domain.dto.place.response.ThumbnailInfoResponse;
 import kr.yeoksi.ours.oursserver.others.dto.UpdateUserInformationResponse;
+import kr.yeoksi.ours.oursserver.others.dto.place.response.ReadPlaceFavoriteResponse;
 import kr.yeoksi.ours.oursserver.others.dto.place.response.ReadPlaceInBookmarkResponse;
 import kr.yeoksi.ours.oursserver.others.service.PlaceService;
 import kr.yeoksi.ours.oursserver.others.service.TermService;
@@ -325,6 +326,20 @@ public class UserApiController {
                         )
                 )
         );
+    }
+
+    @GetMapping("/user/{userIndex}/place-favorite")
+    public ResponseEntity<List<ReadPlaceFavoriteResponse>> readPlaceFavorite(
+            @PathVariable("userIndex") @NotBlank String userId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        User user = userService.findById(userId);
+
+        List<ReadPlaceFavoriteResponse> response = userService.readAllPlaceFavorite(userId, page, size);
+        return ResponseEntity.ok().body(
+                response
+        );
+
     }
 
     /**
