@@ -293,6 +293,7 @@ public class UserService {
         return thumbnailInfoResponseList;
     }
 
+    @Transactional
     public PlaceBookmark updatePlaceBookmark(PlaceBookmark placeBookmark, String newTitle) {
         placeBookmark.setTitle(newTitle);
         return placeBookmark;
