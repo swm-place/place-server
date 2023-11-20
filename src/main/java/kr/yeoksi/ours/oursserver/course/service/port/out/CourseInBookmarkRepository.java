@@ -13,7 +13,7 @@ public interface CourseInBookmarkRepository {
 
     Optional<CourseInBookmark> findByCourseBookmarkIdAndCourseId(Long courseBookmarkId, Long courseId);
 
-    List<CourseInBookmark> findByCourseBookmarkId(Long courseBookmarkId);
+    List<CourseInBookmark> findByCourseBookmarkId(Long courseBookmarkId, int page, int size);
 
     boolean existsByCourseBookmarkIdAndCourseId(Long courseBookmarkId, Long courseId);
 
