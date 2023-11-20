@@ -50,7 +50,7 @@ public class CourseBookmarkServiceImpl implements CourseBookmarkService {
         // TODO: 쿼리 여러 번 나가지 않고 한 번에 가져올 수 있도록 연관관계 동기화 문제 재점검
         return courseBookmarkRepository.findByUserId(userId, page, size).stream()
                 .peek(courseBookmark -> courseBookmark.setCoursesInBookmark(
-                        courseInBookmarkRepository.findByCourseBookmarkId(courseBookmark.getId())))
+                        courseInBookmarkRepository.findByCourseBookmarkId(courseBookmark.getId(), coursePage, courseSize)))
                 .toList();
     }
 
