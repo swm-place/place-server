@@ -8,9 +8,9 @@ public interface CourseBookmarkService {
 
     CourseBookmark createCourseBookmark(CourseBookmark courseBookmark, String userId);
 
-    CourseBookmark getCourseBookmark(Long courseBookmarkId, String userId, int coursePage, int courseSize);
+    CourseBookmark getCourseBookmark(Long courseBookmarkId, String userId);
 
-    List<CourseBookmark> getMyCourseBookmarks(String userId, int page, int size, int coursePage, int courseSize);
+    List<CourseBookmark> getMyCourseBookmarks(String userId, int page, int size);
 
     CourseBookmark updateCourseBookmark(CourseBookmark courseBookmark, String userId);
 
