@@ -34,4 +34,14 @@ public class Place {
 
     private Boolean isFavorite;
 
+
+    public kr.yeoksi.ours.oursserver.others.domain.Place toOldPlace() {
+        return kr.yeoksi.ours.oursserver.others.domain.Place.builder()
+                .id(this.id)
+                .name(this.name)
+                .category(this.category)
+                .imgUrl(this.photos.get(0).getUrl())
+                .build();
+    }
+
 }
