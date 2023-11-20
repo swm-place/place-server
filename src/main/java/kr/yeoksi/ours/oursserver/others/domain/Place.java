@@ -5,6 +5,7 @@ import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import kr.yeoksi.ours.oursserver.place.domain.PlacePhotoRef;
 import lombok.*;
 import org.hibernate.annotations.Type;
 
@@ -69,5 +70,19 @@ public class Place {
     // 현재 장소 사진은 다른 서버에 의존하고 있어, 해당 서버로의 요청 URI를 포함
     public String getImgUrl() {
         return "/api-recommender/place-photo/place/" + id;
+    }
+
+    public kr.yeoksi.ours.oursserver.place.domain.Place toOrgPlace() {
+        List<PlacePhotoRef> photos = new ArrayList<>();
+        photos.add(PlacePhotoRef.builder()
+                .url(this.imgUrl)
+                .build());
+
+        return kr.yeoksi.ours.oursserver.place.domain.Place.builder()
+                .id(this.id)
+                .name(this.name)
+                .category(this.category)
+                .photos(photos)
+                .build();
     }
 }
