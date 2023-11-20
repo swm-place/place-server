@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface CourseJpaRepository extends JpaRepository<CourseJpaEntity, Long> {
 
-    List<CourseJpaEntity> findAllByUserId(String userId, Pageable pageable);
+    List<CourseJpaEntity> findAllByUserIdOrderByCreatedAtDesc(String userId, Pageable pageable);
 
 }

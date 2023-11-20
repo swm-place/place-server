@@ -5,6 +5,8 @@ import kr.yeoksi.ours.oursserver.course.adapter.out.jpa.entity.CourseInBookmarkJ
 import kr.yeoksi.ours.oursserver.course.domain.CourseInBookmark;
 import kr.yeoksi.ours.oursserver.course.service.port.out.CourseInBookmarkRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -33,7 +35,18 @@ public class CourseInBookmarkRepositoryImpl implements CourseInBookmarkRepositor
 
     @Override
     public List<CourseInBookmark> findByCourseBookmarkId(Long courseBookmarkId) {
-        return courseInBookmarkJpaRepository.findByCourseBookmarkId(courseBookmarkId).stream()
+        Pageable pageable = Pageable.unpaged();
+
+        return courseInBookmarkJpaRepository.findByCourseBookmarkId(courseBookmarkId, pageable).stream()
+                .map(CourseInBookmarkJpaEntity::toCourseInBookmark)
+                .toList();
+    }
+
+    @Override
+    public List<CourseInBookmark> findByCourseBookmarkIdWithPage(Long courseBookmarkId, int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        return courseInBookmarkJpaRepository.findByCourseBookmarkId(courseBookmarkId, pageRequest).stream()
                 .map(CourseInBookmarkJpaEntity::toCourseInBookmark)
                 .toList();
     }

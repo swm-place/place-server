@@ -46,7 +46,7 @@ public class CourseRepositoryImpl implements CourseRepository {
     public List<Course> findAllByUserId(String userId, int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
 
-        List<CourseJpaEntity> courseJpaEntities = courseJPARepository.findAllByUserId(userId, pageRequest);
+        List<CourseJpaEntity> courseJpaEntities = courseJPARepository.findAllByUserIdOrderByCreatedAtDesc(userId, pageRequest);
         return courseJpaEntities.stream()
                 .map(CourseJpaEntity::toCourse)
                 .toList();
