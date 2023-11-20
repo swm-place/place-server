@@ -9,6 +9,7 @@ import kr.yeoksi.ours.oursserver.magazine.service.port.in.CourseMagazineService;
 import kr.yeoksi.ours.oursserver.magazine.service.port.out.CourseMagazineRepository;
 import kr.yeoksi.ours.oursserver.others.service.PlaceService;
 import kr.yeoksi.ours.oursserver.others.service.UserService;
+import kr.yeoksi.ours.oursserver.place.service.port.in.RemotePlaceReadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,7 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
     private final CourseMagazineRepository courseMagazineRepository;
 
     private final CourseMagazineFavoriteService courseMagazineFavoriteService;
+    private final RemotePlaceReadService remotePlaceReadService;
     private final PlaceService placeService;
     private final UserService userService;
 
@@ -59,6 +61,13 @@ public class CourseMagazineServiceImpl implements CourseMagazineService {
         if (userId != null && !userId.isBlank()) {
             courseMagazine.setIsFavorite(courseMagazineFavoriteService.isFavorite(userId, id));
         }
+
+        courseMagazine.getPlacesInCourseMagazine().stream()
+                .filter(placeInCourseMagazine -> placeInCourseMagazine.getPlace() != null)
+                .filter(placeInCourseMagazine -> placeInCourseMagazine.getPlace().getName() == null)
+                .forEach(placeInCourseMagazine -> placeInCourseMagazine.setPlace(
+                        remotePlaceReadService.findById(placeInCourseMagazine.getPlace().getId())
+                                .orElse(placeInCourseMagazine.getPlace().toOrgPlace()).toOldPlace()));
 
         return courseMagazine;
     }
