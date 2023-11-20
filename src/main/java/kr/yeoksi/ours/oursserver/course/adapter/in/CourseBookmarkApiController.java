@@ -53,15 +53,17 @@ public class CourseBookmarkApiController {
 
     @GetMapping("/bookmarks/{userId}/course-bookmarks/{courseBookmarkId}")
     public ResponseEntity<CourseBookmarkResponse> getCourseBookmark(@RequestHeader("X-User-Uid") String requestedUserId,
-                                                                     @PathVariable String userId,
-                                                                     @PathVariable Long courseBookmarkId) {
+                                                                    @PathVariable String userId,
+                                                                    @PathVariable Long courseBookmarkId,
+                                                                    @RequestParam(defaultValue = "0") int course_page,
+                                                                    @RequestParam(defaultValue = "10") int course_size) {
         if (!requestedUserId.equals(userId)) {
             throw new NoPermissionOfBookmarkException();
         }
 
         return ResponseEntity.ok(
                 CourseBookmarkResponse.from(
-                        courseBookmarkService.getCourseBookmark(courseBookmarkId, userId)));
+                        courseBookmarkService.getCourseBookmarkWithCoursePage(courseBookmarkId, userId, course_page, course_size)));
     }
 
     @PatchMapping("/bookmarks/{userId}/course-bookmarks/{courseBookmarkId}")
