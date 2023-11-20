@@ -31,7 +31,7 @@ public class CourseBookmarkServiceImpl implements CourseBookmarkService {
     }
 
     @Override
-    public CourseBookmark getCourseBookmark(Long courseBookmarkId, String userId) {
+    public CourseBookmark getCourseBookmark(Long courseBookmarkId, String userId, int coursePage, int courseSize) {
         CourseBookmark courseBookmark = courseBookmarkRepository.findById(courseBookmarkId)
                 .orElseThrow(NotExistedCourseBookmarkException::new);
 
@@ -40,13 +40,13 @@ public class CourseBookmarkServiceImpl implements CourseBookmarkService {
         }
 
         courseBookmark.setCoursesInBookmark(
-                courseInBookmarkRepository.findByCourseBookmarkId(courseBookmarkId));
+                courseInBookmarkRepository.findByCourseBookmarkId(courseBookmarkId, coursePage, courseSize));
 
         return courseBookmark;
     }
 
     @Override
-    public List<CourseBookmark> getMyCourseBookmarks(String userId, int page, int size) {
+    public List<CourseBookmark> getMyCourseBookmarks(String userId, int page, int size, int coursePage, int courseSize) {
         // TODO: 쿼리 여러 번 나가지 않고 한 번에 가져올 수 있도록 연관관계 동기화 문제 재점검
         return courseBookmarkRepository.findByUserId(userId, page, size).stream()
                 .peek(courseBookmark -> courseBookmark.setCoursesInBookmark(
