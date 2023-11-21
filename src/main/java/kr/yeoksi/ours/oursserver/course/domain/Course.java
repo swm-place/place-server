@@ -38,7 +38,7 @@ public class Course {
 
 
     public void update(Course source) {
-        List<PlaceInCourse> placesInCourse = this.getPlacesInCourse();
+        List<PlaceInCourse> placesInCourse = new ArrayList<>(this.getPlacesInCourse());
 
         for (PlaceInCourse sourcePlaceInCourse : source.getPlacesInCourse()) {
             boolean updated = false;
