@@ -3,6 +3,7 @@ package kr.yeoksi.ours.oursserver.magazine.adapter.in;
 import kr.yeoksi.ours.oursserver.magazine.adapter.in.request.CourseMagazineRequest;
 import kr.yeoksi.ours.oursserver.magazine.adapter.in.response.CourseMagazineListItemResponse;
 import kr.yeoksi.ours.oursserver.magazine.adapter.in.response.CourseMagazineResponse;
+import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazine;
 import kr.yeoksi.ours.oursserver.magazine.service.port.in.CourseMagazineService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -44,8 +45,11 @@ public class CourseMagazineApiController {
     public ResponseEntity<CourseMagazineResponse> updateMagazine(@RequestHeader("X-User-Uid") String userId,
                                                                  @RequestBody CourseMagazineRequest request,
                                                                  @PathVariable Long id) {
+        CourseMagazine courseMagazine = request.toCourseMagazine();
+        courseMagazine.setId(id);
+
         return ResponseEntity.ok(CourseMagazineResponse.from(
-                courseMagazineService.update(request.toCourseMagazine(), userId)));
+                courseMagazineService.update(courseMagazine, userId)));
     }
 
     @DeleteMapping("/{id}")
