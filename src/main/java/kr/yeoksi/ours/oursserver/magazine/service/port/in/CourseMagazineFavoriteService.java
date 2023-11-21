@@ -12,6 +12,6 @@ public interface CourseMagazineFavoriteService {
 
     boolean isFavorite(String userId, Long courseMagazineId);
 
-    List<CourseMagazine> getFavoriteMagazines(String userId);
+    List<CourseMagazine> getFavoriteMagazines(String userId, int page, int size);
 
 }

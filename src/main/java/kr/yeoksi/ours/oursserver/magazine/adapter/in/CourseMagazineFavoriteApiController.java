@@ -40,11 +40,13 @@ public class CourseMagazineFavoriteApiController {
 
     @GetMapping("/favorites/{userId}/magazines")
     public ResponseEntity<List<FavoriteCourseMagazineResponse>> getFavoriteMagazines(@RequestHeader("X-User-Uid") String requestedUserId,
-                                                                                     @PathVariable String userId) {
+                                                                                     @PathVariable String userId,
+                                                                                     @RequestParam(defaultValue = "0") int page,
+                                                                                     @RequestParam(defaultValue = "10") int size) {
         if (!requestedUserId.equals(userId))
             throw new NoPermissionOfFavoriteException();
 
-        return ResponseEntity.ok(courseMagazineFavoriteService.getFavoriteMagazines(userId)
+        return ResponseEntity.ok(courseMagazineFavoriteService.getFavoriteMagazines(userId, page, size)
                 .stream()
                 .map(FavoriteCourseMagazineResponse::from)
                 .toList());

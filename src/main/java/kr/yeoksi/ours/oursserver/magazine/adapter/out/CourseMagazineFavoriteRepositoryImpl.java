@@ -5,6 +5,8 @@ import kr.yeoksi.ours.oursserver.magazine.adapter.out.jpa.entity.CourseMagazineF
 import kr.yeoksi.ours.oursserver.magazine.domain.CourseMagazineFavorite;
 import kr.yeoksi.ours.oursserver.magazine.service.port.out.CourseMagazineFavoriteRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -43,7 +45,19 @@ public class CourseMagazineFavoriteRepositoryImpl implements CourseMagazineFavor
 
     @Override
     public List<CourseMagazineFavorite> findByUserId(String userId) {
-        return courseMagazineFavoriteJpaRepository.findByUserId(userId)
+        Pageable pageable = Pageable.unpaged();
+
+        return courseMagazineFavoriteJpaRepository.findByUserId(userId, pageable)
+                .stream()
+                .map(CourseMagazineFavoriteJpaEntity::toFavorite)
+                .toList();
+    }
+
+    @Override
+    public List<CourseMagazineFavorite> findByUserIdWithPage(String userId, int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        return courseMagazineFavoriteJpaRepository.findByUserId(userId, pageRequest)
                 .stream()
                 .map(CourseMagazineFavoriteJpaEntity::toFavorite)
                 .toList();
