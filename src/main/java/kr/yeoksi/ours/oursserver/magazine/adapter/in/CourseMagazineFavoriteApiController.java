@@ -46,7 +46,7 @@ public class CourseMagazineFavoriteApiController {
         if (!requestedUserId.equals(userId))
             throw new NoPermissionOfFavoriteException();
 
-        return ResponseEntity.ok(courseMagazineFavoriteService.getFavoriteMagazines(userId)
+        return ResponseEntity.ok(courseMagazineFavoriteService.getFavoriteMagazines(userId, page, size)
                 .stream()
                 .map(FavoriteCourseMagazineResponse::from)
                 .toList());
