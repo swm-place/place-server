@@ -52,7 +52,7 @@ public class CourseMagazineFavoriteServiceImpl implements CourseMagazineFavorite
     @Override
     @Transactional(readOnly = true)
     public List<CourseMagazine> getFavoriteMagazines(String userId, int page, int size) {
-        List<CourseMagazineFavorite> favorites = courseMagazineFavoriteRepository.findByUserId(userId);
+        List<CourseMagazineFavorite> favorites = courseMagazineFavoriteRepository.findByUserIdWithPage(userId, page, size);
         return favorites.stream()
                 .map(CourseMagazineFavorite::getCourseMagazine)
                 .toList();
