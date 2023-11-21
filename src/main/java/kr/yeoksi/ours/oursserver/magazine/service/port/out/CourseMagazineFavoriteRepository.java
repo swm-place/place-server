@@ -17,4 +17,6 @@ public interface CourseMagazineFavoriteRepository {
 
     List<CourseMagazineFavorite> findByUserId(String userId);
 
+    List<CourseMagazineFavorite> findByUserIdWithPage(String userId, int page, int size);
+
 }
