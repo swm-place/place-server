@@ -1,14 +1,18 @@
 package kr.yeoksi.ours.oursserver.place.domain;
 
 import kr.yeoksi.ours.oursserver.common.domain.Location;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Place {
 
     private String id;
