@@ -11,6 +11,7 @@ import java.util.List;
 
 @Getter @Setter
 @RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Course {
