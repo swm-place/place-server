@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Getter @Setter
 @RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class PlaceInCourse {
