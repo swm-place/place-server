@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -89,6 +90,28 @@ public class CourseServiceImpl implements CourseService {
                                 .sorted(Comparator.comparingInt(PlaceInCourse::getOrder))
                                 .toList())
         );
+
+        return courses;
+    }
+
+    @Override
+    public List<Course> findAllByUserIdWithOnePlaceEach(String userId, int page, int size) {
+        List<Course> courses = courseRepository.findAllByUserId(userId, page, size);
+
+        courses.forEach(
+                course -> course.setPlacesInCourse(
+                        course.getPlacesInCourse().stream()
+                                .sorted(Comparator.comparingInt(PlaceInCourse::getOrder))
+                                .toList())
+        );
+
+        courses.forEach(course -> {
+            if (!course.getPlacesInCourse().isEmpty()) {
+                PlaceInCourse placeInCourse = course.getPlacesInCourse().get(0);
+                placeInCourse.setRemotePlace(remotePlaceReadService.findById(placeInCourse.getPlace().getId()).orElse(null));
+                course.setPlacesInCourse(new ArrayList<>(List.of(placeInCourse)));
+            }
+        });
 
         return courses;
     }
