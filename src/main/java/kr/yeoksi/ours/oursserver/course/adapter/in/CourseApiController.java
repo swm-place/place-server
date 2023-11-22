@@ -53,6 +53,17 @@ public class CourseApiController {
         );
     }
 
+    @GetMapping(":one-place-each")
+    public ResponseEntity<List<CourseResponse>> getMyCoursesWithOnePlaceEach(@RequestHeader("X-User-Uid") String userId,
+                                                                             @RequestParam(defaultValue = "0") int page,
+                                                                             @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(
+                courseService.findAllByUserIdWithOnePlaceEach(userId, page, size).stream()
+                        .map(CourseResponse::from)
+                        .toList()
+        );
+    }
+
     @PatchMapping("/{id}")
     public ResponseEntity<CourseResponse> updateCourse(@RequestHeader("X-User-Uid") String userId,
                                                @PathVariable Long id,
