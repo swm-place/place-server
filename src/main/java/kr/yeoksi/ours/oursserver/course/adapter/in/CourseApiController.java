@@ -53,6 +53,7 @@ public class CourseApiController {
         );
     }
 
+    @GetMapping(":one-place-each")
     public ResponseEntity<List<CourseResponse>> getMyCoursesWithOnePlaceEach(@RequestHeader("X-User-Uid") String userId,
                                                                              @RequestParam(defaultValue = "0") int page,
                                                                              @RequestParam(defaultValue = "10") int size) {
